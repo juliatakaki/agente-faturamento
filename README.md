@@ -349,7 +349,7 @@ Utiliza LangGraph para orquestrar as etapas:
 ## 1. Clonar o repositório
 
 ```bash
-git clone <url-do-repositorio>
+git clone https://github.com/juliatakaki/agente-faturamento
 
 cd prototipo
 ```
