@@ -351,7 +351,6 @@ Utiliza LangGraph para orquestrar as etapas:
 ```bash
 git clone https://github.com/juliatakaki/agente-faturamento
 
-cd prototipo
 ```
 
 ---
