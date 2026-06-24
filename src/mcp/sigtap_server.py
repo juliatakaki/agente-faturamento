@@ -1,4 +1,5 @@
 """
+1. Serviço de consulta à tabela SIGTAP
 Servidor MCP para consulta à tabela SIGTAP.
 Expõe duas ferramentas:
   - buscar_procedimento: busca por texto livre no SIGTAP
@@ -8,6 +9,7 @@ Expõe duas ferramentas:
 import os
 import unicodedata
 import pandas as pd
+from rapidfuzz import fuzz
 from mcp.server.fastmcp import FastMCP
 
 # ── Inicialização ──────────────────────────────────────────────────────────
@@ -65,12 +67,13 @@ def buscar_procedimento(termo: str) -> list[dict]:
     if not palavras:
         palavras = [termo_norm]
 
+    # Nível 1 — busca exata: todas as palavras do termo aparecem na descrição
     mascara = tabela["descricao_norm"].apply(
         lambda desc: all(p in desc for p in palavras)
     )
     resultados = tabela[mascara]
 
-    # Se não encontrou com AND, tenta com cada palavra isolada (OR parcial)
+    # Nível 2 — busca parcial: ao menos uma palavra aparece na descrição
     if resultados.empty:
         for palavra in palavras:
             mascara_parcial = tabela["descricao_norm"].str.contains(
@@ -79,6 +82,18 @@ def buscar_procedimento(termo: str) -> list[dict]:
             resultados = tabela[mascara_parcial]
             if not resultados.empty:
                 break
+
+    # Nível 3 — busca por similaridade (rapidfuzz): cobre erros de digitação
+    # e variações que a busca por substring não captura (ex: "sor" vs "soro").
+    if resultados.empty:
+        scores = tabela["descricao_norm"].apply(
+            lambda desc: fuzz.partial_ratio(termo_norm, desc)
+        )
+        SCORE_MINIMO = 75  # abaixo disso, a correspondência é considerada não confiável
+        candidatos = tabela[scores >= SCORE_MINIMO].copy()
+        if not candidatos.empty:
+            candidatos["_score"] = scores[scores >= SCORE_MINIMO]
+            resultados = candidatos.sort_values("_score", ascending=False)
 
     return resultados[["codigo", "descricao", "grupo"]].head(3).to_dict("records")
 

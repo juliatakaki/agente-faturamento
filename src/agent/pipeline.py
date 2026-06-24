@@ -66,16 +66,16 @@ async def no_refinamento_e_sigtap(estado: EstadoPipeline) -> EstadoPipeline:
 
     llm = ChatOllama(model="llama3.2", temperature=0)
 
-    async with MultiServerMCPClient(MCP_CONFIG) as client:
-        ferramentas = client.get_tools()
-        llm_com_ferramentas = llm.bind_tools(ferramentas)
+    client = MultiServerMCPClient(MCP_CONFIG)
+    ferramentas = await client.get_tools()
+    llm_com_ferramentas = llm.bind_tools(ferramentas)
 
-        entidades_json = json.dumps(
-            estado["entidades_brutas"], ensure_ascii=False, indent=2
-        )
+    entidades_json = json.dumps(
+        estado["entidades_brutas"], ensure_ascii=False, indent=2
+    )
 
-        prompt = ChatPromptTemplate.from_messages([
-            ("system", """Você é um assistente especializado em faturamento hospitalar brasileiro.
+    prompt = ChatPromptTemplate.from_messages([
+        ("system", """Você é um assistente especializado em faturamento hospitalar brasileiro.
 Sua tarefa é:
 1. Receber uma lista de entidades clínicas extraídas de um prontuário eletrônico.
 2. Para cada entidade do tipo PROCEDIMENTO, EXAME ou MATERIAL, usar a ferramenta
@@ -90,38 +90,37 @@ REGRAS IMPORTANTES:
 - Se não encontrar correspondência, tente apenas com a palavra principal
   do texto (ex: "hemograma" ao invés de "hemograma completo").
 - Nunca invente termos que não estejam no campo "texto" da entidade."""),
-            ("human", f"""Prontuário: {estado['prontuario_id']}
+        ("human", f"""Prontuário: {estado['prontuario_id']}
 
 Entidades extraídas:
 {entidades_json}
 
 Consulte o SIGTAP para cada entidade relevante e retorne as correspondências.""")
-        ])
+    ])
 
-        mensagens = prompt.format_messages()
-        resposta = await llm_com_ferramentas.ainvoke(mensagens)
+    mensagens = prompt.format_messages()
+    resposta = await llm_com_ferramentas.ainvoke(mensagens)
 
-        # Processa chamadas de ferramentas
-        resultados = []
-        if hasattr(resposta, "tool_calls") and resposta.tool_calls:
-            for tool_call in resposta.tool_calls:
-                if tool_call["name"] == "buscar_procedimento":
-                    termo = tool_call["args"].get("termo", "")
-                    # Executa a ferramenta
-                    for ferramenta in ferramentas:
-                        if ferramenta.name == "buscar_procedimento":
-                            resultado_busca = await ferramenta.ainvoke(
-                                {"termo": termo}
-                            )
-                            if resultado_busca:
-                                resultados.append({
-                                    "termo_buscado": termo,
-                                    "correspondencias": resultado_busca
-                                })
-                            break
+    # Processa chamadas de ferramentas
+    resultados = []
+    if hasattr(resposta, "tool_calls") and resposta.tool_calls:
+        for tool_call in resposta.tool_calls:
+            if tool_call["name"] == "buscar_procedimento":
+                termo = tool_call["args"].get("termo", "")
+                for ferramenta in ferramentas:
+                    if ferramenta.name == "buscar_procedimento":
+                        resultado_busca = await ferramenta.ainvoke(
+                            {"termo": termo}
+                        )
+                        if resultado_busca:
+                            resultados.append({
+                                "termo_buscado": termo,
+                                "correspondencias": resultado_busca
+                            })
+                        break
 
-        print(f"  [LLM+MCP] {len(resultados)} consultas SIGTAP realizadas.")
-        return {**estado, "resultados_sigtap": resultados}
+    print(f"  [LLM+MCP] {len(resultados)} consultas SIGTAP realizadas.")
+    return {**estado, "resultados_sigtap": resultados}
 
 
 def no_relatorio(estado: EstadoPipeline) -> EstadoPipeline:

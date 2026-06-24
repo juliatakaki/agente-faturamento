@@ -5,4 +5,5 @@ langchain-mcp-adapters>=0.3
 mcp>=1.0
 spacy>=3.8
 pandas>=2.0
+rapidfuzz>=3.0
 python-dotenv>=1.0

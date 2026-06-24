@@ -1,3 +1,10 @@
+"""
+3. Consulta os procedimentos na tabela SIGTAP
+Script para testar a busca de procedimentos na tabela SIGTAP.
+Envia os termos identificados e exibe os códigos e descrições
+dos procedimentos encontrados.
+"""
+
 import unicodedata, pandas as pd
 
 def normalizar(texto):
