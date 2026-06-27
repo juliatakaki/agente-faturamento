@@ -1,9 +1,11 @@
 """
-1. Serviço de consulta à tabela SIGTAP
 Servidor MCP para consulta à tabela SIGTAP.
 Expõe duas ferramentas:
   - buscar_procedimento: busca por texto livre no SIGTAP
   - buscar_por_codigo:   busca pelo código exato
+
+Fonte de dados: tabela SIGTAP real (DATASUS), reduzida com descrições.
+Colunas relevantes usadas: codigo_procedimento, no_procedimento, no_grupo.
 """
 
 import os
@@ -15,7 +17,7 @@ from mcp.server.fastmcp import FastMCP
 # ── Inicialização ──────────────────────────────────────────────────────────
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
-SIGTAP_PATH = os.path.join(BASE_DIR, "data", "sigtap_mock.csv")
+SIGTAP_PATH = os.path.join(BASE_DIR, "data", "sigtap.csv")
 
 mcp = FastMCP("sigtap-server")
 
@@ -30,19 +32,44 @@ def _normalizar(texto: str) -> str:
     - remove acentos (tórax → torax, intubação → intubacao)
     - remove hífens (raio-x → raio x)
     """
-    texto = texto.lower()
+    texto = str(texto).lower()
     texto = unicodedata.normalize("NFD", texto)
     texto = "".join(c for c in texto if unicodedata.category(c) != "Mn")
     texto = texto.replace("-", " ")
     return texto
 
 
+def _formatar_codigo(codigo_int: int) -> str:
+    """
+    Formata o código numérico do SIGTAP no padrão oficial com pontos e hífen.
+    Ex: 202020380 -> 02.02.02.038-0
+    """
+    codigo_str = str(int(codigo_int)).zfill(10)
+    return (
+        f"{codigo_str[0:2]}.{codigo_str[2:4]}.{codigo_str[4:6]}."
+        f"{codigo_str[6:9]}-{codigo_str[9]}"
+    )
+
+
 def _get_tabela() -> pd.DataFrame:
     global _tabela
     if _tabela is None:
-        _tabela = pd.read_csv(SIGTAP_PATH, dtype=str)
-        # Cria coluna normalizada para busca
-        _tabela["descricao_norm"] = _tabela["descricao"].apply(_normalizar)
+        bruta = pd.read_csv(SIGTAP_PATH, dtype={"codigo_procedimento": "Int64"})
+
+        # Seleciona e renomeia apenas as colunas relevantes para a busca,
+        # mantendo a mesma interface usada no restante do pipeline.
+        tabela = bruta[["codigo_procedimento", "no_procedimento", "no_grupo"]].copy()
+        tabela = tabela.rename(columns={
+            "codigo_procedimento": "codigo_bruto",
+            "no_procedimento": "descricao",
+            "no_grupo": "grupo",
+        })
+
+        tabela["codigo"] = tabela["codigo_bruto"].apply(_formatar_codigo)
+        tabela["descricao_norm"] = tabela["descricao"].apply(_normalizar)
+
+        _tabela = tabela
+
     return _tabela
 
 
@@ -85,11 +112,22 @@ def buscar_procedimento(termo: str) -> list[dict]:
 
     # Nível 3 — busca por similaridade (rapidfuzz): cobre erros de digitação
     # e variações que a busca por substring não captura (ex: "sor" vs "soro").
-    if resultados.empty:
+    #
+    # NOTA: desativado nesta versão de demonstração. A tabela SIGTAP utilizada
+    # é um recorte reduzido (909 procedimentos) e não contém diversos itens
+    # comuns em UTI (ex: intubação, ventilação mecânica, hemotransfusão).
+    # Nessas condições, fuzz.partial_ratio tende a aproximar substrings sem
+    # relação semântica real com o termo buscado (ex: "reposição volêmica"
+    # casando com "molde auricular (reposição)"), o que produziria
+    # correspondências incorretas na demonstração. Reativar quando a tabela
+    # SIGTAP completa estiver disponível, no TCC 2.
+    USAR_FUZZY = False
+    if resultados.empty and USAR_FUZZY:
         scores = tabela["descricao_norm"].apply(
             lambda desc: fuzz.partial_ratio(termo_norm, desc)
         )
-        SCORE_MINIMO = 75  # abaixo disso, a correspondência é considerada não confiável
+        SCORE_MINIMO = 87  # limiar mais estrito: evita falsos positivos quando a
+                            # tabela (reduzida) não contém o procedimento procurado
         candidatos = tabela[scores >= SCORE_MINIMO].copy()
         if not candidatos.empty:
             candidatos["_score"] = scores[scores >= SCORE_MINIMO]
@@ -104,7 +142,7 @@ def buscar_por_codigo(codigo: str) -> dict | None:
     Retorna o procedimento SIGTAP pelo código exato.
 
     Args:
-        codigo: Código SIGTAP (ex: '04.01.01.004-3').
+        codigo: Código SIGTAP no formato oficial (ex: '02.02.02.038-0').
 
     Returns:
         Dicionário com codigo, descricao e grupo, ou None se não encontrado.

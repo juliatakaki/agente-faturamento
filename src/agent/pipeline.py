@@ -34,9 +34,12 @@ class EstadoPipeline(TypedDict):
 
 # ── Configuração ───────────────────────────────────────────────────────────
 
+# Usa sys.executable (caminho do Python em uso) em vez de "python3" fixo,
+# pois "python3" não existe no Windows -- isso causava o erro
+# "Connection closed" ao iniciar o subprocesso do servidor MCP.
 MCP_CONFIG = {
     "sigtap": {
-        "command": "python3",
+        "command": sys.executable,
         "args": [
             os.path.join(os.path.dirname(__file__), "../mcp/sigtap_server.py")
         ],
