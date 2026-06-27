@@ -114,16 +114,20 @@ def _get_tabela() -> pd.DataFrame:
         tabela["codigo_bruto"] = bruta["codigo_bruto"]
         tabela["codigo"] = tabela["codigo_bruto"].apply(_formatar_codigo)
 
-        # Descrição usada na busca: combina nome curto + descrição longa,
-        # para a busca por texto (substring e fuzzy) ter mais contexto
-        # disponível do que so' o nome curto oferecia antes.
+        # Descrição usada na busca: apenas o nome curto (no_procedimento),
+        # igual ao comportamento da tabela reduzida anterior. A descrição
+        # longa (ds_procedimento) e' mantida na tabela como contexto extra,
+        # mas NAO participa da busca textual: ela costuma ser um texto
+        # narrativo extenso (protocolos clinicos completos) que pode citar
+        # de passagem outros exames/procedimentos (ex: a descricao de um
+        # protocolo de transplante menciona "HEMOGRAMA COMPLETO" dentro de
+        # uma lista de 30+ exames do protocolo), gerando falsos positivos
+        # se usada com o mesmo peso do nome curto na busca.
         tabela["descricao"] = bruta["nome_curto"]
-        tabela["descricao_completa"] = (
-            bruta["nome_curto"].fillna("") + " " + bruta["descricao_longa"].fillna("")
-        ).str.strip()
+        tabela["descricao_longa"] = bruta["descricao_longa"]
 
         tabela["grupo"] = bruta["no_grupo"].fillna("Não classificado")
-        tabela["descricao_norm"] = tabela["descricao_completa"].apply(_normalizar)
+        tabela["descricao_norm"] = tabela["descricao"].apply(_normalizar)
 
         _tabela = tabela
 
