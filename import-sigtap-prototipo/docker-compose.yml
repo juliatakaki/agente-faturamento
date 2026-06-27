@@ -1,0 +1,21 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: sigtap_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: sigtap
+      POSTGRES_USER: sigtap
+      POSTGRES_PASSWORD: sigtap
+    ports:
+      - "5432:5432"
+    volumes:
+      - sigtap_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U sigtap -d sigtap"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  sigtap_pgdata:

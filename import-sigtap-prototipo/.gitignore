@@ -1,0 +1,16 @@
+# Arquivos de dados e layout do SIGTAP (pesados, nao devem ir pro Git)
+*.txt
+!requirements.txt
+
+# Mas garante que os scripts gerados continuem sendo ignorados tambem
+schema.sql
+layouts.json
+
+# Ambiente Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Docker
+postgres_data/
