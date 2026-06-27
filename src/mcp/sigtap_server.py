@@ -4,20 +4,53 @@ Expõe duas ferramentas:
   - buscar_procedimento: busca por texto livre no SIGTAP
   - buscar_por_codigo:   busca pelo código exato
 
-Fonte de dados: tabela SIGTAP real (DATASUS), reduzida com descrições.
-Colunas relevantes usadas: codigo_procedimento, no_procedimento, no_grupo.
+Fonte de dados: Postgres (tabela SIGTAP completa, importada do DATASUS).
+Tabelas usadas: tb_procedimento, tb_descricao, tb_grupo.
+
+NOTA SOBRE O GRUPO: tb_procedimento não tem uma coluna co_grupo (FK direta).
+No layout oficial do SIGTAP, o código do procedimento já contém o grupo,
+subgrupo e forma de organização embutidos nos 6 primeiros dígitos
+(GG.SS.FF.AAA-V). Por isso o grupo é derivado a partir dos 2 primeiros
+dígitos de co_procedimento, sem precisar de uma coluna extra.
 """
 
 import os
 import unicodedata
 import pandas as pd
+import psycopg2
 from rapidfuzz import fuzz
 from mcp.server.fastmcp import FastMCP
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # ── Inicialização ──────────────────────────────────────────────────────────
 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
-SIGTAP_PATH = os.path.join(BASE_DIR, "data", "sigtap.csv")
+DB_CONFIG = {
+    "host": os.getenv("SIGTAP_DB_HOST", "localhost"),
+    "port": os.getenv("SIGTAP_DB_PORT", "5432"),
+    "dbname": os.getenv("SIGTAP_DB_NAME", "sigtap"),
+    "user": os.getenv("SIGTAP_DB_USER", "sigtap"),
+    "password": os.getenv("SIGTAP_DB_PASSWORD", "sigtap"),
+}
+
+# Query que junta procedimento + descrição longa + grupo (derivado do código).
+# LEFT JOIN porque nem todo procedimento tem uma linha em tb_descricao,
+# e perder a linha do procedimento so' por faltar a descricao longa
+# reduziria a cobertura de busca sem necessidade.
+QUERY_SIGTAP = """
+    SELECT
+        p.co_procedimento AS codigo_bruto,
+        p.no_procedimento AS nome_curto,
+        COALESCE(d.ds_procedimento, '') AS descricao_longa,
+        LEFT(p.co_procedimento, 2) AS co_grupo_derivado
+    FROM tb_procedimento p
+    LEFT JOIN tb_descricao d ON d.co_procedimento = p.co_procedimento
+"""
+
+QUERY_GRUPOS = """
+    SELECT co_grupo, no_grupo FROM tb_grupo
+"""
 
 mcp = FastMCP("sigtap-server")
 
@@ -39,34 +72,58 @@ def _normalizar(texto: str) -> str:
     return texto
 
 
-def _formatar_codigo(codigo_int: int) -> str:
+def _formatar_codigo(codigo_str: str) -> str:
     """
-    Formata o código numérico do SIGTAP no padrão oficial com pontos e hífen.
-    Ex: 202020380 -> 02.02.02.038-0
+    Formata o código do SIGTAP no padrão oficial com pontos e hífen.
+    Ex: '0202020380' -> '02.02.02.038-0'
     """
-    codigo_str = str(int(codigo_int)).zfill(10)
+    codigo_str = str(codigo_str).strip().zfill(10)
     return (
         f"{codigo_str[0:2]}.{codigo_str[2:4]}.{codigo_str[4:6]}."
         f"{codigo_str[6:9]}-{codigo_str[9]}"
     )
 
 
+def _carregar_do_postgres() -> pd.DataFrame:
+    """Conecta no Postgres e monta o DataFrame combinando
+    tb_procedimento + tb_descricao + tb_grupo (este último via o código
+    derivado, ja' que nao ha' FK direta entre as duas primeiras tabelas)."""
+    conn = psycopg2.connect(**DB_CONFIG)
+    try:
+        procedimentos = pd.read_sql_query(QUERY_SIGTAP, conn)
+        grupos = pd.read_sql_query(QUERY_GRUPOS, conn)
+    finally:
+        conn.close()
+
+    procedimentos = procedimentos.merge(
+        grupos,
+        left_on="co_grupo_derivado",
+        right_on="co_grupo",
+        how="left",
+    )
+
+    return procedimentos
+
+
 def _get_tabela() -> pd.DataFrame:
     global _tabela
     if _tabela is None:
-        bruta = pd.read_csv(SIGTAP_PATH, dtype={"codigo_procedimento": "Int64"})
+        bruta = _carregar_do_postgres()
 
-        # Seleciona e renomeia apenas as colunas relevantes para a busca,
-        # mantendo a mesma interface usada no restante do pipeline.
-        tabela = bruta[["codigo_procedimento", "no_procedimento", "no_grupo"]].copy()
-        tabela = tabela.rename(columns={
-            "codigo_procedimento": "codigo_bruto",
-            "no_procedimento": "descricao",
-            "no_grupo": "grupo",
-        })
-
+        tabela = pd.DataFrame()
+        tabela["codigo_bruto"] = bruta["codigo_bruto"]
         tabela["codigo"] = tabela["codigo_bruto"].apply(_formatar_codigo)
-        tabela["descricao_norm"] = tabela["descricao"].apply(_normalizar)
+
+        # Descrição usada na busca: combina nome curto + descrição longa,
+        # para a busca por texto (substring e fuzzy) ter mais contexto
+        # disponível do que so' o nome curto oferecia antes.
+        tabela["descricao"] = bruta["nome_curto"]
+        tabela["descricao_completa"] = (
+            bruta["nome_curto"].fillna("") + " " + bruta["descricao_longa"].fillna("")
+        ).str.strip()
+
+        tabela["grupo"] = bruta["no_grupo"].fillna("Não classificado")
+        tabela["descricao_norm"] = tabela["descricao_completa"].apply(_normalizar)
 
         _tabela = tabela
 
@@ -113,21 +170,15 @@ def buscar_procedimento(termo: str) -> list[dict]:
     # Nível 3 — busca por similaridade (rapidfuzz): cobre erros de digitação
     # e variações que a busca por substring não captura (ex: "sor" vs "soro").
     #
-    # NOTA: desativado nesta versão de demonstração. A tabela SIGTAP utilizada
-    # é um recorte reduzido (909 procedimentos) e não contém diversos itens
-    # comuns em UTI (ex: intubação, ventilação mecânica, hemotransfusão).
-    # Nessas condições, fuzz.partial_ratio tende a aproximar substrings sem
-    # relação semântica real com o termo buscado (ex: "reposição volêmica"
-    # casando com "molde auricular (reposição)"), o que produziria
-    # correspondências incorretas na demonstração. Reativar quando a tabela
-    # SIGTAP completa estiver disponível, no TCC 2.
-    USAR_FUZZY = False
+    # Reativado agora que a tabela SIGTAP é a completa (~5000 procedimentos,
+    # não mais o recorte reduzido de 909). O limiar de 87 (estrito) é
+    # mantido como ponto de partida; ajustar com base nos testes reais.
+    USAR_FUZZY = True
+    SCORE_MINIMO = 87
     if resultados.empty and USAR_FUZZY:
         scores = tabela["descricao_norm"].apply(
             lambda desc: fuzz.partial_ratio(termo_norm, desc)
         )
-        SCORE_MINIMO = 87  # limiar mais estrito: evita falsos positivos quando a
-                            # tabela (reduzida) não contém o procedimento procurado
         candidatos = tabela[scores >= SCORE_MINIMO].copy()
         if not candidatos.empty:
             candidatos["_score"] = scores[scores >= SCORE_MINIMO]
