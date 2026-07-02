@@ -49,7 +49,10 @@ QUERY_SIGTAP = """
         p.co_procedimento AS codigo_bruto,
         p.no_procedimento AS nome_curto,
         COALESCE(d.ds_procedimento, '') AS descricao_longa,
-        LEFT(p.co_procedimento, 2) AS co_grupo_derivado
+        LEFT(p.co_procedimento, 2) AS co_grupo_derivado,
+        COALESCE(p.vl_sh, 0) AS vl_sh,
+        COALESCE(p.vl_sa, 0) AS vl_sa,
+        COALESCE(p.vl_sp, 0) AS vl_sp
     FROM tb_procedimento p
     LEFT JOIN tb_descricao d ON d.co_procedimento = p.co_procedimento
 """
@@ -134,6 +137,17 @@ def _get_tabela() -> pd.DataFrame:
 
         tabela["grupo"] = bruta["no_grupo"].fillna("Não classificado")
         tabela["descricao_norm"] = tabela["descricao"].apply(_normalizar)
+
+        # Valores faturáveis: o SIGTAP armazena em centavos (inteiros),
+        # então dividimos por 100 para obter reais. Os três componentes:
+        #   vl_sh -> Serviço Hospitalar
+        #   vl_sa -> Serviço Ambulatorial
+        #   vl_sp -> Serviço Profissional
+        # O valor total do procedimento é a soma dos três.
+        tabela["vl_sh"] = (bruta["vl_sh"].fillna(0).astype(float) / 100.0).round(2)
+        tabela["vl_sa"] = (bruta["vl_sa"].fillna(0).astype(float) / 100.0).round(2)
+        tabela["vl_sp"] = (bruta["vl_sp"].fillna(0).astype(float) / 100.0).round(2)
+        tabela["vl_total"] = (tabela["vl_sh"] + tabela["vl_sa"] + tabela["vl_sp"]).round(2)
 
         _tabela = tabela
 
@@ -386,10 +400,18 @@ def buscar_procedimento(termo: str) -> list[dict]:
         termo: Texto a buscar (ex: 'intubacao orotraqueal', 'hemograma').
 
     Returns:
-        Lista de até 3 procedimentos com codigo, descricao e grupo.
+        Lista de até 3 procedimentos, cada um com codigo, descricao, grupo,
+        os valores faturáveis em reais (vl_sh, vl_sa, vl_sp, vl_total) e o
+        nível da busca que o encontrou (nivel1 a nivel3).
     """
-    resultados, _nivel = _buscar_com_nivel(termo)
-    return resultados[["codigo", "descricao", "grupo"]].head(3).to_dict("records")
+    resultados, nivel = _buscar_com_nivel(termo)
+    colunas = ["codigo", "descricao", "grupo", "vl_sh", "vl_sa", "vl_sp", "vl_total"]
+    registros = resultados[colunas].head(3).to_dict("records")
+    # anexa o nível da busca a cada registro, para que o pipeline e o
+    # relatório possam exibir em qual camada o procedimento foi encontrado.
+    for r in registros:
+        r["nivel"] = nivel
+    return registros
 
 
 @mcp.tool()
@@ -401,13 +423,15 @@ def buscar_por_codigo(codigo: str) -> dict | None:
         codigo: Código SIGTAP no formato oficial (ex: '02.02.02.038-0').
 
     Returns:
-        Dicionário com codigo, descricao e grupo, ou None se não encontrado.
+        Dicionário com codigo, descricao, grupo e os valores faturáveis em
+        reais (vl_sh, vl_sa, vl_sp, vl_total), ou None se não encontrado.
     """
     tabela = _get_tabela()
     resultado = tabela[tabela["codigo"] == codigo]
     if resultado.empty:
         return None
-    return resultado[["codigo", "descricao", "grupo"]].iloc[0].to_dict()
+    colunas = ["codigo", "descricao", "grupo", "vl_sh", "vl_sa", "vl_sp", "vl_total"]
+    return resultado[colunas].iloc[0].to_dict()
 
 
 # ── Ponto de entrada ───────────────────────────────────────────────────────
