@@ -142,21 +142,25 @@ def _normalizar_basico(texto: str) -> str:
     return "".join(saida)
 
 
-def _destacar_termos_html(texto: str, termos: list[str]) -> str:
+def _destacar_termos_html(texto: str, termos_ok: list[str], termos_falha: list[str] = None,
+                          termos_descartados: list[str] = None) -> str:
     """
-    Retorna o texto do prontuário com os termos extraídos destacados (em
-    negrito e com fundo amarelo), no formato de marcação aceito pelo
-    Paragraph do reportlab.
+    Retorna o texto do prontuário com os termos destacados, no formato de
+    marcação aceito pelo Paragraph do reportlab:
+      - termos_ok          (procedimentos encontrados no SIGTAP)  -> AMARELO
+      - termos_falha       (procedimentos sem correspondência)    -> VERMELHO
+      - termos_descartados (exames/materiais/medicamentos)        -> AZUL
 
     O casamento é tolerante a acentos e maiúsculas: procura cada termo no
     texto ignorando essas diferenças, mas preserva o trecho original no
-    destaque. Termos que não forem localizados são simplesmente ignorados,
-    sem quebrar a geração.
+    destaque. Termos que não forem localizados são ignorados, sem quebrar.
+    Prioridade em caso de sobreposição: vermelho > amarelo > azul.
     """
-    import re
-
     if not texto:
         return ""
+
+    termos_falha = termos_falha or []
+    termos_descartados = termos_descartados or []
 
     # escapa caracteres especiais de XML/HTML do texto base
     def escapar(s: str) -> str:
@@ -164,44 +168,57 @@ def _destacar_termos_html(texto: str, termos: list[str]) -> str:
 
     texto_norm = _normalizar_basico(texto)
 
-    # coleta os intervalos (início, fim) a destacar, a partir dos termos
-    intervalos = []
-    for termo in termos:
-        termo = (termo or "").strip()
-        if not termo:
-            continue
-        termo_norm = _normalizar_basico(termo)
-        inicio = 0
-        while True:
-            pos = texto_norm.find(termo_norm, inicio)
-            if pos == -1:
-                break
-            intervalos.append((pos, pos + len(termo_norm)))
-            inicio = pos + len(termo_norm)
+    AMARELO = "#fff2a8"
+    VERMELHO = "#ffb3b3"
+    AZUL = "#bcd8f5"
+    # prioridade: quanto maior o número, mais prevalece na sobreposição
+    PRIORIDADE = {AZUL: 1, AMARELO: 2, VERMELHO: 3}
 
+    # coleta intervalos (início, fim, cor) para cada termo localizado
+    def coletar(termos, cor):
+        achados = []
+        for termo in termos:
+            termo = (termo or "").strip()
+            if not termo:
+                continue
+            termo_norm = _normalizar_basico(termo)
+            inicio = 0
+            while True:
+                pos = texto_norm.find(termo_norm, inicio)
+                if pos == -1:
+                    break
+                achados.append((pos, pos + len(termo_norm), cor))
+                inicio = pos + len(termo_norm)
+        return achados
+
+    intervalos = (coletar(termos_ok, AMARELO)
+                  + coletar(termos_falha, VERMELHO)
+                  + coletar(termos_descartados, AZUL))
     if not intervalos:
         return escapar(texto)
 
-    # ordena e funde intervalos sobrepostos, para não aninhar destaques
-    intervalos.sort()
-    fundidos = [intervalos[0]]
-    for ini, fim in intervalos[1:]:
-        ult_ini, ult_fim = fundidos[-1]
-        if ini <= ult_fim:
-            fundidos[-1] = (ult_ini, max(ult_fim, fim))
-        else:
-            fundidos.append((ini, fim))
+    # Resolve cada caractere para uma cor, respeitando a prioridade.
+    cores = [None] * len(texto)
+    for ini, fim, cor in intervalos:
+        for i in range(ini, min(fim, len(texto))):
+            if cores[i] is None or PRIORIDADE[cor] > PRIORIDADE[cores[i]]:
+                cores[i] = cor
 
-    # remonta o texto intercalando trechos normais e destacados,
-    # usando os índices sobre o texto ORIGINAL (mesma indexação do normalizado)
+    # remonta o texto agrupando faixas contíguas de mesma cor
     partes = []
-    cursor = 0
-    for ini, fim in fundidos:
-        partes.append(escapar(texto[cursor:ini]))
-        trecho = escapar(texto[ini:fim])
-        partes.append(f'<b><font backColor="#fff2a8">{trecho}</font></b>')
-        cursor = fim
-    partes.append(escapar(texto[cursor:]))
+    i = 0
+    n = len(texto)
+    while i < n:
+        cor_atual = cores[i]
+        j = i
+        while j < n and cores[j] == cor_atual:
+            j += 1
+        trecho = escapar(texto[i:j])
+        if cor_atual is None:
+            partes.append(trecho)
+        else:
+            partes.append(f'<b><font backColor="{cor_atual}">{trecho}</font></b>')
+        i = j
     return "".join(partes)
 
 
@@ -264,15 +281,28 @@ def gerar_pdf(prontuarios: list[dict], caminho_pdf: str) -> None:
         nao_encontrados = pront.get("termos_nao_encontrados", [])
         texto_pep = pront.get("texto_prontuario", "")
         entidades = pront.get("entidades_extraidas", [])
+        descartadas = pront.get("entidades_descartadas", [])
 
         bloco = [Paragraph(f"Prontuário: {pront_id}", estilo_pront)]
 
         # Texto original do prontuário, com os termos extraídos destacados,
         # exibido antes da tabela para evidenciar a origem dos procedimentos.
+        # Amarelo = procedimento encontrado; vermelho = não encontrado;
+        # azul = entidade descartada (não é procedimento: exame/material/medicamento).
         if texto_pep:
-            bloco.append(Paragraph("Texto do prontuário (termos extraídos destacados):", estilo_rotulo))
-            bloco.append(Spacer(1, 12))
-            texto_destacado = _destacar_termos_html(texto_pep, entidades)
+            bloco.append(Paragraph(
+                "Texto do prontuário — <b>amarelo</b>: procedimento encontrado; "
+                "<b>vermelho</b>: procedimento não encontrado (verificação manual); "
+                "<b>azul</b>: entidade descartada (não é procedimento):", estilo_rotulo))
+            # separa procedimentos encontrados dos não encontrados
+            # (comparação tolerante a acento/caixa, como no destaque)
+            falha_norm = {_normalizar_basico(t.strip()) for t in nao_encontrados if t.strip()}
+            entidades_ok = [
+                e for e in entidades
+                if _normalizar_basico(str(e).strip()) not in falha_norm
+            ]
+            texto_destacado = _destacar_termos_html(
+                texto_pep, entidades_ok, nao_encontrados, descartadas)
             bloco.append(Paragraph(texto_destacado, estilo_texto_pep))
 
         if codigos:

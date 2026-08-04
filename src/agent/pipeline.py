@@ -31,6 +31,7 @@ class EstadoPipeline(TypedDict):
     entidades_refinadas: list[dict]    # saída do LLM (normalização)
     resultados_sigtap: list[dict]      # saída da consulta MCP
     termos_nao_encontrados: list[str]  # termos buscados sem correspondência
+    entidades_descartadas: list[str]   # entidades que não são procedimentos (exame/material/medicamento)
     relatorio: dict                    # relatório final
 
 
@@ -48,6 +49,89 @@ MCP_CONFIG = {
         "transport": "stdio",
     }
 }
+
+# ── Seleção do modelo de linguagem ─────────────────────────────────────────
+#
+# O agente pode ser executado com dois tipos de "cérebro":
+#   - local:  modelo rodando na própria máquina via Ollama (ex: llama3.2).
+#             Não envia dados a servidores externos.
+#   - api:    modelo acessado via API de um provedor externo (OpenAI, Google,
+#             Anthropic). Melhor desempenho, porém envia os dados para fora.
+#
+# A escolha é feita pela variável de ambiente PROVEDOR_LLM (padrão: "local"),
+# permitindo comparar o desempenho do agente com diferentes modelos SEM
+# alterar o restante do pipeline (NER, MCP, consolidação e relatório são
+# idênticos nos dois casos). Esta separação materializa a decisão de projeto
+# de manter o modelo desacoplado do restante do agente.
+#
+# IMPORTANTE: o modo "api" envia o conteúdo processado a servidores externos.
+# Deve ser utilizado apenas com dados sintéticos ou em conformidade com o
+# protocolo de ética aprovado. Com dados reais anonimizados, verificar o CEP.
+
+def criar_llm():
+    """
+    Cria e retorna o modelo de linguagem conforme a configuração de ambiente.
+
+    Variáveis de ambiente lidas:
+      PROVEDOR_LLM   -> "local" (padrão) ou "api"
+      MODELO_LOCAL   -> nome do modelo no Ollama (padrão: "llama3.2")
+      MODELO_API     -> nome do modelo do provedor (ex: "gpt-4o-mini")
+      PROVEDOR_API   -> "openai" | "google" | "anthropic" (usado quando api)
+
+    Retorna um objeto de chat do LangChain, com a mesma interface nos dois
+    casos (ainvoke, bind_tools), de modo que o restante do pipeline não
+    precisa saber qual modelo está por trás.
+    """
+    provedor = os.getenv("PROVEDOR_LLM", "local").strip().lower()
+
+    if provedor == "local":
+        modelo = os.getenv("MODELO_LOCAL", "llama3.2")
+        print(f"  [LLM] Usando modelo LOCAL via Ollama: {modelo}")
+        return ChatOllama(model=modelo, temperature=0)
+
+    if provedor == "api":
+        modelo = os.getenv("MODELO_API", "")
+        provedor_api = os.getenv("PROVEDOR_API", "").strip().lower()
+        if not modelo or not provedor_api:
+            raise ValueError(
+                "Para usar PROVEDOR_LLM=api, defina MODELO_API e PROVEDOR_API "
+                "no ambiente (.env). Ex: PROVEDOR_API=openai, MODELO_API=gpt-4o-mini."
+            )
+        print(f"  [LLM] Usando modelo via API ({provedor_api}): {modelo}")
+        return _criar_llm_api(provedor_api, modelo)
+
+    raise ValueError(
+        f"PROVEDOR_LLM inválido: '{provedor}'. Use 'local' ou 'api'."
+    )
+
+
+def _criar_llm_api(provedor_api: str, modelo: str):
+    """
+    Instancia o cliente de chat do provedor de API escolhido. Cada provedor
+    tem seu próprio pacote LangChain; os imports são feitos aqui dentro
+    (import tardio) para que o agente rode em modo local sem precisar ter
+    todos os pacotes de API instalados.
+
+    A chave de API é lida da variável de ambiente padrão de cada provedor
+    (OPENAI_API_KEY, GOOGLE_API_KEY, ANTHROPIC_API_KEY), carregada pelo .env.
+    """
+    if provedor_api == "openai":
+        from langchain_openai import ChatOpenAI
+        return ChatOpenAI(model=modelo, temperature=0)
+
+    if provedor_api == "google":
+        from langchain_google_genai import ChatGoogleGenerativeAI
+        return ChatGoogleGenerativeAI(model=modelo, temperature=0)
+
+    if provedor_api == "anthropic":
+        from langchain_anthropic import ChatAnthropic
+        return ChatAnthropic(model=modelo, temperature=0)
+
+    raise ValueError(
+        f"PROVEDOR_API não suportado: '{provedor_api}'. "
+        "Use 'openai', 'google' ou 'anthropic'."
+    )
+
 
 NLP = construir_ner()
 
@@ -205,14 +289,28 @@ async def no_refinamento_e_sigtap(estado: EstadoPipeline) -> EstadoPipeline:
     """
     print("  [LLM+MCP] Refinando entidades e consultando SIGTAP...")
 
-    llm = ChatOllama(model="llama3.2", temperature=0)
+    llm = criar_llm()
 
     client = MultiServerMCPClient(MCP_CONFIG)
     ferramentas = await client.get_tools()
     llm_com_ferramentas = llm.bind_tools(ferramentas)
 
+    # Filtro por categoria feito no CÓDIGO (determinístico), não confiando
+    # apenas na instrução ao LLM. O foco deste trabalho são PROCEDIMENTOS
+    # clínicos; exames, materiais e medicamentos são descartados da busca.
+    # As entidades descartadas são preservadas para exibição no relatório.
+    CATEGORIAS_BUSCAVEIS = {"PROCEDIMENTO"}
+    entidades_buscaveis = [
+        e for e in estado["entidades_brutas"]
+        if e.get("categoria", "").upper() in CATEGORIAS_BUSCAVEIS
+    ]
+    entidades_descartadas = [
+        e.get("texto", "") for e in estado["entidades_brutas"]
+        if e.get("categoria", "").upper() not in CATEGORIAS_BUSCAVEIS
+    ]
+
     entidades_json = json.dumps(
-        estado["entidades_brutas"], ensure_ascii=False, indent=2
+        entidades_buscaveis, ensure_ascii=False, indent=2
     )
 
     # IMPORTANTE: não usamos ChatPromptTemplate.format_messages() aqui.
@@ -223,16 +321,15 @@ async def no_refinamento_e_sigtap(estado: EstadoPipeline) -> EstadoPipeline:
     # dinâmico é tratado como texto literal, sem reprocessamento de chaves.
     sistema = """Você é um assistente especializado em faturamento hospitalar brasileiro.
 Sua tarefa é:
-1. Receber uma lista de entidades clínicas extraídas de um prontuário eletrônico.
-2. Para cada entidade do tipo PROCEDIMENTO, EXAME ou MATERIAL, usar a ferramenta
-   'buscar_procedimento' para encontrar o código SIGTAP correspondente.
+1. Receber uma lista de procedimentos clínicos extraídos de um prontuário eletrônico.
+2. Para cada procedimento, usar a ferramenta 'buscar_procedimento' para
+   encontrar o código SIGTAP correspondente.
 3. Retornar um JSON com a lista de correspondências encontradas.
 
 REGRAS IMPORTANTES:
-- Foque apenas em PROCEDIMENTOS, EXAMES e MATERIAIS. Ignore MEDICAMENTOS.
 - Use EXATAMENTE o campo "texto" da entidade como argumento da busca,
   sem traduzir, reformular ou abreviar. Por exemplo: se a entidade é
-  "raio-x de tórax", chame buscar_procedimento(termo="raio-x de tórax").
+  "laparotomia exploradora", chame buscar_procedimento(termo="laparotomia exploradora").
 - Se não encontrar correspondência, tente apenas com a palavra principal
   do texto (ex: "hemograma" ao invés de "hemograma completo").
 - Nunca invente termos que não estejam no campo "texto" da entidade."""
@@ -303,10 +400,14 @@ Consulte o SIGTAP para cada entidade relevante e retorne as correspondências.""
 
     print(f"  [LLM+MCP] {len(resultados)} consultas SIGTAP realizadas, "
           f"{len(nao_encontrados)} termo(s) sem correspondência.")
+    if entidades_descartadas:
+        print(f"  [LLM+MCP] {len(entidades_descartadas)} entidade(s) descartada(s) "
+              f"(não são procedimentos): {', '.join(entidades_descartadas)}")
     return {
         **estado,
         "resultados_sigtap": resultados,
         "termos_nao_encontrados": nao_encontrados,
+        "entidades_descartadas": entidades_descartadas,
     }
 
 
@@ -357,6 +458,9 @@ def no_relatorio(estado: EstadoPipeline) -> EstadoPipeline:
         "codigos_sigtap": list(codigos_encontrados.values()),
         # lista de termos sem correspondência, usada pela nota do relatório
         "termos_nao_encontrados": estado.get("termos_nao_encontrados", []),
+        # entidades que não são procedimentos (exame/material/medicamento),
+        # exibidas no relatório destacadas em azul (descartadas da busca)
+        "entidades_descartadas": estado.get("entidades_descartadas", []),
     }
 
     return {**estado, "relatorio": relatorio}
@@ -399,6 +503,7 @@ async def processar_prontuario(prontuario: dict) -> dict:
         "entidades_refinadas": [],
         "resultados_sigtap": [],
         "termos_nao_encontrados": [],
+        "entidades_descartadas": [],
         "relatorio": {},
     }
 
