@@ -1,6 +1,6 @@
 # Relatório de Faturamento SUS - SIGTAP
 
-**Data de geração:** 04/08/2026 às 12:10  
+**Data de geração:** 04/08/2026 às 12:38  
 **Total de prontuários processados:** 10
 
 ---
