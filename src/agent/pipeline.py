@@ -108,12 +108,14 @@ def criar_llm():
 def _criar_llm_api(provedor_api: str, modelo: str):
     """
     Instancia o cliente de chat do provedor de API escolhido. Cada provedor
-    tem seu próprio pacote LangChain; os imports são feitos aqui dentro
+    tem seu próprio pacote LangChain (ou reaproveita o pacote da OpenAI, no
+    caso de provedores compatíveis); os imports são feitos aqui dentro
     (import tardio) para que o agente rode em modo local sem precisar ter
     todos os pacotes de API instalados.
 
     A chave de API é lida da variável de ambiente padrão de cada provedor
-    (OPENAI_API_KEY, GOOGLE_API_KEY, ANTHROPIC_API_KEY), carregada pelo .env.
+    (OPENAI_API_KEY, GOOGLE_API_KEY, ANTHROPIC_API_KEY, GROQ_API_KEY),
+    carregada pelo .env.
     """
     if provedor_api == "openai":
         from langchain_openai import ChatOpenAI
@@ -127,9 +129,26 @@ def _criar_llm_api(provedor_api: str, modelo: str):
         from langchain_anthropic import ChatAnthropic
         return ChatAnthropic(model=modelo, temperature=0)
 
+    if provedor_api == "groq":
+        # A Groq expõe uma API compatível com a da OpenAI, então reutilizamos
+        # o cliente ChatOpenAI, apenas apontando para o endpoint da Groq e
+        # usando a chave própria dela (GROQ_API_KEY), em vez da OPENAI_API_KEY.
+        from langchain_openai import ChatOpenAI
+        chave_groq = os.getenv("GROQ_API_KEY", "")
+        if not chave_groq:
+            raise ValueError(
+                "PROVEDOR_API=groq requer a variável GROQ_API_KEY definida no .env."
+            )
+        return ChatOpenAI(
+            model=modelo,
+            temperature=0,
+            api_key=chave_groq,
+            base_url="https://api.groq.com/openai/v1",
+        )
+
     raise ValueError(
         f"PROVEDOR_API não suportado: '{provedor_api}'. "
-        "Use 'openai', 'google' ou 'anthropic'."
+        "Use 'openai', 'google', 'anthropic' ou 'groq'."
     )
 
 
