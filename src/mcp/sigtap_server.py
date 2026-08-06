@@ -16,7 +16,10 @@ dígitos de co_procedimento, sem precisar de uma coluna extra.
 
 import os
 import json
+import re
+import sys
 import unicodedata
+import numpy as np
 import pandas as pd
 import psycopg2
 from rapidfuzz import fuzz
@@ -65,6 +68,117 @@ mcp = FastMCP("sigtap-server")
 
 # Carrega a tabela uma única vez na inicialização
 _tabela: pd.DataFrame | None = None
+
+# ── Busca semântica (embeddings) ────────────────────────────────────────────
+#
+# Complementa a busca por palavras (níveis 1/2) e a busca fuzzy (nível 3),
+# que só enxergam texto literal e por isso confundem palavras homônimas
+# (ex: "sonda" clínica vs. "sonda" de laboratório) ou aceitam palavras
+# genéricas demais como evidência (ex: "cateter" aparecendo em dezenas de
+# procedimentos não relacionados). A busca semântica compara o SIGNIFICADO
+# do termo buscado com o significado de cada descrição do SIGTAP, usando
+# um modelo de linguagem que gera um vetor numérico (embedding) para cada
+# texto — textos com sentido parecido geram vetores próximos entre si,
+# mesmo que usem palavras completamente diferentes (ou o contrário: textos
+# com as mesmas palavras mas sentido diferente geram vetores distantes).
+#
+# O modelo roda LOCALMENTE (sentence-transformers), sem enviar dados a
+# nenhum servidor externo — mantendo a mesma garantia de privacidade dos
+# dados clínicos que o restante do protótipo já segue.
+
+_MODELO_EMBEDDINGS_NOME = os.getenv(
+    "MODELO_EMBEDDINGS", "paraphrase-multilingual-MiniLM-L12-v2"
+)
+_CACHE_EMBEDDINGS_PATH = os.path.join(
+    os.path.dirname(__file__), ".cache_embeddings_sigtap.npy"
+)
+_LIMIAR_SIMILARIDADE_SEMANTICA = float(
+    os.getenv("LIMIAR_SIMILARIDADE_SEMANTICA", "0.62")
+)
+
+_modelo_embeddings = None          # carregado sob demanda (import pesado)
+_embeddings_tabela: np.ndarray | None = None  # cache em memória do processo
+
+
+def _carregar_modelo_embeddings():
+    """
+    Carrega o modelo de embeddings sob demanda (só na primeira busca
+    semântica), evitando o custo de importar sentence-transformers e
+    carregar o modelo quando a busca semântica não é usada.
+    """
+    global _modelo_embeddings
+    if _modelo_embeddings is None:
+        from sentence_transformers import SentenceTransformer
+        print(f"  [SEMANTICO] Carregando modelo de embeddings "
+              f"'{_MODELO_EMBEDDINGS_NOME}' (só na primeira busca)...",
+              file=sys.stderr, flush=True)
+        _modelo_embeddings = SentenceTransformer(_MODELO_EMBEDDINGS_NOME)
+    return _modelo_embeddings
+
+
+def _obter_embeddings_tabela(tabela: pd.DataFrame) -> np.ndarray:
+    """
+    Retorna os embeddings de todas as descrições do SIGTAP, calculando-os
+    uma única vez e reaproveitando entre chamadas (cache em memória) e
+    entre execuções do processo (cache em disco, em .cache_embeddings_sigtap.npy).
+
+    O cache em disco é invalidado automaticamente se o número de linhas da
+    tabela mudar (ex: reimportação do SIGTAP com uma versão diferente),
+    recalculando os embeddings nesse caso.
+    """
+    global _embeddings_tabela
+    if _embeddings_tabela is not None and len(_embeddings_tabela) == len(tabela):
+        return _embeddings_tabela
+
+    if os.path.exists(_CACHE_EMBEDDINGS_PATH):
+        cache = np.load(_CACHE_EMBEDDINGS_PATH)
+        if len(cache) == len(tabela):
+            _embeddings_tabela = cache
+            return _embeddings_tabela
+        print("  [SEMANTICO] Cache de embeddings desatualizado "
+              "(tamanho da tabela mudou) — recalculando...",
+              file=sys.stderr, flush=True)
+
+    modelo = _carregar_modelo_embeddings()
+    print(f"  [SEMANTICO] Calculando embeddings para {len(tabela)} "
+          f"descrições do SIGTAP (executado uma única vez, resultado "
+          f"fica em cache)...", file=sys.stderr, flush=True)
+    textos = tabela["descricao_norm"].tolist()
+    embeddings = modelo.encode(
+        textos, batch_size=64, show_progress_bar=False, normalize_embeddings=True
+    )
+    embeddings = np.asarray(embeddings, dtype=np.float32)
+
+    np.save(_CACHE_EMBEDDINGS_PATH, embeddings)
+    _embeddings_tabela = embeddings
+    return _embeddings_tabela
+
+
+def _buscar_semantico(termo_norm: str, tabela: pd.DataFrame) -> pd.DataFrame:
+    """
+    Busca por similaridade de SIGNIFICADO (embeddings), não de texto literal.
+    Retorna as linhas da tabela cuja descrição está semanticamente mais
+    próxima do termo buscado, desde que a similaridade ultrapasse
+    _LIMIAR_SIMILARIDADE_SEMANTICA; caso contrário retorna vazio.
+
+    Os embeddings já vêm normalizados (normalize_embeddings=True), então a
+    similaridade de cosseno se reduz a um produto escalar (mais rápido).
+    """
+    modelo = _carregar_modelo_embeddings()
+    embeddings_tabela = _obter_embeddings_tabela(tabela)
+
+    embedding_termo = modelo.encode(
+        [termo_norm], normalize_embeddings=True
+    )[0].astype(np.float32)
+
+    similaridades = embeddings_tabela @ embedding_termo  # produto escalar = cosseno
+    melhor_idx = int(np.argmax(similaridades))
+    melhor_score = float(similaridades[melhor_idx])
+
+    if melhor_score < _LIMIAR_SIMILARIDADE_SEMANTICA:
+        return tabela.iloc[0:0]  # DataFrame vazio, mesmo formato
+
+    return tabela.iloc[[melhor_idx]]
 
 
 def _normalizar(texto: str) -> str:
@@ -156,15 +270,88 @@ def _get_tabela() -> pd.DataFrame:
 
 # ── Ferramentas MCP ────────────────────────────────────────────────────────
 
+# Palavras de negação clínica comuns em descrições do SIGTAP. Quando uma
+# dessas palavras aparece imediatamente antes de um termo buscado na
+# descrição candidata, e o termo de busca do usuário NÃO contém essa mesma
+# negação, o candidato é descartado — evita, por exemplo, que a busca por
+# "ventilação mecânica invasiva" retorne um procedimento de "ventilação
+# mecânica NÃO invasiva", que tem sentido clínico oposto.
+_PALAVRAS_NEGACAO = ("nao", "sem")
+
+
+def _tem_negacao_indevida(desc_norm: str, palavras_termo: list[str]) -> bool:
+    """
+    Verifica se a descrição candidata nega uma das palavras buscadas,
+    quando essa negação não fazia parte do termo original.
+
+    Estratégia: para cada palavra de negação, procura sua ocorrência na
+    descrição e verifica se a palavra seguinte (imediatamente após, ou a
+    poucas palavras de distância) é uma das palavras buscadas. Se for, e o
+    termo de busca não contém a negação, o candidato é rejeitado.
+    """
+    if any(neg in palavras_termo for neg in _PALAVRAS_NEGACAO):
+        # O próprio termo buscado já fala de negação (ex: usuário buscou
+        # "ventilação não invasiva") — não há nada de indevido aqui.
+        return False
+
+    tokens_desc = desc_norm.split()
+    for i, tok in enumerate(tokens_desc):
+        if tok in _PALAVRAS_NEGACAO:
+            # olha as próximas 1-2 palavras após a negação, cobrindo casos
+            # como "nao invasiva" e "nao apresenta invasiva" (com 1 palavra
+            # entre a negação e o termo negado)
+            seguinte = tokens_desc[i + 1 : i + 3]
+            if any(p in seguinte for p in palavras_termo):
+                return True
+    return False
+
+
+def _contem_palavra(desc: str, palavra: str) -> bool:
+    """
+    Verifica se `palavra` aparece em `desc` como PALAVRA INTEIRA (delimitada
+    por limites de palavra), não como substring solta.
+
+    Sem essa checagem, buscas por substring geram falsos positivos graves:
+    por exemplo, a palavra "dreno" é encontrada dentro de "aDRENOcorticotrófico",
+    e "monitor" dentro de "MONITORamento" — fazendo a busca por um termo
+    clínico (ex: "dreno abdominal") "achar" um procedimento completamente
+    não relacionado (ex: dosagem de ACTH) apenas por coincidência de letras.
+    """
+    return re.search(rf"\b{re.escape(palavra)}\b", desc) is not None
+
+
+# Palavras que, isoladas, mostraram-se pouco confiáveis como evidência de
+# correspondência durante os testes do protótipo — por serem genéricas
+# demais (aparecem em procedimentos de domínios muito diferentes, como
+# "cateter" ou "reposição") ou por serem homônimas na língua portuguesa
+# (mesma palavra, sentido totalmente diferente conforme o contexto — ex:
+# "sonda" clínica/tubo vs. "sonda" de hibridização molecular; "cultura"
+# microbiológica vs. "cultura" no sentido de arte e cultura). Quando a
+# ÚNICA palavra do termo que bate na descrição está nesta lista, o
+# candidato exige uma segunda palavra confirmando a correspondência;
+# quando a palavra que bate NÃO está na lista (ex: "gasometria",
+# "curativo", "hemodiálise"), uma única palavra continua sendo aceita,
+# pois os testes mostraram que essas tendem a apontar o item correto
+# mesmo sozinhas. Lista construída empiricamente a partir dos erros
+# observados durante os testes do protótipo, não é exaustiva.
+_PALAVRAS_AMBIGUAS_GENERICAS = {
+    "cateter", "sonda", "cultura", "raio", "reposicao",
+    "cardiaco", "cardiaca", "monitor", "suporte",
+}
+
+
 def _buscar_com_nivel(termo: str) -> tuple[pd.DataFrame, str]:
     """
     Lógica interna de busca em níveis. Retorna os resultados (DataFrame)
     e uma string indicando qual nível resolveu a busca:
-      "nivel1"  -> busca exata (todas as palavras presentes)
-      "nivel2"  -> busca parcial (ao menos uma palavra presente)
-      "nivel3"  -> fuzzy matching (rapidfuzz, limiar alto, alta confiança)
-      "nivel4"  -> fallback via LLM (traducao semantica termo clinico -> SIGTAP)
-      "vazio"   -> nenhum nível encontrou resultado
+      "nivel1"           -> busca exata (todas as palavras presentes)
+      "nivel2"           -> busca parcial (ao menos uma palavra presente,
+                            com filtro de palavras ambíguas/genéricas)
+      "nivel_semantico"  -> busca por significado via embeddings (cobre
+                            homônimos e nomenclatura clínica divergente)
+      "nivel3"           -> fuzzy matching (rapidfuzz, limiar alto)
+      "nivel4"           -> fallback via LLM (DESATIVADO nesta versão)
+      "vazio"            -> nenhum nível encontrou resultado
 
     Extraído como função separada (em vez de embutido em buscar_procedimento)
     para permitir medir, em testes, qual nível resolve cada termo sem
@@ -178,19 +365,56 @@ def _buscar_com_nivel(termo: str) -> tuple[pd.DataFrame, str]:
         palavras = [termo_norm]
 
     # Nível 1 — busca exata: todas as palavras do termo aparecem na descrição
+    # (como palavras inteiras, não como substrings soltas)
     mascara = tabela["descricao_norm"].apply(
-        lambda desc: all(p in desc for p in palavras)
+        lambda desc: all(_contem_palavra(desc, p) for p in palavras)
+        and not _tem_negacao_indevida(desc, palavras)
     )
     resultados = tabela[mascara]
     if not resultados.empty:
         return resultados, "nivel1"
 
-    # Nível 2 — busca parcial: ao menos uma palavra aparece na descrição
-    for palavra in palavras:
-        mascara_parcial = tabela["descricao_norm"].str.contains(palavra, na=False)
-        resultados = tabela[mascara_parcial]
-        if not resultados.empty:
-            return resultados, "nivel2"
+    # Nível 2 — busca parcial: pelo menos uma palavra (inteira) aparece na
+    # descrição. Quando a ÚNICA palavra que bate é uma palavra ambígua/
+    # genérica conhecida (_PALAVRAS_AMBIGUAS_GENERICAS), exige-se uma
+    # segunda palavra confirmando a correspondência, para reduzir falsos
+    # positivos como "cateter" (nasal) casando com um procedimento de
+    # arteriografia, ou "sonda" (vesical) casando com um exame molecular.
+    def _aceita_nivel2(desc: str) -> bool:
+        casadas = [p for p in palavras if _contem_palavra(desc, p)]
+        if not casadas:
+            return False
+        if _tem_negacao_indevida(desc, casadas):
+            return False
+        if len(casadas) >= 2:
+            return True
+        # apenas 1 palavra bateu: só aceita se ela NÃO for ambígua/genérica
+        return casadas[0] not in _PALAVRAS_AMBIGUAS_GENERICAS
+
+    mascara_parcial = tabela["descricao_norm"].apply(_aceita_nivel2)
+    resultados = tabela[mascara_parcial]
+    if not resultados.empty:
+        return resultados, "nivel2"
+
+    # Nível semântico — busca por SIGNIFICADO via embeddings, não por texto
+    # literal. Cobre os casos em que nenhuma palavra do termo bate
+    # literalmente na descrição certa (ex: nomenclatura clínica muito
+    # diferente da administrativa do SIGTAP), ou em que a única palavra
+    # em comum é ambígua/homônima e por isso foi rejeitada no nível 2.
+    # Requer o pacote sentence-transformers instalado; se não estiver
+    # disponível, este nível é pulado silenciosamente (cai para o nível 3),
+    # para não quebrar quem ainda não instalou essa dependência opcional.
+    USAR_BUSCA_SEMANTICA = os.getenv("USAR_BUSCA_SEMANTICA", "true").lower() == "true"
+    if USAR_BUSCA_SEMANTICA:
+        try:
+            resultados = _buscar_semantico(termo_norm, tabela)
+            if not resultados.empty:
+                return resultados, "nivel_semantico"
+        except ImportError:
+            print("  [SEMANTICO] AVISO: pacote 'sentence-transformers' não "
+                  "instalado — nível semântico pulado. Instale com "
+                  "'pip install sentence-transformers' para habilitá-lo.",
+                  file=sys.stderr, flush=True)
 
     # Nível 3 — busca por similaridade (rapidfuzz): cobre erros de digitação
     # e variações que a busca por substring não captura (ex: "sor" vs "soro").

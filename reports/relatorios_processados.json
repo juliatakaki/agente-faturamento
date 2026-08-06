@@ -1,7 +1,7 @@
 [
   {
     "prontuario_id": "PEP001",
-    "data_processamento": "2026-08-04T12:36:23.687525",
+    "data_processamento": "2026-08-05T22:15:16.728148",
     "texto_prontuario": "Paciente masculino, 67 anos, internado na UTI adulto por insuficiência respiratória aguda. Realizada intubação orotraqueal e instalado ventilação mecânica invasiva. Administrado midazolam e fentanil em infusão contínua para sedoanalgesia. Coletado hemograma completo e hemocultura. Iniciada antibioticoterapia com piperacilina-tazobactam. Realizado raio-x de tórax portátil. Cateter venoso central inserido em subclávia direita sob técnica asséptica.",
     "entidades_extraidas": [
       "intubação orotraqueal",
@@ -69,7 +69,7 @@
   },
   {
     "prontuario_id": "PEP002",
-    "data_processamento": "2026-08-04T12:36:45.494384",
+    "data_processamento": "2026-08-05T22:15:40.703847",
     "texto_prontuario": "Paciente feminina, 54 anos, admitida em UTI após parada cardiorrespiratória revertida. Realizado eletrocardiograma de 12 derivações. Instalado monitor cardíaco contínuo. Coletado troponina, CK-MB e gasometria arterial. Administrada adrenalina EV durante reanimação. Realizado ecocardiograma à beira leito. Iniciada infusão de noradrenalina para suporte vasopressor. Sondagem vesical de demora instalada para controle de diurese. Realizada tomografia computadorizada de crânio sem contraste.",
     "entidades_extraidas": [
       "eletrocardiograma",
@@ -123,7 +123,7 @@
   },
   {
     "prontuario_id": "PEP003",
-    "data_processamento": "2026-08-04T12:37:05.350300",
+    "data_processamento": "2026-08-05T22:17:49.463425",
     "texto_prontuario": "Paciente masculino, 72 anos, com sepse de foco abdominal. Realizada laparotomia exploradora com drenagem de abscesso. Administrada vancomicina e meropeném conforme antibiograma. Coletados lactato, PCR e procalcitonina. Realizado ultrassom abdominal à beira leito. Instalado cateter arterial em radial esquerda para monitorização invasiva de pressão arterial. Hemotransfusão de 2 concentrados de hemácias realizada. Realizado curativo com troca de dreno abdominal.",
     "entidades_extraidas": [
       "laparotomia exploradora",
@@ -223,7 +223,7 @@
   },
   {
     "prontuario_id": "PEP004",
-    "data_processamento": "2026-08-04T12:37:14.304184",
+    "data_processamento": "2026-08-05T22:18:40.637744",
     "texto_prontuario": "Paciente feminina, 45 anos, pós-operatório de neurocirurgia para drenagem de hematoma subdural. Realizado controle tomográfico de crânio com contraste. Monitorização de pressão intracraniana instalada. Administrado manitol e dexametasona EV. Fisioterapia motora e respiratória realizadas. Coletado líquido cefalorraquidiano para análise. Realizado eletroencefalograma. Sonda nasoenteral inserida para nutrição enteral.",
     "entidades_extraidas": [
       "manitol",
@@ -278,7 +278,7 @@
   },
   {
     "prontuario_id": "PEP005",
-    "data_processamento": "2026-08-04T12:37:22.686741",
+    "data_processamento": "2026-08-05T22:19:32.926543",
     "texto_prontuario": "Paciente masculino, 58 anos, admitido por insuficiência renal aguda dialítica. Realizada hemodiálise de urgência por cateter de duplo lúmen em jugular interna direita. Coletados ureia, creatinina e eletrólitos. Administrado bicarbonato de sódio EV para correção de acidose metabólica. Realizado ultrassom renal. Balanço hídrico estrito realizado. Pesagem diária do paciente. Reposição de albumina humana 20% administrada.",
     "entidades_extraidas": [
       "hemodiálise",
@@ -336,7 +336,7 @@
   },
   {
     "prontuario_id": "PEP006",
-    "data_processamento": "2026-08-04T12:37:34.575825",
+    "data_processamento": "2026-08-05T22:20:43.840544",
     "texto_prontuario": "Paciente feminina, 63 anos, queimadura de segundo e terceiro graus em 40% da superfície corporal. Realizado curativo com sulfadiazina de prata nas regiões afetadas. Administrada morfina EV para controle de dor. Coletados cultura de ferida e swab de queimadura. Realizada enxertia de pele em membro superior direito. Suporte nutricional parenteral total instalado. Fisioterapia para prevenção de contraturas realizada. Coletado proteína C reativa e albumina sérica.",
     "entidades_extraidas": [
       "curativo",
@@ -405,7 +405,7 @@
   },
   {
     "prontuario_id": "PEP007",
-    "data_processamento": "2026-08-04T12:37:44.150270",
+    "data_processamento": "2026-08-05T22:21:08.202190",
     "texto_prontuario": "Paciente masculino, 80 anos, com acidente vascular cerebral isquêmico. Administrado alteplase EV dentro da janela terapêutica. Realizada tomografia computadorizada de crânio e angiotomografia de vasos cerebrais. Instalado cateter nasal de oxigênio. Monitor de saturação contínua instalado. Coletados hemograma, coagulograma e perfil lipídico. Fisioterapia neurológica iniciada. Sonda vesical de demora inserida. Realizado Doppler transcraniano.",
     "entidades_extraidas": [
       "alteplase",
@@ -420,8 +420,8 @@
     ],
     "resumo": {
       "total_entidades_extraidas": 9,
-      "total_codigos_sigtap": 1,
-      "total_nao_encontrados": 0
+      "total_codigos_sigtap": 0,
+      "total_nao_encontrados": 1
     },
     "entidades_por_categoria": {
       "MEDICAMENTO": [
@@ -442,20 +442,10 @@
         "Fisioterapia neurológica"
       ]
     },
-    "codigos_sigtap": [
-      {
-        "codigo": "03.03.04.001-7",
-        "descricao": "AJUSTE MEDICAMENTOSO DE SITUAÇÕES NEUROLÓGICAS AGUDIZADAS",
-        "grupo": "Procedimentos clínicos",
-        "origem": "Fisioterapia neurológica",
-        "vl_sh": 253.3,
-        "vl_sa": 0.0,
-        "vl_sp": 56.43,
-        "vl_total": 309.73,
-        "nivel": "nivel2"
-      }
+    "codigos_sigtap": [],
+    "termos_nao_encontrados": [
+      "Fisioterapia neurológica"
     ],
-    "termos_nao_encontrados": [],
     "entidades_descartadas": [
       "alteplase",
       "tomografia computadorizada de crânio",
@@ -469,7 +459,7 @@
   },
   {
     "prontuario_id": "PEP008",
-    "data_processamento": "2026-08-04T12:37:53.048954",
+    "data_processamento": "2026-08-05T22:21:27.805015",
     "texto_prontuario": "Paciente feminina, 39 anos, internada por cetoacidose diabética grave. Administrada insulina regular em bomba de infusão contínua. Reposição volêmica com solução salina 0,9% realizada. Coletados glicemia capilar horária, gasometria venosa e cetonemia. Administrado cloreto de potássio EV para correção de hipocalemia. Realizado eletrocardiograma de controle. Monitor cardíaco instalado. Coletados hemograma completo e função renal.",
     "entidades_extraidas": [
       "insulina regular",
@@ -486,8 +476,8 @@
     ],
     "resumo": {
       "total_entidades_extraidas": 11,
-      "total_codigos_sigtap": 1,
-      "total_nao_encontrados": 0
+      "total_codigos_sigtap": 0,
+      "total_nao_encontrados": 1
     },
     "entidades_por_categoria": {
       "MEDICAMENTO": [
@@ -510,20 +500,10 @@
         "hemograma completo"
       ]
     },
-    "codigos_sigtap": [
-      {
-        "codigo": "07.01.03.015-1",
-        "descricao": "MOLDE AURICULAR (REPOSIÇÃO)",
-        "grupo": "Órteses, próteses e materiais especiais",
-        "origem": "Reposição volêmica",
-        "vl_sh": 0.0,
-        "vl_sa": 8.75,
-        "vl_sp": 0.0,
-        "vl_total": 8.75,
-        "nivel": "nivel2"
-      }
+    "codigos_sigtap": [],
+    "termos_nao_encontrados": [
+      "Reposição volêmica"
     ],
-    "termos_nao_encontrados": [],
     "entidades_descartadas": [
       "insulina regular",
       "bomba de infusão",
@@ -539,7 +519,7 @@
   },
   {
     "prontuario_id": "PEP009",
-    "data_processamento": "2026-08-04T12:38:01.619864",
+    "data_processamento": "2026-08-05T22:21:47.771902",
     "texto_prontuario": "Paciente masculino, 55 anos, pós-operatório imediato de cirurgia cardíaca com circulação extracorpórea para revascularização do miocárdio. Realizado ecocardiograma transesofágico intraoperatório. Monitorização hemodinâmica invasiva com cateter de Swan-Ganz instalada. Administrada protamina para reversão de heparina. Realizado raio-x de tórax pós-operatório. Drenos mediastinais e pleurais instalados. Fisioterapia respiratória realizada. Coletados troponina e coagulograma pós-operatórios.",
     "entidades_extraidas": [
       "ecocardiograma transesofágico",
@@ -603,7 +583,7 @@
   },
   {
     "prontuario_id": "PEP010",
-    "data_processamento": "2026-08-04T12:38:18.351060",
+    "data_processamento": "2026-08-05T22:22:58.330712",
     "texto_prontuario": "Paciente feminina, 71 anos, com pneumonia grave por influenza. Administrado oseltamivir e azitromicina EV. Instalada ventilação não invasiva com máscara facial total. Coletados painel viral respiratório e escarro para cultura. Realizado raio-x de tórax e tomografia de tórax sem contraste. Administrada metilprednisolona EV. Fisioterapia respiratória e nebulização com broncodilatador realizadas. Coletados lactato e gasometria arterial seriados.",
     "entidades_extraidas": [
       "oseltamivir",

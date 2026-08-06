@@ -10,3 +10,21 @@ protamina
 oseltamivir
 azitromicina
 intubação orotraqueal
+midazolam
+fentanil
+piperacilina-tazobactam
+adrenalina EV
+vancomicina
+manitol
+9%
+drenos mediastinais e pleurais
+drenos
+adrenalina
+noradrenalina
+sulfadiazina de prata
+Fisioterapia
+Fisioterapia motora
+swab de queimadura
+Fisioterapia neurológica
+Reposição volêmica
+monitor cardíaco

@@ -1,6 +1,6 @@
 # Relatório de Faturamento SUS - SIGTAP
 
-**Data de geração:** 04/08/2026 às 12:38  
+**Data de geração:** 05/08/2026 às 22:22  
 **Total de prontuários processados:** 10
 
 ---
@@ -73,21 +73,23 @@ _Nenhum procedimento faturável foi vinculado a este prontuário._
 
 ## Prontuário: PEP007
 
-| Código SIGTAP | Procedimento | SH | SA | SP | Total |
-|---|---|---:|---:|---:|---:|
-| 03.03.04.001-7 | AJUSTE MEDICAMENTOSO DE SITUAÇÕES NEUROLÓGICAS AGUDIZADAS | R$ 253,30 | R$ 0,00 | R$ 56,43 | R$ 309,73 |
+_Nenhum procedimento faturável foi vinculado a este prontuário._
 
-**Subtotal do prontuário PEP007: R$ 309,73**
+> **Nota - verificação manual necessária:**  
+> Os seguintes termos clínicos foram identificados no prontuário, mas não puderam ser vinculados automaticamente a um código SIGTAP. Recomenda-se conferência manual por um faturista:
+>
+> - Fisioterapia neurológica
 
 ---
 
 ## Prontuário: PEP008
 
-| Código SIGTAP | Procedimento | SH | SA | SP | Total |
-|---|---|---:|---:|---:|---:|
-| 07.01.03.015-1 | MOLDE AURICULAR (REPOSIÇÃO) | R$ 0,00 | R$ 8,75 | R$ 0,00 | R$ 8,75 |
+_Nenhum procedimento faturável foi vinculado a este prontuário._
 
-**Subtotal do prontuário PEP008: R$ 8,75**
+> **Nota - verificação manual necessária:**  
+> Os seguintes termos clínicos foram identificados no prontuário, mas não puderam ser vinculados automaticamente a um código SIGTAP. Recomenda-se conferência manual por um faturista:
+>
+> - Reposição volêmica
 
 ---
 
@@ -116,8 +118,8 @@ _Nenhum procedimento faturável foi vinculado a este prontuário._
 ## Resumo Consolidado
 
 - **Prontuários processados:** 10
-- **Total de procedimentos faturáveis:** 15
-- **Termos pendentes de verificação manual:** 2
-- **VALOR TOTAL A FATURAR:** R$ 1.640,96
+- **Total de procedimentos faturáveis:** 13
+- **Termos pendentes de verificação manual:** 4
+- **VALOR TOTAL A FATURAR:** R$ 1.322,48
 
 _SH = Serviço Hospitalar, SA = Serviço Ambulatorial, SP = Serviço Profissional. Valores conforme tabela SIGTAP/DATASUS._

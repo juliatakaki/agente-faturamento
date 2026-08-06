@@ -6,6 +6,7 @@ Orquestrado com LangGraph.
 
 import os
 import json
+import re
 import sys
 import asyncio
 from datetime import datetime
@@ -157,11 +158,121 @@ NLP = construir_ner()
 
 # ── Nós do grafo ───────────────────────────────────────────────────────────
 
-def no_ner(estado: EstadoPipeline) -> EstadoPipeline:
-    """Extrai entidades clínicas do texto com spaCy."""
+def _extrair_json_da_resposta(texto: str):
+    """
+    Extrai um JSON de uma resposta de LLM, tolerando os casos comuns em que
+    o modelo envolve o JSON em blocos de código markdown (```json ... ```)
+    mesmo quando instruído a não fazer isso. Levanta ValueError com uma
+    mensagem clara se não for possível decodificar.
+    """
+    bruto = texto.strip()
+    if bruto.startswith("```"):
+        # remove a cerca de abertura (com ou sem a palavra "json") e a de fechamento
+        bruto = re.sub(r"^```[a-zA-Z]*\n?", "", bruto)
+        bruto = re.sub(r"\n?```$", "", bruto)
+    return json.loads(bruto.strip())
+
+
+EXTRATOR_LLM_SISTEMA = """Você é um assistente especializado em análise de prontuários clínicos.
+Sua tarefa é ler o texto de um prontuário eletrônico e identificar todos os
+itens passíveis de faturamento hospitalar mencionados nele.
+
+Cada item deve ser classificado em UMA das categorias:
+- PROCEDIMENTO: procedimentos clínicos e cirúrgicos realizados
+  (ex: "intubação orotraqueal", "laparotomia exploradora")
+- EXAME: exames laboratoriais ou de imagem realizados
+  (ex: "hemograma completo", "raio-x de tórax")
+- MATERIAL: materiais e insumos utilizados
+  (ex: "cateter venoso central", "sonda vesical")
+- MEDICAMENTO: medicamentos administrados
+  (ex: "midazolam", "piperacilina-tazobactam")
+
+REGRAS IMPORTANTES:
+- Extraia o texto EXATAMENTE como aparece no prontuário, sem traduzir,
+  reformular, resumir ou corrigir a grafia.
+- Não invente itens que não estão explicitamente mencionados no texto.
+- Não inclua dados administrativos, sinais vitais isolados ou comentários
+  gerais que não sejam procedimentos, exames, materiais ou medicamentos.
+- Responda APENAS com um array JSON, sem nenhum texto antes ou depois,
+  sem blocos de código markdown. Formato exato:
+  [{"texto": "termo exatamente como no prontuário", "categoria": "PROCEDIMENTO"}, ...]
+- Se nenhum item for identificado, responda com um array vazio: []
+"""
+
+
+async def extrair_entidades_llm(texto_prontuario: str) -> list[dict]:
+    """
+    Extrai entidades clínicas passíveis de faturamento diretamente do texto
+    bruto do prontuário, usando o LLM configurado (criar_llm()) em vez do
+    NER por regras. É a alternativa ao extrair_entidades() do spaCy: não
+    depende de padrões previamente cadastrados, mas tem custo, latência e
+    risco de alucinação/inconsistência que o NER por regras não tem — daí
+    o interesse em comparar as duas abordagens como experimento do TCC 2.
+
+    Retorna a lista no MESMO formato do extrator por regras: uma lista de
+    dicts com as chaves "texto" e "categoria", para que o restante do
+    pipeline (no_refinamento_e_sigtap, no_relatorio) funcione de forma
+    idêntica independentemente de qual extrator gerou as entidades.
+    """
+    llm = criar_llm()
+    mensagens = [
+        SystemMessage(content=EXTRATOR_LLM_SISTEMA),
+        HumanMessage(content=f"Texto do prontuário:\n\n{texto_prontuario}"),
+    ]
+    resposta = await llm.ainvoke(mensagens)
+
+    try:
+        entidades = _extrair_json_da_resposta(resposta.content)
+    except (json.JSONDecodeError, ValueError) as e:
+        print(f"  [EXTRATOR-LLM] AVISO: resposta não pôde ser interpretada "
+              f"como JSON ({e}). Nenhuma entidade extraída nesta chamada.")
+        return []
+
+    if not isinstance(entidades, list):
+        print("  [EXTRATOR-LLM] AVISO: resposta não é uma lista. Ignorada.")
+        return []
+
+    # validação mínima de formato, descartando itens malformados sem
+    # interromper o processamento dos demais
+    entidades_validas = []
+    categorias_validas = {"PROCEDIMENTO", "EXAME", "MATERIAL", "MEDICAMENTO"}
+    for e in entidades:
+        if not isinstance(e, dict):
+            continue
+        texto = str(e.get("texto", "")).strip()
+        categoria = str(e.get("categoria", "")).strip().upper()
+        if texto and categoria in categorias_validas:
+            entidades_validas.append({"texto": texto, "categoria": categoria})
+    return entidades_validas
+
+
+async def no_ner(estado: EstadoPipeline) -> EstadoPipeline:
+    """
+    Extrai entidades clínicas do texto do prontuário. O método de extração
+    é escolhido pela variável de ambiente EXTRATOR_ATIVO:
+      "regras" (padrão) -> NER por regras (spaCy EntityRuler, extractor.py).
+                           Determinístico, sem custo, mas exige padrões
+                           previamente cadastrados (cobertura limitada).
+      "llm"              -> extração via LLM (extrair_entidades_llm()).
+                           Não exige cadastro prévio, mas tem custo, latência
+                           e risco de inconsistência entre execuções.
+
+    Os dois caminhos produzem entidades no MESMO formato (texto + categoria),
+    então o restante do pipeline não precisa saber qual foi usado.
+    """
     print(f"  [NER] Processando {estado['prontuario_id']}...")
-    entidades = extrair_entidades(estado["texto"], NLP)
-    print(f"  [NER] {len(entidades)} entidades extraídas.")
+    extrator = os.getenv("EXTRATOR_ATIVO", "regras").strip().lower()
+
+    if extrator == "regras":
+        entidades = extrair_entidades(estado["texto"], NLP)
+    elif extrator == "llm":
+        entidades = await extrair_entidades_llm(estado["texto"])
+    else:
+        raise ValueError(
+            f"EXTRATOR_ATIVO inválido: '{extrator}'. Use 'regras' ou 'llm'."
+        )
+
+    print(f"  [NER] ({extrator}) {len(entidades)} entidades extraídas.")
     return {**estado, "entidades_brutas": entidades}
 
 
@@ -232,6 +343,7 @@ def _rotulo_nivel_log(nivel: str) -> str:
     nomes = {
         "nivel1": "Nível 1 - Exata",
         "nivel2": "Nível 2 - Parcial",
+        "nivel_semantico": "Nível Semântico - Embeddings",
         "nivel3": "Nível 3 - Similaridade",
         "nivel4": "Nível 4 - LLM",
     }
@@ -315,10 +427,12 @@ async def no_refinamento_e_sigtap(estado: EstadoPipeline) -> EstadoPipeline:
     llm_com_ferramentas = llm.bind_tools(ferramentas)
 
     # Filtro por categoria feito no CÓDIGO (determinístico), não confiando
-    # apenas na instrução ao LLM. O foco deste trabalho são PROCEDIMENTOS
-    # clínicos; exames, materiais e medicamentos são descartados da busca.
-    # As entidades descartadas são preservadas para exibição no relatório.
-    CATEGORIAS_BUSCAVEIS = {"PROCEDIMENTO"}
+    # apenas na instrução ao LLM. Busca TODAS as categorias de itens
+    # passíveis de faturamento no SIGTAP (procedimentos, exames, materiais
+    # e medicamentos) — a tabela SIGTAP cobre todas elas. Entidades fora
+    # dessas quatro categorias (ex: classificação inválida) são descartadas
+    # e preservadas para exibição no relatório.
+    CATEGORIAS_BUSCAVEIS = {"PROCEDIMENTO", "EXAME", "MATERIAL", "MEDICAMENTO"}
     entidades_buscaveis = [
         e for e in estado["entidades_brutas"]
         if e.get("categoria", "").upper() in CATEGORIAS_BUSCAVEIS
@@ -340,8 +454,9 @@ async def no_refinamento_e_sigtap(estado: EstadoPipeline) -> EstadoPipeline:
     # dinâmico é tratado como texto literal, sem reprocessamento de chaves.
     sistema = """Você é um assistente especializado em faturamento hospitalar brasileiro.
 Sua tarefa é:
-1. Receber uma lista de procedimentos clínicos extraídos de um prontuário eletrônico.
-2. Para cada procedimento, usar a ferramenta 'buscar_procedimento' para
+1. Receber uma lista de itens clínicos passíveis de faturamento (procedimentos,
+   exames, materiais e medicamentos) extraídos de um prontuário eletrônico.
+2. Para cada item, usar a ferramenta 'buscar_procedimento' para
    encontrar o código SIGTAP correspondente.
 3. Retornar um JSON com a lista de correspondências encontradas.
 
