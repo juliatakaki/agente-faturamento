@@ -1,0 +1,139 @@
+{
+  "_leia_me": [
+    "Dicionário de vocabulário clínico -> SIGTAP (Nível 0 da busca).",
+    "",
+    "POR QUE ESTE ARQUIVO EXISTE: a calibração do protótipo mostrou que os",
+    "erros restantes da busca não são de algoritmo, mas de VOCABULÁRIO -- o",
+    "prontuário usa o nome clínico e o SIGTAP usa o nome administrativo",
+    "('raio-x de tórax' x 'RADIOGRAFIA DE TÓRAX', 'CK-MB' x",
+    "'CREATINOFOSFOQUINASE FRAÇÃO MB'). Nenhum limiar de similaridade resolve",
+    "isso: o modelo de embeddings genérico não conhece esse vocabulário, e a",
+    "busca fuzzy confunde analitos parecidos ('procalcitonina' com",
+    "'calcitonina'). A tradução precisa ser explícita, curada e auditável.",
+    "",
+    "COMO EDITAR: as chaves são o termo como aparece no prontuário, em",
+    "minúsculas, sem acentos e sem hífens (a mesma normalização que o servidor",
+    "aplica). Os valores são os termos a buscar no SIGTAP -- TEXTO, nunca",
+    "código: assim a busca valida contra a tabela real e um alvo inexistente",
+    "aparece na validação em vez de virar código errado no relatório.",
+    "",
+    "REGRA DE OURO PARA OS ALVOS: o alvo precisa ser ESPECÍFICO o bastante",
+    "para identificar UM procedimento. Alvos genéricos resolvem para o",
+    "primeiro específico que aparecer na tabela -- na validação, 'radiografia'",
+    "caiu em RADIOGRAFIA DE LARINGE, 'ultrassonografia' em ULTRASSONOGRAFIA DE",
+    "TIREOIDE e 'atendimento fisioterapeutico' em ATENDIMENTO FISIOTERAPÊUTICO",
+    "EM PACIENTE NEONATO. Um código de fisioterapia neonatal num adulto de UTI",
+    "é justamente o tipo de erro que gera glosa. Por isso termos genéricos",
+    "('raio-x' sem região, 'ultrassom' sem órgão) NÃO entram aqui: é melhor",
+    "que sigam para revisão manual do que receberem um código plausível e",
+    "errado.",
+    "",
+    "SEMPRE rode 'python validar_sinonimos.py' depois de editar. Atenção: o",
+    "validador confirma que o alvo RESOLVE, não que resolve CERTO -- conferir",
+    "a coluna do procedimento retornado faz parte da curadoria.",
+    "",
+    "STATUS: entradas construídas a partir dos erros observados nos testes com",
+    "os 10 prontuários sintéticos. NÃO é exaustivo e PRECISA de validação com",
+    "o setor de faturamento do HUB antes de qualquer uso real."
+  ],
+
+  "sinonimos": {
+    "_comentario": "Termo do prontuário -> um ou mais termos de busca no SIGTAP. Um único alvo é tradução de sinônimo; vários alvos significam que o termo clínico é um PAINEL que corresponde a mais de um código faturável.",
+
+    "raio x de torax": ["radiografia de torax"],
+    "rx de torax": ["radiografia de torax"],
+    "raio x de abdome": ["radiografia de abdomen"],
+    "rx de abdome": ["radiografia de abdomen"],
+
+    "ck mb": ["creatinofosfoquinase fracao mb"],
+    "cpk mb": ["creatinofosfoquinase fracao mb"],
+    "ck total": ["creatinofosfoquinase total"],
+
+    "liquido cefalorraquidiano": ["celulas no liquor"],
+    "lcr": ["celulas no liquor"],
+
+    "coagulograma": [
+      "tempo de protrombina",
+      "tempo de tromboplastina parcial ativada"
+    ],
+
+    "pcr": ["proteina c reativa"],
+    "proteina c reativa": ["proteina c reativa"],
+
+    "cetonemia": ["corpos cetonicos"],
+    "corpos cetonicos": ["corpos cetonicos"],
+
+    "gasometria arterial": ["gasometria"],
+    "gasometria venosa": ["gasometria"],
+
+    "ultrassom abdominal": ["ultrassonografia de abdomen total"],
+    "usg abdominal": ["ultrassonografia de abdomen total"],
+    "ultrassom renal": ["ultrassonografia de aparelho urinario"],
+    "usg renal": ["ultrassonografia de aparelho urinario"],
+
+    "ecg": ["eletrocardiograma"],
+
+    "tomografia de torax": ["tomografia computadorizada de torax"],
+    "tc de cranio": ["tomografia computadorizada do cranio"],
+    "tc de torax": ["tomografia computadorizada de torax"],
+
+    "perfil lipidico": [
+      "colesterol total",
+      "triglicerideos",
+      "colesterol hdl"
+    ],
+
+    "sonda vesical de demora": ["cateterismo vesical de demora"],
+    "sondagem vesical de demora": ["cateterismo vesical de demora"],
+    "sonda vesical de alivio": ["cateterismo vesical de alivio"],
+    "sondagem vesical de alivio": ["cateterismo vesical de alivio"]
+  },
+
+  "_revisar_alvo_generico": {
+    "_comentario": "Entradas REMOVIDAS do dicionário ativo porque o alvo era genérico demais e resolvia para um procedimento específico arbitrário (ver REGRA DE OURO acima). Ficam registradas aqui para não se perderem: se você descobrir, com o setor de faturamento, qual é o código correto em cada contexto, reescreva a entrada com o alvo específico e mova de volta para 'sinonimos'. Enquanto isso, esses termos vão para revisão manual, que é a resposta honesta.",
+
+    "raio x": "resolvia para RADIOGRAFIA DE LARINGE — depende da região anatômica",
+    "ultrassom": "resolvia para ULTRASSONOGRAFIA DE TIREOIDE — depende do órgão",
+    "hemotransfusao": "resolvia para TRANSFUSÃO DE CRIOPRECIPITADO — depende do hemocomponente (concentrado de hemácias, plasma, plaquetas...)",
+    "eletroencefalograma": "resolvia para EEG QUANTITATIVO C/ MAPEAMENTO — o SIGTAP tem várias modalidades de EEG e nenhuma genérica",
+    "fisioterapia respiratoria": "'atendimento fisioterapeutico' resolvia para PACIENTE NEONATO — o SIGTAP separa por condição e faixa etária",
+    "fisioterapia motora": "idem",
+    "fisioterapia neurologica": "idem"
+  },
+
+  "nao_faturavel": {
+    "_comentario": "Termos que existem no prontuário mas NÃO têm código próprio no SIGTAP -- ou porque estão embutidos em outro procedimento/diária (intubação e sedação fazem parte do ato anestésico), ou porque o grupo correspondente não cobre aquele tipo de item (o grupo 06 traz apenas medicamentos do Componente Especializado, não os de uso hospitalar rotineiro; o grupo 07 traz OPME, não descartáveis). Marcar aqui evita que a busca force um código errado E distingue, no relatório, 'não encontrado' (revisar) de 'não faturável separadamente' (informação normal). CADA ENTRADA PRECISA SER CONFIRMADA PELO SETOR DE FATURAMENTO DO HUB.",
+
+    "medicamentos_uso_hospitalar": [
+      "heparina",
+      "protamina",
+      "vancomicina",
+      "noradrenalina",
+      "adrenalina",
+      "manitol",
+      "oseltamivir",
+      "azitromicina",
+      "sulfadiazina de prata",
+      "solucao salina",
+      "bicarbonato de sodio",
+      "cloreto de potassio"
+    ],
+
+    "procedimentos_embutidos": [
+      "intubacao orotraqueal",
+      "sedoanalgesia",
+      "monitor cardiaco",
+      "monitorizacao cardiaca",
+      "reposicao volemica"
+    ],
+
+    "materiais_descartaveis": [
+      "cateter de swan ganz",
+      "cateter nasal de oxigenio",
+      "sonda nasoenteral",
+      "dreno abdominal",
+      "drenos mediastinais",
+      "mascara facial total"
+    ]
+  }
+}
