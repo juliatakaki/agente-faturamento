@@ -39,14 +39,39 @@ from agent import gerar_relatorio
 # Apresenta um pequeno console para escolher, antes de rodar o pipeline, qual
 # "cérebro" o agente vai usar. A escolha define as variáveis de ambiente
 # (PROVEDOR_LLM, MODELO_LOCAL / PROVEDOR_API / MODELO_API) que o pipeline.py
-# já lê dinamicamente em criar_llm() — nenhuma outra mudança é necessária.
+# lê em criar_llm() -- e que o pipeline repassa EXPLICITAMENTE ao subprocesso
+# do servidor MCP, para que o agente do nível 4 use o mesmo modelo.
+#
+# ATENÇÃO -- MODELOS DE API SAEM DE CATÁLOGO SEM AVISO: em agosto/2026 o
+# modelo 'llama-3.3-70b-versatile' foi descontinuado pela Groq no meio dos
+# testes, e todas as chamadas passaram a retornar 404. Se uma opção aqui
+# parar de funcionar, liste os modelos disponíveis na sua conta antes de
+# chutar um substituto:
+#
+#   python -c "import os,urllib.request,json;from dotenv import load_dotenv;\
+#   load_dotenv();req=urllib.request.Request(\
+#   'https://api.groq.com/openai/v1/models',headers={'Authorization':\
+#   'Bearer '+os.getenv('GROQ_API_KEY','')});\
+#   [print(m['id']) for m in json.load(urllib.request.urlopen(req))['data']]"
+#
+# Para o TCC, anote SEMPRE o nome exato do modelo e a data de cada execução:
+# um resultado obtido com um modelo que saiu do ar não é reproduzível.
+#
+# Os nomes também podem ser sobrescritos por variável de ambiente, sem mexer
+# no código -- útil quando um provedor renomeia um modelo:
+#   MODELO_GROQ=openai/gpt-oss-20b python main.py
+MODELO_OLLAMA_PADRAO = os.getenv("MODELO_OLLAMA", "llama3.2")
+MODELO_GROQ_PADRAO = os.getenv("MODELO_GROQ", "openai/gpt-oss-120b")
+MODELO_GOOGLE_PADRAO = os.getenv("MODELO_GOOGLE", "gemini-3.5-flash")
 
-# Cada opção: (rótulo exibido, provedor, modelo sugerido, é_api)
-# Lista restrita aos modelos já confirmados em testes reais do protótipo.
+# Cada opção: (rótulo exibido, provedor, modelo, é_api)
 OPCOES_MODELO = [
-    ("Local — Ollama (llama3.2)",             "local", "llama3.2",                False),
-    ("API — Groq (llama-3.3-70b-versatile)",  "groq",  "llama-3.3-70b-versatile", True),
-    ("API — Google (gemini-3.5-flash)",       "google", "gemini-3.5-flash",       True),
+    (f"Local — Ollama ({MODELO_OLLAMA_PADRAO})",
+     "local", MODELO_OLLAMA_PADRAO, False),
+    (f"API — Groq ({MODELO_GROQ_PADRAO})",
+     "groq", MODELO_GROQ_PADRAO, True),
+    (f"API — Google ({MODELO_GOOGLE_PADRAO})",
+     "google", MODELO_GOOGLE_PADRAO, True),
 ]
 
 CHAVE_ENV_POR_PROVEDOR = {
@@ -83,16 +108,18 @@ def selecionar_modelo_interativo():
         else:
             print("Opção inválida, tente novamente.")
 
-    rotulo, provedor, modelo_sugerido, e_api = OPCOES_MODELO[escolha]
+    rotulo, provedor, modelo, e_api = OPCOES_MODELO[escolha]
 
     if not e_api:
         os.environ["PROVEDOR_LLM"] = "local"
-        os.environ["MODELO_LOCAL"] = modelo_sugerido
-        print(f"\n-> Usando modelo local: {modelo_sugerido}\n")
+        os.environ["MODELO_LOCAL"] = modelo
+        # Limpa a configuração de API para que o subprocesso MCP não herde
+        # um provedor antigo do .env e acabe rodando o nível 4 com um modelo
+        # diferente do escolhido aqui.
+        os.environ.pop("PROVEDOR_API", None)
+        os.environ.pop("MODELO_API", None)
+        print(f"\n-> Usando modelo local: {modelo}\n")
         return rotulo
-
-    # Modo API: usa diretamente o modelo já definido na opção escolhida.
-    modelo = modelo_sugerido
 
     chave_env = CHAVE_ENV_POR_PROVEDOR[provedor]
     if not os.getenv(chave_env):

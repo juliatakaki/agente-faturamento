@@ -41,7 +41,7 @@ import psycopg2
 from rapidfuzz import fuzz
 from mcp.server.fastmcp import FastMCP
 from dotenv import load_dotenv
-from langchain_ollama import ChatOllama
+from langchain_core.messages import AIMessage, HumanMessage, SystemMessage
 
 load_dotenv()
 
@@ -51,6 +51,10 @@ load_dotenv()
 # travamento. _log() escreve em stderr E num arquivo em disco.
 #   PowerShell: Get-Content src\mcp\sigtap_server.log -Wait
 #   Linux/Mac:  tail -f src/mcp/sigtap_server.log
+#
+# O log é também onde o CICLO DO AGENTE (nível 4) fica registrado turno a
+# turno -- é a evidência de que as decisões partiram do modelo, e não de um
+# roteiro fixo. Vale guardar esse arquivo junto dos resultados do TCC.
 
 CAMINHO_LOG_SERVIDOR = os.getenv(
     "SIGTAP_LOG_FILE",
@@ -79,7 +83,6 @@ DB_CONFIG = {
 }
 
 SIGTAP_DB_CONNECT_TIMEOUT = int(os.getenv("SIGTAP_DB_CONNECT_TIMEOUT", "5"))
-MODELO_LLM_FALLBACK = os.getenv("SIGTAP_LLM_FALLBACK_MODEL", "llama3.2")
 
 QUERY_SIGTAP = """
     SELECT
@@ -101,10 +104,7 @@ mcp = FastMCP("sigtap-server")
 _tabela: pd.DataFrame | None = None
 _idf: dict[str, float] | None = None
 
-# Protege o carregamento preguiçoso de tabela/modelo/embeddings. Com o
-# aquecimento síncrono na inicialização o risco de concorrência é pequeno,
-# mas o lock mantém o servidor correto caso alguma carga acabe caindo em
-# tempo de atendimento (ex: aquecimento desligado ou falho).
+# Protege o carregamento preguiçoso de tabela/modelo/embeddings.
 _lock_carga = threading.RLock()
 
 
@@ -114,10 +114,8 @@ _lock_carga = threading.RLock()
 # não de algoritmo: o prontuário usa o nome clínico e o SIGTAP usa o
 # administrativo ("raio-x de tórax" x "RADIOGRAFIA DE TÓRAX"; "CK-MB" x
 # "CREATINOFOSFOQUINASE FRAÇÃO MB"). Nenhum limiar resolve isso -- o modelo
-# de embeddings genérico não conhece esse vocabulário (procalcitonina teve
-# similaridade 0.705 com DOSAGEM DE PROLACTINA, ruído puro) e o fuzzy
-# confunde analitos parecidos (procalcitonina x calcitonina, substâncias
-# diferentes). A tradução precisa ser explícita, curada e auditável.
+# de embeddings genérico não conhece esse vocabulário e o fuzzy confunde
+# analitos parecidos (procalcitonina x calcitonina, substâncias diferentes).
 #
 # O dicionário fica num JSON externo, editável sem tocar no código, e aponta
 # para TEXTOS do SIGTAP, nunca para códigos: assim cada alvo é validado
@@ -191,13 +189,7 @@ def _resolver_chave_dicionario(
     'oxigânio' por 'oxigênio', 'intubáção' e até 'intubãão' por 'intubação',
     'volémica' por 'volêmica'. A remoção de acentos absorve a variante
     lusitana, mas não a troca ou perda de letra -- e como o dicionário é
-    casado por chave exata, um caractere trocado anulava toda a curadoria (o
-    termo caía como "sem resultado").
-
-    O limiar é alto (92 por padrão) porque as chaves do dicionário são poucas
-    dezenas e bem distintas entre si; o risco de confundir duas entradas
-    legítimas é baixo, enquanto o de perder uma entrada por corrupção do
-    modelo é real e já observado.
+    casado por chave exata, um caractere trocado anulava toda a curadoria.
     """
     if termo_norm in sinonimos or termo_norm in nao_faturavel:
         return termo_norm
@@ -246,8 +238,7 @@ RETENTAR_SEM_FILTRO = os.getenv("SIGTAP_RETENTAR_SEM_FILTRO", "false").lower() =
 # vocabulário clínico raro (fármacos, epônimos). Para esses termos ele
 # recorre à semelhança de SUBPALAVRAS, não de sentido -- daí "heparina" ->
 # "hepatite", "sulfadiazina" -> "sulfassalazina". Por isso o limiar é alto e
-# a busca devolve VAZIO quando nada o ultrapassa, em vez de devolver sempre
-# o vizinho mais próximo. Calibre com calibrar_sigtap.py.
+# a busca devolve VAZIO quando nada o ultrapassa.
 _MODELO_EMBEDDINGS_NOME = os.getenv(
     "MODELO_EMBEDDINGS", "paraphrase-multilingual-MiniLM-L12-v2"
 )
@@ -260,16 +251,12 @@ _LIMIAR_SIMILARIDADE_SEMANTICA = float(
 
 # Cobertura mínima de informação (IDF) exigida no nível 2. Subido de 0.45
 # para 0.55 após a calibração: em 0.45, "perfil lipídico" era aceito por
-# casar apenas "perfil" (cobertura 0.46) com PERFIL DE PRESSÃO URETRAL. Em
-# 0.55, "gasometria arterial" -> GASOMETRIA (cobertura 0.56) continua
-# passando, que é o comportamento desejado.
+# casar apenas "perfil" (cobertura 0.46) com PERFIL DE PRESSÃO URETRAL.
 _LIMIAR_COBERTURA_IDF = float(os.getenv("LIMIAR_COBERTURA_IDF", "0.55"))
 
 # Limiar do nível 3 (fuzzy). Subido de 87 para 93 após a calibração:
 # "procalcitonina" casava com DOSAGEM DE CALCITONINA a 88 -- substâncias
-# diferentes, apenas com grafia parecida. Nomes de analitos costumam diferir
-# por um prefixo curto, então o fuzzy é perigoso justamente onde mais era
-# usado; termos assim pertencem ao dicionário (Nível 0).
+# diferentes, apenas com grafia parecida.
 _SCORE_MINIMO_FUZZY = int(os.getenv("SCORE_MINIMO_FUZZY", "93"))
 
 _modelo_embeddings = None
@@ -293,13 +280,11 @@ def _carregar_modelo_embeddings():
 def _obter_embeddings_tabela(tabela: pd.DataFrame) -> np.ndarray:
     """
     Embeddings de TODAS as descrições (tabela completa, ordem posicional
-    original), com cache em memória e em disco. Os recortes por grupo são
-    feitos por índice posicional, para que o cache continue válido.
+    original), com cache em memória e em disco.
 
     ATENÇÃO: quando o cache em disco está válido, esta função retorna SEM
     carregar o modelo -- ela só precisa dos vetores já calculados. Por isso
-    ela NÃO serve sozinha como aquecimento: gerar o embedding do termo
-    buscado ainda exige o modelo. Ver _aquecer().
+    ela NÃO serve sozinha como aquecimento. Ver _aquecer().
     """
     global _embeddings_tabela
     with _lock_carga:
@@ -337,22 +322,15 @@ def _aquecer() -> None:
     Carrega dicionário, tabela, embeddings E O MODELO antes de o servidor
     aceitar conexões.
 
-    POR QUE SÍNCRONO: a primeira tentativa aquecia numa thread de fundo e
-    perdia a corrida -- o cliente MCP ficava pronto em ~10s, o LLM respondia
-    em ~2s, e a primeira busca chegava com o carregamento em andamento,
-    ficava bloqueada no lock e estourava o timeout do cliente.
+    POR QUE SÍNCRONO: aquecer numa thread de fundo perdia a corrida -- o
+    cliente MCP ficava pronto em ~10s, o LLM respondia em ~2s, e a primeira
+    busca chegava com o carregamento em andamento, ficava bloqueada no lock e
+    estourava o timeout do cliente.
 
-    POR QUE O ENCODE DE TESTE: a segunda tentativa chamava só
-    _obter_embeddings_tabela(), que encontra o cache em disco e RETORNA SEM
-    CARREGAR O MODELO. Aquecia a parte barata (Postgres + np.load, ~1s) e
-    deixava a cara para depois -- o modelo continuava sendo carregado na
-    primeira busca semântica, que seguia estourando o timeout ('midazolam',
-    180s, enquanto as buscas seguintes levavam 0,1s). O encode de uma frase
-    qualquer força a inicialização completa (import do torch, construção do
-    modelo, primeira passagem), que é onde está o custo real.
-
-    Falha no aquecimento não derruba o servidor: as buscas continuam
-    funcionando, apenas pagando o custo sob demanda.
+    POR QUE O ENCODE DE TESTE: chamar só _obter_embeddings_tabela() encontra
+    o cache em disco e RETORNA SEM CARREGAR O MODELO -- aquecia a parte
+    barata e deixava a cara para a primeira busca semântica, que seguia
+    estourando o timeout ('midazolam', 180s).
     """
     t0 = time.time()
     try:
@@ -362,9 +340,6 @@ def _aquecer() -> None:
         if os.getenv("USAR_BUSCA_SEMANTICA", "true").lower() == "true":
             _obter_embeddings_tabela(tabela)
             modelo = _carregar_modelo_embeddings()
-            # Encode de teste: sem ele o modelo fica "carregado" mas a
-            # primeira passagem real (que é lenta) ainda cairia sobre a
-            # primeira busca do lote.
             t1 = time.time()
             modelo.encode(["aquecimento"], normalize_embeddings=True)
             _log(f"[AQUECIMENTO] Primeiro encode em {time.time() - t1:.1f}s.")
@@ -413,9 +388,6 @@ def _buscar_semantico(
 def _normalizar(texto: str) -> str:
     """
     Minúsculas, sem acentos (tórax → torax), sem hífens (raio-x → raio x).
-
-    A remoção de acentos também absorve variantes que o LLM introduz ao
-    repassar o termo ("volémica" por "volêmica", "oxigénio" por "oxigênio").
     Trocas de letra, que os acentos não cobrem, são tratadas em
     _resolver_chave_dicionario().
     """
@@ -486,12 +458,9 @@ def _calcular_idf(tabela: pd.DataFrame) -> dict[str, float]:
     IDF de cada palavra do vocabulário: idf(p) = ln(N / df(p)).
 
     PARA QUE SERVE: pesar a evidência de cada palavra que casa na busca
-    parcial. Palavras em centenas de descrições ("total", "abdominal",
-    "solução") quase não distinguem nada e não deveriam, sozinhas, decidir
-    uma correspondência; palavras raras ("gasometria", "troponina")
-    praticamente identificam o procedimento. Substitui a lista manual de
-    palavras proibidas por um critério derivado dos próprios dados, que se
-    reajusta sozinho a qualquer versão futura da tabela.
+    parcial. Palavras em centenas de descrições ("total", "abdominal")
+    quase não distinguem nada; palavras raras ("gasometria", "troponina")
+    praticamente identificam o procedimento.
     """
     n_docs = len(tabela)
     freq: dict[str, int] = {}
@@ -527,8 +496,7 @@ def _get_tabela() -> pd.DataFrame:
 
         # Descrição usada na busca: apenas o nome curto. A descrição longa é
         # mantida como contexto, mas NÃO participa da busca textual: costuma
-        # ser um protocolo narrativo que cita de passagem outros exames,
-        # gerando falsos positivos.
+        # ser um protocolo narrativo que cita de passagem outros exames.
         tabela["descricao"] = bruta["nome_curto"]
         tabela["descricao_longa"] = bruta["descricao_longa"]
 
@@ -604,10 +572,13 @@ def _confianca(nivel: str, score: float) -> str:
         return "media" if score >= 0.88 else "baixa"
     if nivel == "nivel3":
         # Fuzzy quase perfeito indica diferença só de grafia/acentuação
-        # ("Doppler transcraniano" x "ECODOPPLER TRANSCRANIANO"), não de
-        # significado. Abaixo disso a semelhança pode ser de prefixo, que é
-        # onde o fuzzy erra feio entre analitos.
+        # ("Doppler transcraniano" x "ECODOPPLER TRANSCRANIANO").
         return "media" if score >= 0.97 else "baixa"
+    if nivel == "nivel4":
+        # Correspondência proposta pelo agente: SEMPRE baixa. É o nível com
+        # menos garantia formal, e o objetivo dele é resgatar lacunas para
+        # conferência humana, não fechar faturamento sozinho.
+        return "baixa"
     return "baixa"
 
 
@@ -616,8 +587,8 @@ def _buscar_niveis_texto(
 ) -> tuple[pd.DataFrame, str, float]:
     """
     Níveis 1 a 3 (exata, parcial ponderada por IDF, semântica, fuzzy) sobre o
-    recorte `candidatos`. Separado de _buscar_com_nivel para que o Nível 0
-    possa reaproveitá-lo em cada alvo do dicionário, sem recursão.
+    recorte `candidatos`. Separado de _buscar_com_nivel para que os níveis 0
+    e 4 possam reaproveitá-lo, sem recursão.
     """
     palavras = [p for p in termo_norm.split() if len(p) > 2] or [termo_norm]
     idf_total = sum(_idf_palavra(p) for p in palavras) or 1.0
@@ -626,15 +597,11 @@ def _buscar_niveis_texto(
     # descrições contêm todas as palavras, a mais curta costuma ser a certa:
     # a mais longa normalmente é um procedimento MAIS ESPECÍFICO que apenas
     # contém o termo (ex: "ventilação mecânica invasiva" casando com o
-    # acompanhamento DOMICILIAR). Densidade = proporção da descrição
-    # explicada pelo termo buscado.
+    # acompanhamento DOMICILIAR).
     #
     # LIMITAÇÃO CONHECIDA: o critério é de tamanho, não clínico. Para
     # medicamentos ele escolhe a apresentação de nome mais curto ("MORFINA
-    # 10 MG (POR COMPRIMIDO)" em vez de "MORFINA 10 MG/ML (POR AMPOLA)"),
-    # e forma farmacêutica/via muda o código faturado. Termos em que a
-    # apresentação importa devem ir para o dicionário (Nível 0) com o alvo
-    # específico.
+    # 10 MG (POR COMPRIMIDO)" em vez de "MORFINA 10 MG/ML (POR AMPOLA)").
     mascara = candidatos["descricao_norm"].apply(
         lambda desc: all(_contem_palavra(desc, p) for p in palavras)
         and not _tem_negacao_indevida(desc, palavras)
@@ -649,7 +616,7 @@ def _buscar_niveis_texto(
     # ── Nível 2 — parcial ponderada por IDF. Só aceita quando as palavras
     # que casaram respondem por uma fração mínima da informação do termo,
     # rejeitando casamentos por palavra fraca ("máscara facial TOTAL" x
-    # "DOSAGEM DE BILIRRUBINA TOTAL") sem lista manual de proibidas.
+    # "DOSAGEM DE BILIRRUBINA TOTAL").
     def _score_nivel2(desc: str) -> float:
         casadas = [p for p in palavras if _contem_palavra(desc, p)]
         if not casadas or _tem_negacao_indevida(desc, casadas):
@@ -662,8 +629,8 @@ def _buscar_niveis_texto(
         aceitos = aceitos.copy()
         cobertura = scores2[scores2 >= _LIMIAR_COBERTURA_IDF]
         densidade = len(palavras) / aceitos["n_palavras_desc"]
-        # 70% cobertura do termo + 30% densidade da descrição: prefere
-        # descrições curtas e específicas entre as aceitas
+        # 70% cobertura do termo + 30% densidade: prefere descrições curtas
+        # e específicas entre as aceitas
         aceitos["_score"] = 0.7 * cobertura + 0.3 * densidade
         aceitos = aceitos.sort_values("_score", ascending=False)
         return aceitos, "nivel2", float(cobertura.max())
@@ -678,8 +645,7 @@ def _buscar_niveis_texto(
             _log("[SEMANTICO] AVISO: 'sentence-transformers' não instalado.")
 
     # ── Nível 3 — fuzzy, com limiar alto. Nomes de analitos diferem por
-    # prefixos curtos e o fuzzy os confunde (procalcitonina x calcitonina);
-    # termos assim pertencem ao dicionário do Nível 0, não ao fuzzy.
+    # prefixos curtos e o fuzzy os confunde (procalcitonina x calcitonina).
     if not candidatos.empty:
         scores = candidatos["descricao_norm"].apply(
             lambda desc: fuzz.partial_ratio(termo_norm, desc)
@@ -692,6 +658,379 @@ def _buscar_niveis_texto(
             return fuzzy, "nivel3", float(fuzzy.iloc[0]["_score"]) / 100.0
 
     return candidatos.iloc[0:0], "vazio", 0.0
+
+
+# ══════════════════════════════════════════════════════════════════════════
+# NÍVEL 4 — CICLO AGÊNTICO
+# ══════════════════════════════════════════════════════════════════════════
+#
+# É AQUI que o sistema deixa de ser uma esteira de passos fixos e passa a ter
+# um agente. A diferença não está em usar um LLM (os outros níveis também
+# poderiam usar), e sim em QUEM CONTROLA O LAÇO:
+#
+#   - Nos níveis 0 a 3, o código decide tudo: a ordem das tentativas, quantas
+#     são, e quando parar. O LLM não participa.
+#   - No nível 4, o código não sabe de antemão quantas tentativas haverá nem
+#     quais termos serão buscados. O modelo propõe um termo, VÊ O RESULTADO
+#     REAL da busca no SIGTAP, e decide a partir dele: aceitar um candidato,
+#     tentar outro termo, ou declarar que não existe código. O número de
+#     voltas varia de termo para termo, na mesma execução -- na primeira
+#     rodada, de 2 voltas ('midazolam') a 4 ('cultura de ferida').
+#
+# Esse ciclo (agir -> observar -> decidir) é o que caracteriza um agente, e é
+# a razão de a arquitetura ser agêntica em vez de um pipeline linear: a
+# distância entre a linguagem clínica do prontuário e a administrativa do
+# SIGTAP não é previsível o suficiente para caber numa sequência fixa.
+#
+# ── TRÊS TRAVAS DE SEGURANÇA ────────────────────────────────────────────────
+#
+# Faturamento indevido gera glosa, então a autonomia é deliberadamente limitada:
+#
+# 1. O MODELO NUNCA ESCREVE UM CÓDIGO. Ele só propõe TERMOS DE BUSCA (texto)
+#    e escolhe candidatos POR ÍNDICE numa lista que o Python montou a partir
+#    da tabela real. Se alucinar um nome de exame inexistente, a busca não
+#    encontra nada -- vira lacuna, não vira código errado.
+#
+# 2. TETO DE TENTATIVAS. O laço é do modelo, mas dentro de um limite. O teto
+#    é um limite de custo e de terminação, não um roteiro: dentro dele, quem
+#    decide é o modelo.
+#
+# 3. FALHA VIRA DESISTÊNCIA. Resposta malformada, JSON inválido, índice fora
+#    da lista, API fora do ar -- qualquer imprevisto encerra o ciclo sem
+#    resultado. O sistema nunca "chuta" para não voltar de mãos vazias.
+#
+# Toda correspondência do nível 4 recebe confiança BAIXA e vai para a lista
+# de conferência humana no relatório.
+#
+# ── RESULTADO DA PRIMEIRA RODADA (ago/2026, Groq llama-3.3-70b) ────────────
+#
+# 11 termos entraram no ciclo, nenhum foi resgatado, e as recusas foram
+# clinicamente corretas -- o agente rejeitou DOSAGEM DE PROLACTINA para
+# 'procalcitonina' ("prolactina é um hormônio diferente"), DOSAGEM DE
+# ALUMÍNIO para 'albumina sérica', e insulinas análogas para 'insulina
+# regular'. São exatamente os falsos positivos que os níveis 2 e 3
+# aceitavam. A autonomia foi usada para reconhecer ausência, não para
+# preencher lacunas com códigos plausíveis.
+
+USAR_LLM_FALLBACK = os.getenv("USAR_LLM_FALLBACK", "true").lower() == "true"
+
+# Teto subido de 4 para 6 após a primeira rodada: 'cultura de ferida'
+# esbarrou no limite ainda progredindo (na 3ª volta já tinha achado
+# candidatos plausíveis e ia refinar). O teto existe para garantir
+# terminação e conter custo, não para interromper raciocínio em andamento.
+NIVEL4_MAX_TENTATIVAS = int(os.getenv("SIGTAP_NIVEL4_MAX_TENTATIVAS", "6"))
+NIVEL4_MAX_CANDIDATOS = int(os.getenv("SIGTAP_NIVEL4_MAX_CANDIDATOS", "5"))
+
+_llm_nivel4 = None
+
+
+def _criar_llm_nivel4():
+    """
+    Cria o modelo usado pelo agente do nível 4, lendo as MESMAS variáveis de
+    ambiente do pipeline (PROVEDOR_LLM, PROVEDOR_API, MODELO_API,
+    MODELO_LOCAL). Como o servidor MCP roda como subprocesso do pipeline, ele
+    herda o ambiente -- então a escolha feita no menu do main.py vale aqui
+    também, e o experimento de comparação entre modelos cobre este nível.
+    """
+    global _llm_nivel4
+    if _llm_nivel4 is not None:
+        return _llm_nivel4
+
+    provedor = os.getenv("PROVEDOR_LLM", "local").strip().lower()
+
+    if provedor == "api":
+        provedor_api = os.getenv("PROVEDOR_API", "").strip().lower()
+        modelo = os.getenv("MODELO_API", "")
+        _log(f"[NIVEL4] Agente usando API ({provedor_api}): {modelo}")
+
+        if provedor_api == "openai":
+            from langchain_openai import ChatOpenAI
+            _llm_nivel4 = ChatOpenAI(model=modelo, temperature=0)
+        elif provedor_api == "google":
+            from langchain_google_genai import ChatGoogleGenerativeAI
+            _llm_nivel4 = ChatGoogleGenerativeAI(model=modelo, temperature=0)
+        elif provedor_api == "anthropic":
+            from langchain_anthropic import ChatAnthropic
+            _llm_nivel4 = ChatAnthropic(model=modelo, temperature=0)
+        elif provedor_api == "groq":
+            # A Groq expõe API compatível com a da OpenAI.
+            from langchain_openai import ChatOpenAI
+            _llm_nivel4 = ChatOpenAI(
+                model=modelo, temperature=0,
+                api_key=os.getenv("GROQ_API_KEY", ""),
+                base_url="https://api.groq.com/openai/v1",
+            )
+        else:
+            raise ValueError(f"PROVEDOR_API não suportado: '{provedor_api}'")
+    else:
+        from langchain_ollama import ChatOllama
+        modelo = os.getenv("MODELO_LOCAL", "llama3.2")
+        _log(f"[NIVEL4] Agente usando modelo LOCAL via Ollama: {modelo}")
+        _llm_nivel4 = ChatOllama(model=modelo, temperature=0)
+
+    return _llm_nivel4
+
+
+_NIVEL4_SISTEMA = """Você é um especialista em faturamento hospitalar do SUS.
+
+Um termo clínico foi extraído de um prontuário e NÃO foi encontrado na tabela
+SIGTAP pelas buscas automáticas. Sua tarefa é descobrir se existe um
+procedimento SIGTAP correspondente, propondo termos de busca alternativos.
+
+CONTEXTO IMPORTANTE: o prontuário usa linguagem clínica e o SIGTAP usa
+linguagem administrativa. Exemplos reais dessa diferença:
+- "raio-x de tórax" no SIGTAP é "RADIOGRAFIA DE TORAX"
+- "CK-MB" no SIGTAP é "DOSAGEM DE CREATINOFOSFOQUINASE FRACAO MB"
+- exames laboratoriais costumam começar com "DOSAGEM DE" ou "PESQUISA DE"
+
+A BUSCA IGNORA MAIÚSCULAS, ACENTOS E HÍFENS. Propor o mesmo termo com outra
+grafia, em caixa alta ou sem hífen NÃO muda nada e desperdiça uma tentativa.
+Para mudar o resultado, mude as PALAVRAS: use o sinônimo administrativo, o
+nome técnico do analito, ou o termo mais amplo da família do procedimento.
+
+IGUALMENTE IMPORTANTE: muitos itens do prontuário simplesmente NÃO TÊM código
+próprio no SIGTAP. Medicamentos de uso hospitalar rotineiro, insumos
+descartáveis e atos incluídos em outro procedimento não são faturáveis
+separadamente. Nesses casos, a resposta CORRETA é desistir. Não force uma
+correspondência: um código errado gera glosa, uma lacuna sinalizada não.
+
+A cada rodada, responda APENAS com um JSON, sem texto fora dele e sem blocos
+de código markdown. Use uma destas três formas:
+
+{"acao": "buscar", "termo": "termo alternativo a buscar", "motivo": "por quê"}
+{"acao": "aceitar", "indice": N, "motivo": "por quê este é o mesmo ato clínico"}
+{"acao": "desistir", "motivo": "por que não existe código correspondente"}
+
+REGRAS:
+- "aceitar" só é permitido para um índice da lista de candidatos que acabei
+  de mostrar. NUNCA invente códigos ou índices fora da lista.
+- Só aceite se for efetivamente o MESMO exame/procedimento. Compartilhar uma
+  palavra, ser da mesma área do corpo ou ter grafia parecida NÃO basta.
+  Atenção a diferenças de material biológico (sangue x urina), de via de
+  administração e de forma farmacêutica.
+- Na dúvida, prefira desistir."""
+
+
+def _extrair_json_llm(texto: str) -> dict | None:
+    """
+    Extrai o JSON da resposta do modelo, tolerando blocos markdown e texto
+    em volta. Devolve None se não for possível interpretar -- e no ciclo do
+    agente, None significa desistir (nunca chutar).
+    """
+    bruto = (texto or "").strip()
+    if bruto.startswith("```"):
+        bruto = re.sub(r"^```[a-zA-Z]*\n?", "", bruto)
+        bruto = re.sub(r"\n?```$", "", bruto).strip()
+
+    try:
+        dados = json.loads(bruto)
+        return dados if isinstance(dados, dict) else None
+    except json.JSONDecodeError:
+        pass
+
+    # Alguns modelos escrevem uma frase antes do JSON; tenta o primeiro
+    # objeto que aparecer no texto.
+    m = re.search(r"\{.*\}", bruto, re.DOTALL)
+    if m:
+        try:
+            dados = json.loads(m.group(0))
+            return dados if isinstance(dados, dict) else None
+        except json.JSONDecodeError:
+            return None
+    return None
+
+
+def _indice_valido(valor, tamanho: int) -> int | None:
+    """
+    Converte o índice devolvido pelo modelo, aceitando inteiro ou string
+    numérica ("0" além de 0) -- alguns modelos entregam o número entre
+    aspas, e recusar por causa disso descartaria uma escolha válida.
+    Devolve None quando não é um índice utilizável da lista.
+    """
+    if isinstance(valor, bool):
+        return None
+    if isinstance(valor, int):
+        indice = valor
+    elif isinstance(valor, str) and valor.strip().isdigit():
+        indice = int(valor.strip())
+    else:
+        return None
+    return indice if 0 <= indice < tamanho else None
+
+
+def _fallback_llm_agente(
+    termo: str, categoria: str, candidatos_base: pd.DataFrame
+) -> tuple[pd.DataFrame, int] | None:
+    """
+    Nível 4: ciclo agêntico de resgate de termos sem correspondência.
+
+    Fluxo de cada volta:
+      1. O modelo propõe um termo de busca (ou desiste).
+      2. O CÓDIGO executa esse termo nos níveis determinísticos 1 a 3,
+         dentro do recorte da categoria -- ou seja, a proposta do modelo é
+         validada contra a tabela real, não aceita de véu.
+      3. O resultado (até NIVEL4_MAX_CANDIDATOS descrições reais) VOLTA para
+         o modelo, que decide a próxima ação vendo o que de fato existe.
+
+    MEMÓRIA DE TENTATIVAS: o ciclo guarda os termos já buscados (na forma
+    normalizada) e avisa o modelo quando ele repete um. Na primeira rodada,
+    metade dos ciclos gastou a volta inicial rebuscando o termo original com
+    outra grafia ('midazolam' -> 'midazolam', 'fentanil' -> 'FENTANIL'),
+    porque o modelo não sabia o que já havia sido tentado. Repetições agora
+    não consomem busca e são respondidas na hora.
+
+    Retorna (linha_do_dataframe, numero_de_tentativas) ou None se o agente
+    desistiu, estourou o teto ou algo falhou.
+    """
+    try:
+        llm = _criar_llm_nivel4()
+    except Exception as e:
+        _log(f"[NIVEL4] Não foi possível criar o modelo ({type(e).__name__}: {e}) "
+             f"— nível 4 pulado.")
+        return None
+
+    termo_norm_original = _normalizar(termo).strip()
+    tentados: set[str] = {termo_norm_original}
+
+    _log(f"[NIVEL4] ===== Iniciando ciclo para '{termo}' "
+         f"(categoria={categoria or 'não informada'}, "
+         f"teto de {NIVEL4_MAX_TENTATIVAS} tentativas) =====")
+
+    historico = [
+        SystemMessage(content=_NIVEL4_SISTEMA),
+        HumanMessage(content=(
+            f'Termo do prontuário: "{termo}"\n'
+            f'Categoria: {categoria or "não informada"}\n'
+            f'Espaço de busca: {len(candidatos_base)} procedimentos do SIGTAP '
+            f'compatíveis com essa categoria.\n\n'
+            f'JÁ FOI TENTADO, sem resultado: "{termo_norm_original}" — nas '
+            f'buscas exata, parcial, semântica e por similaridade. Repetir '
+            f'esse mesmo termo (mesmo em caixa alta, com acento ou sem hífen) '
+            f'daria exatamente o mesmo resultado.\n\n'
+            f'Proponha um termo com PALAVRAS DIFERENTES, ou desista se '
+            f'entender que não existe código próprio no SIGTAP para isso.'
+        )),
+    ]
+
+    ultima_lista: pd.DataFrame | None = None
+
+    for tentativa in range(1, NIVEL4_MAX_TENTATIVAS + 1):
+        try:
+            resposta = llm.invoke(historico)
+        except Exception as e:
+            _log(f"[NIVEL4] Falha ao chamar o modelo ({type(e).__name__}: {e}) "
+                 f"— encerrando ciclo.")
+            return None
+
+        conteudo = getattr(resposta, "content", "") or ""
+        decisao = _extrair_json_llm(conteudo)
+
+        if not decisao:
+            _log(f"[NIVEL4] Tentativa {tentativa}: resposta não interpretável "
+                 f"como JSON — desistindo. Resposta: {conteudo[:120]!r}")
+            return None
+
+        acao = str(decisao.get("acao", "")).strip().lower()
+        motivo = str(decisao.get("motivo", ""))[:160]
+
+        # ── Ação: desistir ────────────────────────────────────────────────
+        if acao == "desistir":
+            _log(f"[NIVEL4] Tentativa {tentativa}: DESISTIR — {motivo}")
+            _log(f"[NIVEL4] ===== Ciclo de '{termo}' encerrado sem "
+                 f"correspondência ({tentativa} tentativa(s)) =====")
+            return None
+
+        # ── Ação: aceitar um candidato mostrado na rodada anterior ────────
+        if acao == "aceitar":
+            if ultima_lista is None or ultima_lista.empty:
+                _log(f"[NIVEL4] Tentativa {tentativa}: tentou ACEITAR sem "
+                     f"lista de candidatos — desistindo.")
+                return None
+
+            indice = _indice_valido(decisao.get("indice"), len(ultima_lista))
+            if indice is None:
+                _log(f"[NIVEL4] Tentativa {tentativa}: índice inválido "
+                     f"({decisao.get('indice')!r}) — desistindo.")
+                return None
+
+            escolhido = ultima_lista.iloc[[indice]]
+            _log(f"[NIVEL4] Tentativa {tentativa}: ACEITAR índice {indice} -> "
+                 f"{escolhido.iloc[0]['descricao'][:60]} "
+                 f"({escolhido.iloc[0]['codigo']}) — {motivo}")
+            _log(f"[NIVEL4] ===== Ciclo de '{termo}' resolvido em "
+                 f"{tentativa} tentativa(s) =====")
+            return escolhido, tentativa
+
+        # ── Ação: buscar um termo alternativo ─────────────────────────────
+        if acao != "buscar":
+            _log(f"[NIVEL4] Tentativa {tentativa}: ação desconhecida "
+                 f"({acao!r}) — desistindo.")
+            return None
+
+        termo_sugerido = str(decisao.get("termo", "")).strip()
+        if not termo_sugerido:
+            _log(f"[NIVEL4] Tentativa {tentativa}: BUSCAR sem termo — desistindo.")
+            return None
+
+        termo_sugerido_norm = _normalizar(termo_sugerido).strip()
+
+        # Repetição de um termo já tentado: responde na hora, sem gastar
+        # busca. A normalização é a mesma que a busca aplica, então dois
+        # termos com a mesma forma normalizada dariam resultados idênticos.
+        if termo_sugerido_norm in tentados:
+            _log(f"[NIVEL4] Tentativa {tentativa}: BUSCAR '{termo_sugerido}' "
+                 f"— JÁ TENTADO, avisando o modelo sem repetir a busca.")
+            historico.append(AIMessage(content=conteudo))
+            historico.append(HumanMessage(content=(
+                f'O termo "{termo_sugerido}" já foi tentado nesta sessão e '
+                f'tem a mesma forma normalizada de uma busca anterior — a '
+                f'busca ignora maiúsculas, acentos e hífens, então o '
+                f'resultado seria idêntico.\n\n'
+                f'Já tentados: {", ".join(sorted(tentados))}\n\n'
+                f'Proponha um termo com palavras DIFERENTES, ou desista.'
+            )))
+            continue
+
+        tentados.add(termo_sugerido_norm)
+        _log(f"[NIVEL4] Tentativa {tentativa}: BUSCAR '{termo_sugerido}' — {motivo}")
+
+        # O código executa a proposta do modelo contra a tabela real.
+        resultados, nivel_interno, _ = _buscar_niveis_texto(
+            termo_sugerido_norm, candidatos_base
+        )
+
+        if resultados.empty:
+            ultima_lista = None
+            _log(f"[NIVEL4]   -> nada encontrado para '{termo_sugerido}'")
+            observacao = (
+                f'A busca por "{termo_sugerido}" não encontrou nenhum '
+                f'procedimento no SIGTAP.\n\n'
+                f'Já tentados: {", ".join(sorted(tentados))}\n\n'
+                f'Quer tentar outro termo (com palavras diferentes) ou desistir?'
+            )
+        else:
+            ultima_lista = resultados.head(NIVEL4_MAX_CANDIDATOS).reset_index(drop=True)
+            linhas = "\n".join(
+                f"{i}: {row['descricao']}"
+                for i, row in ultima_lista.iterrows()
+            )
+            _log(f"[NIVEL4]   -> {len(ultima_lista)} candidato(s) via "
+                 f"{nivel_interno}: {ultima_lista.iloc[0]['descricao'][:60]}")
+            observacao = (
+                f'A busca por "{termo_sugerido}" encontrou estes procedimentos '
+                f'reais do SIGTAP:\n\n{linhas}\n\n'
+                f'Algum deles é o MESMO ato clínico que "{termo}"? '
+                f'Se sim, aceite pelo índice. Se não, tente outro termo ou '
+                f'desista.\n\n'
+                f'Já tentados: {", ".join(sorted(tentados))}'
+            )
+
+        historico.append(AIMessage(content=conteudo))
+        historico.append(HumanMessage(content=observacao))
+
+    _log(f"[NIVEL4] ===== Teto de {NIVEL4_MAX_TENTATIVAS} tentativas atingido "
+         f"para '{termo}' sem conclusão =====")
+    return None
 
 
 def _buscar_com_nivel(
@@ -708,6 +1047,7 @@ def _buscar_com_nivel(
       "nivel2"           -> parcial ponderada por IDF
       "nivel_semantico"  -> significado via embeddings, limiar alto
       "nivel3"           -> fuzzy (limiar alto)
+      "nivel4"           -> ciclo agêntico de resgate (confiança baixa)
       "vazio"            -> nenhuma correspondência
     """
     tabela = _get_tabela()
@@ -719,9 +1059,10 @@ def _buscar_com_nivel(
     termo_norm = _resolver_chave_dicionario(termo_norm, sinonimos, nao_faturavel)
 
     # ── Não faturável: o termo existe no prontuário mas não tem código
-    # próprio no SIGTAP (embutido em outro procedimento, ou fora do escopo do
-    # grupo). Retorna vazio com nível PRÓPRIO, para o relatório distinguir
-    # "não encontrado" (revisar) de "não faturável separadamente" (normal).
+    # próprio no SIGTAP. Retorna vazio com nível PRÓPRIO, para o relatório
+    # distinguir "não encontrado" (revisar) de "não faturável" (normal).
+    # Tem precedência sobre TUDO, inclusive sobre o agente do nível 4: é
+    # curadoria humana e não deve ser reaberta por um modelo.
     if termo_norm in nao_faturavel:
         _log(f"[NIVEL0] '{termo}' marcado como não faturável separadamente "
              f"({nao_faturavel[termo_norm]}).")
@@ -731,11 +1072,7 @@ def _buscar_com_nivel(
     # no recorte da categoria. O dicionário é curadoria humana e vale mais
     # que a categoria inferida pelo NER, que erra: "sondagem vesical de
     # demora" foi classificada como MATERIAL (grupo 07), mas o procedimento
-    # correspondente, CATETERISMO VESICAL DE DEMORA, está no grupo 03 -- o
-    # alvo curado nunca era alcançado e o termo caía como "sem resultado".
-    # Cada alvo é buscado no SIGTAP real (nunca é código fixo), e vários
-    # alvos significam um PAINEL: "coagulograma" corresponde a mais de um
-    # código faturável.
+    # correspondente está no grupo 03. Vários alvos significam um PAINEL.
     if termo_norm in sinonimos:
         alvos = sinonimos[termo_norm]
         _log(f"[NIVEL0] '{termo}' -> {alvos}")
@@ -759,8 +1096,23 @@ def _buscar_com_nivel(
     if nivel != "vazio":
         return resultados, nivel, score
 
-    # Nada no grupo correto. Por padrão NÃO reabrimos a busca: uma lacuna
-    # sinalizada é preferível a um código de grupo errado.
+    # ── Nível 4 — ciclo agêntico. Só chega aqui o que TODOS os níveis
+    # determinísticos deixaram passar, então o custo fica contido na fração
+    # de termos realmente difíceis.
+    if USAR_LLM_FALLBACK and not candidatos.empty:
+        try:
+            resultado_agente = _fallback_llm_agente(termo, categoria, candidatos)
+            if resultado_agente is not None:
+                linha, tentativas = resultado_agente
+                # score guarda o número de tentativas do ciclo, útil para
+                # analisar depois quanto esforço o agente gastou por termo.
+                return linha, "nivel4", float(tentativas)
+        except Exception as e:
+            _log(f"[NIVEL4] Erro inesperado no ciclo ({type(e).__name__}: {e}) "
+                 f"— tratando como sem correspondência.")
+
+    # Nada encontrado. Por padrão NÃO reabrimos a busca sem o filtro de
+    # grupo: uma lacuna sinalizada é preferível a um código de grupo errado.
     if RETENTAR_SEM_FILTRO and categoria:
         _log(f"[SIGTAP] '{termo}' sem correspondência no grupo — retentando "
              f"sem filtro (confiança baixa).")
@@ -798,87 +1150,6 @@ def _registrar_termo_nao_encontrado(termo: str) -> None:
         pass
 
 
-def _etapa_escolha(termo: str, candidatos: pd.DataFrame) -> int | None:
-    """Etapa 1 do nível 4: o LLM escolhe o índice do melhor candidato (ou null)."""
-    lista = "\n".join(f"{i}: {row['descricao']}" for i, row in candidatos.iterrows())
-    prompt = f"""Você é um especialista em faturamento hospitalar brasileiro (tabela SIGTAP).
-
-Um termo clínico foi extraído de um prontuário: "{termo}"
-
-Abaixo está uma lista de procedimentos SIGTAP candidatos (numerados). Escolha
-o ÍNDICE do procedimento que melhor corresponde clinicamente ao termo, ou null
-se nenhum corresponder.
-
-Responda APENAS com um JSON no formato exato: {{"indice": N ou null}}
-- NUNCA invente um índice fora da lista.
-- NUNCA inclua texto fora do JSON.
-
-Candidatos:
-{lista}
-"""
-    llm = ChatOllama(model=MODELO_LLM_FALLBACK, temperature=0)
-    conteudo = llm.invoke(prompt).content.strip()
-    if conteudo.startswith("```"):
-        conteudo = conteudo.strip("`").replace("json", "", 1).strip()
-
-    indice = json.loads(conteudo).get("indice")
-    if not isinstance(indice, int) or indice < 0 or indice >= len(candidatos):
-        return None
-    return indice
-
-
-def _etapa_verificacao(termo: str, descricao_candidato: str) -> bool:
-    """
-    Etapa 2 do nível 4: verifica de forma ISOLADA e binária se o candidato é
-    o mesmo ato clínico. Julgar sozinho tende a dar respostas mais precisas
-    em modelos pequenos do que pedir auto-avaliação dentro de uma lista.
-    """
-    prompt = f"""Você é um auditor de faturamento hospitalar (tabela SIGTAP).
-
-Termo clínico extraído de um prontuário: "{termo}"
-Procedimento SIGTAP candidato: "{descricao_candidato}"
-
-Pergunta: esses dois se referem ao MESMO ato clínico, de modo que um auditor
-aceitaria este procedimento SIGTAP como correspondente a este termo?
-
-Considere que compartilhar uma palavra ou ser da mesma área do corpo NÃO basta
--- precisa ser efetivamente o mesmo procedimento/exame. Na dúvida, responda NÃO.
-
-Responda APENAS com uma única palavra: SIM ou NÃO."""
-    llm = ChatOllama(model=MODELO_LLM_FALLBACK, temperature=0)
-    conteudo = llm.invoke(prompt).content.strip().upper()
-    return _normalizar(conteudo).strip().strip(".!,").upper().startswith("SIM")
-
-
-def _fallback_llm(termo: str, termo_norm: str, tabela: pd.DataFrame) -> pd.DataFrame | None:
-    """
-    Nível 4 (DESATIVADO): correspondência via LLM em duas etapas. Em testes
-    com llama3.2 local mostrou julgamento clínico instável -- ora aceitava
-    correspondências erradas, ora rejeitava corretas. Mantido para reativação
-    futura com modelos mais capazes.
-    """
-    scores = tabela["descricao_norm"].apply(
-        lambda desc: fuzz.token_set_ratio(termo_norm, desc)
-    )
-    candidatos = tabela[scores >= 50].copy()
-    if candidatos.empty:
-        return None
-
-    candidatos["_score"] = scores[scores >= 50]
-    candidatos = candidatos.sort_values("_score", ascending=False).head(30)
-    candidatos = candidatos.reset_index(drop=True)
-
-    try:
-        indice = _etapa_escolha(termo, candidatos)
-        if indice is None:
-            return None
-        if not _etapa_verificacao(termo, candidatos.iloc[indice]["descricao"]):
-            return None
-        return candidatos.iloc[[indice]]
-    except Exception:
-        return None  # Ollama fora do ar, JSON malformado etc.
-
-
 # ── Ferramentas MCP ────────────────────────────────────────────────────────
 
 @mcp.tool()
@@ -896,9 +1167,9 @@ def buscar_procedimento(termo: str, categoria: str = "") -> list[dict]:
         Lista de até 3 procedimentos com codigo, descricao, grupo, valores em
         reais (vl_sh, vl_sa, vl_sp, vl_total), o nível que os encontrou, o
         score e a confiança. Quando o termo é um painel (nivel0 com vários
-        alvos), todos os itens vêm marcados com painel=True e são faturáveis
-        em conjunto. Quando o termo não tem código próprio no SIGTAP, retorna
-        um único marcador com nivel='nao_faturavel'.
+        alvos), todos os itens vêm marcados com painel=True. Quando o termo
+        não tem código próprio no SIGTAP, retorna um único marcador com
+        nivel='nao_faturavel'.
     """
     t0 = time.time()
     resultados, nivel, score = _buscar_com_nivel(termo, categoria)
@@ -925,6 +1196,10 @@ def buscar_procedimento(termo: str, categoria: str = "") -> list[dict]:
         r["score"] = round(score, 3)
         r["confianca"] = confianca
         r["painel"] = painel
+        # No nível 4, o score é o número de voltas que o agente deu até
+        # concluir -- registrado para análise do esforço por termo.
+        if nivel == "nivel4":
+            r["tentativas_agente"] = int(score)
     return registros
 
 
@@ -951,9 +1226,11 @@ def buscar_por_codigo(codigo: str) -> dict | None:
 
 if __name__ == "__main__":
     _log("[SIGTAP] Iniciando servidor MCP...")
-    # Aquecimento SÍNCRONO e COMPLETO (inclui carregar o modelo e fazer um
-    # encode de teste): nenhuma busca chega antes de tudo estar pronto.
-    # Ver _aquecer() para o histórico das duas tentativas anteriores.
+    # Aquecimento SÍNCRONO e COMPLETO (inclui carregar o modelo de embeddings
+    # e fazer um encode de teste): nenhuma busca chega antes de tudo pronto.
     _aquecer()
+    _log(f"[SIGTAP] Nível 4 (agente): "
+         f"{'ATIVO' if USAR_LLM_FALLBACK else 'desativado'}, "
+         f"teto de {NIVEL4_MAX_TENTATIVAS} tentativas por termo.")
     _log("[SIGTAP] Pronto, aguardando conexão via stdio...")
     mcp.run(transport="stdio")
