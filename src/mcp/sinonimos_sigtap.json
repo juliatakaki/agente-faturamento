@@ -20,25 +20,24 @@
     "REGRA DE OURO PARA OS ALVOS: o alvo precisa ser ESPECÍFICO o bastante",
     "para identificar UM procedimento. Alvos genéricos resolvem para o",
     "primeiro específico que aparecer na tabela -- na validação, 'radiografia'",
-    "caiu em RADIOGRAFIA DE LARINGE, 'ultrassonografia' em ULTRASSONOGRAFIA DE",
-    "TIREOIDE e 'atendimento fisioterapeutico' em ATENDIMENTO FISIOTERAPÊUTICO",
-    "EM PACIENTE NEONATO. Um código de fisioterapia neonatal num adulto de UTI",
-    "é justamente o tipo de erro que gera glosa. Por isso termos genéricos",
-    "('raio-x' sem região, 'ultrassom' sem órgão) NÃO entram aqui: é melhor",
-    "que sigam para revisão manual do que receberem um código plausível e",
-    "errado.",
+    "caiu em RADIOGRAFIA DE LARINGE e 'ultrassonografia' em ULTRASSONOGRAFIA",
+    "DE TIREOIDE. Por isso termos genéricos não entram aqui: é melhor que",
+    "sigam para revisão manual do que recebam um código plausível e errado.",
     "",
-    "SEMPRE rode 'python validar_sinonimos.py' depois de editar. Atenção: o",
-    "validador confirma que o alvo RESOLVE, não que resolve CERTO -- conferir",
-    "a coluna do procedimento retornado faz parte da curadoria.",
+    "FERRAMENTAS (rode as duas depois de editar):",
+    "  validar_sinonimos.py      -- confere se cada alvo resolve no SIGTAP",
+    "  auditar_nao_faturaveis.py -- procura na tabela indícios de que uma",
+    "                               marcação de 'não faturável' está errada",
     "",
-    "STATUS: entradas construídas a partir dos erros observados nos testes com",
-    "os 10 prontuários sintéticos. NÃO é exaustivo e PRECISA de validação com",
-    "o setor de faturamento do HUB antes de qualquer uso real."
+    "STATUS DE VALIDAÇÃO: nenhuma entrada deste arquivo foi validada pelo",
+    "setor de faturamento do HUB até o momento. O campo '_status' de cada",
+    "seção registra isso, e o relatório apresenta as marcações como",
+    "pendentes de validação, não como fato."
   ],
 
   "sinonimos": {
     "_comentario": "Termo do prontuário -> um ou mais termos de busca no SIGTAP. Um único alvo é tradução de sinônimo; vários alvos significam que o termo clínico é um PAINEL que corresponde a mais de um código faturável.",
+    "_status": "inferido_pendente_validacao",
 
     "raio x de torax": ["radiografia de torax"],
     "rx de torax": ["radiografia de torax"],
@@ -86,11 +85,31 @@
     "sonda vesical de demora": ["cateterismo vesical de demora"],
     "sondagem vesical de demora": ["cateterismo vesical de demora"],
     "sonda vesical de alivio": ["cateterismo vesical de alivio"],
-    "sondagem vesical de alivio": ["cateterismo vesical de alivio"]
+    "sondagem vesical de alivio": ["cateterismo vesical de alivio"],
+
+    "_corrigidos_pela_auditoria": "As três entradas abaixo estavam na lista 'nao_faturavel' por INFERÊNCIA e a auditoria mostrou que existem no SIGTAP. Ver o histórico em _auditoria_agosto_2026.",
+
+    "cateter de swan ganz": ["cateter de termodiluicao"],
+    "cateter de swan-ganz": ["cateter de termodiluicao"],
+    "sedoanalgesia": ["sedacao"]
+  },
+
+  "_auditoria_agosto_2026": {
+    "_comentario": "Registro do que a auditoria (auditar_nao_faturaveis.py) encontrou. Mantido no arquivo porque é um resultado do trabalho, não apenas um bug corrigido: mostra o risco de marcar itens como não faturáveis por inferência.",
+
+    "cateter de swan ganz": "ERRO CORRIGIDO. Estava marcado como descartável não faturável. Swan-Ganz é o nome do inventor do cateter de termodiluição, que existe no SIGTAP: CATETER DE TERMODILUICAO (07.02.05.006-7), CATETER DE TERMODILUICAO CONTINUA (07.02.05.007-5) e INSTALAÇÃO DE CATETER DE TERMODILUIÇÃO (04.06.01.072-2). Movido para 'sinonimos'. CONFERIR com o faturamento se o correto é o material (g07), o procedimento de instalação (g04) ou ambos.",
+
+    "sedoanalgesia": "ERRO CORRIGIDO. Estava marcado como 'ato incluído no procedimento anestésico', o que era suposição sobre regra de faturamento do SUS. Existe SEDACAO (04.17.01.006-0). Movido para 'sinonimos'. CONFERIR se sedação contínua em UTI é faturável ou se o código se aplica só a procedimento pontual.",
+
+    "cateter nasal de oxigenio": "PARCIALMENTE CORRETO, MAS INCOMPLETO. O cateter em si provavelmente não é faturável, mas existe OXIGENOTERAPIA POR DIA (03.01.10.014-4), que é o procedimento associado e pode representar receita não faturada. Mantido em 'nao_faturavel' porque o termo do prontuário designa o insumo, mas PRECISA de decisão do faturamento sobre registrar a oxigenoterapia à parte.",
+
+    "falsos_alarmes": "Oito marcações apareceram na auditoria por coincidência de substring e foram mantidas: 'reposicao volemica' casou com REPOSIÇÃO DE APARELHO AUDITIVO; 'dreno abdominal' com aDRENOcorticotrófico; 'monitor cardiaco' com TELEMONITORAMENTO EM REABILITAÇÃO VISUAL; 'bicarbonato de sodio' e 'cloreto de potassio' com os EXAMES que dosam essas substâncias; 'intubacao orotraqueal' com próteses traqueais; 'drenos mediastinais' com cirurgias do mediastino.",
+
+    "sem_indicio": "Doze termos não têm nenhum procedimento com nome semelhante na tabela, mesmo buscando sinônimos farmacológicos (adrenalina/epinefrina, noradrenalina/norepinefrina): adrenalina, noradrenalina, heparina, protamina, vancomicina, manitol, oseltamivir, azitromicina, sulfadiazina de prata, solucao salina, mascara facial total, sonda nasoenteral. Ausência de nome semelhante NÃO prova que não sejam faturáveis por outra via."
   },
 
   "_revisar_alvo_generico": {
-    "_comentario": "Entradas REMOVIDAS do dicionário ativo porque o alvo era genérico demais e resolvia para um procedimento específico arbitrário (ver REGRA DE OURO acima). Ficam registradas aqui para não se perderem: se você descobrir, com o setor de faturamento, qual é o código correto em cada contexto, reescreva a entrada com o alvo específico e mova de volta para 'sinonimos'. Enquanto isso, esses termos vão para revisão manual, que é a resposta honesta.",
+    "_comentario": "Entradas REMOVIDAS do dicionário ativo porque o alvo era genérico demais e resolvia para um procedimento específico arbitrário (ver REGRA DE OURO acima). Ficam registradas aqui para não se perderem: se o setor de faturamento indicar qual é o código correto em cada contexto, reescreva a entrada com o alvo específico e mova de volta para 'sinonimos'.",
 
     "raio x": "resolvia para RADIOGRAFIA DE LARINGE — depende da região anatômica",
     "ultrassom": "resolvia para ULTRASSONOGRAFIA DE TIREOIDE — depende do órgão",
@@ -102,7 +121,11 @@
   },
 
   "nao_faturavel": {
-    "_comentario": "Termos que existem no prontuário mas NÃO têm código próprio no SIGTAP -- ou porque estão embutidos em outro procedimento/diária (intubação e sedação fazem parte do ato anestésico), ou porque o grupo correspondente não cobre aquele tipo de item (o grupo 06 traz apenas medicamentos do Componente Especializado, não os de uso hospitalar rotineiro; o grupo 07 traz OPME, não descartáveis). Marcar aqui evita que a busca force um código errado E distingue, no relatório, 'não encontrado' (revisar) de 'não faturável separadamente' (informação normal). CADA ENTRADA PRECISA SER CONFIRMADA PELO SETOR DE FATURAMENTO DO HUB.",
+    "_comentario": "Termos que, PELO QUE SE APUROU ATÉ AQUI, não têm código próprio no SIGTAP -- por estarem embutidos em outro procedimento/diária, ou porque o grupo correspondente não cobre aquele tipo de item (o grupo 06 traz medicamentos do Componente Especializado, não os de uso hospitalar rotineiro; o grupo 07 traz OPME, não descartáveis). Marcar aqui evita que a busca force um código errado E distingue, no relatório, 'não encontrado' (revisar) de 'não faturável separadamente'.",
+
+    "_status": "inferido_pendente_validacao",
+
+    "_alerta": "ESTA LISTA TEM PRECEDÊNCIA SOBRE TODA A BUSCA: um termo marcado aqui NUNCA chega ao SIGTAP. Uma entrada errada, portanto, não apenas informa errado -- ela impede ativamente que o código seja encontrado, e o hospital deixa de cobrar. Foi o que aconteceu com 'sedoanalgesia' e 'cateter de swan ganz' até a auditoria de agosto/2026. NENHUMA entrada abaixo foi validada pelo setor de faturamento do HUB. Levar a lista inteira para validação antes de qualquer uso com dados reais.",
 
     "medicamentos_uso_hospitalar": [
       "heparina",
@@ -121,14 +144,12 @@
 
     "procedimentos_embutidos": [
       "intubacao orotraqueal",
-      "sedoanalgesia",
       "monitor cardiaco",
       "monitorizacao cardiaca",
       "reposicao volemica"
     ],
 
     "materiais_descartaveis": [
-      "cateter de swan ganz",
       "cateter nasal de oxigenio",
       "sonda nasoenteral",
       "dreno abdominal",
