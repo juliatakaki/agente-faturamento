@@ -1,0 +1,50 @@
+[
+  {
+    "id": "VAL001",
+    "_especialidade": "Obstetrícia",
+    "_armadilhas": "Especialidade ausente do conjunto de calibração. Abreviações: US, BCF. Termos com sinônimo administrativo distinto (parto cesáreo / cesariana).",
+    "texto": "Gestante, 28 anos, 39 semanas, admitida em trabalho de parto. Realizado US obstétrico à admissão com BCF presente. Optado por parto cesáreo por desproporção céfalo-pélvica. Realizada anestesia raquidiana. Cesariana sem intercorrências, recém-nascido com Apgar 9/10. Administrada ocitocina no pós-parto imediato. Coletado hemograma de controle e tipagem sanguínea. Realizada laqueadura tubária a pedido, com consentimento prévio em prontuário."
+  },
+  {
+    "id": "VAL002",
+    "_especialidade": "Ortopedia",
+    "_armadilhas": "Especialidade ausente. Abreviações: RX, TC. Materiais de síntese óssea (grupo 07) que não aparecem no conjunto de calibração.",
+    "texto": "Paciente masculino, 34 anos, vítima de acidente motociclístico, com fratura exposta de fêmur direito. Realizado RX de fêmur em duas incidências e TC de bacia. Indicada osteossíntese de fêmur com haste intramedular bloqueada. Realizado desbridamento de ferida e lavagem cirúrgica. Administrada cefazolina profilática. Instalada tração esquelética transesquelética no pré-operatório. Transfusão de concentrado de hemácias por queda de hemoglobina."
+  },
+  {
+    "id": "VAL003",
+    "_especialidade": "Pediatria",
+    "_armadilhas": "Faixa etária ausente do conjunto de calibração — o SIGTAP separa vários procedimentos por idade. Abreviações: HMG, PCR, RX tx.",
+    "texto": "Lactente de 8 meses, internado por bronquiolite viral aguda. Coletado HMG e PCR. Realizado RX tx evidenciando hiperinsuflação. Iniciada oxigenoterapia por cateter nasal a 1 L/min. Realizada aspiração de vias aéreas superiores de forma intermitente. Fisioterapia respiratória pediátrica realizada duas vezes ao dia. Pesquisa de vírus sincicial respiratório em aspirado de nasofaringe positiva. Mantida hidratação venosa."
+  },
+  {
+    "id": "VAL004",
+    "_especialidade": "Oncologia",
+    "_armadilhas": "Quimioterápicos são faturados por protocolo (APAC), não por procedimento avulso — testa se o sistema força código indevido. Cateter totalmente implantável (port-a-cath) é OPME com nome administrativo distinto.",
+    "texto": "Paciente feminina, 52 anos, em tratamento de neoplasia de mama. Realizada implantação de cateter totalmente implantável para quimioterapia. Iniciado ciclo de doxorrubicina e ciclofosfamida conforme protocolo institucional. Coletados hemograma, função hepática e função renal previamente. Realizada mamografia bilateral de controle. Ecocardiograma solicitado para avaliação de fração de ejeção antes da antraciclina."
+  },
+  {
+    "id": "VAL005",
+    "_especialidade": "Emergência / politrauma",
+    "_armadilhas": "Abreviações densas, como em prontuário real: FAST, TC, ECG, GASO, U/C, TGO/TGP. Vários termos sem nenhuma entrada no dicionário.",
+    "texto": "Homem, 41 anos, trazido pelo SAMU após queda de altura. Realizado FAST à admissão, negativo para líquido livre. Solicitados GASO arterial, U/C, TGO/TGP e coagulograma. ECG sem alterações isquêmicas. Realizada TC de crânio, coluna cervical e abdome total. Puncionado acesso venoso periférico calibroso bilateral. Imobilização cervical mantida com colar. Sutura de laceração em couro cabeludo de aproximadamente 8 cm."
+  },
+  {
+    "id": "VAL006",
+    "_especialidade": "Clínica médica — evolução narrativa",
+    "_armadilhas": "TEMPORALIDADE E NEGAÇÃO. Contém itens SOLICITADOS mas não realizados, um exame CANCELADO e procedimentos PROGRAMADOS para depois. Um sistema que fatura tudo que é mencionado gera cobrança indevida aqui. Realizados de fato: apenas o hemograma completo e o curativo. Este é o prontuário mais importante do conjunto.",
+    "texto": "Paciente evoluiu estável nas últimas 24 horas. Solicitado ecocardiograma transtorácico, ainda não realizado por indisponibilidade de agenda. A tomografia de abdome programada para hoje foi cancelada em razão de creatinina elevada. Foi coletado hemograma completo, com resultado dentro da normalidade. Não foi realizada a endoscopia digestiva alta, adiada para após compensação clínica. Mantida antibioticoterapia. Colonoscopia programada para a próxima semana em regime ambulatorial. Realizado curativo em úlcera sacral."
+  },
+  {
+    "id": "VAL007",
+    "_especialidade": "Cardiologia intervencionista",
+    "_armadilhas": "Procedimentos de hemodinâmica com nomenclatura própria. Stent é OPME. 'Cateterismo' é ambíguo entre cardíaco e vesical — testa o filtro por grupo.",
+    "texto": "Paciente masculino, 63 anos, com angina instável. Realizado cateterismo cardíaco por via radial direita. Angioplastia coronariana transluminal percutânea com implante de stent farmacológico em descendente anterior. Utilizado balão de angioplastia e fio-guia. Administrado clopidogrel e ácido acetilsalicílico. Realizado ecocardiograma transtorácico pós-procedimento. Curva de troponina seriada coletada."
+  },
+  {
+    "id": "VAL008",
+    "_especialidade": "Nefrologia ambulatorial",
+    "_armadilhas": "Contexto ambulatorial, não hospitalar — muda o componente de valor (SA em vez de SH). Termos de sessão de diálise crônica, distintos da hemodiálise de urgência do conjunto de calibração.",
+    "texto": "Paciente em programa de hemodiálise crônica, comparece para sessão de rotina. Realizada sessão de hemodiálise de 4 horas por fístula arteriovenosa. Coletados ureia pré e pós-diálise, creatinina, potássio, cálcio e fósforo. Realizada dosagem de paratormônio trimestral. Administrada eritropoetina subcutânea e ferro endovenoso. Avaliada fístula arteriovenosa com ultrassonografia com Doppler."
+  }
+]

@@ -51,6 +51,50 @@ CATEGORIAS_BUSCAVEIS = {"PROCEDIMENTO", "EXAME", "MATERIAL", "MEDICAMENTO"}
 ORQUESTRACAO_POR_LLM = os.getenv("ORQUESTRACAO_POR_LLM", "false").lower() == "true"
 
 
+# ── Status de execução do item no prontuário ───────────────────────────────
+#
+# PROBLEMA QUE ISTO RESOLVE: prontuário registra tanto o que foi FEITO
+# quanto o que foi apenas cogitado -- solicitado e não realizado, cancelado,
+# adiado, programado para depois, suspenso. Só o que foi efetivamente
+# realizado é faturável.
+#
+# Até agosto/2026 o sistema não fazia essa distinção: extraía o termo e
+# faturava. Nos 10 prontuários sintéticos de calibração isso nunca apareceu,
+# porque tudo que era mencionado tinha sido realizado. No conjunto de
+# validação (VAL006), escrito de propósito com exames solicitados,
+# cancelados e programados, o sistema atribuiu código a um ecocardiograma
+# que não foi feito e a uma tomografia cancelada -- ou seja, cobrança
+# indevida, que em faturamento SUS significa glosa.
+#
+# A detecção é feita pelo EXTRATOR, não por uma etapa separada: quem lê o
+# texto é quem tem o contexto ("solicitado ecocardiograma, ainda não
+# realizado"). Uma verificação posterior, olhando só o termo isolado,
+# perderia essa informação.
+#
+# Itens não realizados NÃO são descartados: vão para uma lista própria no
+# relatório. O sistema mostra o que viu e classifica; não esconde. Isso
+# preserva a informação para o faturista (que pode saber que o exame
+# acabou sendo feito e não registrado) sem inflar o valor sugerido.
+STATUS_REALIZADO = "REALIZADO"
+STATUS_NAO_REALIZADO = "NAO_REALIZADO"
+
+# Marcadores textuais de que o item NÃO foi realizado. Usados como rede de
+# segurança sobre a classificação do LLM: se o modelo disser REALIZADO mas
+# o texto ao redor do termo contiver um destes, o item é rebaixado. A
+# assimetria é deliberada -- em faturamento, errar para menos custa receita,
+# errar para mais custa glosa e credibilidade.
+_MARCADORES_NAO_REALIZADO = (
+    "nao realizado", "nao realizada", "nao foi realizado", "nao foi realizada",
+    "nao realizou", "sem realizar",
+    "cancelado", "cancelada", "suspenso", "suspensa",
+    "adiado", "adiada", "postergado", "postergada",
+    "programado", "programada", "agendado", "agendada",
+    "solicitado", "solicitada", "aguarda", "aguardando",
+    "a realizar", "sera realizado", "sera realizada",
+    "previsto", "prevista", "indicado", "indicada",
+)
+
+
 # ── Tipos ──────────────────────────────────────────────────────────────────
 
 class EstadoPipeline(TypedDict):
@@ -60,7 +104,8 @@ class EstadoPipeline(TypedDict):
     entidades_refinadas: list[dict]    # saída do LLM (normalização)
     resultados_sigtap: list[dict]      # saída da consulta MCP
     termos_nao_encontrados: list[str]  # buscados sem correspondência (REVISAR)
-    termos_nao_faturaveis: list[str]   # sem código próprio no SIGTAP (normal)
+    termos_nao_faturaveis: list[str]   # sem código próprio no SIGTAP
+    termos_nao_realizados: list[dict]  # mencionados mas não executados
     entidades_descartadas: list[str]   # fora das categorias faturáveis
     relatorio: dict                    # relatório final
 
@@ -71,19 +116,11 @@ class EstadoPipeline(TypedDict):
 # pois "python3" não existe no Windows -- isso causava "Connection closed"
 # ao iniciar o subprocesso do servidor MCP.
 #
-# AMBIENTE EXPLÍCITO: as variáveis que definem o modelo (PROVEDOR_LLM,
-# PROVEDOR_API, MODELO_API, MODELO_LOCAL) são montadas na hora de abrir a
-# sessão e passadas ao subprocesso.
-#
-# POR QUE ISSO É NECESSÁRIO: o menu do main.py escreve a escolha em
-# os.environ do processo PAI. Variável de ambiente é copiada para o filho no
-# momento em que ele nasce -- e o servidor MCP lê essas variáveis para criar
-# o modelo do agente do nível 4. Sem passar explicitamente, o subprocesso
-# poderia herdar um ambiente diferente do escolhido no menu: em agosto/2026
-# isso fez o nível 4 rodar com Groq (do .env) enquanto o resto do pipeline
-# rodava com Gemini (do menu) -- e como o modelo Groq havia saído do
-# catálogo, os 11 ciclos do agente falharam com 404 sem que nada aparecesse
-# no terminal.
+# AMBIENTE EXPLÍCITO: as variáveis que definem o modelo são montadas na hora
+# de abrir a sessão e passadas ao subprocesso. O menu do main.py escreve a
+# escolha em os.environ do processo PAI, e variável de ambiente é copiada
+# para o filho no momento em que ele nasce -- sem passar explicitamente, o
+# subprocesso herdava um ambiente diferente do escolhido no menu.
 
 _VARS_MODELO = (
     "PROVEDOR_LLM", "PROVEDOR_API", "MODELO_API", "MODELO_LOCAL",
@@ -131,8 +168,6 @@ def _descrever_modelo_atual() -> str:
 # ferramenta -- um subprocesso NOVO do sigtap_server.py por busca. Como o
 # servidor carrega a tabela do Postgres (~10s) e o modelo de embeddings
 # (~20s) na inicialização, esse custo era pago de novo em toda busca.
-#
-# SOLUÇÃO: abrir UMA sessão e mantê-la viva durante todo o lote.
 #
 # IMPORTANTE: abrir e fechar na MESMA task. O LangGraph executa cada nó do
 # grafo numa task própria; abrir a sessão dentro de um nó e fechá-la em
@@ -209,13 +244,11 @@ def obter_ferramentas_mcp() -> list:
 #
 # O agente pode rodar com dois tipos de "cérebro":
 #   - local:  modelo na própria máquina via Ollama. Não envia dados p/ fora.
-#   - api:    provedor externo (OpenAI, Google, Anthropic, Groq). Melhor
-#             desempenho, porém envia os dados para fora.
+#   - api:    provedor externo. Melhor desempenho, porém envia os dados p/ fora.
 #
 # IMPORTANTE: o modo "api" envia o conteúdo processado a servidores externos.
 # Usar apenas com dados sintéticos ou conforme o protocolo de ética aprovado.
 
-# O LLM é criado UMA vez e reaproveitado entre prontuários.
 _llm_cache = None
 
 
@@ -260,7 +293,6 @@ def _criar_llm_api(provedor_api: str, modelo: str):
     """
     Instancia o cliente do provedor escolhido. Imports tardios para que o
     agente rode em modo local sem ter todos os pacotes de API instalados.
-    A chave é lida da variável padrão de cada provedor.
     """
     if provedor_api == "openai":
         from langchain_openai import ChatOpenAI
@@ -275,8 +307,7 @@ def _criar_llm_api(provedor_api: str, modelo: str):
         return ChatAnthropic(model=modelo, temperature=0)
 
     if provedor_api == "groq":
-        # A Groq expõe API compatível com a da OpenAI, então reutilizamos o
-        # ChatOpenAI apontando para o endpoint da Groq com a chave dela.
+        # A Groq expõe API compatível com a da OpenAI.
         from langchain_openai import ChatOpenAI
         chave_groq = os.getenv("GROQ_API_KEY", "")
         if not chave_groq:
@@ -313,37 +344,124 @@ EXTRATOR_LLM_SISTEMA = """Você é um assistente especializado em análise de pr
 Sua tarefa é ler o texto de um prontuário eletrônico e identificar todos os
 itens passíveis de faturamento hospitalar mencionados nele.
 
-Cada item deve ser classificado em UMA das categorias:
-- PROCEDIMENTO: procedimentos clínicos e cirúrgicos realizados
+Para cada item, informe TRÊS coisas: o termo, a categoria e o status.
+
+CATEGORIA — uma destas quatro:
+- PROCEDIMENTO: procedimentos clínicos e cirúrgicos
   (ex: "intubação orotraqueal", "laparotomia exploradora")
-- EXAME: exames laboratoriais ou de imagem realizados
+- EXAME: exames laboratoriais ou de imagem
   (ex: "hemograma completo", "raio-x de tórax")
-- MATERIAL: materiais e insumos utilizados
+- MATERIAL: materiais e insumos
   (ex: "cateter venoso central", "sonda vesical")
 - MEDICAMENTO: medicamentos administrados
   (ex: "midazolam", "piperacilina-tazobactam")
 
-REGRAS IMPORTANTES:
-- Extraia o texto EXATAMENTE como aparece no prontuário, sem traduzir,
-  reformular, resumir ou corrigir a grafia.
+STATUS — esta é a parte mais importante. Prontuário registra tanto o que foi
+FEITO quanto o que foi apenas cogitado. Só o que foi realizado pode ser
+faturado; cobrar um exame que não aconteceu é irregularidade grave.
+- REALIZADO: o item foi efetivamente executado
+  ("realizada laparotomia", "coletado hemograma", "administrado midazolam")
+- NAO_REALIZADO: o item foi mencionado mas NÃO executado — solicitado e
+  ainda pendente, cancelado, suspenso, adiado, programado para depois, ou
+  explicitamente negado
+  ("solicitado ecocardiograma, ainda não realizado", "tomografia cancelada",
+   "não foi realizada a endoscopia", "colonoscopia programada para a
+   próxima semana", "antibiótico suspenso")
+
+Na dúvida sobre o status, responda NAO_REALIZADO. É preferível deixar de
+faturar algo que aconteceu a cobrar algo que não aconteceu.
+
+COMO ESCREVER O TERMO:
+- Use o NOME DO PROCEDIMENTO, sem os detalhes ao redor. O termo será
+  buscado numa tabela oficial que registra apenas o nome do ato.
+- Escreva "hemodiálise", não "sessão de hemodiálise de 4 horas por fístula
+  arteriovenosa". Escreva "sutura de ferimento", não "sutura de laceração em
+  couro cabeludo de aproximadamente 8 cm". Escreva "radiografia de fêmur",
+  não "RX de fêmur em duas incidências".
+- Mantenha o que IDENTIFICA o procedimento (região anatômica, via, tipo) e
+  descarte o que é circunstância (duração, quantidade, medida, lateralidade,
+  motivo, quem realizou).
+- Expanda abreviações que você reconheça com segurança: "HMG" vira
+  "hemograma", "RX tx" vira "radiografia de tórax", "GASO" vira
+  "gasometria". Se não tiver certeza do que a abreviação significa, mantenha
+  como está.
+
+REGRAS GERAIS:
 - Não invente itens que não estão explicitamente mencionados no texto.
 - Não inclua dados administrativos, sinais vitais isolados ou comentários
-  gerais que não sejam procedimentos, exames, materiais ou medicamentos.
-- Responda APENAS com um array JSON, sem nenhum texto antes ou depois,
-  sem blocos de código markdown. Formato exato:
-  [{"texto": "termo exatamente como no prontuário", "categoria": "PROCEDIMENTO"}, ...]
+  gerais.
+- Um item mencionado várias vezes aparece uma vez só.
+- Responda APENAS com um array JSON, sem texto antes ou depois e sem blocos
+  de código markdown. Formato exato:
+  [{"texto": "hemograma completo", "categoria": "EXAME", "status": "REALIZADO"}]
 - Se nenhum item for identificado, responda com um array vazio: []
 """
+
+
+def _normalizar_texto_simples(texto: str) -> str:
+    """Minúsculas e sem acentos, para comparação de marcadores textuais."""
+    import unicodedata
+    texto = str(texto).lower()
+    texto = unicodedata.normalize("NFD", texto)
+    return "".join(c for c in texto if unicodedata.category(c) != "Mn")
+
+
+def _verificar_status_no_texto(termo: str, texto_prontuario: str) -> bool:
+    """
+    Rede de segurança sobre a classificação do LLM: localiza a SENTENÇA em
+    que o termo aparece e verifica se ela contém marcador de não realização.
+
+    Retorna True se encontrou indício de que o item NÃO foi realizado.
+
+    POR QUE SENTENÇA, E NÃO UMA JANELA DE CARACTERES: a primeira versão
+    olhava os ~90 caracteres ao redor do termo, e isso atravessava a
+    fronteira da frase. No VAL006, "Foi coletado hemograma completo" fica
+    logo depois de "A tomografia de abdome programada para hoje foi
+    cancelada" -- a janela pegava "programada" e "cancelada" da frase
+    anterior e rebaixava o hemograma, que tinha sido realizado. A sentença é
+    a unidade natural de escopo dessas marcações em português.
+
+    Esta verificação NUNCA promove um item a realizado -- só rebaixa. Se o
+    LLM disse NAO_REALIZADO, a decisão dele é mantida.
+    """
+    if not termo or not texto_prontuario:
+        return False
+
+    termo_norm = _normalizar_texto_simples(termo)
+    sentencas = [
+        s for s in re.split(r"[.;!?\n]+", _normalizar_texto_simples(texto_prontuario))
+        if s.strip()
+    ]
+
+    # Procura a sentença que contém o termo completo.
+    alvo = next((s for s in sentencas if termo_norm in s), None)
+
+    # O extrator pode ter reformulado o termo (abreviação expandida, frase
+    # encurtada). Nesse caso, procura pela palavra mais longa -- que tende a
+    # ser a mais específica e a que sobrevive à reformulação.
+    if alvo is None:
+        palavras = sorted(
+            (p for p in termo_norm.split() if len(p) > 4), key=len, reverse=True
+        )
+        for palavra in palavras:
+            alvo = next((s for s in sentencas if palavra in s), None)
+            if alvo is not None:
+                break
+
+    if alvo is None:
+        return False
+
+    return any(marcador in alvo for marcador in _MARCADORES_NAO_REALIZADO)
 
 
 async def extrair_entidades_llm(texto_prontuario: str) -> list[dict]:
     """
     Extrai entidades clínicas faturáveis direto do texto bruto, via LLM, em
-    vez do NER por regras. Retorna no MESMO formato (texto/categoria).
+    vez do NER por regras. Retorna dicts com texto, categoria e status.
 
     É AQUI, e não na orquestração, que faz sentido comparar modelos: ler um
-    texto narrativo e decidir o que é item faturável é trabalho cognitivo
-    real, com espaço amplo para os modelos divergirem.
+    texto narrativo e decidir o que é item faturável -- e se foi realizado --
+    é trabalho cognitivo real, com espaço amplo para os modelos divergirem.
     """
     llm = criar_llm()
     mensagens = [
@@ -371,13 +489,34 @@ async def extrair_entidades_llm(texto_prontuario: str) -> list[dict]:
         return []
 
     validas = []
+    rebaixadas = []
     for e in entidades:
         if not isinstance(e, dict):
             continue
         texto = str(e.get("texto", "")).strip()
         categoria = str(e.get("categoria", "")).strip().upper()
-        if texto and categoria in CATEGORIAS_BUSCAVEIS:
-            validas.append({"texto": texto, "categoria": categoria})
+        if not texto or categoria not in CATEGORIAS_BUSCAVEIS:
+            continue
+
+        # Status vindo do modelo; ausente é tratado como REALIZADO para não
+        # perder itens quando o modelo ignora o campo (o texto abaixo ainda
+        # pode rebaixá-lo).
+        status = str(e.get("status", "")).strip().upper()
+        if status != STATUS_NAO_REALIZADO:
+            status = STATUS_REALIZADO
+
+        # Rede de segurança: o texto do prontuário pode contradizer o modelo.
+        if status == STATUS_REALIZADO and _verificar_status_no_texto(
+            texto, texto_prontuario
+        ):
+            status = STATUS_NAO_REALIZADO
+            rebaixadas.append(texto)
+
+        validas.append({"texto": texto, "categoria": categoria, "status": status})
+
+    if rebaixadas:
+        print(f"  [EXTRATOR-LLM] {len(rebaixadas)} item(ns) rebaixado(s) para "
+              f"NÃO REALIZADO pelo contexto do texto: {', '.join(rebaixadas)}")
     return validas
 
 
@@ -387,18 +526,36 @@ async def no_ner(estado: EstadoPipeline) -> EstadoPipeline:
     EXTRATOR_ATIVO:
       "regras" (padrão) -> NER por regras (spaCy EntityRuler).
       "llm"              -> extração via LLM.
+
+    O extrator por regras não classifica status (não tem contexto para
+    isso), então suas entidades entram como REALIZADO e passam apenas pela
+    verificação textual -- que é o que dá alguma proteção nesse modo.
     """
     print(f"  [NER] Processando {estado['prontuario_id']}...")
     extrator = os.getenv("EXTRATOR_ATIVO", "regras").strip().lower()
 
     if extrator == "regras":
         entidades = extrair_entidades(estado["texto"], NLP)
+        rebaixadas = []
+        for e in entidades:
+            if _verificar_status_no_texto(e.get("texto", ""), estado["texto"]):
+                e["status"] = STATUS_NAO_REALIZADO
+                rebaixadas.append(e.get("texto", ""))
+            else:
+                e["status"] = STATUS_REALIZADO
+        if rebaixadas:
+            print(f"  [NER] {len(rebaixadas)} item(ns) marcado(s) como NÃO "
+                  f"REALIZADO pelo contexto: {', '.join(rebaixadas)}")
     elif extrator == "llm":
         entidades = await extrair_entidades_llm(estado["texto"])
     else:
         raise ValueError(f"EXTRATOR_ATIVO inválido: '{extrator}'. Use 'regras' ou 'llm'.")
 
-    print(f"  [NER] ({extrator}) {len(entidades)} entidades extraídas.")
+    n_realizadas = sum(
+        1 for e in entidades if e.get("status", STATUS_REALIZADO) == STATUS_REALIZADO
+    )
+    print(f"  [NER] ({extrator}) {len(entidades)} entidades extraídas "
+          f"({n_realizadas} realizadas, {len(entidades) - n_realizadas} não realizadas).")
     return {**estado, "entidades_brutas": entidades}
 
 
@@ -420,11 +577,8 @@ def _limpar_texto(texto: str) -> str:
 def _expandir_termos(termo_bruto: str) -> list[str]:
     """
     Devolve os termos individuais do argumento que o LLM passou, tratando o
-    caso em que o modelo agrupa vários termos num único argumento
-    (ex: "[laparotomia, drenagem de abscesso, curativo]").
-
-    Usado apenas no modo ORQUESTRACAO_POR_LLM; o laço determinístico usa o
-    texto da entidade direto, sem essa ambiguidade.
+    caso em que o modelo agrupa vários termos num único argumento.
+    Usado apenas no modo ORQUESTRACAO_POR_LLM.
     """
     if not isinstance(termo_bruto, str):
         return []
@@ -511,8 +665,7 @@ def _tentar_json(texto: str) -> list[dict]:
 # ----------------------------------------------------
 # Até agosto/2026 esta etapa era conduzida pelo LLM: o modelo recebia a lista
 # de entidades e decidia quais chamadas de ferramenta fazer. Os testes
-# mostraram que essa decisão não é dele para tomar -- e que o resultado
-# depende inteiramente de qual modelo está por trás:
+# mostraram que o resultado depende inteiramente de qual modelo está por trás:
 #
 #   modelo                 chamadas para 10 entidades
 #   ---------------------  --------------------------
@@ -521,34 +674,18 @@ def _tentar_json(texto: str) -> list[dict]:
 #   openai/gpt-oss-120b     1   (tool calling sequencial)
 #   qwen/qwen3.6-27b        1   (idem)
 #
-# Mesmo prompt, mesma ferramenta, mesmo pipeline. Modelos de tool calling
-# sequencial emitem UMA chamada, esperam o resultado e só então decidem a
-# próxima -- e como o código coletava as tool_calls de uma única resposta,
-# 9 de 10 entidades nunca eram buscadas. O pipeline dependia, sem saber, do
-# comportamento paralelo de dois modelos específicos.
-#
-# Havia outros sintomas do mesmo problema: o llama-3.3-70b chegou a fazer
-# 7 chamadas para 10 entidades, e corrompia a grafia dos termos ao repassá-
-# los ('intubãão', 'oxigânio', 'volémica'), a ponto de ser preciso escrever
-# um casamento por similaridade só para consertar isso.
+# Modelos de tool calling sequencial emitem UMA chamada, esperam o resultado
+# e só então decidem a próxima -- e como o código coletava as tool_calls de
+# uma única resposta, 84 de 94 termos nunca eram buscados.
 #
 # Percorrer uma lista não é uma decisão: é uma iteração. Com o laço, são
-# sempre N chamadas para N entidades, em qualquer modelo, sem custo de API
-# nesta etapa e sem corrupção de termo.
+# sempre N chamadas para N entidades, em qualquer modelo.
 #
-# ISSO NÃO REMOVE O AGENTE. A autonomia do modelo está no Nível 4 do
-# servidor MCP, onde existe decisão real: propor um termo alternativo,
-# observar o que a busca devolveu e decidir entre aceitar, tentar de novo ou
-# declarar que não há código. Lá o número de passos varia por termo e não é
-# escrito de antemão -- que é o que caracteriza um agente. Aqui, só se
-# percorre uma lista.
+# ISSO NÃO REMOVE O AGENTE. A autonomia do modelo está no Nível 4 do servidor
+# MCP, onde existe decisão real: propor um termo alternativo, observar o que
+# a busca devolveu e decidir entre aceitar, tentar de novo ou desistir.
 #
-# Como efeito colateral, o experimento de comparação entre modelos fica mais
-# limpo: com a correspondência determinística, a diferença entre modelos
-# passa a medir extração e ciclo agêntico, e não estilo de tool calling.
-#
-# O comportamento antigo continua disponível com ORQUESTRACAO_POR_LLM=true,
-# para reproduzir a comparação no TCC 2.
+# O comportamento antigo continua disponível com ORQUESTRACAO_POR_LLM=true.
 
 
 async def _buscar_um_termo(
@@ -588,15 +725,12 @@ def _registrar_resultado(
     Classifica o resultado de uma busca em um dos três desfechos e o acumula
     nas listas correspondentes. Compartilhado pelos dois modos de consulta.
     """
-    # ── Desfecho 1: termo sem código próprio no SIGTAP. Não é falha da
-    # busca -- é característica do SIGTAP (medicação de uso hospitalar
-    # embutida na diária, insumo descartável fora do rol de OPME, ato
-    # incluído em outro procedimento). Vai para uma lista PRÓPRIA, separada
-    # dos "não encontrados", porque o significado para quem confere é
-    # oposto: um é informação normal, o outro é pendência de revisão.
+    # ── Desfecho 1: termo sem código próprio no SIGTAP, conforme o
+    # dicionário do sistema. Vai para uma lista PRÓPRIA, separada dos "não
+    # encontrados", porque o significado para quem confere é oposto.
     if correspondencias and correspondencias[0].get("nivel") == "nao_faturavel":
         print(f"    [Não faturável] '{termo}' ({categoria or 'sem categoria'}) "
-              f"— sem código próprio no SIGTAP")
+              f"— marcado como sem código próprio no SIGTAP")
         if termo and termo not in nao_faturaveis:
             nao_faturaveis.append(termo)
         return
@@ -610,11 +744,10 @@ def _registrar_resultado(
         return
 
     # ── Desfecho 3: correspondência encontrada.
-    # PAINEL: quando o termo clínico corresponde a vários códigos faturáveis
-    # (ex: "coagulograma" = TP + TTPA), TODOS entram no faturamento -- foram
-    # exames distintos efetivamente realizados. Fora do painel, considera-se
-    # apenas o primeiro candidato: os demais são alternativas que NÃO foram
-    # necessariamente realizadas, e somá-las inflaria o valor.
+    # PAINEL: quando o termo corresponde a vários códigos faturáveis
+    # (ex: "coagulograma" = TP + TTPA), TODOS entram. Fora do painel,
+    # considera-se apenas o primeiro candidato: os demais são alternativas
+    # que NÃO foram necessariamente realizadas.
     melhor = correspondencias[0]
     if melhor.get("painel"):
         selecionadas = correspondencias
@@ -646,11 +779,11 @@ async def _consultar_sigtap(
     entidades: list[dict], ferramenta_busca
 ) -> tuple[list[dict], list[str], list[str]]:
     """
-    Laço determinístico: uma busca por entidade, na ordem em que o NER as
-    extraiu. Devolve (resultados, nao_encontrados, nao_faturaveis).
+    Laço determinístico: uma busca por entidade, na ordem em que o extrator
+    as devolveu. Devolve (resultados, nao_encontrados, nao_faturaveis).
 
-    A categoria vem direto da entidade (fonte determinística do NER), sem
-    passar pelo LLM -- eliminando também a chance de o modelo trocá-la.
+    A categoria vem direto da entidade (fonte determinística), sem passar
+    pelo LLM -- eliminando a chance de o modelo trocá-la.
     """
     resultados: list[dict] = []
     nao_encontrados: list[str] = []
@@ -678,12 +811,8 @@ async def _consultar_sigtap_via_llm(
 ) -> tuple[list[dict], list[str], list[str]]:
     """
     Modo alternativo (ORQUESTRACAO_POR_LLM=true): o LLM decide quais buscas
-    fazer, como era antes de agosto/2026.
-
-    Mantido para reproduzir a comparação no TCC 2 -- é o braço experimental
-    que mostra a variação entre modelos na etapa de correspondência. NÃO é
-    o modo recomendado: modelos de tool calling sequencial emitem uma única
-    chamada e deixam a maior parte das entidades sem buscar.
+    fazer, como era antes de agosto/2026. Mantido para reproduzir a
+    comparação no TCC 2. NÃO é o modo recomendado.
     """
     llm = criar_llm()
     llm_com_ferramentas = llm.bind_tools(ferramentas)
@@ -696,19 +825,16 @@ async def _consultar_sigtap_via_llm(
 
     # IMPORTANTE: não usamos ChatPromptTemplate.format_messages() aqui. O
     # texto das entidades é um JSON cheio de chaves { }, que o motor de
-    # template do LangChain interpreta como marcadores de variável, causando
-    # KeyError. Montamos as mensagens diretamente.
+    # template do LangChain interpreta como marcadores de variável.
     sistema = """Você é um assistente especializado em faturamento hospitalar brasileiro.
 Sua tarefa é:
-1. Receber uma lista de itens clínicos passíveis de faturamento (procedimentos,
-   exames, materiais e medicamentos) extraídos de um prontuário eletrônico.
+1. Receber uma lista de itens clínicos passíveis de faturamento.
 2. Para cada item, usar a ferramenta 'buscar_procedimento' para
    encontrar o código SIGTAP correspondente.
 3. Retornar um JSON com a lista de correspondências encontradas.
 
 REGRAS IMPORTANTES:
-- Use EXATAMENTE o campo "texto" da entidade como argumento 'termo',
-  sem traduzir, reformular ou abreviar.
+- Use EXATAMENTE o campo "texto" da entidade como argumento 'termo'.
 - Passe SEMPRE o campo "categoria" da entidade no argumento 'categoria'.
 - Chame a ferramenta UMA VEZ POR ENTIDADE, para TODAS as entidades da lista.
 - Nunca invente termos que não estejam no campo "texto" da entidade."""
@@ -769,7 +895,12 @@ REGRAS IMPORTANTES:
 
 async def no_consulta_sigtap(estado: EstadoPipeline) -> EstadoPipeline:
     """
-    Consulta o SIGTAP para cada entidade faturável extraída do prontuário.
+    Consulta o SIGTAP para cada entidade faturável REALIZADA.
+
+    Itens marcados como não realizados são separados ANTES da busca: não
+    faz sentido gastar consulta (e, no nível 4, chamadas de LLM) com algo
+    que não pode ser faturado. Eles seguem para o relatório numa lista
+    própria, para que o faturista veja o que o sistema encontrou e decida.
     """
     ferramentas = obter_ferramentas_mcp()
     ferramenta_busca = next(
@@ -780,9 +911,8 @@ async def no_consulta_sigtap(estado: EstadoPipeline) -> EstadoPipeline:
             "Ferramenta 'buscar_procedimento' não encontrada no servidor MCP."
         )
 
-    # Filtro por categoria feito no CÓDIGO (determinístico). Busca as quatro
-    # categorias faturáveis -- a tabela SIGTAP cobre todas elas.
-    entidades_buscaveis = [
+    # Filtro por categoria feito no CÓDIGO (determinístico).
+    entidades_faturaveis = [
         e for e in estado["entidades_brutas"]
         if e.get("categoria", "").upper() in CATEGORIAS_BUSCAVEIS
     ]
@@ -791,9 +921,24 @@ async def no_consulta_sigtap(estado: EstadoPipeline) -> EstadoPipeline:
         if e.get("categoria", "").upper() not in CATEGORIAS_BUSCAVEIS
     ]
 
+    # Separação por status: só o realizado é buscado.
+    entidades_buscaveis = [
+        e for e in entidades_faturaveis
+        if e.get("status", STATUS_REALIZADO) == STATUS_REALIZADO
+    ]
+    nao_realizadas = [
+        {"texto": e.get("texto", ""), "categoria": e.get("categoria", "")}
+        for e in entidades_faturaveis
+        if e.get("status", STATUS_REALIZADO) != STATUS_REALIZADO
+    ]
+
     modo = "LLM orquestrando" if ORQUESTRACAO_POR_LLM else "laço determinístico"
     print(f"  [SIGTAP] Consultando {len(entidades_buscaveis)} entidade(s) "
-          f"({modo}), {len(entidades_descartadas)} descartada(s).")
+          f"realizada(s) ({modo}); {len(nao_realizadas)} não realizada(s), "
+          f"{len(entidades_descartadas)} descartada(s).")
+    if nao_realizadas:
+        print(f"  [SIGTAP] Não faturados por não terem sido realizados: "
+              f"{', '.join(e['texto'] for e in nao_realizadas)}")
 
     if ORQUESTRACAO_POR_LLM:
         resultados, nao_encontrados, nao_faturaveis = await _consultar_sigtap_via_llm(
@@ -809,7 +954,7 @@ async def no_consulta_sigtap(estado: EstadoPipeline) -> EstadoPipeline:
         if any(c.get("confianca") == "baixa" for c in r["correspondencias"])
     ]
     print(f"  [SIGTAP] {len(resultados)} termo(s) com correspondência, "
-          f"{len(nao_faturaveis)} não faturável(is), "
+          f"{len(nao_faturaveis)} sem código próprio, "
           f"{len(nao_encontrados)} sem correspondência, "
           f"{len(baixa_confianca)} de baixa confiança.")
     if baixa_confianca:
@@ -822,6 +967,7 @@ async def no_consulta_sigtap(estado: EstadoPipeline) -> EstadoPipeline:
         "resultados_sigtap": resultados,
         "termos_nao_encontrados": nao_encontrados,
         "termos_nao_faturaveis": nao_faturaveis,
+        "termos_nao_realizados": nao_realizadas,
         "entidades_descartadas": entidades_descartadas,
     }
 
@@ -848,23 +994,23 @@ def no_relatorio(estado: EstadoPipeline) -> EstadoPipeline:
                     "vl_sp": correspondencia.get("vl_sp", 0.0),
                     "vl_total": correspondencia.get("vl_total", 0.0),
                     "nivel": correspondencia.get("nivel", ""),
-                    # score e confiança, para o relatório destacar o que
-                    # precisa de conferência humana
                     "score": correspondencia.get("score", 0.0),
                     "confianca": correspondencia.get("confianca", ""),
                     "painel": bool(resultado.get("painel")),
-                    # quantas voltas o agente do nível 4 deu até concluir
                     "tentativas_agente": correspondencia.get("tentativas_agente"),
                 }
 
     codigos = list(codigos_encontrados.values())
+    nao_realizados = estado.get("termos_nao_realizados", [])
+
     relatorio = {
         "prontuario_id": estado["prontuario_id"],
         "data_processamento": datetime.now().isoformat(),
-        # registra o modelo e o modo de orquestração: um resultado obtido
-        # com um modelo que depois sai de catálogo não é reproduzível sem
-        # essa informação
+        # registra o modelo, o extrator e o modo de orquestração: um
+        # resultado obtido com um modelo que depois sai de catálogo não é
+        # reproduzível sem essa informação
         "modelo_utilizado": _descrever_modelo_atual(),
+        "extrator": os.getenv("EXTRATOR_ATIVO", "regras").strip().lower(),
         "orquestracao": "llm" if ORQUESTRACAO_POR_LLM else "deterministica",
         "texto_prontuario": estado.get("texto", ""),
         "entidades_extraidas": [e.get("texto", "") for e in estado["entidades_brutas"]],
@@ -873,6 +1019,7 @@ def no_relatorio(estado: EstadoPipeline) -> EstadoPipeline:
             "total_codigos_sigtap": len(codigos),
             "total_nao_encontrados": len(estado.get("termos_nao_encontrados", [])),
             "total_nao_faturaveis": len(estado.get("termos_nao_faturaveis", [])),
+            "total_nao_realizados": len(nao_realizados),
             "total_baixa_confianca": sum(
                 1 for c in codigos if c.get("confianca") == "baixa"
             ),
@@ -880,11 +1027,13 @@ def no_relatorio(estado: EstadoPipeline) -> EstadoPipeline:
         },
         "entidades_por_categoria": _agrupar_por_categoria(estado["entidades_brutas"]),
         "codigos_sigtap": codigos,
-        # DUAS listas com significados opostos para quem confere:
-        #  - nao_encontrados: pendência, exige revisão manual
-        #  - nao_faturaveis: informação normal, o SIGTAP não tem código próprio
+        # Três listas com significados distintos para quem confere:
+        #  - nao_encontrados: a busca falhou, pode haver receita a cobrar
+        #  - nao_faturaveis: o dicionário marcou como sem código próprio
+        #  - nao_realizados: mencionados no prontuário mas não executados
         "termos_nao_encontrados": estado.get("termos_nao_encontrados", []),
         "termos_nao_faturaveis": estado.get("termos_nao_faturaveis", []),
+        "termos_nao_realizados": nao_realizados,
         "entidades_descartadas": estado.get("entidades_descartadas", []),
     }
 
@@ -900,7 +1049,6 @@ def _agrupar_por_categoria(entidades: list[dict]) -> dict:
 
 # ── Construção do grafo ────────────────────────────────────────────────────
 
-# O grafo é compilado uma vez e reaproveitado entre prontuários.
 _grafo_cache = None
 
 
@@ -940,6 +1088,7 @@ async def processar_prontuario(prontuario: dict) -> dict:
         "resultados_sigtap": [],
         "termos_nao_encontrados": [],
         "termos_nao_faturaveis": [],
+        "termos_nao_realizados": [],
         "entidades_descartadas": [],
         "relatorio": {},
     }
@@ -951,8 +1100,7 @@ async def processar_prontuario(prontuario: dict) -> dict:
 async def processar_lote(caminho_entrada: str, caminho_saida: str) -> list[dict]:
     """
     Processa todos os prontuários de um JSON de entrada e salva a lista
-    consolidada de relatórios no JSON de saída -- o formato consumido por
-    gerar_relatorio.py.
+    consolidada de relatórios no JSON de saída.
 
     A sessão MCP é aberta e fechada AQUI, na task principal, para que o
     subprocesso do servidor SIGTAP fique de pé durante todo o processamento e
@@ -984,9 +1132,6 @@ async def processar_lote(caminho_entrada: str, caminho_saida: str) -> list[dict]
 # ── Ponto de entrada para rodar o lote completo ────────────────────────────
 
 if __name__ == "__main__":
-    # Caminhos padrão relativos a este arquivo (src/agent/pipeline.py):
-    #   entrada: data/prontuarios.json
-    #   saida:   reports/relatorios_processados.json
     base = os.path.dirname(__file__)
     entrada_padrao = os.path.join(base, "..", "..", "data", "prontuarios.json")
     saida_padrao = os.path.join(base, "..", "..", "reports", "relatorios_processados.json")
