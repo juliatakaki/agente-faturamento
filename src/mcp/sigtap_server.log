@@ -3715,3 +3715,800 @@ connection to server at "localhost" (127.0.0.1), port 5432 failed: Connection re
 [14:40:29] [TOOL] 'ferro' (cat=MEDICAMENTO) -> nivel3, score=1.000, confianca=media, painel=False, 1 resultado(s), 0.02s
 [14:40:29] [SIGTAP] 'ultrassonografia Doppler' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
 [14:40:29] [TOOL] 'ultrassonografia Doppler' (cat=EXAME) -> nivel1, score=0.500, confianca=media, painel=False, 3 resultado(s), 0.01s
+[16:20:59] [SIGTAP] Iniciando servidor MCP...
+[16:20:59] [NIVEL0] Dicionário carregado: 31 sinônimo(s), 21 termo(s) não faturável(is).
+[16:20:59] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:21:04] [AQUECIMENTO] AVISO: falhou (OperationalError: (psycopg2.OperationalError) connection to server at "localhost" (::1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+connection to server at "localhost" (127.0.0.1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)). O carregamento ocorrerá sob demanda, na primeira busca.
+[16:21:04] [SIGTAP] Pontuação bidirecional ativa: rejeição F1 < 0.45, confiança alta >= 0.85, média >= 0.7.
+[16:21:04] [SIGTAP] Nível 4 (agente): ATIVO, teto de 6 tentativas por termo.
+[16:21:04] [SIGTAP] Pronto, aguardando conexão via stdio...
+[16:21:23] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:21:27] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:21:31] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:21:35] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:21:39] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:21:44] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:21:48] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:21:55] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:21:59] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:22:05] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:22:09] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:22:13] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:22:18] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:22:22] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:22:26] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:22:30] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:22:34] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:22:38] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:22:42] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:22:49] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:22:53] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:22:57] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:23:01] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:23:05] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:23:09] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:23:14] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:23:18] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:23:22] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:23:26] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:23:30] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:23:37] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:23:41] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:23:45] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:23:49] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:23:53] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:23:57] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:24:01] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:24:06] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:24:12] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:24:16] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:24:20] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:24:24] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:24:28] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:24:32] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:24:37] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:24:41] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:24:48] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:24:52] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:24:56] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:25:00] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:25:04] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:25:08] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:25:12] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:25:16] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:25:20] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:25:27] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:25:31] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:25:35] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:25:39] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:25:43] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:25:47] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:25:51] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:25:55] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:25:59] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:26:03] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:26:07] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:26:16] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:26:25] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:26:29] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:26:33] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:26:37] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:26:41] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:26:45] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:26:49] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:26:54] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:26:58] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:27:04] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:27:08] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:27:12] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:27:16] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:27:20] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:27:25] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:27:29] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:27:33] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:27:37] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:27:42] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:27:48] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:27:52] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:27:56] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:28:01] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:28:05] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:28:09] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:28:13] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:28:17] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:28:21] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:28:25] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:28:29] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:28:33] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:30:56] [SIGTAP] Iniciando servidor MCP...
+[16:30:56] [NIVEL0] Dicionário carregado: 31 sinônimo(s), 21 termo(s) não faturável(is).
+[16:30:56] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:31:01] [AQUECIMENTO] AVISO: falhou (OperationalError: (psycopg2.OperationalError) connection to server at "localhost" (::1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+connection to server at "localhost" (127.0.0.1), port 5432 failed: Connection refused (0x0000274D/10061)
+	Is the server running on that host and accepting TCP/IP connections?
+
+(Background on this error at: https://sqlalche.me/e/20/e3q8)). O carregamento ocorrerá sob demanda, na primeira busca.
+[16:31:01] [SIGTAP] Pontuação bidirecional ativa: rejeição F1 < 0.45, confiança alta >= 0.85, média >= 0.7.
+[16:31:01] [SIGTAP] Nível 4 (agente): ATIVO, teto de 6 tentativas por termo.
+[16:31:01] [SIGTAP] Pronto, aguardando conexão via stdio...
+[16:31:11] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:31:15] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:31:19] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:31:23] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:31:27] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:31:32] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:31:36] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:31:42] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:31:46] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:31:51] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:31:55] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:31:59] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:32:03] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:32:10] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:32:14] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:32:18] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:32:22] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:32:26] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:32:30] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:32:35] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:32:39] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:32:44] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:32:49] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:32:53] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:32:57] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:33:01] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:33:05] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:33:09] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:33:17] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:33:21] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:33:25] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:33:29] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:33:33] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:33:37] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:33:41] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:33:45] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:33:50] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:33:55] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:34:00] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:34:06] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:34:10] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:34:14] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:34:18] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:34:22] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:34:26] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:34:30] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:34:34] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:34:41] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:34:45] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:34:49] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:34:53] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:34:57] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:35:01] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:35:05] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:35:09] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:35:13] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:35:17] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:40:34] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:42:46] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:42:48] [SIGTAP] Tabela carregada: 4994 procedimentos, 9 grupos, em 2.0s.
+[16:42:49] [NIVEL0] Dicionário carregado: 31 sinônimo(s), 21 termo(s) não faturável(is).
+[16:45:31] [SIGTAP] Iniciando servidor MCP...
+[16:45:31] [NIVEL0] Dicionário carregado: 31 sinônimo(s), 21 termo(s) não faturável(is).
+[16:45:31] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:45:34] [SIGTAP] Tabela carregada: 4994 procedimentos, 9 grupos, em 2.8s.
+[16:45:35] [SEMANTICO] Cache reaproveitado (4994 linhas).
+[16:45:35] [SEMANTICO] Carregando modelo 'paraphrase-multilingual-MiniLM-L12-v2' (HF_HUB_OFFLINE=1)...
+[16:47:24] [SEMANTICO] Modelo carregado em 109.5s.
+[16:47:27] [AQUECIMENTO] Primeiro encode em 2.5s.
+[16:47:27] [AQUECIMENTO] Concluído em 115.3s.
+[16:47:27] [SIGTAP] Pontuação bidirecional ativa: rejeição F1 < 0.45, confiança alta >= 0.85, média >= 0.7.
+[16:47:27] [SIGTAP] Nível 4 (agente): ATIVO, teto de 6 tentativas por termo.
+[16:47:27] [SIGTAP] Pronto, aguardando conexão via stdio...
+[16:47:54] [NIVEL0] 'intubação orotraqueal' marcado como não faturável separadamente (procedimentos_embutidos).
+[16:47:54] [TOOL] 'intubação orotraqueal' (cat=PROCEDIMENTO) -> nao_faturavel, 0.01s
+[16:47:54] [SIGTAP] 'ventilação mecânica invasiva' (cat=PROCEDIMENTO): busca restrita a 2700 de 4994 procedimentos.
+[16:47:55] [TOOL] 'ventilação mecânica invasiva' (cat=PROCEDIMENTO) -> nivel1, score=0.590, confianca=baixa, painel=False, 1 resultado(s), 0.29s
+[16:47:55] [SIGTAP] 'midazolam' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[16:47:56] [SEMANTICO] 'midazolam': 0.651 (limiar 0.8) -> ABCIXIMABE
+[16:47:56] [NIVEL4] Agente usando API (groq): openai/gpt-oss-120b
+[16:48:25] [NIVEL4] ===== Iniciando ciclo para 'midazolam' (categoria=MEDICAMENTO, teto de 6 tentativas) =====
+[16:48:27] [NIVEL4] Tentativa 1: DESISTIR — Midazolam é um medicamento de uso hospitalar rotineiro e não possui código próprio no SIGTAP; sua administração é incluída em procedimentos anestésicos ou de se
+[16:48:27] [NIVEL4] ===== Ciclo de 'midazolam' encerrado sem correspondência (1 tentativa(s)) =====
+[16:48:27] [TOOL] 'midazolam' (cat=MEDICAMENTO) -> vazio, 31.92s
+[16:48:27] [SIGTAP] 'fentanil' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[16:48:29] [SEMANTICO] 'fentanil': 0.667 (limiar 0.8) -> MORFINA  DE LIBERACAO CONTROLADA 60 MG (POR CAPSULA)
+[16:48:29] [NIVEL4] ===== Iniciando ciclo para 'fentanil' (categoria=MEDICAMENTO, teto de 6 tentativas) =====
+[16:48:30] [NIVEL4] Tentativa 1: DESISTIR — Fentanil é um medicamento de uso hospitalar que não possui código próprio no SIGTAP; sua administração é incluída em procedimentos de anestesia ou analgesia e n
+[16:48:30] [NIVEL4] ===== Ciclo de 'fentanil' encerrado sem correspondência (1 tentativa(s)) =====
+[16:48:30] [TOOL] 'fentanil' (cat=MEDICAMENTO) -> vazio, 3.04s
+[16:48:30] [SIGTAP] 'hemograma completo' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[16:48:30] [TOOL] 'hemograma completo' (cat=EXAME) -> nivel1, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.05s
+[16:48:31] [SIGTAP] 'hemocultura' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[16:48:31] [TOOL] 'hemocultura' (cat=EXAME) -> nivel1, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.05s
+[16:48:31] [SIGTAP] 'piperacilina-tazobactam' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[16:48:33] [SEMANTICO] 'piperacilina tazobactam': 0.661 (limiar 0.8) -> TAFAMIDIS 61 MG (POR CÁPSULA)
+[16:48:33] [NIVEL4] ===== Iniciando ciclo para 'piperacilina-tazobactam' (categoria=MEDICAMENTO, teto de 6 tentativas) =====
+[16:48:34] [NIVEL4] Tentativa 1: DESISTIR — Antibióticos como piperacilina-tazobactam não possuem código próprio no SIGTAP; são insumos de uso hospitalar incluídos em outros atos ou não faturáveis separad
+[16:48:34] [NIVEL4] ===== Ciclo de 'piperacilina-tazobactam' encerrado sem correspondência (1 tentativa(s)) =====
+[16:48:34] [TOOL] 'piperacilina-tazobactam' (cat=MEDICAMENTO) -> vazio, 2.87s
+[16:48:34] [SIGTAP] 'raio-x de tórax portátil' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[16:48:35] [SEMANTICO] 'raio x de torax portatil': 0.648 (limiar 0.8) -> RADIOGRAFIA DE TORAX (PA PADRAO OIT)
+[16:48:36] [NIVEL4] ===== Iniciando ciclo para 'raio-x de tórax portátil' (categoria=EXAME, teto de 6 tentativas) =====
+[16:48:37] [NIVEL4] Tentativa 1: BUSCAR 'radiografia de torax portatil' — No SIGTAP o exame é registrado como 'RADIOGRAFIA DE TORAX PORTATIL'; trocar 'raio-x' por 'radiografia' altera a palavra-chave para o termo administrativo usado
+[16:48:37] [NIVEL4]   -> 2 candidato(s) via nivel2: RADIOGRAFIA DE TORAX (PA)
+[16:48:38] [NIVEL4] Tentativa 2: DESISTIR — Nenhum dos procedimentos encontrados corresponde ao ato clínico de 'raio‑x de tórax portátil'; o SIGTAP não possui código específico para a variante portátil, s
+[16:48:38] [NIVEL4] ===== Ciclo de 'raio-x de tórax portátil' encerrado sem correspondência (2 tentativa(s)) =====
+[16:48:38] [TOOL] 'raio-x de tórax portátil' (cat=EXAME) -> vazio, 4.05s
+[16:48:38] [SIGTAP] 'cateter venoso central' (cat=MATERIAL): busca restrita a 540 de 4994 procedimentos.
+[16:48:38] [TOOL] 'cateter venoso central' (cat=MATERIAL) -> nivel1, score=0.731, confianca=media, painel=False, 4 resultado(s), 0.03s
+[16:48:41] [SIGTAP] 'eletrocardiograma' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[16:48:41] [TOOL] 'eletrocardiograma' (cat=EXAME) -> nivel1, score=1.000, confianca=alta, painel=False, 2 resultado(s), 0.05s
+[16:48:41] [NIVEL0] 'monitor cardíaco' marcado como não faturável separadamente (procedimentos_embutidos).
+[16:48:41] [TOOL] 'monitor cardíaco' (cat=MATERIAL) -> nao_faturavel, 0.00s
+[16:48:41] [SIGTAP] 'troponina' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[16:48:41] [TOOL] 'troponina' (cat=EXAME) -> nivel1, score=0.843, confianca=media, painel=False, 1 resultado(s), 0.04s
+[16:48:41] [NIVEL0] 'CK-MB' -> ['creatinofosfoquinase fracao mb']
+[16:48:41] [TOOL] 'CK-MB' (cat=EXAME) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.16s
+[16:48:41] [NIVEL0] 'gasometria arterial' -> ['gasometria']
+[16:48:41] [TOOL] 'gasometria arterial' (cat=EXAME) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.14s
+[16:48:41] [NIVEL0] 'adrenalina' marcado como não faturável separadamente (medicamentos_uso_hospitalar).
+[16:48:41] [TOOL] 'adrenalina' (cat=MEDICAMENTO) -> nao_faturavel, 0.01s
+[16:48:41] [SIGTAP] 'ecocardiograma' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[16:48:42] [SEMANTICO] 'ecocardiograma': 0.858 (limiar 0.8) -> ECOCARDIOGRAFIA TRANSTORACICA
+[16:48:42] [TOOL] 'ecocardiograma' (cat=EXAME) -> nivel_semantico, score=0.858, confianca=baixa, painel=False, 1 resultado(s), 0.50s
+[16:48:42] [NIVEL0] 'noradrenalina' marcado como não faturável separadamente (medicamentos_uso_hospitalar).
+[16:48:42] [TOOL] 'noradrenalina' (cat=MEDICAMENTO) -> nao_faturavel, 0.00s
+[16:48:42] [NIVEL0] 'sonda vesical de demora' -> ['cateterismo vesical de demora']
+[16:48:42] [TOOL] 'sonda vesical de demora' (cat=MATERIAL) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.17s
+[16:48:43] [SIGTAP] 'tomografia computadorizada de crânio' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[16:48:43] [TOOL] 'tomografia computadorizada de crânio' (cat=EXAME) -> nivel1, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.04s
+[16:48:46] [SIGTAP] 'laparotomia exploradora' (cat=PROCEDIMENTO): busca restrita a 2700 de 4994 procedimentos.
+[16:48:46] [TOOL] 'laparotomia exploradora' (cat=PROCEDIMENTO) -> nivel1, score=1.000, confianca=alta, painel=False, 2 resultado(s), 0.16s
+[16:48:46] [SIGTAP] 'drenagem de abscesso' (cat=PROCEDIMENTO): busca restrita a 2700 de 4994 procedimentos.
+[16:48:46] [TOOL] 'drenagem de abscesso' (cat=PROCEDIMENTO) -> nivel1, score=1.000, confianca=alta, painel=False, 18 resultado(s), 0.13s
+[16:48:47] [NIVEL0] 'vancomicina' marcado como não faturável separadamente (medicamentos_uso_hospitalar).
+[16:48:47] [TOOL] 'vancomicina' (cat=MEDICAMENTO) -> nao_faturavel, 0.01s
+[16:48:47] [SIGTAP] 'meropeném' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[16:48:48] [SEMANTICO] 'meropenem': 0.513 (limiar 0.8) -> ABCIXIMABE
+[16:48:48] [NIVEL4] ===== Iniciando ciclo para 'meropeném' (categoria=MEDICAMENTO, teto de 6 tentativas) =====
+[16:48:49] [NIVEL4] Tentativa 1: DESISTIR — Meropeném é um antibiótico de uso hospitalar que não possui código próprio no SIGTAP; medicamentos de rotina são faturados dentro de procedimentos ou não são co
+[16:48:49] [NIVEL4] ===== Ciclo de 'meropeném' encerrado sem correspondência (1 tentativa(s)) =====
+[16:48:49] [TOOL] 'meropeném' (cat=MEDICAMENTO) -> vazio, 2.16s
+[16:48:49] [SIGTAP] 'lactato' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[16:48:49] [TOOL] 'lactato' (cat=EXAME) -> nivel1, score=0.832, confianca=media, painel=False, 1 resultado(s), 0.04s
+[16:48:49] [NIVEL0] 'PCR' -> ['proteina c reativa']
+[16:48:49] [TOOL] 'PCR' (cat=EXAME) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.19s
+[16:48:50] [SIGTAP] 'procalcitonina' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[16:48:50] [SEMANTICO] 'procalcitonina': 0.705 (limiar 0.8) -> DOSAGEM DE PROLACTINA
+[16:48:50] [NIVEL4] ===== Iniciando ciclo para 'procalcitonina' (categoria=EXAME, teto de 6 tentativas) =====
+[16:48:51] [NIVEL4] Tentativa 1: BUSCAR 'DOSAGEM DE PROCALCITONINA' — Exames laboratoriais no SIGTAP costumam iniciar com 'DOSAGEM DE' ou 'PESQUISA DE' seguido do nome do analito; usar essa formulação pode encontrar o código corre
+[16:48:51] [SEMANTICO] 'dosagem de procalcitonina': 0.858 (limiar 0.8) -> DOSAGEM DE PROLACTINA
+[16:48:51] [NIVEL4]   -> 1 candidato(s) via nivel_semantico: DOSAGEM DE PROLACTINA
+[16:48:59] [NIVEL4] Tentativa 2: BUSCAR 'DETERMINAÇÃO DE PROCALCITONINA' — Alguns exames laboratoriais no SIGTAP são registrados como 'DETERMINAÇÃO DE' seguido do analito; usar essa formulação pode localizar o código específico para o 
+[16:49:00] [SEMANTICO] 'determinacao de procalcitonina': 0.754 (limiar 0.8) -> PROVA DE CONSUMO DE PROTROMBINA
+[16:49:00] [NIVEL4]   -> nada encontrado para 'DETERMINAÇÃO DE PROCALCITONINA'
+[16:49:02] [NIVEL4] Tentativa 3: BUSCAR 'PESQUISA DE PROCALCITONINA' — Exames laboratoriais no SIGTAP podem aparecer como 'PESQUISA DE' seguido do nome do analito; essa formulação diferente pode revelar o código do teste de procalc
+[16:49:03] [SEMANTICO] 'pesquisa de procalcitonina': 0.737 (limiar 0.8) -> PROVA DE CONSUMO DE PROTROMBINA
+[16:49:03] [NIVEL4]   -> nada encontrado para 'PESQUISA DE PROCALCITONINA'
+[16:49:15] [NIVEL4] Tentativa 4: DESISTIR — Após múltiplas tentativas com variações típicas de nomenclatura (dosagem, determinação, pesquisa) não foi encontrado nenhum procedimento no SIGTAP correspondent
+[16:49:15] [NIVEL4] ===== Ciclo de 'procalcitonina' encerrado sem correspondência (4 tentativa(s)) =====
+[16:49:15] [TOOL] 'procalcitonina' (cat=EXAME) -> vazio, 25.93s
+[16:49:16] [NIVEL0] 'ultrassom abdominal' -> ['ultrassonografia de abdomen total']
+[16:49:16] [TOOL] 'ultrassom abdominal' (cat=EXAME) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.26s
+[16:49:16] [SIGTAP] 'cateter arterial' (cat=MATERIAL): busca restrita a 540 de 4994 procedimentos.
+[16:49:16] [TOOL] 'cateter arterial' (cat=MATERIAL) -> nivel1, score=0.512, confianca=baixa, painel=False, 1 resultado(s), 0.04s
+[16:49:16] [SIGTAP] 'hemotransfusão' (cat=PROCEDIMENTO): busca restrita a 2700 de 4994 procedimentos.
+[16:49:17] [SEMANTICO] 'hemotransfusao': 0.839 (limiar 0.8) -> HEMOFILTRAÇÃO
+[16:49:17] [TOOL] 'hemotransfusão' (cat=PROCEDIMENTO) -> nivel_semantico, score=0.839, confianca=baixa, painel=False, 1 resultado(s), 1.13s
+[16:49:17] [SIGTAP] 'troca de dreno abdominal' (cat=PROCEDIMENTO): busca restrita a 2700 de 4994 procedimentos.
+[16:49:18] [TOOL] 'troca de dreno abdominal' (cat=PROCEDIMENTO) -> nivel2, score=0.459, confianca=baixa, painel=False, 1 resultado(s), 0.33s
+[16:49:21] [SIGTAP] 'tomografia de crânio' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[16:49:21] [TOOL] 'tomografia de crânio' (cat=EXAME) -> nivel1, score=0.789, confianca=media, painel=False, 1 resultado(s), 0.04s
+[16:49:21] [SIGTAP] 'monitor de pressão intracraniana' (cat=MATERIAL): busca restrita a 540 de 4994 procedimentos.
+[16:49:21] [SEMANTICO] 'monitor de pressao intracraniana': 0.593 (limiar 0.8) -> HASTE INTRAMEDULAR BLOQUEADA DE UMERO (INCLUI PARAFUSOS)
+[16:49:21] [NIVEL4] ===== Iniciando ciclo para 'monitor de pressão intracraniana' (categoria=MATERIAL, teto de 6 tentativas) =====
+[16:49:29] [NIVEL4] Tentativa 1: DESISTIR — Dispositivos de monitoramento como o monitor de pressão intracraniana são insumos hospitalares e não possuem código próprio no SIGTAP; são incluídos nos procedi
+[16:49:29] [NIVEL4] ===== Ciclo de 'monitor de pressão intracraniana' encerrado sem correspondência (1 tentativa(s)) =====
+[16:49:29] [TOOL] 'monitor de pressão intracraniana' (cat=MATERIAL) -> vazio, 8.02s
+[16:49:29] [NIVEL0] 'manitol' marcado como não faturável separadamente (medicamentos_uso_hospitalar).
+[16:49:29] [TOOL] 'manitol' (cat=MEDICAMENTO) -> nao_faturavel, 0.04s
+[16:49:30] [SIGTAP] 'dexametasona' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[16:49:31] [SEMANTICO] 'dexametasona': 0.504 (limiar 0.8) -> CLORIDRATO DE TIROFIBANA
+[16:49:31] [NIVEL4] ===== Iniciando ciclo para 'dexametasona' (categoria=MEDICAMENTO, teto de 6 tentativas) =====
+[16:49:32] [NIVEL4] Tentativa 1: DESISTIR — Medicamentos de uso hospitalar rotineiro, como a dexametasona, não possuem código próprio no SIGTAP; são incluídos nos procedimentos ou insumos e não são faturá
+[16:49:32] [NIVEL4] ===== Ciclo de 'dexametasona' encerrado sem correspondência (1 tentativa(s)) =====
+[16:49:32] [TOOL] 'dexametasona' (cat=MEDICAMENTO) -> vazio, 2.89s
+[16:49:33] [SIGTAP] 'fisioterapia' (cat=PROCEDIMENTO): busca restrita a 2700 de 4994 procedimentos.
+[16:49:36] [SEMANTICO] 'fisioterapia': 0.810 (limiar 0.8) -> EXERCICIOS ORTOPTICOS
+[16:49:36] [TOOL] 'fisioterapia' (cat=PROCEDIMENTO) -> nivel_semantico, score=0.810, confianca=baixa, painel=False, 1 resultado(s), 3.06s
+[16:49:36] [SIGTAP] 'coleta de líquido cefalorraquidiano' (cat=PROCEDIMENTO): busca restrita a 2700 de 4994 procedimentos.
+[16:49:38] [SEMANTICO] 'coleta de liquido cefalorraquidiano': 0.676 (limiar 0.8) -> DRENAGEM DE FLEIMÃOURINOSO
+[16:49:38] [NIVEL4] ===== Iniciando ciclo para 'coleta de líquido cefalorraquidiano' (categoria=PROCEDIMENTO, teto de 6 tentativas) =====
+[16:49:39] [NIVEL4] Tentativa 1: BUSCAR 'punção lombar' — No SIGTAP o procedimento de coleta de líquido cefalorraquidiano costuma estar registrado como 'PUNÇÃO LOMBAR', que descreve a técnica de obtenção do LCR
+[16:49:39] [NIVEL4]   -> 1 candidato(s) via nivel2: NEFROSTOMIA (POR PUNÇÃO)
+[16:49:47] [NIVEL4] Tentativa 2: BUSCAR 'punção de espaço subaracnoideo' — No SIGTAP a coleta de líquido cefalorraquidiano costuma ser descrita como 'PUNÇÃO DE ESPAÇO SUBARACNOIDE', que indica a obtenção de LCR via punção lombar
+[16:49:49] [SEMANTICO] 'puncao de espaco subaracnoideo': 0.758 (limiar 0.8) -> REDUÇÃO INCRUENTA DE FRATURA / LESÃO FISARIA DE COTOVELO
+[16:49:49] [NIVEL4]   -> nada encontrado para 'punção de espaço subaracnoideo'
+[16:49:58] [NIVEL4] Tentativa 3: BUSCAR 'raquianálise' — No SIGTAP a coleta de líquido cefalorraquidiano costuma estar registrada como 'RAQUIANÁLISE', termo técnico que indica a punção lombar para obtenção de LCR
+[16:49:58] [SEMANTICO] 'raquianalise': 0.886 (limiar 0.8) -> PIELOSTOMIA
+[16:49:58] [NIVEL4]   -> 1 candidato(s) via nivel_semantico: PIELOSTOMIA
+[16:50:10] [NIVEL4] Tentativa 4: DESISTIR — Não há código próprio no SIGTAP para coleta de líquido cefalorraquidiano; o procedimento costuma estar incluído em outras atos ou não é faturável separadamente
+[16:50:10] [NIVEL4] ===== Ciclo de 'coleta de líquido cefalorraquidiano' encerrado sem correspondência (4 tentativa(s)) =====
+[16:50:10] [TOOL] 'coleta de líquido cefalorraquidiano' (cat=PROCEDIMENTO) -> vazio, 34.30s
+[16:50:11] [SIGTAP] 'eletroencefalograma' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[16:50:11] [SEMANTICO] 'eletroencefalograma': 0.911 (limiar 0.8) -> ELETROGUSTOMETRIA
+[16:50:11] [TOOL] 'eletroencefalograma' (cat=EXAME) -> nivel_semantico, score=0.911, confianca=media, painel=False, 1 resultado(s), 0.41s
+[16:50:11] [NIVEL0] 'sonda nasoenteral' marcado como não faturável separadamente (materiais_descartaveis).
+[16:50:11] [TOOL] 'sonda nasoenteral' (cat=MATERIAL) -> nao_faturavel, 0.00s
+[16:50:14] [SIGTAP] 'hemodiálise' (cat=PROCEDIMENTO): busca restrita a 2700 de 4994 procedimentos.
+[16:50:15] [TOOL] 'hemodiálise' (cat=PROCEDIMENTO) -> nivel1, score=0.636, confianca=baixa, painel=False, 1 resultado(s), 0.19s
+[16:50:15] [SIGTAP] 'cateter venoso central' (cat=MATERIAL): busca restrita a 540 de 4994 procedimentos.
+[16:50:15] [TOOL] 'cateter venoso central' (cat=MATERIAL) -> nivel1, score=0.731, confianca=media, painel=False, 4 resultado(s), 0.04s
+[16:50:15] [SIGTAP] 'ureia' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[16:50:15] [TOOL] 'ureia' (cat=EXAME) -> nivel1, score=0.832, confianca=media, painel=False, 2 resultado(s), 0.08s
+[16:50:16] [SIGTAP] 'creatinina' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[16:50:16] [TOOL] 'creatinina' (cat=EXAME) -> nivel1, score=0.824, confianca=media, painel=False, 3 resultado(s), 0.07s
+[16:50:16] [SIGTAP] 'eletrólitos' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[16:50:18] [SEMANTICO] 'eletrolitos': 0.735 (limiar 0.8) -> ELETRORETINOGRAFIA
+[16:50:18] [NIVEL4] ===== Iniciando ciclo para 'eletrólitos' (categoria=EXAME, teto de 6 tentativas) =====
+[16:50:28] [NIVEL4] Tentativa 1: BUSCAR 'DOSAGEM DE ELETRÓLITOS' — exames laboratoriais no SIGTAP costumam iniciar com 'DOSAGEM DE' ou 'PESQUISA DE'; usar essa formulação pode encontrar o código correspondente ao painel de elet
+[16:50:28] [SEMANTICO] 'dosagem de eletrolitos': 0.773 (limiar 0.8) -> DOSAGEM DE ESTRIOL
+[16:50:28] [NIVEL4]   -> nada encontrado para 'DOSAGEM DE ELETRÓLITOS'
+[16:50:37] [NIVEL4] Tentativa 2: BUSCAR 'ELETROLÍTICOS SÉRIE' — no SIGTAP exames laboratoriais de painel de eletrólitos são listados como 'ELETROLÍTICOS SÉRIE', que inclui a dosagem de sódio, potássio, cloro, cálcio, magnési
+[16:50:38] [SEMANTICO] 'eletroliticos serie': 0.734 (limiar 0.8) -> ELETROGUSTOMETRIA
+[16:50:38] [NIVEL4]   -> nada encontrado para 'ELETROLÍTICOS SÉRIE'
+[16:50:50] [NIVEL4] Tentativa 3: DESISTIR — não há código único no SIGTAP para um painel genérico de eletrólitos; apenas exames individuais (sódio, potássio, cloro, cálcio, magnésio) são faturáveis
+[16:50:50] [NIVEL4] ===== Ciclo de 'eletrólitos' encerrado sem correspondência (3 tentativa(s)) =====
+[16:50:50] [TOOL] 'eletrólitos' (cat=EXAME) -> vazio, 33.88s
+[16:50:50] [NIVEL0] 'bicarbonato de sódio' marcado como não faturável separadamente (medicamentos_uso_hospitalar).
+[16:50:50] [TOOL] 'bicarbonato de sódio' (cat=MEDICAMENTO) -> nao_faturavel, 0.02s
+[16:50:50] [NIVEL0] 'ultrassom renal' -> ['ultrassonografia de aparelho urinario']
+[16:50:51] [TOOL] 'ultrassom renal' (cat=EXAME) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.28s
+[16:50:51] [SIGTAP] 'albumina humana 20%' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[16:50:53] [SEMANTICO] 'albumina humana 20%': 0.876 (limiar 0.8) -> ALBUMINA HUMANA 20 POR CENTO (FRASCO-AMPOLA DE 50 ML)
+[16:50:53] [TOOL] 'albumina humana 20%' (cat=MEDICAMENTO) -> nivel_semantico, score=0.876, confianca=baixa, painel=False, 1 resultado(s), 1.87s
+[16:50:57] [NIVEL0] 'sulfadiazina de prata' marcado como não faturável separadamente (medicamentos_uso_hospitalar).
+[16:50:57] [TOOL] 'sulfadiazina de prata' (cat=MEDICAMENTO) -> nao_faturavel, 0.00s
+[16:50:57] [SIGTAP] 'morfina' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[16:50:57] [TOOL] 'morfina' (cat=MEDICAMENTO) -> nivel1, score=0.683, confianca=baixa, painel=False, 2 resultado(s), 0.01s
+[16:50:57] [SIGTAP] 'cultura de ferida' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[16:50:58] [SEMANTICO] 'cultura de ferida': 0.492 (limiar 0.8) -> ARTROGRAFIA
+[16:50:58] [NIVEL4] ===== Iniciando ciclo para 'cultura de ferida' (categoria=EXAME, teto de 6 tentativas) =====
+[16:51:03] [NIVEL4] Tentativa 1: BUSCAR 'CULTIVO DE MATERIAL DE FERIDA' — SIGTAP usa a nomenclatura administrativa "CULTIVO DE" e especifica o tipo de amostra; "cultura de ferida" pode estar registrado como "CULTIVO DE MATERIAL DE FER
+[16:51:04] [SEMANTICO] 'cultivo de material de ferida': 0.567 (limiar 0.8) -> ARTROGRAFIA
+[16:51:04] [NIVEL4]   -> nada encontrado para 'CULTIVO DE MATERIAL DE FERIDA'
+[16:51:10] [NIVEL4] Tentativa 2: DESISTIR — Procedimentos de cultura de ferida não possuem código próprio no SIGTAP; são incluídos em atos de microbiologia mais amplos e não são faturáveis separadamente
+[16:51:10] [NIVEL4] ===== Ciclo de 'cultura de ferida' encerrado sem correspondência (2 tentativa(s)) =====
+[16:51:10] [TOOL] 'cultura de ferida' (cat=EXAME) -> vazio, 12.27s
+[16:51:10] [SIGTAP] 'swab de queimadura' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[16:51:10] [SEMANTICO] 'swab de queimadura': 0.514 (limiar 0.8) -> PREPARO DE COMPONENTES LAVADOS
+[16:51:10] [NIVEL4] ===== Iniciando ciclo para 'swab de queimadura' (categoria=EXAME, teto de 6 tentativas) =====
+[16:51:12] [NIVEL4] Tentativa 1: BUSCAR 'COLETA DE MATERIAL DE LESÃO DE QUEIMADURA' — "Swab" indica coleta de amostra; no SIGTAP procedimentos de coleta são descritos como "COLETA DE MATERIAL DE LESÃO...", sendo a queimadura a especificação da le
+[16:51:12] [NIVEL4]   -> 1 candidato(s) via nivel2: COLETA DE MATERIAL PARA EXAME LABORATORIAL
+[16:51:25] [NIVEL4] Tentativa 2: DESISTIR — Não há código específico no SIGTAP para "swab de queimadura"; o procedimento genérico encontrado (COLETA DE MATERIAL PARA EXAME LABORATORIAL) não corresponde ex
+[16:51:25] [NIVEL4] ===== Ciclo de 'swab de queimadura' encerrado sem correspondência (2 tentativa(s)) =====
+[16:51:25] [TOOL] 'swab de queimadura' (cat=EXAME) -> vazio, 14.90s
+[16:51:25] [SIGTAP] 'enxertia de pele' (cat=PROCEDIMENTO): busca restrita a 2700 de 4994 procedimentos.
+[16:51:25] [SEMANTICO] 'enxertia de pele': 0.865 (limiar 0.8) -> ENXERTO LIVRE DE PELE TOTAL
+[16:51:25] [TOOL] 'enxertia de pele' (cat=PROCEDIMENTO) -> nivel_semantico, score=0.865, confianca=baixa, painel=False, 1 resultado(s), 0.23s
+[16:51:25] [SIGTAP] 'nutrição parenteral total' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[16:51:25] [SEMANTICO] 'nutricao parenteral total': 0.438 (limiar 0.8) -> PANCREATINA 10.000 UI (POR CAPSULA)
+[16:51:25] [NIVEL4] ===== Iniciando ciclo para 'nutrição parenteral total' (categoria=MEDICAMENTO, teto de 6 tentativas) =====
+[16:51:26] [NIVEL4] Tentativa 1: DESISTIR — Nutrição parenteral total é um medicamento/insumo de uso hospitalar e não possui código próprio de procedimento no SIGTAP; portanto não há correspondência fatur
+[16:51:26] [NIVEL4] ===== Ciclo de 'nutrição parenteral total' encerrado sem correspondência (1 tentativa(s)) =====
+[16:51:26] [TOOL] 'nutrição parenteral total' (cat=MEDICAMENTO) -> vazio, 1.00s
+[16:51:26] [SIGTAP] 'fisioterapia' (cat=PROCEDIMENTO): busca restrita a 2700 de 4994 procedimentos.
+[16:51:26] [SEMANTICO] 'fisioterapia': 0.810 (limiar 0.8) -> EXERCICIOS ORTOPTICOS
+[16:51:26] [TOOL] 'fisioterapia' (cat=PROCEDIMENTO) -> nivel_semantico, score=0.810, confianca=baixa, painel=False, 1 resultado(s), 0.27s
+[16:51:26] [NIVEL0] 'proteína C reativa' -> ['proteina c reativa']
+[16:51:26] [TOOL] 'proteína C reativa' (cat=EXAME) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.09s
+[16:51:26] [SIGTAP] 'albumina sérica' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[16:51:27] [SEMANTICO] 'albumina serica': 0.580 (limiar 0.8) -> FUNDOSCOPIA
+[16:51:27] [NIVEL4] ===== Iniciando ciclo para 'albumina sérica' (categoria=EXAME, teto de 6 tentativas) =====
+[16:51:31] [NIVEL4] Tentativa 1: BUSCAR 'DOSAGEM DE ALBUMINA' — No SIGTAP exames laboratoriais iniciam com 'DOSAGEM DE' e o analito é albumina; usar 'DOSAGEM DE ALBUMINA' (ou 'DOSAGEM DE ALBUMINA SÉRICA') pode encontrar o có
+[16:51:32] [SEMANTICO] 'dosagem de albumina': 0.749 (limiar 0.8) -> DOSAGEM DE ACETONA
+[16:51:32] [NIVEL4]   -> 1 candidato(s) via nivel3: DOSAGEM DE ALUMINIO
+[16:51:44] [NIVEL4] Tentativa 2: DESISTIR — Não há código próprio no SIGTAP para dosagem de albumina sérica; os termos já testados não retornam um procedimento correspondente e não há alternativa administ
+[16:51:44] [NIVEL4] ===== Ciclo de 'albumina sérica' encerrado sem correspondência (2 tentativa(s)) =====
+[16:51:44] [TOOL] 'albumina sérica' (cat=EXAME) -> vazio, 18.04s
+[16:51:45] [SIGTAP] 'curativo' (cat=MATERIAL): busca restrita a 540 de 4994 procedimentos.
+[16:51:45] [SEMANTICO] 'curativo': 0.615 (limiar 0.8) -> RESERVATÓRIO COM CATETER PARA INFUSÃO DE FÁRMACOS
+[16:51:45] [NIVEL4] ===== Iniciando ciclo para 'curativo' (categoria=MATERIAL, teto de 6 tentativas) =====
+[16:51:45] [NIVEL4] Tentativa 1: DESISTIR — Curativo é um material descartável de uso hospitalar; o SIGTAP não possui código próprio para esse tipo de insumo, sendo incluído nos custos dos procedimentos o
+[16:51:45] [NIVEL4] ===== Ciclo de 'curativo' encerrado sem correspondência (1 tentativa(s)) =====
+[16:51:45] [TOOL] 'curativo' (cat=MATERIAL) -> vazio, 0.78s
+[16:51:48] [SIGTAP] 'alteplase' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[16:51:48] [SEMANTICO] 'alteplase': 0.599 (limiar 0.8) -> ABCIXIMABE
+[16:51:48] [TOOL] 'alteplase' (cat=MEDICAMENTO) -> nivel3, score=1.000, confianca=media, painel=False, 3 resultado(s), 0.13s
+[16:51:48] [SIGTAP] 'tomografia computadorizada de crânio' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[16:51:48] [TOOL] 'tomografia computadorizada de crânio' (cat=EXAME) -> nivel1, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.03s
+[16:51:48] [SIGTAP] 'angiotomografia de vasos cerebrais' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[16:51:48] [SEMANTICO] 'angiotomografia de vasos cerebrais': 0.916 (limiar 0.8) -> ANGIOGRAFIA CEREBRAL (4 VASOS)
+[16:51:48] [TOOL] 'angiotomografia de vasos cerebrais' (cat=EXAME) -> nivel_semantico, score=0.916, confianca=media, painel=False, 1 resultado(s), 0.24s
+[16:51:48] [NIVEL0] 'cateter nasal de oxigênio' marcado como não faturável separadamente (materiais_descartaveis).
+[16:51:48] [TOOL] 'cateter nasal de oxigênio' (cat=MATERIAL) -> nao_faturavel, 0.00s
+[16:51:48] [SIGTAP] 'monitor de saturação' (cat=MATERIAL): busca restrita a 540 de 4994 procedimentos.
+[16:51:48] [SEMANTICO] 'monitor de saturacao': 0.557 (limiar 0.8) -> GANCHO LAMINAR SUPERIOR DE DISTRACAO-SISTEMA HARRINGTON (TOD
+[16:51:48] [NIVEL4] ===== Iniciando ciclo para 'monitor de saturação' (categoria=MATERIAL, teto de 6 tentativas) =====
+[16:52:03] [NIVEL4] Tentativa 1: DESISTIR — Dispositivos de monitoramento de saturação (oxímetro de pulso) são insumos/ equipamentos hospitalares que não possuem código próprio no SIGTAP; são incluídos no
+[16:52:03] [NIVEL4] ===== Ciclo de 'monitor de saturação' encerrado sem correspondência (1 tentativa(s)) =====
+[16:52:03] [TOOL] 'monitor de saturação' (cat=MATERIAL) -> vazio, 14.65s
+[16:52:03] [SIGTAP] 'hemograma' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[16:52:03] [TOOL] 'hemograma' (cat=EXAME) -> nivel1, score=0.685, confianca=baixa, painel=False, 1 resultado(s), 0.04s
+[16:52:03] [NIVEL0] 'coagulograma' -> ['tempo de protrombina', 'tempo de tromboplastina parcial ativada']
+[16:52:03] [TOOL] 'coagulograma' (cat=EXAME) -> nivel0, score=1.000, confianca=alta, painel=True, 2 resultado(s), 0.19s
+[16:52:03] [NIVEL0] 'perfil lipídico' -> ['colesterol total', 'triglicerideos', 'colesterol hdl']
+[16:52:03] [TOOL] 'perfil lipídico' (cat=EXAME) -> nivel0, score=1.000, confianca=alta, painel=True, 3 resultado(s), 0.23s
+[16:52:03] [SIGTAP] 'fisioterapia neurológica' (cat=PROCEDIMENTO): busca restrita a 2700 de 4994 procedimentos.
+[16:52:04] [SEMANTICO] 'fisioterapia neurologica': 0.821 (limiar 0.8) -> ATENDIMENTO FISIOTERAPÊUTICO NAS DESORDENS DO DESENVOLVIMENT
+[16:52:04] [TOOL] 'fisioterapia neurológica' (cat=PROCEDIMENTO) -> nivel_semantico, score=0.821, confianca=baixa, painel=False, 1 resultado(s), 0.28s
+[16:52:04] [NIVEL0] 'sonda vesical de demora' -> ['cateterismo vesical de demora']
+[16:52:04] [TOOL] 'sonda vesical de demora' (cat=MATERIAL) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.08s
+[16:52:04] [SIGTAP] 'doppler transcraniano' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[16:52:04] [TOOL] 'doppler transcraniano' (cat=EXAME) -> nivel2, score=0.521, confianca=baixa, painel=False, 1 resultado(s), 0.06s
+[16:52:13] [SIGTAP] 'insulina regular' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[16:52:13] [SEMANTICO] 'insulina regular': 0.796 (limiar 0.8) -> INSULINA ANÁLOGA DE AÇÃO PROLONGADA DE 100 UI/ML
+[16:52:13] [NIVEL4] ===== Iniciando ciclo para 'insulina regular' (categoria=MEDICAMENTO, teto de 6 tentativas) =====
+[16:52:24] [NIVEL4] Tentativa 1: DESISTIR — Insulina regular é um medicamento de uso hospitalar rotineiro; no SIGTAP não há código próprio para fatura de insulina, pois é incluído nos procedimentos de tra
+[16:52:24] [NIVEL4] ===== Ciclo de 'insulina regular' encerrado sem correspondência (1 tentativa(s)) =====
+[16:52:24] [TOOL] 'insulina regular' (cat=MEDICAMENTO) -> vazio, 10.88s
+[16:52:24] [NIVEL0] 'solução salina' marcado como não faturável separadamente (medicamentos_uso_hospitalar).
+[16:52:24] [TOOL] 'solução salina' (cat=MATERIAL) -> nao_faturavel, 0.00s
+[16:52:24] [SIGTAP] 'glicemia capilar' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[16:52:24] [TOOL] 'glicemia capilar' (cat=EXAME) -> nivel1, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.03s
+[16:52:24] [NIVEL0] 'gasometria venosa' -> ['gasometria']
+[16:52:24] [TOOL] 'gasometria venosa' (cat=EXAME) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.11s
+[16:52:24] [NIVEL0] 'cetonemia' -> ['corpos cetonicos']
+[16:52:24] [TOOL] 'cetonemia' (cat=EXAME) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.08s
+[16:52:24] [NIVEL0] 'cloreto de potássio' marcado como não faturável separadamente (medicamentos_uso_hospitalar).
+[16:52:24] [TOOL] 'cloreto de potássio' (cat=MEDICAMENTO) -> nao_faturavel, 0.00s
+[16:52:24] [SIGTAP] 'eletrocardiograma' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[16:52:24] [TOOL] 'eletrocardiograma' (cat=EXAME) -> nivel1, score=1.000, confianca=alta, painel=False, 2 resultado(s), 0.03s
+[16:52:24] [NIVEL0] 'monitor cardíaco' marcado como não faturável separadamente (procedimentos_embutidos).
+[16:52:24] [TOOL] 'monitor cardíaco' (cat=MATERIAL) -> nao_faturavel, 0.00s
+[16:52:24] [SIGTAP] 'hemograma completo' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[16:52:24] [TOOL] 'hemograma completo' (cat=EXAME) -> nivel1, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.02s
+[16:52:24] [SIGTAP] 'função renal' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[16:52:25] [SEMANTICO] 'funcao renal': 0.589 (limiar 0.8) -> DETERMINACAO DE FLUXO PLASMATICO RENAL
+[16:52:25] [NIVEL4] ===== Iniciando ciclo para 'função renal' (categoria=EXAME, teto de 6 tentativas) =====
+[16:52:26] [NIVEL4] Tentativa 1: BUSCAR 'DOSAGEM DE CREATININA' — O termo clínico 'função renal' costuma ser faturado no SIGTAP como exames de dosagem de creatinina, que avaliam a função renal. Usar 'DOSAGEM DE CREATININA' alt
+[16:52:26] [NIVEL4]   -> 2 candidato(s) via nivel1: DOSAGEM DE CREATININA
+[16:52:36] [NIVEL4] Tentativa 2: ACEITAR índice 0 -> DOSAGEM DE CREATININA (02.02.01.031-7) — A dosagem de creatinina em sangue é o exame padrão para avaliar a função renal; portanto, o procedimento SIGTAP 'DOSAGEM DE CREATININA' corresponde ao ato clíni
+[16:52:36] [NIVEL4] ===== Ciclo de 'função renal' resolvido em 2 tentativa(s) =====
+[16:52:36] [TOOL] 'função renal' (cat=EXAME) -> nivel4, score=2.000, confianca=baixa, painel=False, 1 resultado(s), 11.68s
+[16:52:40] [SIGTAP] 'ecocardiograma transesofágico' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[16:52:41] [SEMANTICO] 'ecocardiograma transesofagico': 0.908 (limiar 0.8) -> ECOCARDIOGRAFIA TRANSESOFAGICA
+[16:52:41] [TOOL] 'ecocardiograma transesofágico' (cat=EXAME) -> nivel_semantico, score=0.908, confianca=media, painel=False, 1 resultado(s), 0.26s
+[16:52:41] [SIGTAP] 'monitorização hemodinâmica invasiva' (cat=PROCEDIMENTO): busca restrita a 2700 de 4994 procedimentos.
+[16:52:41] [SEMANTICO] 'monitorizacao hemodinamica invasiva': 0.679 (limiar 0.8) -> HEMODIAFILTRACAO CONTINUA
+[16:52:41] [NIVEL4] ===== Iniciando ciclo para 'monitorização hemodinâmica invasiva' (categoria=PROCEDIMENTO, teto de 6 tentativas) =====
+[16:52:56] [NIVEL4] Tentativa 1: BUSCAR 'MONITORAMENTO DE PRESSÃO ARTERIAL INVASIVO' — O SIGTAP costuma usar termos administrativos como 'MONITORAMENTO DE PRESSÃO ARTERIAL INVASIVO' para referir-se à monitorização hemodinâmica invasiva; trocar 'mo
+[16:52:56] [SEMANTICO] 'monitoramento de pressao arterial invasivo': 0.772 (limiar 0.8) -> AFERIÇÃO DE PRESSÃO ARTERIAL
+[16:52:56] [NIVEL4]   -> nada encontrado para 'MONITORAMENTO DE PRESSÃO ARTERIAL INVASIVO'
+[16:52:59] [NIVEL4] Tentativa 2: BUSCAR 'CATE TERISMO DE ARTERIA PULMONAR' — A monitorização hemodinâmica invasiva costuma ser realizada via cateter de artéria pulmonar (Swan‑Ganz); no SIGTAP o procedimento é registrado como cateterismo 
+[16:53:00] [SEMANTICO] 'cate terismo de arteria pulmonar': 0.845 (limiar 0.8) -> ANASTOMOSE CAVO-PULMONAR BIDIRECIONAL
+[16:53:00] [NIVEL4]   -> 1 candidato(s) via nivel_semantico: ANASTOMOSE CAVO-PULMONAR BIDIRECIONAL
+[16:53:08] [NIVEL4] Tentativa 3: BUSCAR 'CATE TERISMO DE ARTERIA PULMONAR' — JÁ TENTADO, avisando o modelo sem repetir a busca.
+[16:53:22] [NIVEL4] Tentativa 4: BUSCAR 'CATETERISMO DE ARTERIA PULMONAR' — A monitorização hemodinâmica invasiva é tipicamente realizada por cateterismo de artéria pulmonar (cateter de Swan‑Ganz). Usar a grafia correta 'CATETERISMO DE 
+[16:53:22] [NIVEL4]   -> 2 candidato(s) via nivel2: BANDAGEM DA ARTÉRIA PULMONAR
+[16:53:30] [NIVEL4] Tentativa 5: BUSCAR 'CATE TERISMO CARDIACO DIAGNÓSTICO' — A monitorização hemodinâmica invasiva costuma ser realizada por cateterismo cardíaco diagnóstico (cateter de Swan‑Ganz). Usar o termo administrativo 'CATE TERIS
+[16:53:31] [SEMANTICO] 'cate terismo cardiaco diagnostico': 0.873 (limiar 0.8) -> CARDIORRAFIA
+[16:53:31] [NIVEL4]   -> 1 candidato(s) via nivel_semantico: CARDIORRAFIA
+[16:53:47] [NIVEL4] Tentativa 6: DESISTIR — Nenhum dos procedimentos encontrados corresponde à monitorização hemodinâmica invasiva; não há código próprio no SIGTAP para esse ato isolado, sendo geralmente 
+[16:53:47] [NIVEL4] ===== Ciclo de 'monitorização hemodinâmica invasiva' encerrado sem correspondência (6 tentativa(s)) =====
+[16:53:47] [TOOL] 'monitorização hemodinâmica invasiva' (cat=PROCEDIMENTO) -> vazio, 66.19s
+[16:53:47] [NIVEL0] 'cateter de Swan-Ganz' -> ['cateter de termodiluicao']
+[16:53:47] [TOOL] 'cateter de Swan-Ganz' (cat=MATERIAL) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.11s
+[16:53:47] [NIVEL0] 'protamina' marcado como não faturável separadamente (medicamentos_uso_hospitalar).
+[16:53:47] [TOOL] 'protamina' (cat=MEDICAMENTO) -> nao_faturavel, 0.00s
+[16:53:47] [NIVEL0] 'raio-x de tórax' -> ['radiografia de torax']
+[16:53:47] [TOOL] 'raio-x de tórax' (cat=EXAME) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.09s
+[16:53:47] [SIGTAP] 'dreno mediastinal' (cat=MATERIAL): busca restrita a 540 de 4994 procedimentos.
+[16:53:48] [SEMANTICO] 'dreno mediastinal': 0.560 (limiar 0.8) -> PRÓTESE PARCIAL MANDIBULAR REMOVÍVEL EM FLUXO DIGITAL
+[16:53:48] [NIVEL4] ===== Iniciando ciclo para 'dreno mediastinal' (categoria=MATERIAL, teto de 6 tentativas) =====
+[16:53:50] [NIVEL4] Tentativa 1: DESISTIR — Dreno mediastinal é um material descartável/insumo hospitalar que não possui código próprio no SIGTAP; itens de material geralmente não são faturáveis separadam
+[16:53:50] [NIVEL4] ===== Ciclo de 'dreno mediastinal' encerrado sem correspondência (1 tentativa(s)) =====
+[16:53:50] [TOOL] 'dreno mediastinal' (cat=MATERIAL) -> vazio, 2.21s
+[16:53:50] [SIGTAP] 'dreno pleural' (cat=MATERIAL): busca restrita a 540 de 4994 procedimentos.
+[16:53:51] [SEMANTICO] 'dreno pleural': 0.589 (limiar 0.8) -> PLACA OCLUSAL
+[16:53:51] [NIVEL4] ===== Iniciando ciclo para 'dreno pleural' (categoria=MATERIAL, teto de 6 tentativas) =====
+[16:53:52] [NIVEL4] Tentativa 1: DESISTIR — Dreno pleural é um insumo descartável/consumível e não possui código próprio no SIGTAP; materiais desse tipo são incluídos em outros procedimentos e não são fat
+[16:53:52] [NIVEL4] ===== Ciclo de 'dreno pleural' encerrado sem correspondência (1 tentativa(s)) =====
+[16:53:52] [TOOL] 'dreno pleural' (cat=MATERIAL) -> vazio, 2.14s
+[16:53:52] [SIGTAP] 'fisioterapia respiratória' (cat=PROCEDIMENTO): busca restrita a 2700 de 4994 procedimentos.
+[16:53:53] [SEMANTICO] 'fisioterapia respiratoria': 0.825 (limiar 0.8) -> TRATAMENTO DE OUTRAS DOENCAS DO APARELHO RESPIRATORIO
+[16:53:53] [TOOL] 'fisioterapia respiratória' (cat=PROCEDIMENTO) -> nivel_semantico, score=0.825, confianca=baixa, painel=False, 1 resultado(s), 0.78s
+[16:53:53] [SIGTAP] 'troponina' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[16:53:53] [TOOL] 'troponina' (cat=EXAME) -> nivel1, score=0.843, confianca=media, painel=False, 1 resultado(s), 0.05s
+[16:53:53] [NIVEL0] 'coagulograma' -> ['tempo de protrombina', 'tempo de tromboplastina parcial ativada']
+[16:53:53] [TOOL] 'coagulograma' (cat=EXAME) -> nivel0, score=1.000, confianca=alta, painel=True, 2 resultado(s), 0.25s
+[16:54:05] [NIVEL0] 'oseltamivir' marcado como não faturável separadamente (medicamentos_uso_hospitalar).
+[16:54:05] [TOOL] 'oseltamivir' (cat=MEDICAMENTO) -> nao_faturavel, 0.00s
+[16:54:05] [NIVEL0] 'azitromicina' marcado como não faturável separadamente (medicamentos_uso_hospitalar).
+[16:54:05] [TOOL] 'azitromicina' (cat=MEDICAMENTO) -> nao_faturavel, 0.00s
+[16:54:05] [SIGTAP] 'ventilação não invasiva' (cat=PROCEDIMENTO): busca restrita a 2700 de 4994 procedimentos.
+[16:54:05] [TOOL] 'ventilação não invasiva' (cat=PROCEDIMENTO) -> nivel1, score=0.611, confianca=baixa, painel=False, 2 resultado(s), 0.06s
+[16:54:05] [SIGTAP] 'painel viral respiratório' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[16:54:06] [SEMANTICO] 'painel viral respiratorio': 0.771 (limiar 0.8) -> PESQUISA DE ANTICORPOS E/OU ANTIGENO DO VIRUS SINCICIAL RESP
+[16:54:06] [NIVEL4] ===== Iniciando ciclo para 'painel viral respiratório' (categoria=EXAME, teto de 6 tentativas) =====
+[16:54:15] [NIVEL4] Tentativa 1: BUSCAR 'DETERMINAÇÃO DE VÍRUS RESPIRATÓRIOS POR PCR' — O SIGTAP costuma usar verbos como 'DETERMINAÇÃO DE' ou 'PESQUISA DE' e especificar a técnica (PCR). Substituir 'painel viral respiratório' por essa formulação a
+[16:54:15] [NIVEL4]   -> 2 candidato(s) via nivel2: IDENTIFICAÇÃO DE VÍRUS DA RAIVA POR RT-PCR
+[16:54:25] [NIVEL4] Tentativa 2: BUSCAR 'PESQUISA DE VÍRUS RESPIRATÓRIOS POR PCR' — O termo 'painel viral respiratório' refere‑se à detecção simultânea de múltiplos vírus respiratórios. No SIGTAP, exames desse tipo costumam ser descritos como '
+[16:54:25] [NIVEL4]   -> 3 candidato(s) via nivel2: IDENTIFICAÇÃO DE VÍRUS DA RAIVA POR RT-PCR
+[16:54:37] [NIVEL4] Tentativa 3: DESISTIR — Nenhum dos códigos encontrados corresponde ao exame multiplex de detecção de múltiplos vírus respiratórios (painel viral respiratório). O SIGTAP não possui um c
+[16:54:37] [NIVEL4] ===== Ciclo de 'painel viral respiratório' encerrado sem correspondência (3 tentativa(s)) =====
+[16:54:37] [TOOL] 'painel viral respiratório' (cat=EXAME) -> vazio, 31.80s
+[16:54:37] [SIGTAP] 'cultura de escarro' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[16:54:38] [SEMANTICO] 'cultura de escarro': 0.628 (limiar 0.8) -> PESQUISA DE FILARIA
+[16:54:38] [NIVEL4] ===== Iniciando ciclo para 'cultura de escarro' (categoria=EXAME, teto de 6 tentativas) =====
+[16:54:39] [NIVEL4] Tentativa 1: BUSCAR 'CULTURA DE MATERIAL RESPIRATORIO' — O SIGTAP costuma usar termos administrativos mais genéricos; para cultura de escarro o procedimento costuma estar listado como 'CULTURA DE MATERIAL RESPIRATORIO
+[16:54:39] [SEMANTICO] 'cultura de material respiratorio': 0.749 (limiar 0.8) -> AVALIAÇÃO DE FUNÇÃO E MECÂNICA RESPIRATÓRIA
+[16:54:39] [NIVEL4]   -> nada encontrado para 'CULTURA DE MATERIAL RESPIRATORIO'
+[16:54:48] [NIVEL4] Tentativa 2: BUSCAR 'CULTURA DE SECRECAO RESPIRATORIA' — O SIGTAP costuma empregar o termo 'SECRECAO' ao invés de 'ESCARRO' para exames microbiológicos de vias aéreas; assim, 'CULTURA DE SECRECAO RESPIRATORIA' pode en
+[16:54:49] [SEMANTICO] 'cultura de secrecao respiratoria': 0.777 (limiar 0.8) -> AVALIAÇÃO DE FUNÇÃO E MECÂNICA RESPIRATÓRIA
+[16:54:49] [NIVEL4]   -> nada encontrado para 'CULTURA DE SECRECAO RESPIRATORIA'
+[16:54:55] [NIVEL4] Tentativa 3: DESISTIR — Não há código específico no SIGTAP para cultura de escarro; o exame costuma ser incluído em procedimentos genéricos de cultura de material clínico ou não é fatu
+[16:54:55] [NIVEL4] ===== Ciclo de 'cultura de escarro' encerrado sem correspondência (3 tentativa(s)) =====
+[16:54:55] [TOOL] 'cultura de escarro' (cat=EXAME) -> vazio, 17.82s
+[16:54:55] [NIVEL0] 'raio-x de tórax' -> ['radiografia de torax']
+[16:54:55] [TOOL] 'raio-x de tórax' (cat=EXAME) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.12s
+[16:54:55] [NIVEL0] 'tomografia de tórax' -> ['tomografia computadorizada de torax']
+[16:54:55] [TOOL] 'tomografia de tórax' (cat=EXAME) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.11s
+[16:54:56] [SIGTAP] 'metilprednisolona' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[16:54:56] [TOOL] 'metilprednisolona' (cat=MEDICAMENTO) -> nivel1, score=0.478, confianca=baixa, painel=False, 1 resultado(s), 0.03s
+[16:54:56] [SIGTAP] 'fisioterapia respiratória' (cat=PROCEDIMENTO): busca restrita a 2700 de 4994 procedimentos.
+[16:54:56] [SEMANTICO] 'fisioterapia respiratoria': 0.825 (limiar 0.8) -> TRATAMENTO DE OUTRAS DOENCAS DO APARELHO RESPIRATORIO
+[16:54:56] [TOOL] 'fisioterapia respiratória' (cat=PROCEDIMENTO) -> nivel_semantico, score=0.825, confianca=baixa, painel=False, 1 resultado(s), 0.28s
+[16:54:56] [SIGTAP] 'nebulização' (cat=PROCEDIMENTO): busca restrita a 2700 de 4994 procedimentos.
+[16:54:56] [TOOL] 'nebulização' (cat=PROCEDIMENTO) -> nivel1, score=0.694, confianca=baixa, painel=False, 1 resultado(s), 0.08s
+[16:54:56] [SIGTAP] 'lactato' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[16:54:56] [TOOL] 'lactato' (cat=EXAME) -> nivel1, score=0.832, confianca=media, painel=False, 1 resultado(s), 0.03s
+[16:54:56] [NIVEL0] 'gasometria arterial' -> ['gasometria']
+[16:54:56] [TOOL] 'gasometria arterial' (cat=EXAME) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.14s
+[17:29:35] [SIGTAP] Iniciando servidor MCP...
+[17:29:35] [NIVEL0] Dicionário carregado: 31 sinônimo(s), 21 termo(s) não faturável(is).
+[17:29:35] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[17:29:39] [SIGTAP] Tabela carregada: 4994 procedimentos, 9 grupos, em 4.2s.
+[17:29:39] [SEMANTICO] Cache reaproveitado (4994 linhas).
+[17:29:39] [SEMANTICO] Carregando modelo 'paraphrase-multilingual-MiniLM-L12-v2' (HF_HUB_OFFLINE=1)...
+[17:30:39] [SEMANTICO] Modelo carregado em 59.5s.
+[17:30:40] [AQUECIMENTO] Primeiro encode em 0.9s.
+[17:30:40] [AQUECIMENTO] Concluído em 65.1s.
+[17:30:40] [SIGTAP] Pontuação bidirecional ativa: rejeição F1 < 0.45, confiança alta >= 0.85, média >= 0.7.
+[17:30:40] [SIGTAP] Nível 4 (agente): ATIVO, teto de 6 tentativas por termo.
+[17:30:40] [SIGTAP] Pronto, aguardando conexão via stdio...
+[17:30:57] [SIGTAP] 'ultrassonografia obstétrica' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[17:30:57] [TOOL] 'ultrassonografia obstétrica' (cat=EXAME) -> nivel1, score=1.000, confianca=alta, painel=False, 2 resultado(s), 0.10s
+[17:30:57] [SIGTAP] 'anestesia raquidiana' (cat=PROCEDIMENTO): busca restrita a 2700 de 4994 procedimentos.
+[17:30:57] [SEMANTICO] 'anestesia raquidiana': 0.894 (limiar 0.8) -> ANESTESIA GERAL
+[17:30:57] [TOOL] 'anestesia raquidiana' (cat=PROCEDIMENTO) -> nivel_semantico, score=0.894, confianca=media, painel=False, 1 resultado(s), 0.24s
+[17:30:57] [SIGTAP] 'cesariana' (cat=PROCEDIMENTO): busca restrita a 2700 de 4994 procedimentos.
+[17:30:57] [TOOL] 'cesariana' (cat=PROCEDIMENTO) -> nivel1, score=0.680, confianca=baixa, painel=False, 2 resultado(s), 0.05s
+[17:30:57] [SIGTAP] 'ocitocina' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[17:30:57] [SEMANTICO] 'ocitocina': 0.614 (limiar 0.8) -> ABCIXIMABE
+[17:30:57] [NIVEL4] Agente usando API (groq): openai/gpt-oss-120b
+[17:31:10] [NIVEL4] ===== Iniciando ciclo para 'ocitocina' (categoria=MEDICAMENTO, teto de 6 tentativas) =====
+[17:31:11] [NIVEL4] Tentativa 1: DESISTIR — Ocitocina é um medicamento de uso hospitalar rotineiro e não possui código próprio no SIGTAP; sua administração é incluída nos procedimentos clínicos e não é fa
+[17:31:11] [NIVEL4] ===== Ciclo de 'ocitocina' encerrado sem correspondência (1 tentativa(s)) =====
+[17:31:11] [TOOL] 'ocitocina' (cat=MEDICAMENTO) -> vazio, 13.68s
+[17:31:11] [SIGTAP] 'hemograma' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[17:31:11] [TOOL] 'hemograma' (cat=EXAME) -> nivel1, score=0.685, confianca=baixa, painel=False, 1 resultado(s), 0.03s
+[17:31:11] [SIGTAP] 'tipagem sanguínea' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[17:31:11] [SEMANTICO] 'tipagem sanguinea': 0.844 (limiar 0.8) -> PROCESSAMENTO DE SANGUE
+[17:31:11] [TOOL] 'tipagem sanguínea' (cat=EXAME) -> nivel_semantico, score=0.844, confianca=baixa, painel=False, 1 resultado(s), 0.12s
+[17:31:11] [SIGTAP] 'laqueadura tubária' (cat=PROCEDIMENTO): busca restrita a 2700 de 4994 procedimentos.
+[17:31:11] [TOOL] 'laqueadura tubária' (cat=PROCEDIMENTO) -> nivel1, score=1.000, confianca=alta, painel=False, 3 resultado(s), 0.05s
+[17:31:14] [SIGTAP] 'radiografia de fêmur' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[17:31:14] [SEMANTICO] 'radiografia de femur': 0.828 (limiar 0.8) -> RADIOGRAFIA DE COXA
+[17:31:14] [TOOL] 'radiografia de fêmur' (cat=EXAME) -> nivel_semantico, score=0.828, confianca=baixa, painel=False, 1 resultado(s), 0.16s
+[17:31:14] [SIGTAP] 'tomografia computadorizada de bacia' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[17:31:14] [TOOL] 'tomografia computadorizada de bacia' (cat=EXAME) -> nivel1, score=0.670, confianca=baixa, painel=False, 1 resultado(s), 0.02s
+[17:31:14] [SIGTAP] 'desbridamento de ferida' (cat=PROCEDIMENTO): busca restrita a 2700 de 4994 procedimentos.
+[17:31:14] [SEMANTICO] 'desbridamento de ferida': 0.747 (limiar 0.8) -> EXCISÃO E/OU SUTURA SIMPLES DE PEQUENAS LESÕES / FERIMENTOS 
+[17:31:14] [NIVEL4] ===== Iniciando ciclo para 'desbridamento de ferida' (categoria=PROCEDIMENTO, teto de 6 tentativas) =====
+[17:31:16] [NIVEL4] Tentativa 1: BUSCAR 'DESBRIDAMENTO DE FERIDA POR METODO CIRURGICO' — o SIGTAP costuma detalhar o desbridamento especificando o método (cirúrgico, mecânico, químico); usar essa formulação pode encontrar o código correspondente
+[17:31:16] [SEMANTICO] 'desbridamento de ferida por metodo cirurgico': 0.850 (limiar 0.8) -> TRATAMENTO CIRURGICO EM POLITRAUMATIZADO
+[17:31:16] [NIVEL4]   -> 1 candidato(s) via nivel_semantico: TRATAMENTO CIRURGICO EM POLITRAUMATIZADO
+[17:31:17] [NIVEL4] Tentativa 2: BUSCAR 'DESBRIDAMENTO DE FERIDA POR METODO MECANICO' — o SIGTAP costuma diferenciar o desbridamento pelo método (mecânico, cirúrgico, químico); usar 'mecânico' pode localizar o código específico para o procedimento
+[17:31:18] [SEMANTICO] 'desbridamento de ferida por metodo mecanico': 0.692 (limiar 0.8) -> REDUÇAO INCRUENTA DE FRATURA / LESÃO FISARIA DO EXTREMO PROX
+[17:31:18] [NIVEL4]   -> nada encontrado para 'DESBRIDAMENTO DE FERIDA POR METODO MECANICO'
+[17:31:19] [NIVEL4] Tentativa 3: DESISTIR — não há código específico no SIGTAP para desbridamento de ferida; o procedimento costuma estar incluído em atos de cura ou tratamento de ferida que não são fatur
+[17:31:19] [NIVEL4] ===== Ciclo de 'desbridamento de ferida' encerrado sem correspondência (3 tentativa(s)) =====
+[17:31:19] [TOOL] 'desbridamento de ferida' (cat=PROCEDIMENTO) -> vazio, 4.97s
+[17:31:19] [SIGTAP] 'cefazolina' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[17:31:19] [SEMANTICO] 'cefazolina': 0.574 (limiar 0.8) -> ABCIXIMABE
+[17:31:19] [NIVEL4] ===== Iniciando ciclo para 'cefazolina' (categoria=MEDICAMENTO, teto de 6 tentativas) =====
+[17:31:20] [NIVEL4] Tentativa 1: DESISTIR — Cefazolina é um antibiótico de uso hospitalar que não possui código próprio no SIGTAP; medicamentos de rotina são faturados dentro de procedimentos ou não são c
+[17:31:20] [NIVEL4] ===== Ciclo de 'cefazolina' encerrado sem correspondência (1 tentativa(s)) =====
+[17:31:20] [TOOL] 'cefazolina' (cat=MEDICAMENTO) -> vazio, 0.71s
+[17:31:20] [SIGTAP] 'tração esquelética' (cat=PROCEDIMENTO): busca restrita a 2700 de 4994 procedimentos.
+[17:31:20] [TOOL] 'tração esquelética' (cat=PROCEDIMENTO) -> nivel1, score=0.719, confianca=media, painel=False, 3 resultado(s), 0.05s
+[17:31:20] [SIGTAP] 'transfusão de concentrado de hemácias' (cat=PROCEDIMENTO): busca restrita a 2700 de 4994 procedimentos.
+[17:31:20] [TOOL] 'transfusão de concentrado de hemácias' (cat=PROCEDIMENTO) -> nivel1, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.06s
+[17:31:23] [SIGTAP] 'hemograma' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[17:31:23] [TOOL] 'hemograma' (cat=EXAME) -> nivel1, score=0.685, confianca=baixa, painel=False, 1 resultado(s), 0.03s
+[17:31:23] [NIVEL0] 'proteína C-reativa' -> ['proteina c reativa']
+[17:31:23] [TOOL] 'proteína C-reativa' (cat=EXAME) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.10s
+[17:31:23] [SIGTAP] 'radiografia de tórax' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[17:31:23] [TOOL] 'radiografia de tórax' (cat=EXAME) -> nivel1, score=0.707, confianca=media, painel=False, 5 resultado(s), 0.03s
+[17:31:23] [SIGTAP] 'oxigenoterapia' (cat=PROCEDIMENTO): busca restrita a 2700 de 4994 procedimentos.
+[17:31:23] [TOOL] 'oxigenoterapia' (cat=PROCEDIMENTO) -> nivel1, score=0.634, confianca=baixa, painel=False, 1 resultado(s), 0.06s
+[17:31:23] [SIGTAP] 'cateter nasal' (cat=MATERIAL): busca restrita a 540 de 4994 procedimentos.
+[17:31:23] [TOOL] 'cateter nasal' (cat=MATERIAL) -> nivel2, score=0.601, confianca=baixa, painel=False, 1 resultado(s), 0.04s
+[17:31:23] [SIGTAP] 'aspiração de vias aéreas superiores' (cat=PROCEDIMENTO): busca restrita a 2700 de 4994 procedimentos.
+[17:31:23] [TOOL] 'aspiração de vias aéreas superiores' (cat=PROCEDIMENTO) -> nivel2, score=0.617, confianca=baixa, painel=False, 3 resultado(s), 0.19s
+[17:31:23] [SIGTAP] 'fisioterapia respiratória' (cat=PROCEDIMENTO): busca restrita a 2700 de 4994 procedimentos.
+[17:31:24] [SEMANTICO] 'fisioterapia respiratoria': 0.825 (limiar 0.8) -> TRATAMENTO DE OUTRAS DOENCAS DO APARELHO RESPIRATORIO
+[17:31:24] [TOOL] 'fisioterapia respiratória' (cat=PROCEDIMENTO) -> nivel_semantico, score=0.825, confianca=baixa, painel=False, 1 resultado(s), 0.21s
+[17:31:24] [SIGTAP] 'pesquisa de vírus sincicial respiratório' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[17:31:24] [TOOL] 'pesquisa de vírus sincicial respiratório' (cat=EXAME) -> nivel1, score=0.764, confianca=media, painel=False, 1 resultado(s), 0.03s
+[17:31:24] [SIGTAP] 'hidratação venosa' (cat=PROCEDIMENTO): busca restrita a 2700 de 4994 procedimentos.
+[17:31:24] [SEMANTICO] 'hidratacao venosa': 0.782 (limiar 0.8) -> SUTURA DE ESCLERA
+[17:31:24] [NIVEL4] ===== Iniciando ciclo para 'hidratação venosa' (categoria=PROCEDIMENTO, teto de 6 tentativas) =====
+[17:31:34] [NIVEL4] Tentativa 1: BUSCAR 'ADMINISTRAÇÃO DE SOLUÇÃO ENDOVENOSA' — No SIGTAP a hidratação venosa costuma ser codificada como administração ou infusão de solução endovenosa, usando termos administrativos diferentes do clínico
+[17:31:34] [NIVEL4]   -> 1 candidato(s) via nivel2: ADMINISTRAÇÃO DE MEDICAMENTOS POR VIA ENDOVENOSA
+[17:31:36] [NIVEL4] Tentativa 2: BUSCAR 'INFUSÃO DE SOLUÇÃO ENDOVENOSA' — Hidratação venosa corresponde à infusão de solução endovenosa; o termo administrativo costuma usar 'infusão' em vez de 'administração de medicamentos'
+[17:31:37] [SEMANTICO] 'infusao de solucao endovenosa': 0.815 (limiar 0.8) -> ESFOLIAÇÃO QUÍMICA
+[17:31:37] [NIVEL4]   -> 1 candidato(s) via nivel_semantico: ESFOLIAÇÃO QUÍMICA
+[17:31:53] [NIVEL4] Tentativa 3: DESISTIR — Hidratação venosa não possui código próprio no SIGTAP; procedimentos encontrados (ex.: ESFOLIAÇÃO QUÍMICA) são diferentes e não correspondem ao ato clínico
+[17:31:53] [NIVEL4] ===== Ciclo de 'hidratação venosa' encerrado sem correspondência (3 tentativa(s)) =====
+[17:31:53] [TOOL] 'hidratação venosa' (cat=PROCEDIMENTO) -> vazio, 29.67s
+[17:31:56] [SIGTAP] 'implante de cateter totalmente implantável' (cat=PROCEDIMENTO): busca restrita a 2700 de 4994 procedimentos.
+[17:31:56] [TOOL] 'implante de cateter totalmente implantável' (cat=PROCEDIMENTO) -> nivel2, score=0.589, confianca=baixa, painel=False, 2 resultado(s), 0.28s
+[17:31:56] [SIGTAP] 'doxorrubicina' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[17:31:57] [SEMANTICO] 'doxorrubicina': 0.648 (limiar 0.8) -> CLORIDRATO DE DONEPEZILA 10 MG (POR COMPRIMIDO)
+[17:31:57] [NIVEL4] ===== Iniciando ciclo para 'doxorrubicina' (categoria=MEDICAMENTO, teto de 6 tentativas) =====
+[17:32:13] [NIVEL4] Tentativa 1: DESISTIR — doxorrubicina é um medicamento de quimioterapia que não possui código próprio no SIGTAP; a sua administração é faturada como parte de procedimentos de quimioter
+[17:32:13] [NIVEL4] ===== Ciclo de 'doxorrubicina' encerrado sem correspondência (1 tentativa(s)) =====
+[17:32:13] [TOOL] 'doxorrubicina' (cat=MEDICAMENTO) -> vazio, 16.37s
+[17:32:13] [SIGTAP] 'ciclofosfamida' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[17:32:13] [TOOL] 'ciclofosfamida' (cat=MEDICAMENTO) -> nivel1, score=0.645, confianca=baixa, painel=False, 1 resultado(s), 0.03s
+[17:32:13] [SIGTAP] 'hemograma' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[17:32:13] [TOOL] 'hemograma' (cat=EXAME) -> nivel1, score=0.685, confianca=baixa, painel=False, 1 resultado(s), 0.03s
+[17:32:13] [SIGTAP] 'função hepática' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[17:32:13] [SEMANTICO] 'funcao hepatica': 0.748 (limiar 0.8) -> PORTOGRAFIA TRANS-HEPATICA
+[17:32:13] [NIVEL4] ===== Iniciando ciclo para 'função hepática' (categoria=EXAME, teto de 6 tentativas) =====
+[17:32:17] [NIVEL4] Tentativa 1: BUSCAR 'DOSAGEM DE ENZIMAS HEPÁTICAS' — No SIGTAP exames de função hepática são registrados como dosagens de enzimas hepáticas (AST, ALT, GGT, etc.). Usar o termo administrativo 'DOSAGEM DE ENZIMAS HE
+[17:32:17] [SEMANTICO] 'dosagem de enzimas hepaticas': 0.665 (limiar 0.8) -> DETERMINAÇÃO DE ENZIMAS ERITROCITÁRIAS (CADA)
+[17:32:17] [NIVEL4]   -> nada encontrado para 'DOSAGEM DE ENZIMAS HEPÁTICAS'
+[17:32:24] [NIVEL4] Tentativa 2: BUSCAR 'DOSAGEM DE AST' — Exames de função hepática são faturados no SIGTAP como dosagens individuais de enzimas, como AST (aspartato aminotransferase). Usar o termo 'DOSAGEM DE AST' alt
+[17:32:24] [SEMANTICO] 'dosagem de ast': 0.766 (limiar 0.8) -> DOSAGEM DE ESTRIOL
+[17:32:24] [NIVEL4]   -> nada encontrado para 'DOSAGEM DE AST'
+[17:32:35] [NIVEL4] Tentativa 3: BUSCAR 'DOSAGEM DE TGO' — No SIGTAP as enzimas hepáticas são listadas pelos seus nomes técnicos (TGO, TGP, GGT, etc.). Usar 'DOSAGEM DE TGO' altera as palavras e pode encontrar o código 
+[17:32:36] [SEMANTICO] 'dosagem de tgo': 0.960 (limiar 0.8) -> DOSAGEM DE CHUMBO
+[17:32:36] [NIVEL4]   -> 1 candidato(s) via nivel_semantico: DOSAGEM DE CHUMBO
+[17:32:46] [NIVEL4] Tentativa 4: BUSCAR 'DOSAGEM DE ALT' — Exames de função hepática são frequentemente faturados como dosagens individuais de ALT (alanina aminotransferase). Usar 'DOSAGEM DE ALT' altera as palavras e p
+[17:32:47] [SEMANTICO] 'dosagem de alt': 0.896 (limiar 0.8) -> DOSAGEM DE CHUMBO
+[17:32:47] [NIVEL4]   -> 1 candidato(s) via nivel_semantico: DOSAGEM DE CHUMBO
+[17:33:01] [NIVEL4] Tentativa 5: BUSCAR 'EXAME DE PERFIL HEPÁTICO' — No SIGTAP exames de função hepática costumam ser registrados como 'perfil hepático' ou 'exame de perfil hepático', que engloba dosagens de enzimas e bilirrubina
+[17:33:01] [SEMANTICO] 'exame de perfil hepatico': 0.680 (limiar 0.8) -> PORTOGRAFIA TRANS-HEPATICA
+[17:33:01] [NIVEL4]   -> nada encontrado para 'EXAME DE PERFIL HEPÁTICO'
+[17:33:08] [NIVEL4] Tentativa 6: BUSCAR 'EXAME DE BIOQUIMICA CLINICA' — Exames de função hepática costumam estar incluídos no procedimento administrativo de 'exame de bioquímica clínica', que engloba dosagens de enzimas hepáticas, b
+[17:33:08] [SEMANTICO] 'exame de bioquimica clinica': 0.776 (limiar 0.8) -> BIOPSIA DE BEXIGA
+[17:33:08] [NIVEL4]   -> nada encontrado para 'EXAME DE BIOQUIMICA CLINICA'
+[17:33:08] [NIVEL4] ===== Teto de 6 tentativas atingido para 'função hepática' sem conclusão =====
+[17:33:08] [TOOL] 'função hepática' (cat=EXAME) -> vazio, 54.91s
+[17:33:08] [SIGTAP] 'função renal' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[17:33:08] [SEMANTICO] 'funcao renal': 0.589 (limiar 0.8) -> DETERMINACAO DE FLUXO PLASMATICO RENAL
+[17:33:08] [NIVEL4] ===== Iniciando ciclo para 'função renal' (categoria=EXAME, teto de 6 tentativas) =====
+[17:33:11] [NIVEL4] Tentativa 1: BUSCAR 'AVALIAÇÃO DA FUNÇÃO RENAL' — SIGTAP costuma usar termos administrativos como 'AVALIAÇÃO' para exames de função, diferente de 'função renal' usado clinicamente
+[17:33:11] [NIVEL4]   -> 1 candidato(s) via nivel2: AVALIAÇÃO DE FUNÇÃO E MECÂNICA RESPIRATÓRIA
+[17:33:21] [NIVEL4] Tentativa 2: BUSCAR 'DOSAGEM DE CREATININA' — A avaliação da função renal no SIGTAP costuma ser codificada como dosagens de analitos renais (ex.: creatinina), usando o padrão 'DOSAGEM DE ...'
+[17:33:21] [NIVEL4]   -> 2 candidato(s) via nivel1: DOSAGEM DE CREATININA
+[17:33:28] [NIVEL4] Tentativa 3: BUSCAR 'PROFIL DE FUNÇÃO RENAL' — SIGTAP costuma agrupar exames de avaliação renal em perfis ou painéis, usando termos como 'PROFIL' ao invés de 'função renal'
+[17:33:29] [SEMANTICO] 'profil de funcao renal': 0.810 (limiar 0.8) -> CINTILOGRAFIA RENAL/RENOGRAMA (QUALITATIVA E/OU QUANTITATIVA
+[17:33:29] [NIVEL4]   -> 1 candidato(s) via nivel_semantico: CINTILOGRAFIA RENAL/RENOGRAMA (QUALITATIVA E/OU QUANTITATIVA
+[17:33:42] [NIVEL4] Tentativa 4: BUSCAR 'DOSAGEM DE UREIA' — Exames de função renal são tipicamente codificados como dosagens de analitos como ureia; usar 'DOSAGEM DE UREIA' pode encontrar o código correspondente
+[17:33:42] [NIVEL4]   -> 1 candidato(s) via nivel1: DOSAGEM DE UREIA
+[17:33:57] [NIVEL4] Tentativa 5: DESISTIR — Não existe código SIGTAP que represente genericamente o ato clínico 'função renal'; os códigos disponíveis são para dosagens específicas (creatinina, ureia) que
+[17:33:57] [NIVEL4] ===== Ciclo de 'função renal' encerrado sem correspondência (5 tentativa(s)) =====
+[17:33:57] [TOOL] 'função renal' (cat=EXAME) -> vazio, 49.05s
+[17:33:57] [SIGTAP] 'mamografia bilateral' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[17:33:57] [TOOL] 'mamografia bilateral' (cat=EXAME) -> nivel1, score=0.702, confianca=media, painel=False, 1 resultado(s), 0.01s
+[17:34:05] [SIGTAP] 'FAST' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[17:34:05] [SEMANTICO] 'fast': 0.453 (limiar 0.8) -> TESTE RÁPIDO TREPONÊMICO (SÍFILIS) EM GESTANTE
+[17:34:05] [NIVEL4] ===== Iniciando ciclo para 'FAST' (categoria=EXAME, teto de 6 tentativas) =====
+[17:34:12] [NIVEL4] Tentativa 1: BUSCAR 'ULTRASSONOGRAFIA DE TRAUMA ABDOMINAL' — FAST corresponde ao protocolo de ultrassom de trauma; no SIGTAP o exame costuma ser registrado como ultrassonografia de trauma abdominal, usando termos diferent
+[17:34:12] [NIVEL4]   -> 1 candidato(s) via nivel2: ULTRASSONOGRAFIA DE PROSTATA POR VIA ABDOMINAL
+[17:34:23] [NIVEL4] Tentativa 2: BUSCAR 'ULTRASSONOGRAFIA DE ABDOME' — FAST é um exame de ultrassom rápido do abdome para avaliação de trauma; no SIGTAP costuma ser registrado como ultrassonografia de abdome, sem usar a sigla FAST
+[17:34:23] [SEMANTICO] 'ultrassonografia de abdome': 0.959 (limiar 0.8) -> ULTRASSONOGRAFIA DE ABDÔMEN SUPERIOR
+[17:34:23] [NIVEL4]   -> 1 candidato(s) via nivel_semantico: ULTRASSONOGRAFIA DE ABDÔMEN SUPERIOR
+[17:34:34] [NIVEL4] Tentativa 3: BUSCAR 'ULTRASSONOGRAFIA DE TRAUMA DE TORAX E ABDOME' — FAST avalia rapidamente tórax e abdome em trauma; no SIGTAP o exame costuma ser descrito como ultrassonografia de trauma de tórax e abdome, usando termos difere
+[17:34:35] [SEMANTICO] 'ultrassonografia de trauma de torax e abdome': 0.802 (limiar 0.8) -> ULTRASSONOGRAFIA DE ABDÔMEN SUPERIOR
+[17:34:35] [NIVEL4]   -> 1 candidato(s) via nivel_semantico: ULTRASSONOGRAFIA DE ABDÔMEN SUPERIOR
+[17:34:44] [NIVEL4] Tentativa 4: DESISTIR — Não há código específico no SIGTAP para o protocolo FAST; os exames de ultrassom de abdômen ou tórax disponíveis não correspondem ao mesmo ato clínico, pois FAS
+[17:34:44] [NIVEL4] ===== Ciclo de 'FAST' encerrado sem correspondência (4 tentativa(s)) =====
+[17:34:44] [TOOL] 'FAST' (cat=EXAME) -> vazio, 38.29s
+[17:34:44] [SIGTAP] 'eletrocardiograma' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[17:34:44] [TOOL] 'eletrocardiograma' (cat=EXAME) -> nivel1, score=1.000, confianca=alta, painel=False, 2 resultado(s), 0.01s
+[17:34:44] [SIGTAP] 'tomografia computadorizada de crânio' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[17:34:44] [TOOL] 'tomografia computadorizada de crânio' (cat=EXAME) -> nivel1, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.01s
+[17:34:44] [SIGTAP] 'tomografia computadorizada de coluna cervical' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[17:34:44] [TOOL] 'tomografia computadorizada de coluna cervical' (cat=EXAME) -> nivel1, score=0.863, confianca=alta, painel=False, 1 resultado(s), 0.01s
+[17:34:44] [SIGTAP] 'tomografia computadorizada de abdome total' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[17:34:44] [TOOL] 'tomografia computadorizada de abdome total' (cat=EXAME) -> nivel2, score=0.799, confianca=media, painel=False, 5 resultado(s), 0.03s
+[17:34:44] [SIGTAP] 'punção de acesso venoso periférico' (cat=PROCEDIMENTO): busca restrita a 2700 de 4994 procedimentos.
+[17:34:44] [SEMANTICO] 'puncao de acesso venoso periferico': 0.556 (limiar 0.8) -> MEDIASTINOTOMIA EXPLORADORA PARA-ESTERNAL / POR VIA ANTERIOR
+[17:34:44] [NIVEL4] ===== Iniciando ciclo para 'punção de acesso venoso periférico' (categoria=PROCEDIMENTO, teto de 6 tentativas) =====
+[17:34:46] [NIVEL4] Tentativa 1: BUSCAR 'CANULA VENOSA PERIFERICA' — No SIGTAP o procedimento de inserção de acesso venoso periférico costuma ser registrado como 'CANULA VENOSA PERIFÉRICA' ou variações semelhantes, em vez de 'pun
+[17:34:46] [SEMANTICO] 'canula venosa periferica': 0.751 (limiar 0.8) -> TROMBECTOMIA DO SISTEMA VENOSO
+[17:34:46] [NIVEL4]   -> nada encontrado para 'CANULA VENOSA PERIFERICA'
+[17:35:00] [NIVEL4] Tentativa 2: BUSCAR 'CATHETER VENOSO PERIFERICO' — No SIGTAP o procedimento costuma ser descrito como 'CATHETER VENOSO PERIFÉRICO' ou variações semelhantes, usando a palavra 'cateter' em vez de 'canula' ou 'punç
+[17:35:00] [SEMANTICO] 'catheter venoso periferico': 0.680 (limiar 0.8) -> PARACENTESE DE CAMARA ANTERIOR
+[17:35:00] [NIVEL4]   -> nada encontrado para 'CATHETER VENOSO PERIFERICO'
+[17:35:03] [NIVEL4] Tentativa 3: BUSCAR 'CIRURGIA DE ACESSO VENOUSO PERIFÉRICO' — No SIGTAP procedimentos de inserção de acesso venoso periférico costumam estar registrados como 'CIRURGIA DE ACESSO VENOUSO PERIFÉRICO', usando a palavra 'cirur
+[17:35:03] [SEMANTICO] 'cirurgia de acesso venouso periferico': 0.779 (limiar 0.8) -> CORREÇÃO CIRURGICA DE LAGOFTALMO
+[17:35:03] [NIVEL4]   -> nada encontrado para 'CIRURGIA DE ACESSO VENOUSO PERIFÉRICO'
+[17:35:17] [NIVEL4] Tentativa 4: DESISTIR — Procedimentos de punção ou inserção de acesso venoso periférico geralmente não possuem código próprio no SIGTAP, sendo incluídos em outros atos ou considerados 
+[17:35:17] [NIVEL4] ===== Ciclo de 'punção de acesso venoso periférico' encerrado sem correspondência (4 tentativa(s)) =====
+[17:35:17] [TOOL] 'punção de acesso venoso periférico' (cat=PROCEDIMENTO) -> vazio, 32.91s
+[17:35:17] [SIGTAP] 'imobilização cervical' (cat=PROCEDIMENTO): busca restrita a 2700 de 4994 procedimentos.
+[17:35:17] [TOOL] 'imobilização cervical' (cat=PROCEDIMENTO) -> nivel1, score=0.528, confianca=baixa, painel=False, 1 resultado(s), 0.02s
+[17:35:17] [SIGTAP] 'sutura de laceração' (cat=PROCEDIMENTO): busca restrita a 2700 de 4994 procedimentos.
+[17:35:17] [SEMANTICO] 'sutura de laceracao': 0.768 (limiar 0.8) -> DRENAGEM DE GANGLIO LINFATICO
+[17:35:17] [TOOL] 'sutura de laceração' (cat=PROCEDIMENTO) -> nivel3, score=0.973, confianca=media, painel=False, 1 resultado(s), 0.09s
+[17:35:19] [SIGTAP] 'hemograma completo' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[17:35:19] [TOOL] 'hemograma completo' (cat=EXAME) -> nivel1, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.01s
+[17:35:19] [SIGTAP] 'curativo em úlcera sacral' (cat=PROCEDIMENTO): busca restrita a 2700 de 4994 procedimentos.
+[17:35:19] [SEMANTICO] 'curativo em ulcera sacral': 0.840 (limiar 0.8) -> TRATAMENTO DE GENGIVITE ULCERATIVA NECROSANTE AGUDA (GUNA)
+[17:35:19] [TOOL] 'curativo em úlcera sacral' (cat=PROCEDIMENTO) -> nivel_semantico, score=0.840, confianca=baixa, painel=False, 1 resultado(s), 0.08s
+[17:35:28] [SIGTAP] 'cateterismo cardíaco' (cat=PROCEDIMENTO): busca restrita a 2700 de 4994 procedimentos.
+[17:35:28] [SEMANTICO] 'cateterismo cardiaco': 0.881 (limiar 0.8) -> CARDIORRAFIA
+[17:35:28] [TOOL] 'cateterismo cardíaco' (cat=PROCEDIMENTO) -> nivel_semantico, score=0.881, confianca=media, painel=False, 1 resultado(s), 0.07s
+[17:35:28] [SIGTAP] 'angioplastia coronariana transluminal percutânea' (cat=PROCEDIMENTO): busca restrita a 2700 de 4994 procedimentos.
+[17:35:28] [TOOL] 'angioplastia coronariana transluminal percutânea' (cat=PROCEDIMENTO) -> nivel2, score=0.638, confianca=baixa, painel=False, 3 resultado(s), 0.05s
+[17:35:28] [SIGTAP] 'stent farmacológico' (cat=MATERIAL): busca restrita a 540 de 4994 procedimentos.
+[17:35:28] [TOOL] 'stent farmacológico' (cat=MATERIAL) -> nivel1, score=0.632, confianca=baixa, painel=False, 2 resultado(s), 0.00s
+[17:35:28] [SIGTAP] 'balão de angioplastia' (cat=MATERIAL): busca restrita a 540 de 4994 procedimentos.
+[17:35:28] [TOOL] 'balão de angioplastia' (cat=MATERIAL) -> nivel1, score=0.665, confianca=baixa, painel=False, 2 resultado(s), 0.00s
+[17:35:28] [SIGTAP] 'fio-guia' (cat=MATERIAL): busca restrita a 540 de 4994 procedimentos.
+[17:35:28] [TOOL] 'fio-guia' (cat=MATERIAL) -> nivel1, score=0.602, confianca=baixa, painel=False, 2 resultado(s), 0.01s
+[17:35:28] [SIGTAP] 'clopidogrel' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[17:35:28] [TOOL] 'clopidogrel' (cat=MEDICAMENTO) -> nivel1, score=0.720, confianca=media, painel=False, 2 resultado(s), 0.01s
+[17:35:28] [SIGTAP] 'ácido acetilsalicílico' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[17:35:28] [SEMANTICO] 'acido acetilsalicilico': 0.656 (limiar 0.8) -> ÁCIDO URSODESOXICÓLICO 300 MG (POR COMPRIMIDO)
+[17:35:28] [NIVEL4] ===== Iniciando ciclo para 'ácido acetilsalicílico' (categoria=MEDICAMENTO, teto de 6 tentativas) =====
+[17:35:38] [NIVEL4] Falha ao chamar o modelo (RateLimitError: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01khnx7n34eaztjxaxyr8x9e2e` service tier `on_demand` on tokens per minute (TPM): Limit 8000, Used 6380, Requested 2260. Please try again in 4.8s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}).
+[17:35:38] [TOOL] 'ácido acetilsalicílico' (cat=MEDICAMENTO) -> vazio, 9.63s
+[17:35:38] [SIGTAP] 'ecocardiograma transtorácico' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[17:35:38] [SEMANTICO] 'ecocardiograma transtoracico': 0.892 (limiar 0.8) -> ECOCARDIOGRAFIA TRANSTORACICA
+[17:35:38] [TOOL] 'ecocardiograma transtorácico' (cat=EXAME) -> nivel_semantico, score=0.892, confianca=media, painel=False, 1 resultado(s), 0.05s
+[17:35:38] [SIGTAP] 'troponina' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[17:35:38] [TOOL] 'troponina' (cat=EXAME) -> nivel1, score=0.843, confianca=media, painel=False, 1 resultado(s), 0.01s
+[17:35:47] [SIGTAP] 'hemodiálise' (cat=PROCEDIMENTO): busca restrita a 2700 de 4994 procedimentos.
+[17:35:47] [TOOL] 'hemodiálise' (cat=PROCEDIMENTO) -> nivel1, score=0.636, confianca=baixa, painel=False, 1 resultado(s), 0.02s
+[17:35:47] [SIGTAP] 'ureia' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[17:35:47] [TOOL] 'ureia' (cat=EXAME) -> nivel1, score=0.832, confianca=media, painel=False, 2 resultado(s), 0.01s
+[17:35:47] [SIGTAP] 'creatinina' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[17:35:47] [TOOL] 'creatinina' (cat=EXAME) -> nivel1, score=0.824, confianca=media, painel=False, 3 resultado(s), 0.01s
+[17:35:47] [SIGTAP] 'potássio' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[17:35:47] [TOOL] 'potássio' (cat=EXAME) -> nivel1, score=0.843, confianca=media, painel=False, 1 resultado(s), 0.01s
+[17:35:47] [SIGTAP] 'cálcio' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[17:35:47] [TOOL] 'cálcio' (cat=EXAME) -> nivel1, score=0.832, confianca=media, painel=False, 2 resultado(s), 0.01s
+[17:35:47] [SIGTAP] 'fósforo' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[17:35:47] [TOOL] 'fósforo' (cat=EXAME) -> nivel1, score=0.843, confianca=media, painel=False, 1 resultado(s), 0.05s
+[17:35:47] [SIGTAP] 'paratormônio' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[17:35:47] [TOOL] 'paratormônio' (cat=EXAME) -> nivel1, score=0.843, confianca=media, painel=False, 1 resultado(s), 0.01s
+[17:35:47] [SIGTAP] 'eritropoetina' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[17:35:47] [SEMANTICO] 'eritropoetina': 0.646 (limiar 0.8) -> ABCIXIMABE
+[17:35:47] [NIVEL4] ===== Iniciando ciclo para 'eritropoetina' (categoria=MEDICAMENTO, teto de 6 tentativas) =====
+[17:35:57] [NIVEL4] Tentativa 1: BUSCAR 'ADMINISTRAÇÃO DE EPOETINA ALFA' — No SIGTAP medicamentos são codificados como atos de administração; o termo clínico 'eritropoetina' corresponde ao procedimento administrativo de administração d
+[17:35:57] [SEMANTICO] 'administracao de epoetina alfa': 0.607 (limiar 0.8) -> ALFAEPOETINA 1.000 UI INJETAVEL (POR FRASCO-AMPOLA)
+[17:35:57] [NIVEL4]   -> nada encontrado para 'ADMINISTRAÇÃO DE EPOETINA ALFA'
+[17:36:07] [NIVEL4] Tentativa 2: BUSCAR 'ADMINISTRAÇÃO DE EPOETINA RECOMBINANTE HUMANA' — No SIGTAP os medicamentos são listados como atos de administração; o nome técnico completo da eritropoetina costuma aparecer como 'EPOETINA RECOMBINANTE HUMANA'
+[17:36:07] [SEMANTICO] 'administracao de epoetina recombinante humana': 0.400 (limiar 0.8) -> IMUNOGLOBULINA HUMANA 1,0 G INJETAVEL (POR FRASCO)
+[17:36:07] [NIVEL4]   -> nada encontrado para 'ADMINISTRAÇÃO DE EPOETINA RECOMBINANTE HUMANA'
+[17:36:08] [NIVEL4] Tentativa 3: DESISTIR — Eritropoetina é um medicamento de uso hospitalar que não possui código próprio de procedimento no SIGTAP; sua administração costuma ser incluída em outros atos 
+[17:36:08] [NIVEL4] ===== Ciclo de 'eritropoetina' encerrado sem correspondência (3 tentativa(s)) =====
+[17:36:08] [TOOL] 'eritropoetina' (cat=MEDICAMENTO) -> vazio, 21.49s
+[17:36:08] [SIGTAP] 'ferro' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[17:36:08] [SEMANTICO] 'ferro': 0.335 (limiar 0.8) -> HIDRÓXIDO DE ALUMÍNIO 300 MG (POR COMPRIMIDO)
+[17:36:08] [TOOL] 'ferro' (cat=MEDICAMENTO) -> nivel3, score=1.000, confianca=media, painel=False, 1 resultado(s), 0.03s
+[17:36:09] [SIGTAP] 'ultrassonografia com Doppler' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[17:36:09] [TOOL] 'ultrassonografia com Doppler' (cat=EXAME) -> nivel2, score=0.613, confianca=baixa, painel=False, 3 resultado(s), 0.02s

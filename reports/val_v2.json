@@ -1,0 +1,1214 @@
+[
+  {
+    "prontuario_id": "VAL001",
+    "data_processamento": "2026-08-20T17:31:11.650266",
+    "modelo_utilizado": "api/groq — openai/gpt-oss-120b",
+    "extrator": "llm",
+    "orquestracao": "deterministica",
+    "texto_prontuario": "Gestante, 28 anos, 39 semanas, admitida em trabalho de parto. Realizado US obstétrico à admissão com BCF presente. Optado por parto cesáreo por desproporção céfalo-pélvica. Realizada anestesia raquidiana. Cesariana sem intercorrências, recém-nascido com Apgar 9/10. Administrada ocitocina no pós-parto imediato. Coletado hemograma de controle e tipagem sanguínea. Realizada laqueadura tubária a pedido, com consentimento prévio em prontuário.",
+    "entidades_extraidas": [
+      "ultrassonografia obstétrica",
+      "anestesia raquidiana",
+      "cesariana",
+      "ocitocina",
+      "hemograma",
+      "tipagem sanguínea",
+      "laqueadura tubária"
+    ],
+    "resumo": {
+      "total_entidades_extraidas": 7,
+      "total_codigos_sigtap": 6,
+      "total_nao_encontrados": 1,
+      "total_nao_faturaveis": 0,
+      "total_nao_realizados": 0,
+      "total_baixa_confianca": 3,
+      "valor_total": 1177.87
+    },
+    "entidades_por_categoria": {
+      "EXAME": [
+        "ultrassonografia obstétrica",
+        "hemograma",
+        "tipagem sanguínea"
+      ],
+      "PROCEDIMENTO": [
+        "anestesia raquidiana",
+        "cesariana",
+        "laqueadura tubária"
+      ],
+      "MEDICAMENTO": [
+        "ocitocina"
+      ]
+    },
+    "codigos_sigtap": [
+      {
+        "codigo": "02.05.02.014-3",
+        "descricao": "ULTRASSONOGRAFIA OBSTETRICA",
+        "grupo": "Procedimentos com finalidade diagnóstica",
+        "origem": "ultrassonografia obstétrica",
+        "categoria": "EXAME",
+        "vl_sh": 24.2,
+        "vl_sa": 24.2,
+        "vl_sp": 0.0,
+        "vl_total": 48.4,
+        "nivel": "nivel1",
+        "score": 1.0,
+        "confianca": "alta",
+        "painel": false,
+        "tentativas_agente": null
+      },
+      {
+        "codigo": "04.17.01.004-4",
+        "descricao": "ANESTESIA GERAL",
+        "grupo": "Procedimentos cirúrgicos",
+        "origem": "anestesia raquidiana",
+        "categoria": "PROCEDIMENTO",
+        "vl_sh": 0.0,
+        "vl_sa": 0.0,
+        "vl_sp": 84.0,
+        "vl_total": 84.0,
+        "nivel": "nivel_semantico",
+        "score": 0.894,
+        "confianca": "media",
+        "painel": false,
+        "tentativas_agente": null
+      },
+      {
+        "codigo": "04.11.01.003-4",
+        "descricao": "OPERAÇÃO CESARIANA",
+        "grupo": "Procedimentos cirúrgicos",
+        "origem": "cesariana",
+        "categoria": "PROCEDIMENTO",
+        "vl_sh": 395.68,
+        "vl_sa": 0.0,
+        "vl_sp": 150.05,
+        "vl_total": 545.73,
+        "nivel": "nivel1",
+        "score": 0.68,
+        "confianca": "baixa",
+        "painel": false,
+        "tentativas_agente": null
+      },
+      {
+        "codigo": "02.02.02.038-0",
+        "descricao": "HEMOGRAMA COMPLETO",
+        "grupo": "Procedimentos com finalidade diagnóstica",
+        "origem": "hemograma",
+        "categoria": "EXAME",
+        "vl_sh": 0.0,
+        "vl_sa": 4.11,
+        "vl_sp": 0.0,
+        "vl_total": 4.11,
+        "nivel": "nivel1",
+        "score": 0.685,
+        "confianca": "baixa",
+        "painel": false,
+        "tentativas_agente": null
+      },
+      {
+        "codigo": "02.12.02.006-4",
+        "descricao": "PROCESSAMENTO DE SANGUE",
+        "grupo": "Procedimentos com finalidade diagnóstica",
+        "origem": "tipagem sanguínea",
+        "categoria": "EXAME",
+        "vl_sh": 0.0,
+        "vl_sa": 10.15,
+        "vl_sp": 0.0,
+        "vl_total": 10.15,
+        "nivel": "nivel_semantico",
+        "score": 0.844,
+        "confianca": "baixa",
+        "painel": false,
+        "tentativas_agente": null
+      },
+      {
+        "codigo": "04.09.06.018-6",
+        "descricao": "LAQUEADURA TUBARIA",
+        "grupo": "Procedimentos cirúrgicos",
+        "origem": "laqueadura tubária",
+        "categoria": "PROCEDIMENTO",
+        "vl_sh": 286.47,
+        "vl_sa": 0.0,
+        "vl_sp": 199.01,
+        "vl_total": 485.48,
+        "nivel": "nivel1",
+        "score": 1.0,
+        "confianca": "alta",
+        "painel": false,
+        "tentativas_agente": null
+      }
+    ],
+    "termos_nao_encontrados": [
+      "ocitocina"
+    ],
+    "termos_nao_faturaveis": [],
+    "termos_nao_realizados": [],
+    "entidades_descartadas": []
+  },
+  {
+    "prontuario_id": "VAL002",
+    "data_processamento": "2026-08-20T17:31:20.271086",
+    "modelo_utilizado": "api/groq — openai/gpt-oss-120b",
+    "extrator": "llm",
+    "orquestracao": "deterministica",
+    "texto_prontuario": "Paciente masculino, 34 anos, vítima de acidente motociclístico, com fratura exposta de fêmur direito. Realizado RX de fêmur em duas incidências e TC de bacia. Indicada osteossíntese de fêmur com haste intramedular bloqueada. Realizado desbridamento de ferida e lavagem cirúrgica. Administrada cefazolina profilática. Instalada tração esquelética transesquelética no pré-operatório. Transfusão de concentrado de hemácias por queda de hemoglobina.",
+    "entidades_extraidas": [
+      "radiografia de fêmur",
+      "tomografia computadorizada de bacia",
+      "osteossíntese de fêmur",
+      "desbridamento de ferida",
+      "cefazolina",
+      "tração esquelética",
+      "transfusão de concentrado de hemácias"
+    ],
+    "resumo": {
+      "total_entidades_extraidas": 7,
+      "total_codigos_sigtap": 4,
+      "total_nao_encontrados": 2,
+      "total_nao_faturaveis": 0,
+      "total_nao_realizados": 1,
+      "total_baixa_confianca": 2,
+      "valor_total": 556.27
+    },
+    "entidades_por_categoria": {
+      "EXAME": [
+        "radiografia de fêmur",
+        "tomografia computadorizada de bacia"
+      ],
+      "PROCEDIMENTO": [
+        "osteossíntese de fêmur",
+        "desbridamento de ferida",
+        "tração esquelética",
+        "transfusão de concentrado de hemácias"
+      ],
+      "MEDICAMENTO": [
+        "cefazolina"
+      ]
+    },
+    "codigos_sigtap": [
+      {
+        "codigo": "02.04.06.011-7",
+        "descricao": "RADIOGRAFIA DE COXA",
+        "grupo": "Procedimentos com finalidade diagnóstica",
+        "origem": "radiografia de fêmur",
+        "categoria": "EXAME",
+        "vl_sh": 0.0,
+        "vl_sa": 8.94,
+        "vl_sp": 0.0,
+        "vl_total": 8.94,
+        "nivel": "nivel_semantico",
+        "score": 0.828,
+        "confianca": "baixa",
+        "painel": false,
+        "tentativas_agente": null
+      },
+      {
+        "codigo": "02.06.03.003-7",
+        "descricao": "TOMOGRAFIA COMPUTADORIZADA DE PELVE / BACIA / ABDOMEN INFERIOR",
+        "grupo": "Procedimentos com finalidade diagnóstica",
+        "origem": "tomografia computadorizada de bacia",
+        "categoria": "EXAME",
+        "vl_sh": 138.63,
+        "vl_sa": 138.63,
+        "vl_sp": 0.0,
+        "vl_total": 277.26,
+        "nivel": "nivel1",
+        "score": 0.67,
+        "confianca": "baixa",
+        "painel": false,
+        "tentativas_agente": null
+      },
+      {
+        "codigo": "04.08.06.040-9",
+        "descricao": "RETIRADA DE TRAÇÃO TRANS-ESQUELÉTICA",
+        "grupo": "Procedimentos cirúrgicos",
+        "origem": "tração esquelética",
+        "categoria": "PROCEDIMENTO",
+        "vl_sh": 163.61,
+        "vl_sa": 28.42,
+        "vl_sp": 61.56,
+        "vl_total": 253.59,
+        "nivel": "nivel1",
+        "score": 0.719,
+        "confianca": "media",
+        "painel": false,
+        "tentativas_agente": null
+      },
+      {
+        "codigo": "03.06.02.006-8",
+        "descricao": "TRANSFUSAO DE CONCENTRADO DE HEMACIAS",
+        "grupo": "Procedimentos clínicos",
+        "origem": "transfusão de concentrado de hemácias",
+        "categoria": "PROCEDIMENTO",
+        "vl_sh": 8.39,
+        "vl_sa": 8.09,
+        "vl_sp": 0.0,
+        "vl_total": 16.48,
+        "nivel": "nivel1",
+        "score": 1.0,
+        "confianca": "alta",
+        "painel": false,
+        "tentativas_agente": null
+      }
+    ],
+    "termos_nao_encontrados": [
+      "desbridamento de ferida",
+      "cefazolina"
+    ],
+    "termos_nao_faturaveis": [],
+    "termos_nao_realizados": [
+      {
+        "texto": "osteossíntese de fêmur",
+        "categoria": "PROCEDIMENTO"
+      }
+    ],
+    "entidades_descartadas": []
+  },
+  {
+    "prontuario_id": "VAL003",
+    "data_processamento": "2026-08-20T17:31:54.016758",
+    "modelo_utilizado": "api/groq — openai/gpt-oss-120b",
+    "extrator": "llm",
+    "orquestracao": "deterministica",
+    "texto_prontuario": "Lactente de 8 meses, internado por bronquiolite viral aguda. Coletado HMG e PCR. Realizado RX tx evidenciando hiperinsuflação. Iniciada oxigenoterapia por cateter nasal a 1 L/min. Realizada aspiração de vias aéreas superiores de forma intermitente. Fisioterapia respiratória pediátrica realizada duas vezes ao dia. Pesquisa de vírus sincicial respiratório em aspirado de nasofaringe positiva. Mantida hidratação venosa.",
+    "entidades_extraidas": [
+      "hemograma",
+      "proteína C-reativa",
+      "radiografia de tórax",
+      "oxigenoterapia",
+      "cateter nasal",
+      "aspiração de vias aéreas superiores",
+      "fisioterapia respiratória",
+      "pesquisa de vírus sincicial respiratório",
+      "hidratação venosa"
+    ],
+    "resumo": {
+      "total_entidades_extraidas": 9,
+      "total_codigos_sigtap": 8,
+      "total_nao_encontrados": 1,
+      "total_nao_faturaveis": 0,
+      "total_nao_realizados": 0,
+      "total_baixa_confianca": 5,
+      "valor_total": 760.26
+    },
+    "entidades_por_categoria": {
+      "EXAME": [
+        "hemograma",
+        "proteína C-reativa",
+        "radiografia de tórax",
+        "pesquisa de vírus sincicial respiratório"
+      ],
+      "PROCEDIMENTO": [
+        "oxigenoterapia",
+        "aspiração de vias aéreas superiores",
+        "fisioterapia respiratória",
+        "hidratação venosa"
+      ],
+      "MATERIAL": [
+        "cateter nasal"
+      ]
+    },
+    "codigos_sigtap": [
+      {
+        "codigo": "02.02.02.038-0",
+        "descricao": "HEMOGRAMA COMPLETO",
+        "grupo": "Procedimentos com finalidade diagnóstica",
+        "origem": "hemograma",
+        "categoria": "EXAME",
+        "vl_sh": 0.0,
+        "vl_sa": 4.11,
+        "vl_sp": 0.0,
+        "vl_total": 4.11,
+        "nivel": "nivel1",
+        "score": 0.685,
+        "confianca": "baixa",
+        "painel": false,
+        "tentativas_agente": null
+      },
+      {
+        "codigo": "02.02.03.020-2",
+        "descricao": "DOSAGEM DE PROTEINA C REATIVA",
+        "grupo": "Procedimentos com finalidade diagnóstica",
+        "origem": "proteína C-reativa",
+        "categoria": "EXAME",
+        "vl_sh": 0.0,
+        "vl_sa": 2.83,
+        "vl_sp": 0.0,
+        "vl_total": 2.83,
+        "nivel": "nivel0",
+        "score": 1.0,
+        "confianca": "alta",
+        "painel": false,
+        "tentativas_agente": null
+      },
+      {
+        "codigo": "02.04.03.017-0",
+        "descricao": "RADIOGRAFIA DE TORAX (PA)",
+        "grupo": "Procedimentos com finalidade diagnóstica",
+        "origem": "radiografia de tórax",
+        "categoria": "EXAME",
+        "vl_sh": 0.0,
+        "vl_sa": 6.88,
+        "vl_sp": 0.0,
+        "vl_total": 6.88,
+        "nivel": "nivel1",
+        "score": 0.707,
+        "confianca": "media",
+        "painel": false,
+        "tentativas_agente": null
+      },
+      {
+        "codigo": "03.01.10.014-4",
+        "descricao": "OXIGENOTERAPIA POR DIA",
+        "grupo": "Procedimentos clínicos",
+        "origem": "oxigenoterapia",
+        "categoria": "PROCEDIMENTO",
+        "vl_sh": 0.0,
+        "vl_sa": 0.0,
+        "vl_sp": 0.0,
+        "vl_total": 0.0,
+        "nivel": "nivel1",
+        "score": 0.634,
+        "confianca": "baixa",
+        "painel": false,
+        "tentativas_agente": null
+      },
+      {
+        "codigo": "07.01.08.007-8",
+        "descricao": "PRÓTESE NASAL",
+        "grupo": "Órteses, próteses e materiais especiais",
+        "origem": "cateter nasal",
+        "categoria": "MATERIAL",
+        "vl_sh": 0.0,
+        "vl_sa": 61.19,
+        "vl_sp": 0.0,
+        "vl_total": 61.19,
+        "nivel": "nivel2",
+        "score": 0.601,
+        "confianca": "baixa",
+        "painel": false,
+        "tentativas_agente": null
+      },
+      {
+        "codigo": "03.03.14.012-7",
+        "descricao": "TRATAMENTO DE OUTRAS DOENCAS DAS VIAS AEREAS SUPERIORES",
+        "grupo": "Procedimentos clínicos",
+        "origem": "aspiração de vias aéreas superiores",
+        "categoria": "PROCEDIMENTO",
+        "vl_sh": 159.12,
+        "vl_sa": 0.0,
+        "vl_sp": 26.71,
+        "vl_total": 185.83,
+        "nivel": "nivel2",
+        "score": 0.617,
+        "confianca": "baixa",
+        "painel": false,
+        "tentativas_agente": null
+      },
+      {
+        "codigo": "03.03.14.013-5",
+        "descricao": "TRATAMENTO DE OUTRAS DOENCAS DO APARELHO RESPIRATORIO",
+        "grupo": "Procedimentos clínicos",
+        "origem": "fisioterapia respiratória",
+        "categoria": "PROCEDIMENTO",
+        "vl_sh": 451.47,
+        "vl_sa": 0.0,
+        "vl_sp": 29.4,
+        "vl_total": 480.87,
+        "nivel": "nivel_semantico",
+        "score": 0.825,
+        "confianca": "baixa",
+        "painel": false,
+        "tentativas_agente": null
+      },
+      {
+        "codigo": "02.02.03.071-7",
+        "descricao": "PESQUISA DE ANTICORPOS E/OU ANTIGENO DO VIRUS SINCICIAL RESPIRATORIO",
+        "grupo": "Procedimentos com finalidade diagnóstica",
+        "origem": "pesquisa de vírus sincicial respiratório",
+        "categoria": "EXAME",
+        "vl_sh": 0.0,
+        "vl_sa": 18.55,
+        "vl_sp": 0.0,
+        "vl_total": 18.55,
+        "nivel": "nivel1",
+        "score": 0.764,
+        "confianca": "media",
+        "painel": false,
+        "tentativas_agente": null
+      }
+    ],
+    "termos_nao_encontrados": [
+      "hidratação venosa"
+    ],
+    "termos_nao_faturaveis": [],
+    "termos_nao_realizados": [],
+    "entidades_descartadas": []
+  },
+  {
+    "prontuario_id": "VAL004",
+    "data_processamento": "2026-08-20T17:33:57.442984",
+    "modelo_utilizado": "api/groq — openai/gpt-oss-120b",
+    "extrator": "llm",
+    "orquestracao": "deterministica",
+    "texto_prontuario": "Paciente feminina, 52 anos, em tratamento de neoplasia de mama. Realizada implantação de cateter totalmente implantável para quimioterapia. Iniciado ciclo de doxorrubicina e ciclofosfamida conforme protocolo institucional. Coletados hemograma, função hepática e função renal previamente. Realizada mamografia bilateral de controle. Ecocardiograma solicitado para avaliação de fração de ejeção antes da antraciclina.",
+    "entidades_extraidas": [
+      "implante de cateter totalmente implantável",
+      "doxorrubicina",
+      "ciclofosfamida",
+      "hemograma",
+      "função hepática",
+      "função renal",
+      "mamografia bilateral",
+      "ecocardiograma"
+    ],
+    "resumo": {
+      "total_entidades_extraidas": 8,
+      "total_codigos_sigtap": 4,
+      "total_nao_encontrados": 3,
+      "total_nao_faturaveis": 0,
+      "total_nao_realizados": 1,
+      "total_baixa_confianca": 3,
+      "valor_total": 477.75
+    },
+    "entidades_por_categoria": {
+      "PROCEDIMENTO": [
+        "implante de cateter totalmente implantável"
+      ],
+      "MEDICAMENTO": [
+        "doxorrubicina",
+        "ciclofosfamida"
+      ],
+      "EXAME": [
+        "hemograma",
+        "função hepática",
+        "função renal",
+        "mamografia bilateral",
+        "ecocardiograma"
+      ]
+    },
+    "codigos_sigtap": [
+      {
+        "codigo": "04.06.02.007-8",
+        "descricao": "IMPLANTAÇÃO DE CATETER DE LONGA PERMANÊNCIA SEMI OU TOTALMENTE IMPLANTAVEL (PROCEDIMENTO PRINCIPAL)",
+        "grupo": "Procedimentos cirúrgicos",
+        "origem": "implante de cateter totalmente implantável",
+        "categoria": "PROCEDIMENTO",
+        "vl_sh": 319.44,
+        "vl_sa": 0.0,
+        "vl_sp": 109.2,
+        "vl_total": 428.64,
+        "nivel": "nivel2",
+        "score": 0.589,
+        "confianca": "baixa",
+        "painel": false,
+        "tentativas_agente": null
+      },
+      {
+        "codigo": "06.04.09.001-3",
+        "descricao": "CICLOFOSFAMIDA 50 MG (POR DRAGEA)",
+        "grupo": "Medicamentos",
+        "origem": "ciclofosfamida",
+        "categoria": "MEDICAMENTO",
+        "vl_sh": 0.0,
+        "vl_sa": 0.0,
+        "vl_sp": 0.0,
+        "vl_total": 0.0,
+        "nivel": "nivel1",
+        "score": 0.645,
+        "confianca": "baixa",
+        "painel": false,
+        "tentativas_agente": null
+      },
+      {
+        "codigo": "02.02.02.038-0",
+        "descricao": "HEMOGRAMA COMPLETO",
+        "grupo": "Procedimentos com finalidade diagnóstica",
+        "origem": "hemograma",
+        "categoria": "EXAME",
+        "vl_sh": 0.0,
+        "vl_sa": 4.11,
+        "vl_sp": 0.0,
+        "vl_total": 4.11,
+        "nivel": "nivel1",
+        "score": 0.685,
+        "confianca": "baixa",
+        "painel": false,
+        "tentativas_agente": null
+      },
+      {
+        "codigo": "02.04.03.018-8",
+        "descricao": "MAMOGRAFIA BILATERAL PARA RASTREAMENTO",
+        "grupo": "Procedimentos com finalidade diagnóstica",
+        "origem": "mamografia bilateral",
+        "categoria": "EXAME",
+        "vl_sh": 0.0,
+        "vl_sa": 45.0,
+        "vl_sp": 0.0,
+        "vl_total": 45.0,
+        "nivel": "nivel1",
+        "score": 0.702,
+        "confianca": "media",
+        "painel": false,
+        "tentativas_agente": null
+      }
+    ],
+    "termos_nao_encontrados": [
+      "doxorrubicina",
+      "função hepática",
+      "função renal"
+    ],
+    "termos_nao_faturaveis": [],
+    "termos_nao_realizados": [
+      {
+        "texto": "ecocardiograma",
+        "categoria": "EXAME"
+      }
+    ],
+    "entidades_descartadas": []
+  },
+  {
+    "prontuario_id": "VAL005",
+    "data_processamento": "2026-08-20T17:35:17.354851",
+    "modelo_utilizado": "api/groq — openai/gpt-oss-120b",
+    "extrator": "llm",
+    "orquestracao": "deterministica",
+    "texto_prontuario": "Homem, 41 anos, trazido pelo SAMU após queda de altura. Realizado FAST à admissão, negativo para líquido livre. Solicitados GASO arterial, U/C, TGO/TGP e coagulograma. ECG sem alterações isquêmicas. Realizada TC de crânio, coluna cervical e abdome total. Puncionado acesso venoso periférico calibroso bilateral. Imobilização cervical mantida com colar. Sutura de laceração em couro cabeludo de aproximadamente 8 cm.",
+    "entidades_extraidas": [
+      "FAST",
+      "gasometria arterial",
+      "urina de cultura",
+      "TGO/TGP",
+      "coagulograma",
+      "eletrocardiograma",
+      "tomografia computadorizada de crânio",
+      "tomografia computadorizada de coluna cervical",
+      "tomografia computadorizada de abdome total",
+      "punção de acesso venoso periférico",
+      "imobilização cervical",
+      "sutura de laceração"
+    ],
+    "resumo": {
+      "total_entidades_extraidas": 12,
+      "total_codigos_sigtap": 6,
+      "total_nao_encontrados": 2,
+      "total_nao_faturaveis": 0,
+      "total_nao_realizados": 4,
+      "total_baixa_confianca": 1,
+      "valor_total": 863.76
+    },
+    "entidades_por_categoria": {
+      "EXAME": [
+        "FAST",
+        "gasometria arterial",
+        "urina de cultura",
+        "TGO/TGP",
+        "coagulograma",
+        "eletrocardiograma",
+        "tomografia computadorizada de crânio",
+        "tomografia computadorizada de coluna cervical",
+        "tomografia computadorizada de abdome total"
+      ],
+      "PROCEDIMENTO": [
+        "punção de acesso venoso periférico",
+        "imobilização cervical",
+        "sutura de laceração"
+      ]
+    },
+    "codigos_sigtap": [
+      {
+        "codigo": "02.11.02.003-6",
+        "descricao": "ELETROCARDIOGRAMA",
+        "grupo": "Procedimentos com finalidade diagnóstica",
+        "origem": "eletrocardiograma",
+        "categoria": "EXAME",
+        "vl_sh": 0.0,
+        "vl_sa": 5.15,
+        "vl_sp": 0.0,
+        "vl_total": 5.15,
+        "nivel": "nivel1",
+        "score": 1.0,
+        "confianca": "alta",
+        "painel": false,
+        "tentativas_agente": null
+      },
+      {
+        "codigo": "02.06.01.007-9",
+        "descricao": "TOMOGRAFIA COMPUTADORIZADA DO CRANIO",
+        "grupo": "Procedimentos com finalidade diagnóstica",
+        "origem": "tomografia computadorizada de crânio",
+        "categoria": "EXAME",
+        "vl_sh": 97.44,
+        "vl_sa": 97.44,
+        "vl_sp": 0.0,
+        "vl_total": 194.88,
+        "nivel": "nivel1",
+        "score": 1.0,
+        "confianca": "alta",
+        "painel": false,
+        "tentativas_agente": null
+      },
+      {
+        "codigo": "02.06.01.001-0",
+        "descricao": "TOMOGRAFIA COMPUTADORIZADA DE COLUNA CERVICAL C/ OU S/ CONTRASTE",
+        "grupo": "Procedimentos com finalidade diagnóstica",
+        "origem": "tomografia computadorizada de coluna cervical",
+        "categoria": "EXAME",
+        "vl_sh": 86.76,
+        "vl_sa": 86.76,
+        "vl_sp": 0.0,
+        "vl_total": 173.52,
+        "nivel": "nivel1",
+        "score": 0.863,
+        "confianca": "alta",
+        "painel": false,
+        "tentativas_agente": null
+      },
+      {
+        "codigo": "02.06.03.001-0",
+        "descricao": "TOMOGRAFIA COMPUTADORIZADA DE ABDOMEN SUPERIOR",
+        "grupo": "Procedimentos com finalidade diagnóstica",
+        "origem": "tomografia computadorizada de abdome total",
+        "categoria": "EXAME",
+        "vl_sh": 138.63,
+        "vl_sa": 138.63,
+        "vl_sp": 0.0,
+        "vl_total": 277.26,
+        "nivel": "nivel2",
+        "score": 0.799,
+        "confianca": "media",
+        "painel": false,
+        "tentativas_agente": null
+      },
+      {
+        "codigo": "03.03.09.021-9",
+        "descricao": "TRATAMENTO CONSERVADOR DE LESÃO DA COLUNA CERVICAL COM IMOBILIZAÇÃO",
+        "grupo": "Procedimentos clínicos",
+        "origem": "imobilização cervical",
+        "categoria": "PROCEDIMENTO",
+        "vl_sh": 0.0,
+        "vl_sa": 47.58,
+        "vl_sp": 0.0,
+        "vl_total": 47.58,
+        "nivel": "nivel1",
+        "score": 0.528,
+        "confianca": "baixa",
+        "painel": false,
+        "tentativas_agente": null
+      },
+      {
+        "codigo": "04.11.01.007-7",
+        "descricao": "SUTURA DE LACERACOES DE TRAJETO PELVICO",
+        "grupo": "Procedimentos cirúrgicos",
+        "origem": "sutura de laceração",
+        "categoria": "PROCEDIMENTO",
+        "vl_sh": 88.76,
+        "vl_sa": 19.79,
+        "vl_sp": 56.82,
+        "vl_total": 165.37,
+        "nivel": "nivel3",
+        "score": 0.973,
+        "confianca": "media",
+        "painel": false,
+        "tentativas_agente": null
+      }
+    ],
+    "termos_nao_encontrados": [
+      "FAST",
+      "punção de acesso venoso periférico"
+    ],
+    "termos_nao_faturaveis": [],
+    "termos_nao_realizados": [
+      {
+        "texto": "gasometria arterial",
+        "categoria": "EXAME"
+      },
+      {
+        "texto": "urina de cultura",
+        "categoria": "EXAME"
+      },
+      {
+        "texto": "TGO/TGP",
+        "categoria": "EXAME"
+      },
+      {
+        "texto": "coagulograma",
+        "categoria": "EXAME"
+      }
+    ],
+    "entidades_descartadas": []
+  },
+  {
+    "prontuario_id": "VAL006",
+    "data_processamento": "2026-08-20T17:35:19.790128",
+    "modelo_utilizado": "api/groq — openai/gpt-oss-120b",
+    "extrator": "llm",
+    "orquestracao": "deterministica",
+    "texto_prontuario": "Paciente evoluiu estável nas últimas 24 horas. Solicitado ecocardiograma transtorácico, ainda não realizado por indisponibilidade de agenda. A tomografia de abdome programada para hoje foi cancelada em razão de creatinina elevada. Foi coletado hemograma completo, com resultado dentro da normalidade. Não foi realizada a endoscopia digestiva alta, adiada para após compensação clínica. Mantida antibioticoterapia. Colonoscopia programada para a próxima semana em regime ambulatorial. Realizado curativo em úlcera sacral.",
+    "entidades_extraidas": [
+      "ecocardiograma transtorácico",
+      "tomografia de abdome",
+      "hemograma completo",
+      "endoscopia digestiva alta",
+      "colonoscopia",
+      "curativo em úlcera sacral"
+    ],
+    "resumo": {
+      "total_entidades_extraidas": 6,
+      "total_codigos_sigtap": 2,
+      "total_nao_encontrados": 0,
+      "total_nao_faturaveis": 0,
+      "total_nao_realizados": 4,
+      "total_baixa_confianca": 1,
+      "valor_total": 4.11
+    },
+    "entidades_por_categoria": {
+      "EXAME": [
+        "ecocardiograma transtorácico",
+        "tomografia de abdome",
+        "hemograma completo",
+        "endoscopia digestiva alta",
+        "colonoscopia"
+      ],
+      "PROCEDIMENTO": [
+        "curativo em úlcera sacral"
+      ]
+    },
+    "codigos_sigtap": [
+      {
+        "codigo": "02.02.02.038-0",
+        "descricao": "HEMOGRAMA COMPLETO",
+        "grupo": "Procedimentos com finalidade diagnóstica",
+        "origem": "hemograma completo",
+        "categoria": "EXAME",
+        "vl_sh": 0.0,
+        "vl_sa": 4.11,
+        "vl_sp": 0.0,
+        "vl_total": 4.11,
+        "nivel": "nivel1",
+        "score": 1.0,
+        "confianca": "alta",
+        "painel": false,
+        "tentativas_agente": null
+      },
+      {
+        "codigo": "03.07.03.006-7",
+        "descricao": "TRATAMENTO DE GENGIVITE ULCERATIVA NECROSANTE AGUDA (GUNA)",
+        "grupo": "Procedimentos clínicos",
+        "origem": "curativo em úlcera sacral",
+        "categoria": "PROCEDIMENTO",
+        "vl_sh": 0.0,
+        "vl_sa": 0.0,
+        "vl_sp": 0.0,
+        "vl_total": 0.0,
+        "nivel": "nivel_semantico",
+        "score": 0.84,
+        "confianca": "baixa",
+        "painel": false,
+        "tentativas_agente": null
+      }
+    ],
+    "termos_nao_encontrados": [],
+    "termos_nao_faturaveis": [],
+    "termos_nao_realizados": [
+      {
+        "texto": "ecocardiograma transtorácico",
+        "categoria": "EXAME"
+      },
+      {
+        "texto": "tomografia de abdome",
+        "categoria": "EXAME"
+      },
+      {
+        "texto": "endoscopia digestiva alta",
+        "categoria": "EXAME"
+      },
+      {
+        "texto": "colonoscopia",
+        "categoria": "EXAME"
+      }
+    ],
+    "entidades_descartadas": []
+  },
+  {
+    "prontuario_id": "VAL007",
+    "data_processamento": "2026-08-20T17:35:38.443158",
+    "modelo_utilizado": "api/groq — openai/gpt-oss-120b",
+    "extrator": "llm",
+    "orquestracao": "deterministica",
+    "texto_prontuario": "Paciente masculino, 63 anos, com angina instável. Realizado cateterismo cardíaco por via radial direita. Angioplastia coronariana transluminal percutânea com implante de stent farmacológico em descendente anterior. Utilizado balão de angioplastia e fio-guia. Administrado clopidogrel e ácido acetilsalicílico. Realizado ecocardiograma transtorácico pós-procedimento. Curva de troponina seriada coletada.",
+    "entidades_extraidas": [
+      "cateterismo cardíaco",
+      "angioplastia coronariana transluminal percutânea",
+      "stent farmacológico",
+      "balão de angioplastia",
+      "fio-guia",
+      "clopidogrel",
+      "ácido acetilsalicílico",
+      "ecocardiograma transtorácico",
+      "troponina"
+    ],
+    "resumo": {
+      "total_entidades_extraidas": 9,
+      "total_codigos_sigtap": 8,
+      "total_nao_encontrados": 1,
+      "total_nao_faturaveis": 0,
+      "total_nao_realizados": 0,
+      "total_baixa_confianca": 4,
+      "valor_total": 7842.54
+    },
+    "entidades_por_categoria": {
+      "PROCEDIMENTO": [
+        "cateterismo cardíaco",
+        "angioplastia coronariana transluminal percutânea"
+      ],
+      "MATERIAL": [
+        "stent farmacológico",
+        "balão de angioplastia",
+        "fio-guia"
+      ],
+      "MEDICAMENTO": [
+        "clopidogrel",
+        "ácido acetilsalicílico"
+      ],
+      "EXAME": [
+        "ecocardiograma transtorácico",
+        "troponina"
+      ]
+    },
+    "codigos_sigtap": [
+      {
+        "codigo": "04.06.01.010-2",
+        "descricao": "CARDIORRAFIA",
+        "grupo": "Procedimentos cirúrgicos",
+        "origem": "cateterismo cardíaco",
+        "categoria": "PROCEDIMENTO",
+        "vl_sh": 1175.18,
+        "vl_sa": 0.0,
+        "vl_sp": 693.36,
+        "vl_total": 1868.54,
+        "nivel": "nivel_semantico",
+        "score": 0.881,
+        "confianca": "media",
+        "painel": false,
+        "tentativas_agente": null
+      },
+      {
+        "codigo": "04.06.03.001-4",
+        "descricao": "ANGIOPLASTIA CORONARIANA",
+        "grupo": "Procedimentos cirúrgicos",
+        "origem": "angioplastia coronariana transluminal percutânea",
+        "categoria": "PROCEDIMENTO",
+        "vl_sh": 988.48,
+        "vl_sa": 1081.48,
+        "vl_sp": 587.24,
+        "vl_total": 2657.2,
+        "nivel": "nivel2",
+        "score": 0.638,
+        "confianca": "baixa",
+        "painel": false,
+        "tentativas_agente": null
+      },
+      {
+        "codigo": "07.02.04.048-7",
+        "descricao": "STENT FARMACOLÓGICO PARA ARTÉRIA PERIFÉRICA",
+        "grupo": "Órteses, próteses e materiais especiais",
+        "origem": "stent farmacológico",
+        "categoria": "MATERIAL",
+        "vl_sh": 2113.36,
+        "vl_sa": 0.0,
+        "vl_sp": 0.0,
+        "vl_total": 2113.36,
+        "nivel": "nivel1",
+        "score": 0.632,
+        "confianca": "baixa",
+        "painel": false,
+        "tentativas_agente": null
+      },
+      {
+        "codigo": "07.02.04.007-0",
+        "descricao": "CATETER BALAO P/ ANGIOPLASTIA PERIFERICA",
+        "grupo": "Órteses, próteses e materiais especiais",
+        "origem": "balão de angioplastia",
+        "categoria": "MATERIAL",
+        "vl_sh": 613.89,
+        "vl_sa": 0.0,
+        "vl_sp": 0.0,
+        "vl_total": 613.89,
+        "nivel": "nivel1",
+        "score": 0.665,
+        "confianca": "baixa",
+        "painel": false,
+        "tentativas_agente": null
+      },
+      {
+        "codigo": "07.02.04.038-0",
+        "descricao": "FIO GUIA DIRIGIVEL PARA ANGIOPLASTIA",
+        "grupo": "Órteses, próteses e materiais especiais",
+        "origem": "fio-guia",
+        "categoria": "MATERIAL",
+        "vl_sh": 240.38,
+        "vl_sa": 195.45,
+        "vl_sp": 0.0,
+        "vl_total": 435.83,
+        "nivel": "nivel1",
+        "score": 0.602,
+        "confianca": "baixa",
+        "painel": false,
+        "tentativas_agente": null
+      },
+      {
+        "codigo": "06.04.33.002-2",
+        "descricao": "CLOPIDOGREL 75 MG (POR COMPRIMIDO)",
+        "grupo": "Medicamentos",
+        "origem": "clopidogrel",
+        "categoria": "MEDICAMENTO",
+        "vl_sh": 0.0,
+        "vl_sa": 0.0,
+        "vl_sp": 0.0,
+        "vl_total": 0.0,
+        "nivel": "nivel1",
+        "score": 0.72,
+        "confianca": "media",
+        "painel": false,
+        "tentativas_agente": null
+      },
+      {
+        "codigo": "02.05.01.003-2",
+        "descricao": "ECOCARDIOGRAFIA TRANSTORACICA",
+        "grupo": "Procedimentos com finalidade diagnóstica",
+        "origem": "ecocardiograma transtorácico",
+        "categoria": "EXAME",
+        "vl_sh": 67.86,
+        "vl_sa": 67.86,
+        "vl_sp": 0.0,
+        "vl_total": 135.72,
+        "nivel": "nivel_semantico",
+        "score": 0.892,
+        "confianca": "media",
+        "painel": false,
+        "tentativas_agente": null
+      },
+      {
+        "codigo": "02.02.03.120-9",
+        "descricao": "DOSAGEM DE TROPONINA",
+        "grupo": "Procedimentos com finalidade diagnóstica",
+        "origem": "troponina",
+        "categoria": "EXAME",
+        "vl_sh": 9.0,
+        "vl_sa": 9.0,
+        "vl_sp": 0.0,
+        "vl_total": 18.0,
+        "nivel": "nivel1",
+        "score": 0.843,
+        "confianca": "media",
+        "painel": false,
+        "tentativas_agente": null
+      }
+    ],
+    "termos_nao_encontrados": [
+      "ácido acetilsalicílico"
+    ],
+    "termos_nao_faturaveis": [],
+    "termos_nao_realizados": [],
+    "entidades_descartadas": []
+  },
+  {
+    "prontuario_id": "VAL008",
+    "data_processamento": "2026-08-20T17:36:09.049259",
+    "modelo_utilizado": "api/groq — openai/gpt-oss-120b",
+    "extrator": "llm",
+    "orquestracao": "deterministica",
+    "texto_prontuario": "Paciente em programa de hemodiálise crônica, comparece para sessão de rotina. Realizada sessão de hemodiálise de 4 horas por fístula arteriovenosa. Coletados ureia pré e pós-diálise, creatinina, potássio, cálcio e fósforo. Realizada dosagem de paratormônio trimestral. Administrada eritropoetina subcutânea e ferro endovenoso. Avaliada fístula arteriovenosa com ultrassonografia com Doppler.",
+    "entidades_extraidas": [
+      "hemodiálise",
+      "ureia",
+      "creatinina",
+      "potássio",
+      "cálcio",
+      "fósforo",
+      "paratormônio",
+      "eritropoetina",
+      "ferro",
+      "ultrassonografia com Doppler"
+    ],
+    "resumo": {
+      "total_entidades_extraidas": 10,
+      "total_codigos_sigtap": 9,
+      "total_nao_encontrados": 1,
+      "total_nao_faturaveis": 0,
+      "total_nao_realizados": 0,
+      "total_baixa_confianca": 2,
+      "valor_total": 415.88
+    },
+    "entidades_por_categoria": {
+      "PROCEDIMENTO": [
+        "hemodiálise"
+      ],
+      "EXAME": [
+        "ureia",
+        "creatinina",
+        "potássio",
+        "cálcio",
+        "fósforo",
+        "paratormônio",
+        "ultrassonografia com Doppler"
+      ],
+      "MEDICAMENTO": [
+        "eritropoetina",
+        "ferro"
+      ]
+    },
+    "codigos_sigtap": [
+      {
+        "codigo": "03.05.01.004-2",
+        "descricao": "HEMODIÁLISE CONTÍNUA",
+        "grupo": "Procedimentos clínicos",
+        "origem": "hemodiálise",
+        "categoria": "PROCEDIMENTO",
+        "vl_sh": 265.41,
+        "vl_sa": 0.0,
+        "vl_sp": 0.0,
+        "vl_total": 265.41,
+        "nivel": "nivel1",
+        "score": 0.636,
+        "confianca": "baixa",
+        "painel": false,
+        "tentativas_agente": null
+      },
+      {
+        "codigo": "02.02.01.069-4",
+        "descricao": "DOSAGEM DE UREIA",
+        "grupo": "Procedimentos com finalidade diagnóstica",
+        "origem": "ureia",
+        "categoria": "EXAME",
+        "vl_sh": 0.0,
+        "vl_sa": 1.85,
+        "vl_sp": 0.0,
+        "vl_total": 1.85,
+        "nivel": "nivel1",
+        "score": 0.832,
+        "confianca": "media",
+        "painel": false,
+        "tentativas_agente": null
+      },
+      {
+        "codigo": "02.02.01.031-7",
+        "descricao": "DOSAGEM DE CREATININA",
+        "grupo": "Procedimentos com finalidade diagnóstica",
+        "origem": "creatinina",
+        "categoria": "EXAME",
+        "vl_sh": 0.0,
+        "vl_sa": 1.85,
+        "vl_sp": 0.0,
+        "vl_total": 1.85,
+        "nivel": "nivel1",
+        "score": 0.824,
+        "confianca": "media",
+        "painel": false,
+        "tentativas_agente": null
+      },
+      {
+        "codigo": "02.02.01.060-0",
+        "descricao": "DOSAGEM DE POTASSIO",
+        "grupo": "Procedimentos com finalidade diagnóstica",
+        "origem": "potássio",
+        "categoria": "EXAME",
+        "vl_sh": 0.0,
+        "vl_sa": 1.85,
+        "vl_sp": 0.0,
+        "vl_total": 1.85,
+        "nivel": "nivel1",
+        "score": 0.843,
+        "confianca": "media",
+        "painel": false,
+        "tentativas_agente": null
+      },
+      {
+        "codigo": "02.02.01.021-0",
+        "descricao": "DOSAGEM DE CALCIO",
+        "grupo": "Procedimentos com finalidade diagnóstica",
+        "origem": "cálcio",
+        "categoria": "EXAME",
+        "vl_sh": 0.0,
+        "vl_sa": 1.85,
+        "vl_sp": 0.0,
+        "vl_total": 1.85,
+        "nivel": "nivel1",
+        "score": 0.832,
+        "confianca": "media",
+        "painel": false,
+        "tentativas_agente": null
+      },
+      {
+        "codigo": "02.02.01.043-0",
+        "descricao": "DOSAGEM DE FOSFORO",
+        "grupo": "Procedimentos com finalidade diagnóstica",
+        "origem": "fósforo",
+        "categoria": "EXAME",
+        "vl_sh": 0.0,
+        "vl_sa": 1.85,
+        "vl_sp": 0.0,
+        "vl_total": 1.85,
+        "nivel": "nivel1",
+        "score": 0.843,
+        "confianca": "media",
+        "painel": false,
+        "tentativas_agente": null
+      },
+      {
+        "codigo": "02.02.06.027-6",
+        "descricao": "DOSAGEM DE PARATORMONIO",
+        "grupo": "Procedimentos com finalidade diagnóstica",
+        "origem": "paratormônio",
+        "categoria": "EXAME",
+        "vl_sh": 0.0,
+        "vl_sa": 43.13,
+        "vl_sp": 0.0,
+        "vl_total": 43.13,
+        "nivel": "nivel1",
+        "score": 0.843,
+        "confianca": "media",
+        "painel": false,
+        "tentativas_agente": null
+      },
+      {
+        "codigo": "06.04.02.005-8",
+        "descricao": "DESFERROXAMINA 500 MG INJETAVEL (POR FRASCO-AMPOLA)",
+        "grupo": "Medicamentos",
+        "origem": "ferro",
+        "categoria": "MEDICAMENTO",
+        "vl_sh": 0.0,
+        "vl_sa": 18.89,
+        "vl_sp": 0.0,
+        "vl_total": 18.89,
+        "nivel": "nivel3",
+        "score": 1.0,
+        "confianca": "media",
+        "painel": false,
+        "tentativas_agente": null
+      },
+      {
+        "codigo": "02.05.01.004-0",
+        "descricao": "ULTRASSONOGRAFIA DOPPLER COLORIDO DE VASOS",
+        "grupo": "Procedimentos com finalidade diagnóstica",
+        "origem": "ultrassonografia com Doppler",
+        "categoria": "EXAME",
+        "vl_sh": 39.6,
+        "vl_sa": 39.6,
+        "vl_sp": 0.0,
+        "vl_total": 79.2,
+        "nivel": "nivel2",
+        "score": 0.613,
+        "confianca": "baixa",
+        "painel": false,
+        "tentativas_agente": null
+      }
+    ],
+    "termos_nao_encontrados": [
+      "eritropoetina"
+    ],
+    "termos_nao_faturaveis": [],
+    "termos_nao_realizados": [],
+    "entidades_descartadas": []
+  }
+]

@@ -1,0 +1,1641 @@
+[
+  {
+    "prontuario_id": "PEP001",
+    "data_processamento": "2026-08-20T16:48:38.566819",
+    "modelo_utilizado": "api/groq — openai/gpt-oss-120b",
+    "extrator": "llm",
+    "orquestracao": "deterministica",
+    "texto_prontuario": "Paciente masculino, 67 anos, internado na UTI adulto por insuficiência respiratória aguda. Realizada intubação orotraqueal e instalado ventilação mecânica invasiva. Administrado midazolam e fentanil em infusão contínua para sedoanalgesia. Coletado hemograma completo e hemocultura. Iniciada antibioticoterapia com piperacilina-tazobactam. Realizado raio-x de tórax portátil. Cateter venoso central inserido em subclávia direita sob técnica asséptica.",
+    "entidades_extraidas": [
+      "intubação orotraqueal",
+      "ventilação mecânica invasiva",
+      "midazolam",
+      "fentanil",
+      "hemograma completo",
+      "hemocultura",
+      "piperacilina-tazobactam",
+      "raio-x de tórax portátil",
+      "cateter venoso central"
+    ],
+    "resumo": {
+      "total_entidades_extraidas": 9,
+      "total_codigos_sigtap": 4,
+      "total_nao_encontrados": 4,
+      "total_nao_faturaveis": 1,
+      "total_nao_realizados": 0,
+      "total_baixa_confianca": 1,
+      "valor_total": 232.97
+    },
+    "entidades_por_categoria": {
+      "PROCEDIMENTO": [
+        "intubação orotraqueal",
+        "ventilação mecânica invasiva"
+      ],
+      "MEDICAMENTO": [
+        "midazolam",
+        "fentanil",
+        "piperacilina-tazobactam"
+      ],
+      "EXAME": [
+        "hemograma completo",
+        "hemocultura",
+        "raio-x de tórax portátil"
+      ],
+      "MATERIAL": [
+        "cateter venoso central"
+      ]
+    },
+    "codigos_sigtap": [
+      {
+        "codigo": "03.01.05.016-3",
+        "descricao": "ATENDIMENTO E ACOMPANHAMENTO DOMICILIAR DEPACIENTE SUBMETIDO À VENTILAÇÃO MECÂNICA INVASIVA DOMICILIAR",
+        "grupo": "Procedimentos clínicos",
+        "origem": "ventilação mecânica invasiva",
+        "categoria": "PROCEDIMENTO",
+        "vl_sh": 0.0,
+        "vl_sa": 0.0,
+        "vl_sp": 0.0,
+        "vl_total": 0.0,
+        "nivel": "nivel1",
+        "score": 0.59,
+        "confianca": "baixa",
+        "painel": false,
+        "tentativas_agente": null
+      },
+      {
+        "codigo": "02.02.02.038-0",
+        "descricao": "HEMOGRAMA COMPLETO",
+        "grupo": "Procedimentos com finalidade diagnóstica",
+        "origem": "hemograma completo",
+        "categoria": "EXAME",
+        "vl_sh": 0.0,
+        "vl_sa": 4.11,
+        "vl_sp": 0.0,
+        "vl_total": 4.11,
+        "nivel": "nivel1",
+        "score": 1.0,
+        "confianca": "alta",
+        "painel": false,
+        "tentativas_agente": null
+      },
+      {
+        "codigo": "02.02.08.015-3",
+        "descricao": "HEMOCULTURA",
+        "grupo": "Procedimentos com finalidade diagnóstica",
+        "origem": "hemocultura",
+        "categoria": "EXAME",
+        "vl_sh": 0.0,
+        "vl_sa": 11.49,
+        "vl_sp": 0.0,
+        "vl_total": 11.49,
+        "nivel": "nivel1",
+        "score": 1.0,
+        "confianca": "alta",
+        "painel": false,
+        "tentativas_agente": null
+      },
+      {
+        "codigo": "07.02.04.015-0",
+        "descricao": "CATETER VENOSO CENTRAL DUPLO LUMEN",
+        "grupo": "Órteses, próteses e materiais especiais",
+        "origem": "cateter venoso central",
+        "categoria": "MATERIAL",
+        "vl_sh": 119.89,
+        "vl_sa": 97.48,
+        "vl_sp": 0.0,
+        "vl_total": 217.37,
+        "nivel": "nivel1",
+        "score": 0.731,
+        "confianca": "media",
+        "painel": false,
+        "tentativas_agente": null
+      }
+    ],
+    "termos_nao_encontrados": [
+      "midazolam",
+      "fentanil",
+      "piperacilina-tazobactam",
+      "raio-x de tórax portátil"
+    ],
+    "termos_nao_faturaveis": [
+      "intubação orotraqueal"
+    ],
+    "termos_nao_realizados": [],
+    "entidades_descartadas": []
+  },
+  {
+    "prontuario_id": "PEP002",
+    "data_processamento": "2026-08-20T16:48:43.248315",
+    "modelo_utilizado": "api/groq — openai/gpt-oss-120b",
+    "extrator": "llm",
+    "orquestracao": "deterministica",
+    "texto_prontuario": "Paciente feminina, 54 anos, admitida em UTI após parada cardiorrespiratória revertida. Realizado eletrocardiograma de 12 derivações. Instalado monitor cardíaco contínuo. Coletado troponina, CK-MB e gasometria arterial. Administrada adrenalina EV durante reanimação. Realizado ecocardiograma à beira leito. Iniciada infusão de noradrenalina para suporte vasopressor. Sondagem vesical de demora instalada para controle de diurese. Realizada tomografia computadorizada de crânio sem contraste.",
+    "entidades_extraidas": [
+      "eletrocardiograma",
+      "monitor cardíaco",
+      "troponina",
+      "CK-MB",
+      "gasometria arterial",
+      "adrenalina",
+      "ecocardiograma",
+      "noradrenalina",
+      "sonda vesical de demora",
+      "tomografia computadorizada de crânio"
+    ],
+    "resumo": {
+      "total_entidades_extraidas": 10,
+      "total_codigos_sigtap": 7,
+      "total_nao_encontrados": 0,
+      "total_nao_faturaveis": 3,
+      "total_nao_realizados": 0,
+      "total_baixa_confianca": 1,
+      "valor_total": 360.65
+    },
+    "entidades_por_categoria": {
+      "EXAME": [
+        "eletrocardiograma",
+        "troponina",
+        "CK-MB",
+        "gasometria arterial",
+        "ecocardiograma",
+        "tomografia computadorizada de crânio"
+      ],
+      "MATERIAL": [
+        "monitor cardíaco",
+        "sonda vesical de demora"
+      ],
+      "MEDICAMENTO": [
+        "adrenalina",
+        "noradrenalina"
+      ]
+    },
+    "codigos_sigtap": [
+      {
+        "codigo": "02.11.02.003-6",
+        "descricao": "ELETROCARDIOGRAMA",
+        "grupo": "Procedimentos com finalidade diagnóstica",
+        "origem": "eletrocardiograma",
+        "categoria": "EXAME",
+        "vl_sh": 0.0,
+        "vl_sa": 5.15,
+        "vl_sp": 0.0,
+        "vl_total": 5.15,
+        "nivel": "nivel1",
+        "score": 1.0,
+        "confianca": "alta",
+        "painel": false,
+        "tentativas_agente": null
+      },
+      {
+        "codigo": "02.02.03.120-9",
+        "descricao": "DOSAGEM DE TROPONINA",
+        "grupo": "Procedimentos com finalidade diagnóstica",
+        "origem": "troponina",
+        "categoria": "EXAME",
+        "vl_sh": 9.0,
+        "vl_sa": 9.0,
+        "vl_sp": 0.0,
+        "vl_total": 18.0,
+        "nivel": "nivel1",
+        "score": 0.843,
+        "confianca": "media",
+        "painel": false,
+        "tentativas_agente": null
+      },
+      {
+        "codigo": "02.02.01.033-3",
+        "descricao": "DOSAGEM DE CREATINOFOSFOQUINASE FRACAO MB",
+        "grupo": "Procedimentos com finalidade diagnóstica",
+        "origem": "CK-MB",
+        "categoria": "EXAME",
+        "vl_sh": 0.0,
+        "vl_sa": 4.12,
+        "vl_sp": 0.0,
+        "vl_total": 4.12,
+        "nivel": "nivel0",
+        "score": 1.0,
+        "confianca": "alta",
+        "painel": false,
+        "tentativas_agente": null
+      },
+      {
+        "codigo": "02.11.08.002-0",
+        "descricao": "GASOMETRIA",
+        "grupo": "Procedimentos com finalidade diagnóstica",
+        "origem": "gasometria arterial",
+        "categoria": "EXAME",
+        "vl_sh": 0.0,
+        "vl_sa": 2.78,
+        "vl_sp": 0.0,
+        "vl_total": 2.78,
+        "nivel": "nivel0",
+        "score": 1.0,
+        "confianca": "alta",
+        "painel": false,
+        "tentativas_agente": null
+      },
+      {
+        "codigo": "02.05.01.003-2",
+        "descricao": "ECOCARDIOGRAFIA TRANSTORACICA",
+        "grupo": "Procedimentos com finalidade diagnóstica",
+        "origem": "ecocardiograma",
+        "categoria": "EXAME",
+        "vl_sh": 67.86,
+        "vl_sa": 67.86,
+        "vl_sp": 0.0,
+        "vl_total": 135.72,
+        "nivel": "nivel_semantico",
+        "score": 0.858,
+        "confianca": "baixa",
+        "painel": false,
+        "tentativas_agente": null
+      },
+      {
+        "codigo": "03.01.10.005-5",
+        "descricao": "CATETERISMO VESICAL DE DEMORA",
+        "grupo": "Procedimentos clínicos",
+        "origem": "sonda vesical de demora",
+        "categoria": "MATERIAL",
+        "vl_sh": 0.0,
+        "vl_sa": 0.0,
+        "vl_sp": 0.0,
+        "vl_total": 0.0,
+        "nivel": "nivel0",
+        "score": 1.0,
+        "confianca": "alta",
+        "painel": false,
+        "tentativas_agente": null
+      },
+      {
+        "codigo": "02.06.01.007-9",
+        "descricao": "TOMOGRAFIA COMPUTADORIZADA DO CRANIO",
+        "grupo": "Procedimentos com finalidade diagnóstica",
+        "origem": "tomografia computadorizada de crânio",
+        "categoria": "EXAME",
+        "vl_sh": 97.44,
+        "vl_sa": 97.44,
+        "vl_sp": 0.0,
+        "vl_total": 194.88,
+        "nivel": "nivel1",
+        "score": 1.0,
+        "confianca": "alta",
+        "painel": false,
+        "tentativas_agente": null
+      }
+    ],
+    "termos_nao_encontrados": [],
+    "termos_nao_faturaveis": [
+      "monitor cardíaco",
+      "adrenalina",
+      "noradrenalina"
+    ],
+    "termos_nao_realizados": [],
+    "entidades_descartadas": []
+  },
+  {
+    "prontuario_id": "PEP003",
+    "data_processamento": "2026-08-20T16:49:18.419734",
+    "modelo_utilizado": "api/groq — openai/gpt-oss-120b",
+    "extrator": "llm",
+    "orquestracao": "deterministica",
+    "texto_prontuario": "Paciente masculino, 72 anos, com sepse de foco abdominal. Realizada laparotomia exploradora com drenagem de abscesso. Administrada vancomicina e meropeném conforme antibiograma. Coletados lactato, PCR e procalcitonina. Realizado ultrassom abdominal à beira leito. Instalado cateter arterial em radial esquerda para monitorização invasiva de pressão arterial. Hemotransfusão de 2 concentrados de hemácias realizada. Realizado curativo com troca de dreno abdominal.",
+    "entidades_extraidas": [
+      "laparotomia exploradora",
+      "drenagem de abscesso",
+      "vancomicina",
+      "meropeném",
+      "lactato",
+      "PCR",
+      "procalcitonina",
+      "ultrassom abdominal",
+      "cateter arterial",
+      "hemotransfusão",
+      "troca de dreno abdominal"
+    ],
+    "resumo": {
+      "total_entidades_extraidas": 11,
+      "total_codigos_sigtap": 8,
+      "total_nao_encontrados": 2,
+      "total_nao_faturaveis": 1,
+      "total_nao_realizados": 0,
+      "total_baixa_confianca": 3,
+      "valor_total": 6141.23
+    },
+    "entidades_por_categoria": {
+      "PROCEDIMENTO": [
+        "laparotomia exploradora",
+        "drenagem de abscesso",
+        "hemotransfusão",
+        "troca de dreno abdominal"
+      ],
+      "MEDICAMENTO": [
+        "vancomicina",
+        "meropeném"
+      ],
+      "EXAME": [
+        "lactato",
+        "PCR",
+        "procalcitonina",
+        "ultrassom abdominal"
+      ],
+      "MATERIAL": [
+        "cateter arterial"
+      ]
+    },
+    "codigos_sigtap": [
+      {
+        "codigo": "04.07.04.016-1",
+        "descricao": "LAPAROTOMIA EXPLORADORA",
+        "grupo": "Procedimentos cirúrgicos",
+        "origem": "laparotomia exploradora",
+        "categoria": "PROCEDIMENTO",
+        "vl_sh": 497.2,
+        "vl_sa": 0.0,
+        "vl_sp": 139.99,
+        "vl_total": 637.19,
+        "nivel": "nivel1",
+        "score": 1.0,
+        "confianca": "alta",
+        "painel": false,
+        "tentativas_agente": null
+      },
+      {
+        "codigo": "04.01.01.003-1",
+        "descricao": "DRENAGEM DE ABSCESSO",
+        "grupo": "Procedimentos cirúrgicos",
+        "origem": "drenagem de abscesso",
+        "categoria": "PROCEDIMENTO",
+        "vl_sh": 0.0,
+        "vl_sa": 0.0,
+        "vl_sp": 0.0,
+        "vl_total": 0.0,
+        "nivel": "nivel1",
+        "score": 1.0,
+        "confianca": "alta",
+        "painel": false,
+        "tentativas_agente": null
+      },
+      {
+        "codigo": "02.02.01.053-8",
+        "descricao": "DOSAGEM DE LACTATO",
+        "grupo": "Procedimentos com finalidade diagnóstica",
+        "origem": "lactato",
+        "categoria": "EXAME",
+        "vl_sh": 0.0,
+        "vl_sa": 3.68,
+        "vl_sp": 0.0,
+        "vl_total": 3.68,
+        "nivel": "nivel1",
+        "score": 0.832,
+        "confianca": "media",
+        "painel": false,
+        "tentativas_agente": null
+      },
+      {
+        "codigo": "02.02.03.020-2",
+        "descricao": "DOSAGEM DE PROTEINA C REATIVA",
+        "grupo": "Procedimentos com finalidade diagnóstica",
+        "origem": "PCR",
+        "categoria": "EXAME",
+        "vl_sh": 0.0,
+        "vl_sa": 2.83,
+        "vl_sp": 0.0,
+        "vl_total": 2.83,
+        "nivel": "nivel0",
+        "score": 1.0,
+        "confianca": "alta",
+        "painel": false,
+        "tentativas_agente": null
+      },
+      {
+        "codigo": "02.05.02.004-6",
+        "descricao": "ULTRASSONOGRAFIA DE ABDOMEN TOTAL",
+        "grupo": "Procedimentos com finalidade diagnóstica",
+        "origem": "ultrassom abdominal",
+        "categoria": "EXAME",
+        "vl_sh": 37.95,
+        "vl_sa": 37.95,
+        "vl_sp": 0.0,
+        "vl_total": 75.9,
+        "nivel": "nivel0",
+        "score": 1.0,
+        "confianca": "alta",
+        "painel": false,
+        "tentativas_agente": null
+      },
+      {
+        "codigo": "07.02.05.005-9",
+        "descricao": "CATETER BALAO P/ EMBOLECTOMIA ARTERIAL / VENOSA",
+        "grupo": "Órteses, próteses e materiais especiais",
+        "origem": "cateter arterial",
+        "categoria": "MATERIAL",
+        "vl_sh": 96.2,
+        "vl_sa": 0.0,
+        "vl_sp": 0.0,
+        "vl_total": 96.2,
+        "nivel": "nivel1",
+        "score": 0.512,
+        "confianca": "baixa",
+        "painel": false,
+        "tentativas_agente": null
+      },
+      {
+        "codigo": "03.05.01.014-0",
+        "descricao": "HEMOFILTRAÇÃO",
+        "grupo": "Procedimentos clínicos",
+        "origem": "hemotransfusão",
+        "categoria": "PROCEDIMENTO",
+        "vl_sh": 107.96,
+        "vl_sa": 0.0,
+        "vl_sp": 0.0,
+        "vl_total": 107.96,
+        "nivel": "nivel_semantico",
+        "score": 0.839,
+        "confianca": "baixa",
+        "painel": false,
+        "tentativas_agente": null
+      },
+      {
+        "codigo": "04.06.02.058-2",
+        "descricao": "TROCA DE AORTA DESCENDENTE (INCLUI ABDOMINAL)",
+        "grupo": "Procedimentos cirúrgicos",
+        "origem": "troca de dreno abdominal",
+        "categoria": "PROCEDIMENTO",
+        "vl_sh": 2956.37,
+        "vl_sa": 0.0,
+        "vl_sp": 2261.1,
+        "vl_total": 5217.47,
+        "nivel": "nivel2",
+        "score": 0.459,
+        "confianca": "baixa",
+        "painel": false,
+        "tentativas_agente": null
+      }
+    ],
+    "termos_nao_encontrados": [
+      "meropeném",
+      "procalcitonina"
+    ],
+    "termos_nao_faturaveis": [
+      "vancomicina"
+    ],
+    "termos_nao_realizados": [],
+    "entidades_descartadas": []
+  },
+  {
+    "prontuario_id": "PEP004",
+    "data_processamento": "2026-08-20T16:50:11.639824",
+    "modelo_utilizado": "api/groq — openai/gpt-oss-120b",
+    "extrator": "llm",
+    "orquestracao": "deterministica",
+    "texto_prontuario": "Paciente feminina, 45 anos, pós-operatório de neurocirurgia para drenagem de hematoma subdural. Realizado controle tomográfico de crânio com contraste. Monitorização de pressão intracraniana instalada. Administrado manitol e dexametasona EV. Fisioterapia motora e respiratória realizadas. Coletado líquido cefalorraquidiano para análise. Realizado eletroencefalograma. Sonda nasoenteral inserida para nutrição enteral.",
+    "entidades_extraidas": [
+      "tomografia de crânio",
+      "monitor de pressão intracraniana",
+      "manitol",
+      "dexametasona",
+      "fisioterapia",
+      "coleta de líquido cefalorraquidiano",
+      "eletroencefalograma",
+      "sonda nasoenteral"
+    ],
+    "resumo": {
+      "total_entidades_extraidas": 8,
+      "total_codigos_sigtap": 3,
+      "total_nao_encontrados": 3,
+      "total_nao_faturaveis": 2,
+      "total_nao_realizados": 0,
+      "total_baixa_confianca": 1,
+      "valor_total": 199.52
+    },
+    "entidades_por_categoria": {
+      "EXAME": [
+        "tomografia de crânio",
+        "eletroencefalograma"
+      ],
+      "MATERIAL": [
+        "monitor de pressão intracraniana",
+        "sonda nasoenteral"
+      ],
+      "MEDICAMENTO": [
+        "manitol",
+        "dexametasona"
+      ],
+      "PROCEDIMENTO": [
+        "fisioterapia",
+        "coleta de líquido cefalorraquidiano"
+      ]
+    },
+    "codigos_sigtap": [
+      {
+        "codigo": "02.06.01.007-9",
+        "descricao": "TOMOGRAFIA COMPUTADORIZADA DO CRANIO",
+        "grupo": "Procedimentos com finalidade diagnóstica",
+        "origem": "tomografia de crânio",
+        "categoria": "EXAME",
+        "vl_sh": 97.44,
+        "vl_sa": 97.44,
+        "vl_sp": 0.0,
+        "vl_total": 194.88,
+        "nivel": "nivel1",
+        "score": 0.789,
+        "confianca": "media",
+        "painel": false,
+        "tentativas_agente": null
+      },
+      {
+        "codigo": "03.03.05.002-0",
+        "descricao": "EXERCICIOS ORTOPTICOS",
+        "grupo": "Procedimentos clínicos",
+        "origem": "fisioterapia",
+        "categoria": "PROCEDIMENTO",
+        "vl_sh": 0.0,
+        "vl_sa": 3.27,
+        "vl_sp": 0.0,
+        "vl_total": 3.27,
+        "nivel": "nivel_semantico",
+        "score": 0.81,
+        "confianca": "baixa",
+        "painel": false,
+        "tentativas_agente": null
+      },
+      {
+        "codigo": "02.11.07.013-0",
+        "descricao": "ELETROGUSTOMETRIA",
+        "grupo": "Procedimentos com finalidade diagnóstica",
+        "origem": "eletroencefalograma",
+        "categoria": "EXAME",
+        "vl_sh": 0.0,
+        "vl_sa": 1.37,
+        "vl_sp": 0.0,
+        "vl_total": 1.37,
+        "nivel": "nivel_semantico",
+        "score": 0.911,
+        "confianca": "media",
+        "painel": false,
+        "tentativas_agente": null
+      }
+    ],
+    "termos_nao_encontrados": [
+      "monitor de pressão intracraniana",
+      "dexametasona",
+      "coleta de líquido cefalorraquidiano"
+    ],
+    "termos_nao_faturaveis": [
+      "manitol",
+      "sonda nasoenteral"
+    ],
+    "termos_nao_realizados": [],
+    "entidades_descartadas": []
+  },
+  {
+    "prontuario_id": "PEP005",
+    "data_processamento": "2026-08-20T16:50:53.389669",
+    "modelo_utilizado": "api/groq — openai/gpt-oss-120b",
+    "extrator": "llm",
+    "orquestracao": "deterministica",
+    "texto_prontuario": "Paciente masculino, 58 anos, admitido por insuficiência renal aguda dialítica. Realizada hemodiálise de urgência por cateter de duplo lúmen em jugular interna direita. Coletados ureia, creatinina e eletrólitos. Administrado bicarbonato de sódio EV para correção de acidose metabólica. Realizado ultrassom renal. Balanço hídrico estrito realizado. Pesagem diária do paciente. Reposição de albumina humana 20% administrada.",
+    "entidades_extraidas": [
+      "hemodiálise",
+      "cateter venoso central",
+      "ureia",
+      "creatinina",
+      "eletrólitos",
+      "bicarbonato de sódio",
+      "ultrassom renal",
+      "albumina humana 20%"
+    ],
+    "resumo": {
+      "total_entidades_extraidas": 8,
+      "total_codigos_sigtap": 6,
+      "total_nao_encontrados": 1,
+      "total_nao_faturaveis": 1,
+      "total_nao_realizados": 0,
+      "total_baixa_confianca": 2,
+      "valor_total": 589.88
+    },
+    "entidades_por_categoria": {
+      "PROCEDIMENTO": [
+        "hemodiálise"
+      ],
+      "MATERIAL": [
+        "cateter venoso central"
+      ],
+      "EXAME": [
+        "ureia",
+        "creatinina",
+        "eletrólitos",
+        "ultrassom renal"
+      ],
+      "MEDICAMENTO": [
+        "bicarbonato de sódio",
+        "albumina humana 20%"
+      ]
+    },
+    "codigos_sigtap": [
+      {
+        "codigo": "03.05.01.004-2",
+        "descricao": "HEMODIÁLISE CONTÍNUA",
+        "grupo": "Procedimentos clínicos",
+        "origem": "hemodiálise",
+        "categoria": "PROCEDIMENTO",
+        "vl_sh": 265.41,
+        "vl_sa": 0.0,
+        "vl_sp": 0.0,
+        "vl_total": 265.41,
+        "nivel": "nivel1",
+        "score": 0.636,
+        "confianca": "baixa",
+        "painel": false,
+        "tentativas_agente": null
+      },
+      {
+        "codigo": "07.02.04.015-0",
+        "descricao": "CATETER VENOSO CENTRAL DUPLO LUMEN",
+        "grupo": "Órteses, próteses e materiais especiais",
+        "origem": "cateter venoso central",
+        "categoria": "MATERIAL",
+        "vl_sh": 119.89,
+        "vl_sa": 97.48,
+        "vl_sp": 0.0,
+        "vl_total": 217.37,
+        "nivel": "nivel1",
+        "score": 0.731,
+        "confianca": "media",
+        "painel": false,
+        "tentativas_agente": null
+      },
+      {
+        "codigo": "02.02.01.069-4",
+        "descricao": "DOSAGEM DE UREIA",
+        "grupo": "Procedimentos com finalidade diagnóstica",
+        "origem": "ureia",
+        "categoria": "EXAME",
+        "vl_sh": 0.0,
+        "vl_sa": 1.85,
+        "vl_sp": 0.0,
+        "vl_total": 1.85,
+        "nivel": "nivel1",
+        "score": 0.832,
+        "confianca": "media",
+        "painel": false,
+        "tentativas_agente": null
+      },
+      {
+        "codigo": "02.02.01.031-7",
+        "descricao": "DOSAGEM DE CREATININA",
+        "grupo": "Procedimentos com finalidade diagnóstica",
+        "origem": "creatinina",
+        "categoria": "EXAME",
+        "vl_sh": 0.0,
+        "vl_sa": 1.85,
+        "vl_sp": 0.0,
+        "vl_total": 1.85,
+        "nivel": "nivel1",
+        "score": 0.824,
+        "confianca": "media",
+        "painel": false,
+        "tentativas_agente": null
+      },
+      {
+        "codigo": "02.05.02.005-4",
+        "descricao": "ULTRASSONOGRAFIA DE APARELHO URINÁRIO",
+        "grupo": "Procedimentos com finalidade diagnóstica",
+        "origem": "ultrassom renal",
+        "categoria": "EXAME",
+        "vl_sh": 24.2,
+        "vl_sa": 24.2,
+        "vl_sp": 0.0,
+        "vl_total": 48.4,
+        "nivel": "nivel0",
+        "score": 1.0,
+        "confianca": "alta",
+        "painel": false,
+        "tentativas_agente": null
+      },
+      {
+        "codigo": "06.03.07.001-9",
+        "descricao": "ALBUMINA HUMANA 20 POR CENTO (FRASCO-AMPOLA DE 50 ML)",
+        "grupo": "Medicamentos",
+        "origem": "albumina humana 20%",
+        "categoria": "MEDICAMENTO",
+        "vl_sh": 55.0,
+        "vl_sa": 0.0,
+        "vl_sp": 0.0,
+        "vl_total": 55.0,
+        "nivel": "nivel_semantico",
+        "score": 0.876,
+        "confianca": "baixa",
+        "painel": false,
+        "tentativas_agente": null
+      }
+    ],
+    "termos_nao_encontrados": [
+      "eletrólitos"
+    ],
+    "termos_nao_faturaveis": [
+      "bicarbonato de sódio"
+    ],
+    "termos_nao_realizados": [],
+    "entidades_descartadas": []
+  },
+  {
+    "prontuario_id": "PEP006",
+    "data_processamento": "2026-08-20T16:51:45.820534",
+    "modelo_utilizado": "api/groq — openai/gpt-oss-120b",
+    "extrator": "llm",
+    "orquestracao": "deterministica",
+    "texto_prontuario": "Paciente feminina, 63 anos, queimadura de segundo e terceiro graus em 40% da superfície corporal. Realizado curativo com sulfadiazina de prata nas regiões afetadas. Administrada morfina EV para controle de dor. Coletados cultura de ferida e swab de queimadura. Realizada enxertia de pele em membro superior direito. Suporte nutricional parenteral total instalado. Fisioterapia para prevenção de contraturas realizada. Coletado proteína C reativa e albumina sérica.",
+    "entidades_extraidas": [
+      "sulfadiazina de prata",
+      "morfina",
+      "cultura de ferida",
+      "swab de queimadura",
+      "enxertia de pele",
+      "nutrição parenteral total",
+      "fisioterapia",
+      "proteína C reativa",
+      "albumina sérica",
+      "curativo"
+    ],
+    "resumo": {
+      "total_entidades_extraidas": 10,
+      "total_codigos_sigtap": 4,
+      "total_nao_encontrados": 5,
+      "total_nao_faturaveis": 1,
+      "total_nao_realizados": 0,
+      "total_baixa_confianca": 3,
+      "valor_total": 610.68
+    },
+    "entidades_por_categoria": {
+      "MEDICAMENTO": [
+        "sulfadiazina de prata",
+        "morfina",
+        "nutrição parenteral total"
+      ],
+      "EXAME": [
+        "cultura de ferida",
+        "swab de queimadura",
+        "proteína C reativa",
+        "albumina sérica"
+      ],
+      "PROCEDIMENTO": [
+        "enxertia de pele",
+        "fisioterapia"
+      ],
+      "MATERIAL": [
+        "curativo"
+      ]
+    },
+    "codigos_sigtap": [
+      {
+        "codigo": "06.04.05.007-0",
+        "descricao": "MORFINA 10 MG (POR COMPRIMIDO)",
+        "grupo": "Medicamentos",
+        "origem": "morfina",
+        "categoria": "MEDICAMENTO",
+        "vl_sh": 0.0,
+        "vl_sa": 0.0,
+        "vl_sp": 0.0,
+        "vl_total": 0.0,
+        "nivel": "nivel1",
+        "score": 0.683,
+        "confianca": "baixa",
+        "painel": false,
+        "tentativas_agente": null
+      },
+      {
+        "codigo": "04.01.02.003-7",
+        "descricao": "ENXERTO LIVRE DE PELE TOTAL",
+        "grupo": "Procedimentos cirúrgicos",
+        "origem": "enxertia de pele",
+        "categoria": "PROCEDIMENTO",
+        "vl_sh": 429.45,
+        "vl_sa": 0.0,
+        "vl_sp": 175.13,
+        "vl_total": 604.58,
+        "nivel": "nivel_semantico",
+        "score": 0.865,
+        "confianca": "baixa",
+        "painel": false,
+        "tentativas_agente": null
+      },
+      {
+        "codigo": "03.03.05.002-0",
+        "descricao": "EXERCICIOS ORTOPTICOS",
+        "grupo": "Procedimentos clínicos",
+        "origem": "fisioterapia",
+        "categoria": "PROCEDIMENTO",
+        "vl_sh": 0.0,
+        "vl_sa": 3.27,
+        "vl_sp": 0.0,
+        "vl_total": 3.27,
+        "nivel": "nivel_semantico",
+        "score": 0.81,
+        "confianca": "baixa",
+        "painel": false,
+        "tentativas_agente": null
+      },
+      {
+        "codigo": "02.02.03.020-2",
+        "descricao": "DOSAGEM DE PROTEINA C REATIVA",
+        "grupo": "Procedimentos com finalidade diagnóstica",
+        "origem": "proteína C reativa",
+        "categoria": "EXAME",
+        "vl_sh": 0.0,
+        "vl_sa": 2.83,
+        "vl_sp": 0.0,
+        "vl_total": 2.83,
+        "nivel": "nivel0",
+        "score": 1.0,
+        "confianca": "alta",
+        "painel": false,
+        "tentativas_agente": null
+      }
+    ],
+    "termos_nao_encontrados": [
+      "cultura de ferida",
+      "swab de queimadura",
+      "nutrição parenteral total",
+      "albumina sérica",
+      "curativo"
+    ],
+    "termos_nao_faturaveis": [
+      "sulfadiazina de prata"
+    ],
+    "termos_nao_realizados": [],
+    "entidades_descartadas": []
+  },
+  {
+    "prontuario_id": "PEP007",
+    "data_processamento": "2026-08-20T16:52:04.425470",
+    "modelo_utilizado": "api/groq — openai/gpt-oss-120b",
+    "extrator": "llm",
+    "orquestracao": "deterministica",
+    "texto_prontuario": "Paciente masculino, 80 anos, com acidente vascular cerebral isquêmico. Administrado alteplase EV dentro da janela terapêutica. Realizada tomografia computadorizada de crânio e angiotomografia de vasos cerebrais. Instalado cateter nasal de oxigênio. Monitor de saturação contínua instalado. Coletados hemograma, coagulograma e perfil lipídico. Fisioterapia neurológica iniciada. Sonda vesical de demora inserida. Realizado Doppler transcraniano.",
+    "entidades_extraidas": [
+      "alteplase",
+      "tomografia computadorizada de crânio",
+      "angiotomografia de vasos cerebrais",
+      "cateter nasal de oxigênio",
+      "monitor de saturação",
+      "hemograma",
+      "coagulograma",
+      "perfil lipídico",
+      "fisioterapia neurológica",
+      "sonda vesical de demora",
+      "doppler transcraniano"
+    ],
+    "resumo": {
+      "total_entidades_extraidas": 11,
+      "total_codigos_sigtap": 12,
+      "total_nao_encontrados": 1,
+      "total_nao_faturaveis": 1,
+      "total_nao_realizados": 0,
+      "total_baixa_confianca": 3,
+      "valor_total": 1328.6
+    },
+    "entidades_por_categoria": {
+      "MEDICAMENTO": [
+        "alteplase"
+      ],
+      "EXAME": [
+        "tomografia computadorizada de crânio",
+        "angiotomografia de vasos cerebrais",
+        "hemograma",
+        "coagulograma",
+        "perfil lipídico",
+        "doppler transcraniano"
+      ],
+      "MATERIAL": [
+        "cateter nasal de oxigênio",
+        "monitor de saturação",
+        "sonda vesical de demora"
+      ],
+      "PROCEDIMENTO": [
+        "fisioterapia neurológica"
+      ]
+    },
+    "codigos_sigtap": [
+      {
+        "codigo": "06.03.05.004-2",
+        "descricao": "ALTEPLASE 10MG INJETÁVEL ( POR FRASCO AMPOLA)",
+        "grupo": "Medicamentos",
+        "origem": "alteplase",
+        "categoria": "MEDICAMENTO",
+        "vl_sh": 689.44,
+        "vl_sa": 0.0,
+        "vl_sp": 0.0,
+        "vl_total": 689.44,
+        "nivel": "nivel3",
+        "score": 1.0,
+        "confianca": "media",
+        "painel": false,
+        "tentativas_agente": null
+      },
+      {
+        "codigo": "02.06.01.007-9",
+        "descricao": "TOMOGRAFIA COMPUTADORIZADA DO CRANIO",
+        "grupo": "Procedimentos com finalidade diagnóstica",
+        "origem": "tomografia computadorizada de crânio",
+        "categoria": "EXAME",
+        "vl_sh": 97.44,
+        "vl_sa": 97.44,
+        "vl_sp": 0.0,
+        "vl_total": 194.88,
+        "nivel": "nivel1",
+        "score": 1.0,
+        "confianca": "alta",
+        "painel": false,
+        "tentativas_agente": null
+      },
+      {
+        "codigo": "02.10.01.001-0",
+        "descricao": "ANGIOGRAFIA CEREBRAL (4 VASOS)",
+        "grupo": "Procedimentos com finalidade diagnóstica",
+        "origem": "angiotomografia de vasos cerebrais",
+        "categoria": "EXAME",
+        "vl_sh": 179.46,
+        "vl_sa": 0.0,
+        "vl_sp": 0.0,
+        "vl_total": 179.46,
+        "nivel": "nivel_semantico",
+        "score": 0.916,
+        "confianca": "media",
+        "painel": false,
+        "tentativas_agente": null
+      },
+      {
+        "codigo": "02.02.02.038-0",
+        "descricao": "HEMOGRAMA COMPLETO",
+        "grupo": "Procedimentos com finalidade diagnóstica",
+        "origem": "hemograma",
+        "categoria": "EXAME",
+        "vl_sh": 0.0,
+        "vl_sa": 4.11,
+        "vl_sp": 0.0,
+        "vl_total": 4.11,
+        "nivel": "nivel1",
+        "score": 0.685,
+        "confianca": "baixa",
+        "painel": false,
+        "tentativas_agente": null
+      },
+      {
+        "codigo": "02.02.02.014-2",
+        "descricao": "DETERMINAÇÃO DE TEMPO E ATIVIDADE DA PROTROMBINA (TAP)",
+        "grupo": "Procedimentos com finalidade diagnóstica",
+        "origem": "coagulograma",
+        "categoria": "EXAME",
+        "vl_sh": 0.0,
+        "vl_sa": 2.73,
+        "vl_sp": 0.0,
+        "vl_total": 2.73,
+        "nivel": "nivel0",
+        "score": 1.0,
+        "confianca": "alta",
+        "painel": true,
+        "tentativas_agente": null
+      },
+      {
+        "codigo": "02.02.02.013-4",
+        "descricao": "DETERMINAÇÃO DE TEMPO DE TROMBOPLASTINA PARCIAL ATIVADA (TTP ATIVADA)",
+        "grupo": "Procedimentos com finalidade diagnóstica",
+        "origem": "coagulograma",
+        "categoria": "EXAME",
+        "vl_sh": 0.0,
+        "vl_sa": 5.77,
+        "vl_sp": 0.0,
+        "vl_total": 5.77,
+        "nivel": "nivel0",
+        "score": 1.0,
+        "confianca": "alta",
+        "painel": true,
+        "tentativas_agente": null
+      },
+      {
+        "codigo": "02.02.01.029-5",
+        "descricao": "DOSAGEM DE COLESTEROL TOTAL",
+        "grupo": "Procedimentos com finalidade diagnóstica",
+        "origem": "perfil lipídico",
+        "categoria": "EXAME",
+        "vl_sh": 0.0,
+        "vl_sa": 1.85,
+        "vl_sp": 0.0,
+        "vl_total": 1.85,
+        "nivel": "nivel0",
+        "score": 1.0,
+        "confianca": "alta",
+        "painel": true,
+        "tentativas_agente": null
+      },
+      {
+        "codigo": "02.02.01.067-8",
+        "descricao": "DOSAGEM DE TRIGLICERIDEOS",
+        "grupo": "Procedimentos com finalidade diagnóstica",
+        "origem": "perfil lipídico",
+        "categoria": "EXAME",
+        "vl_sh": 0.0,
+        "vl_sa": 3.51,
+        "vl_sp": 0.0,
+        "vl_total": 3.51,
+        "nivel": "nivel0",
+        "score": 1.0,
+        "confianca": "alta",
+        "painel": true,
+        "tentativas_agente": null
+      },
+      {
+        "codigo": "02.02.01.027-9",
+        "descricao": "DOSAGEM DE COLESTEROL HDL",
+        "grupo": "Procedimentos com finalidade diagnóstica",
+        "origem": "perfil lipídico",
+        "categoria": "EXAME",
+        "vl_sh": 0.0,
+        "vl_sa": 3.51,
+        "vl_sp": 0.0,
+        "vl_total": 3.51,
+        "nivel": "nivel0",
+        "score": 1.0,
+        "confianca": "alta",
+        "painel": true,
+        "tentativas_agente": null
+      },
+      {
+        "codigo": "03.02.06.003-0",
+        "descricao": "ATENDIMENTO FISIOTERAPÊUTICO NAS DESORDENS DO DESENVOLVIMENTO NEURO MOTOR",
+        "grupo": "Procedimentos clínicos",
+        "origem": "fisioterapia neurológica",
+        "categoria": "PROCEDIMENTO",
+        "vl_sh": 4.67,
+        "vl_sa": 4.67,
+        "vl_sp": 0.0,
+        "vl_total": 9.34,
+        "nivel": "nivel_semantico",
+        "score": 0.821,
+        "confianca": "baixa",
+        "painel": false,
+        "tentativas_agente": null
+      },
+      {
+        "codigo": "03.01.10.005-5",
+        "descricao": "CATETERISMO VESICAL DE DEMORA",
+        "grupo": "Procedimentos clínicos",
+        "origem": "sonda vesical de demora",
+        "categoria": "MATERIAL",
+        "vl_sh": 0.0,
+        "vl_sa": 0.0,
+        "vl_sp": 0.0,
+        "vl_total": 0.0,
+        "nivel": "nivel0",
+        "score": 1.0,
+        "confianca": "alta",
+        "painel": false,
+        "tentativas_agente": null
+      },
+      {
+        "codigo": "02.05.02.001-1",
+        "descricao": "ECODOPPLER TRANSCRANIANO",
+        "grupo": "Procedimentos com finalidade diagnóstica",
+        "origem": "doppler transcraniano",
+        "categoria": "EXAME",
+        "vl_sh": 117.0,
+        "vl_sa": 117.0,
+        "vl_sp": 0.0,
+        "vl_total": 234.0,
+        "nivel": "nivel2",
+        "score": 0.521,
+        "confianca": "baixa",
+        "painel": false,
+        "tentativas_agente": null
+      }
+    ],
+    "termos_nao_encontrados": [
+      "monitor de saturação"
+    ],
+    "termos_nao_faturaveis": [
+      "cateter nasal de oxigênio"
+    ],
+    "termos_nao_realizados": [],
+    "entidades_descartadas": []
+  },
+  {
+    "prontuario_id": "PEP008",
+    "data_processamento": "2026-08-20T16:52:36.608774",
+    "modelo_utilizado": "api/groq — openai/gpt-oss-120b",
+    "extrator": "llm",
+    "orquestracao": "deterministica",
+    "texto_prontuario": "Paciente feminina, 39 anos, internada por cetoacidose diabética grave. Administrada insulina regular em bomba de infusão contínua. Reposição volêmica com solução salina 0,9% realizada. Coletados glicemia capilar horária, gasometria venosa e cetonemia. Administrado cloreto de potássio EV para correção de hipocalemia. Realizado eletrocardiograma de controle. Monitor cardíaco instalado. Coletados hemograma completo e função renal.",
+    "entidades_extraidas": [
+      "insulina regular",
+      "solução salina",
+      "glicemia capilar",
+      "gasometria venosa",
+      "cetonemia",
+      "cloreto de potássio",
+      "eletrocardiograma",
+      "monitor cardíaco",
+      "hemograma completo",
+      "função renal"
+    ],
+    "resumo": {
+      "total_entidades_extraidas": 10,
+      "total_codigos_sigtap": 6,
+      "total_nao_encontrados": 1,
+      "total_nao_faturaveis": 3,
+      "total_nao_realizados": 0,
+      "total_baixa_confianca": 1,
+      "valor_total": 13.89
+    },
+    "entidades_por_categoria": {
+      "MEDICAMENTO": [
+        "insulina regular",
+        "cloreto de potássio"
+      ],
+      "MATERIAL": [
+        "solução salina",
+        "monitor cardíaco"
+      ],
+      "EXAME": [
+        "glicemia capilar",
+        "gasometria venosa",
+        "cetonemia",
+        "eletrocardiograma",
+        "hemograma completo",
+        "função renal"
+      ]
+    },
+    "codigos_sigtap": [
+      {
+        "codigo": "02.14.01.001-5",
+        "descricao": "GLICEMIA CAPILAR",
+        "grupo": "Procedimentos com finalidade diagnóstica",
+        "origem": "glicemia capilar",
+        "categoria": "EXAME",
+        "vl_sh": 0.0,
+        "vl_sa": 0.0,
+        "vl_sp": 0.0,
+        "vl_total": 0.0,
+        "nivel": "nivel1",
+        "score": 1.0,
+        "confianca": "alta",
+        "painel": false,
+        "tentativas_agente": null
+      },
+      {
+        "codigo": "02.11.08.002-0",
+        "descricao": "GASOMETRIA",
+        "grupo": "Procedimentos com finalidade diagnóstica",
+        "origem": "gasometria venosa",
+        "categoria": "EXAME",
+        "vl_sh": 0.0,
+        "vl_sa": 2.78,
+        "vl_sp": 0.0,
+        "vl_total": 2.78,
+        "nivel": "nivel0",
+        "score": 1.0,
+        "confianca": "alta",
+        "painel": false,
+        "tentativas_agente": null
+      },
+      {
+        "codigo": "02.14.01.002-3",
+        "descricao": "PESQUISA DE CORPOS CETONICOS NA URINA",
+        "grupo": "Procedimentos com finalidade diagnóstica",
+        "origem": "cetonemia",
+        "categoria": "EXAME",
+        "vl_sh": 0.0,
+        "vl_sa": 0.0,
+        "vl_sp": 0.0,
+        "vl_total": 0.0,
+        "nivel": "nivel0",
+        "score": 1.0,
+        "confianca": "alta",
+        "painel": false,
+        "tentativas_agente": null
+      },
+      {
+        "codigo": "02.11.02.003-6",
+        "descricao": "ELETROCARDIOGRAMA",
+        "grupo": "Procedimentos com finalidade diagnóstica",
+        "origem": "eletrocardiograma",
+        "categoria": "EXAME",
+        "vl_sh": 0.0,
+        "vl_sa": 5.15,
+        "vl_sp": 0.0,
+        "vl_total": 5.15,
+        "nivel": "nivel1",
+        "score": 1.0,
+        "confianca": "alta",
+        "painel": false,
+        "tentativas_agente": null
+      },
+      {
+        "codigo": "02.02.02.038-0",
+        "descricao": "HEMOGRAMA COMPLETO",
+        "grupo": "Procedimentos com finalidade diagnóstica",
+        "origem": "hemograma completo",
+        "categoria": "EXAME",
+        "vl_sh": 0.0,
+        "vl_sa": 4.11,
+        "vl_sp": 0.0,
+        "vl_total": 4.11,
+        "nivel": "nivel1",
+        "score": 1.0,
+        "confianca": "alta",
+        "painel": false,
+        "tentativas_agente": null
+      },
+      {
+        "codigo": "02.02.01.031-7",
+        "descricao": "DOSAGEM DE CREATININA",
+        "grupo": "Procedimentos com finalidade diagnóstica",
+        "origem": "função renal",
+        "categoria": "EXAME",
+        "vl_sh": 0.0,
+        "vl_sa": 1.85,
+        "vl_sp": 0.0,
+        "vl_total": 1.85,
+        "nivel": "nivel4",
+        "score": 2.0,
+        "confianca": "baixa",
+        "painel": false,
+        "tentativas_agente": 2
+      }
+    ],
+    "termos_nao_encontrados": [
+      "insulina regular"
+    ],
+    "termos_nao_faturaveis": [
+      "solução salina",
+      "cloreto de potássio",
+      "monitor cardíaco"
+    ],
+    "termos_nao_realizados": [],
+    "entidades_descartadas": []
+  },
+  {
+    "prontuario_id": "PEP009",
+    "data_processamento": "2026-08-20T16:53:54.114271",
+    "modelo_utilizado": "api/groq — openai/gpt-oss-120b",
+    "extrator": "llm",
+    "orquestracao": "deterministica",
+    "texto_prontuario": "Paciente masculino, 55 anos, pós-operatório imediato de cirurgia cardíaca com circulação extracorpórea para revascularização do miocárdio. Realizado ecocardiograma transesofágico intraoperatório. Monitorização hemodinâmica invasiva com cateter de Swan-Ganz instalada. Administrada protamina para reversão de heparina. Realizado raio-x de tórax pós-operatório. Drenos mediastinais e pleurais instalados. Fisioterapia respiratória realizada. Coletados troponina e coagulograma pós-operatórios.",
+    "entidades_extraidas": [
+      "ecocardiograma transesofágico",
+      "monitorização hemodinâmica invasiva",
+      "cateter de Swan-Ganz",
+      "protamina",
+      "raio-x de tórax",
+      "dreno mediastinal",
+      "dreno pleural",
+      "fisioterapia respiratória",
+      "troponina",
+      "coagulograma"
+    ],
+    "resumo": {
+      "total_entidades_extraidas": 10,
+      "total_codigos_sigtap": 7,
+      "total_nao_encontrados": 3,
+      "total_nao_faturaveis": 1,
+      "total_nao_realizados": 0,
+      "total_baixa_confianca": 1,
+      "valor_total": 1081.27
+    },
+    "entidades_por_categoria": {
+      "EXAME": [
+        "ecocardiograma transesofágico",
+        "raio-x de tórax",
+        "troponina",
+        "coagulograma"
+      ],
+      "PROCEDIMENTO": [
+        "monitorização hemodinâmica invasiva",
+        "fisioterapia respiratória"
+      ],
+      "MATERIAL": [
+        "cateter de Swan-Ganz",
+        "dreno mediastinal",
+        "dreno pleural"
+      ],
+      "MEDICAMENTO": [
+        "protamina"
+      ]
+    },
+    "codigos_sigtap": [
+      {
+        "codigo": "02.05.01.002-4",
+        "descricao": "ECOCARDIOGRAFIA TRANSESOFAGICA",
+        "grupo": "Procedimentos com finalidade diagnóstica",
+        "origem": "ecocardiograma transesofágico",
+        "categoria": "EXAME",
+        "vl_sh": 165.0,
+        "vl_sa": 165.0,
+        "vl_sp": 0.0,
+        "vl_total": 330.0,
+        "nivel": "nivel_semantico",
+        "score": 0.908,
+        "confianca": "media",
+        "painel": false,
+        "tentativas_agente": null
+      },
+      {
+        "codigo": "07.02.05.006-7",
+        "descricao": "CATETER DE TERMODILUICAO",
+        "grupo": "Órteses, próteses e materiais especiais",
+        "origem": "cateter de Swan-Ganz",
+        "categoria": "MATERIAL",
+        "vl_sh": 237.02,
+        "vl_sa": 0.0,
+        "vl_sp": 0.0,
+        "vl_total": 237.02,
+        "nivel": "nivel0",
+        "score": 1.0,
+        "confianca": "alta",
+        "painel": false,
+        "tentativas_agente": null
+      },
+      {
+        "codigo": "02.04.03.017-0",
+        "descricao": "RADIOGRAFIA DE TORAX (PA)",
+        "grupo": "Procedimentos com finalidade diagnóstica",
+        "origem": "raio-x de tórax",
+        "categoria": "EXAME",
+        "vl_sh": 0.0,
+        "vl_sa": 6.88,
+        "vl_sp": 0.0,
+        "vl_total": 6.88,
+        "nivel": "nivel0",
+        "score": 1.0,
+        "confianca": "alta",
+        "painel": false,
+        "tentativas_agente": null
+      },
+      {
+        "codigo": "03.03.14.013-5",
+        "descricao": "TRATAMENTO DE OUTRAS DOENCAS DO APARELHO RESPIRATORIO",
+        "grupo": "Procedimentos clínicos",
+        "origem": "fisioterapia respiratória",
+        "categoria": "PROCEDIMENTO",
+        "vl_sh": 451.47,
+        "vl_sa": 0.0,
+        "vl_sp": 29.4,
+        "vl_total": 480.87,
+        "nivel": "nivel_semantico",
+        "score": 0.825,
+        "confianca": "baixa",
+        "painel": false,
+        "tentativas_agente": null
+      },
+      {
+        "codigo": "02.02.03.120-9",
+        "descricao": "DOSAGEM DE TROPONINA",
+        "grupo": "Procedimentos com finalidade diagnóstica",
+        "origem": "troponina",
+        "categoria": "EXAME",
+        "vl_sh": 9.0,
+        "vl_sa": 9.0,
+        "vl_sp": 0.0,
+        "vl_total": 18.0,
+        "nivel": "nivel1",
+        "score": 0.843,
+        "confianca": "media",
+        "painel": false,
+        "tentativas_agente": null
+      },
+      {
+        "codigo": "02.02.02.014-2",
+        "descricao": "DETERMINAÇÃO DE TEMPO E ATIVIDADE DA PROTROMBINA (TAP)",
+        "grupo": "Procedimentos com finalidade diagnóstica",
+        "origem": "coagulograma",
+        "categoria": "EXAME",
+        "vl_sh": 0.0,
+        "vl_sa": 2.73,
+        "vl_sp": 0.0,
+        "vl_total": 2.73,
+        "nivel": "nivel0",
+        "score": 1.0,
+        "confianca": "alta",
+        "painel": true,
+        "tentativas_agente": null
+      },
+      {
+        "codigo": "02.02.02.013-4",
+        "descricao": "DETERMINAÇÃO DE TEMPO DE TROMBOPLASTINA PARCIAL ATIVADA (TTP ATIVADA)",
+        "grupo": "Procedimentos com finalidade diagnóstica",
+        "origem": "coagulograma",
+        "categoria": "EXAME",
+        "vl_sh": 0.0,
+        "vl_sa": 5.77,
+        "vl_sp": 0.0,
+        "vl_total": 5.77,
+        "nivel": "nivel0",
+        "score": 1.0,
+        "confianca": "alta",
+        "painel": true,
+        "tentativas_agente": null
+      }
+    ],
+    "termos_nao_encontrados": [
+      "monitorização hemodinâmica invasiva",
+      "dreno mediastinal",
+      "dreno pleural"
+    ],
+    "termos_nao_faturaveis": [
+      "protamina"
+    ],
+    "termos_nao_realizados": [],
+    "entidades_descartadas": []
+  },
+  {
+    "prontuario_id": "PEP010",
+    "data_processamento": "2026-08-20T16:54:56.878105",
+    "modelo_utilizado": "api/groq — openai/gpt-oss-120b",
+    "extrator": "llm",
+    "orquestracao": "deterministica",
+    "texto_prontuario": "Paciente feminina, 71 anos, com pneumonia grave por influenza. Administrado oseltamivir e azitromicina EV. Instalada ventilação não invasiva com máscara facial total. Coletados painel viral respiratório e escarro para cultura. Realizado raio-x de tórax e tomografia de tórax sem contraste. Administrada metilprednisolona EV. Fisioterapia respiratória e nebulização com broncodilatador realizadas. Coletados lactato e gasometria arterial seriados.",
+    "entidades_extraidas": [
+      "oseltamivir",
+      "azitromicina",
+      "ventilação não invasiva",
+      "painel viral respiratório",
+      "cultura de escarro",
+      "raio-x de tórax",
+      "tomografia de tórax",
+      "metilprednisolona",
+      "fisioterapia respiratória",
+      "nebulização",
+      "lactato",
+      "gasometria arterial"
+    ],
+    "resumo": {
+      "total_entidades_extraidas": 12,
+      "total_codigos_sigtap": 8,
+      "total_nao_encontrados": 2,
+      "total_nao_faturaveis": 2,
+      "total_nao_realizados": 0,
+      "total_baixa_confianca": 4,
+      "valor_total": 794.53
+    },
+    "entidades_por_categoria": {
+      "MEDICAMENTO": [
+        "oseltamivir",
+        "azitromicina",
+        "metilprednisolona"
+      ],
+      "PROCEDIMENTO": [
+        "ventilação não invasiva",
+        "fisioterapia respiratória",
+        "nebulização"
+      ],
+      "EXAME": [
+        "painel viral respiratório",
+        "cultura de escarro",
+        "raio-x de tórax",
+        "tomografia de tórax",
+        "lactato",
+        "gasometria arterial"
+      ]
+    },
+    "codigos_sigtap": [
+      {
+        "codigo": "03.01.05.006-6",
+        "descricao": "INSTALAÇÃO / MANUTENÇÃO DE VENTILAÇÃO MECÂNICA NÃO INVASIVA DOMICILIAR",
+        "grupo": "Procedimentos clínicos",
+        "origem": "ventilação não invasiva",
+        "categoria": "PROCEDIMENTO",
+        "vl_sh": 0.0,
+        "vl_sa": 27.5,
+        "vl_sp": 0.0,
+        "vl_total": 27.5,
+        "nivel": "nivel1",
+        "score": 0.611,
+        "confianca": "baixa",
+        "painel": false,
+        "tentativas_agente": null
+      },
+      {
+        "codigo": "02.04.03.017-0",
+        "descricao": "RADIOGRAFIA DE TORAX (PA)",
+        "grupo": "Procedimentos com finalidade diagnóstica",
+        "origem": "raio-x de tórax",
+        "categoria": "EXAME",
+        "vl_sh": 0.0,
+        "vl_sa": 6.88,
+        "vl_sp": 0.0,
+        "vl_total": 6.88,
+        "nivel": "nivel0",
+        "score": 1.0,
+        "confianca": "alta",
+        "painel": false,
+        "tentativas_agente": null
+      },
+      {
+        "codigo": "02.06.02.003-1",
+        "descricao": "TOMOGRAFIA COMPUTADORIZADA DE TORAX",
+        "grupo": "Procedimentos com finalidade diagnóstica",
+        "origem": "tomografia de tórax",
+        "categoria": "EXAME",
+        "vl_sh": 136.41,
+        "vl_sa": 136.41,
+        "vl_sp": 0.0,
+        "vl_total": 272.82,
+        "nivel": "nivel0",
+        "score": 1.0,
+        "confianca": "alta",
+        "painel": false,
+        "tentativas_agente": null
+      },
+      {
+        "codigo": "06.04.28.010-6",
+        "descricao": "METILPREDNISOLONA 500 MG INJETAVEL (POR AMPOLA)",
+        "grupo": "Medicamentos",
+        "origem": "metilprednisolona",
+        "categoria": "MEDICAMENTO",
+        "vl_sh": 0.0,
+        "vl_sa": 0.0,
+        "vl_sp": 0.0,
+        "vl_total": 0.0,
+        "nivel": "nivel1",
+        "score": 0.478,
+        "confianca": "baixa",
+        "painel": false,
+        "tentativas_agente": null
+      },
+      {
+        "codigo": "03.03.14.013-5",
+        "descricao": "TRATAMENTO DE OUTRAS DOENCAS DO APARELHO RESPIRATORIO",
+        "grupo": "Procedimentos clínicos",
+        "origem": "fisioterapia respiratória",
+        "categoria": "PROCEDIMENTO",
+        "vl_sh": 451.47,
+        "vl_sa": 0.0,
+        "vl_sp": 29.4,
+        "vl_total": 480.87,
+        "nivel": "nivel_semantico",
+        "score": 0.825,
+        "confianca": "baixa",
+        "painel": false,
+        "tentativas_agente": null
+      },
+      {
+        "codigo": "03.01.10.010-1",
+        "descricao": "INALAÇÃO / NEBULIZAÇÃO",
+        "grupo": "Procedimentos clínicos",
+        "origem": "nebulização",
+        "categoria": "PROCEDIMENTO",
+        "vl_sh": 0.0,
+        "vl_sa": 0.0,
+        "vl_sp": 0.0,
+        "vl_total": 0.0,
+        "nivel": "nivel1",
+        "score": 0.694,
+        "confianca": "baixa",
+        "painel": false,
+        "tentativas_agente": null
+      },
+      {
+        "codigo": "02.02.01.053-8",
+        "descricao": "DOSAGEM DE LACTATO",
+        "grupo": "Procedimentos com finalidade diagnóstica",
+        "origem": "lactato",
+        "categoria": "EXAME",
+        "vl_sh": 0.0,
+        "vl_sa": 3.68,
+        "vl_sp": 0.0,
+        "vl_total": 3.68,
+        "nivel": "nivel1",
+        "score": 0.832,
+        "confianca": "media",
+        "painel": false,
+        "tentativas_agente": null
+      },
+      {
+        "codigo": "02.11.08.002-0",
+        "descricao": "GASOMETRIA",
+        "grupo": "Procedimentos com finalidade diagnóstica",
+        "origem": "gasometria arterial",
+        "categoria": "EXAME",
+        "vl_sh": 0.0,
+        "vl_sa": 2.78,
+        "vl_sp": 0.0,
+        "vl_total": 2.78,
+        "nivel": "nivel0",
+        "score": 1.0,
+        "confianca": "alta",
+        "painel": false,
+        "tentativas_agente": null
+      }
+    ],
+    "termos_nao_encontrados": [
+      "painel viral respiratório",
+      "cultura de escarro"
+    ],
+    "termos_nao_faturaveis": [
+      "oseltamivir",
+      "azitromicina"
+    ],
+    "termos_nao_realizados": [],
+    "entidades_descartadas": []
+  }
+]
