@@ -78,12 +78,22 @@ ORQUESTRACAO_POR_LLM = os.getenv("ORQUESTRACAO_POR_LLM", "false").lower() == "tr
 STATUS_REALIZADO = "REALIZADO"
 STATUS_NAO_REALIZADO = "NAO_REALIZADO"
 
-# Marcadores textuais de que o item NÃO foi realizado. Usados como rede de
-# segurança sobre a classificação do LLM: se o modelo disser REALIZADO mas
-# o texto ao redor do termo contiver um destes, o item é rebaixado. A
-# assimetria é deliberada -- em faturamento, errar para menos custa receita,
-# errar para mais custa glosa e credibilidade.
+# Marcadores textuais de que o item NÃO foi realizado NESTA evolução. Usados
+# como rede de segurança sobre a classificação do LLM: se o modelo disser
+# REALIZADO mas o texto ao redor do termo contiver um destes, o item é
+# rebaixado. A assimetria é deliberada -- em faturamento, errar para menos
+# custa receita, errar para mais custa glosa e credibilidade.
+#
+# Duas categorias, por direção temporal: (1) o item ainda vai acontecer
+# (futuro/pendente) e (2) o item já aconteceu ANTES desta nota, geralmente
+# em outra internação ou etapa cirúrgica anterior (histórico/pós-operatório).
+# A categoria (2) foi adicionada depois de um caso real: "1)POI - Laparotomia
+# exploradora..." no diagnóstico clínico de uma evolução -- POI (pós-operatório
+# imediato) sinaliza que a cirurgia já ocorreu, mas sem esse marcador o item
+# era classificado como realizado NESTA data, inflando o relatório com um
+# procedimento cirúrgico de alto valor que não aconteceu na internação atual.
 _MARCADORES_NAO_REALIZADO = (
+    # -- futuro / pendente --
     "nao realizado", "nao realizada", "nao foi realizado", "nao foi realizada",
     "nao realizou", "sem realizar",
     "cancelado", "cancelada", "suspenso", "suspensa",
@@ -92,6 +102,8 @@ _MARCADORES_NAO_REALIZADO = (
     "solicitado", "solicitada", "aguarda", "aguardando",
     "a realizar", "sera realizado", "sera realizada",
     "previsto", "prevista", "indicado", "indicada",
+    # -- histórico / já ocorreu antes desta nota --
+    "poi",  # pós-operatório imediato
 )
 
 
@@ -451,7 +463,10 @@ def _verificar_status_no_texto(termo: str, texto_prontuario: str) -> bool:
     if alvo is None:
         return False
 
-    return any(marcador in alvo for marcador in _MARCADORES_NAO_REALIZADO)
+    return any(
+        re.search(rf"\b{re.escape(marcador)}\b", alvo)
+        for marcador in _MARCADORES_NAO_REALIZADO
+    )
 
 
 async def extrair_entidades_llm(texto_prontuario: str) -> list[dict]:

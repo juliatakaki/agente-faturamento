@@ -1,6 +1,6 @@
 # Relatório de Faturamento SUS - SIGTAP
 
-**Data de geração:** 31/08/2026 às 20:30  
+**Data de geração:** 01/09/2026 às 18:36  
 **Total de prontuários processados:** 10  
 **Modelo utilizado:** api/groq — openai/gpt-oss-120b  
 **Consulta ao SIGTAP:** laço determinístico
@@ -65,13 +65,12 @@ _Nenhum código SIGTAP foi vinculado a este prontuário._
 
 | Código SIGTAP | Procedimento | Origem | Nível | Confiança | SH | SA | SP | Total |
 |---|---|---|---|---|---:|---:|---:|---:|
-| 04.07.04.016-1 | LAPAROTOMIA EXPLORADORA | Laparotomia exploradora | Exata | Alta | R$ 497,20 | R$ 0,00 | R$ 139,99 | R$ 637,19 |
 | 04.17.01.006-0 | SEDACAO | sedoanalgesia | Dicionário | Alta | R$ 0,00 | R$ 15,15 | R$ 15,15 | R$ 30,30 |
 | 02.11.08.002-0 | GASOMETRIA | Gasometria arterial | Dicionário | Alta | R$ 0,00 | R$ 2,78 | R$ 0,00 | R$ 2,78 |
 | 03.03.14.013-5 | TRATAMENTO DE OUTRAS DOENCAS DO APARELHO RESPIRATORIO | Fisioterapia Respiratória | Semântica | **BAIXA** | R$ 451,47 | R$ 0,00 | R$ 29,40 | R$ 480,87 |
 | 03.02.05.002-7 | ATENDIMENTO FISIOTERAPÊUTICO NAS ALTERAÇÕES MOTORAS | Fisioterapia Motora | Semântica | **BAIXA** | R$ 0,00 | R$ 4,67 | R$ 0,00 | R$ 4,67 |
 
-**Subtotal do prontuário HUB005: R$ 1.155,81**
+**Subtotal do prontuário HUB005: R$ 518,62**
 
 > **Sem correspondência — verificação manual**  
 > Estes termos foram identificados no prontuário mas não puderam ser vinculados a um código SIGTAP pela busca automática. Podem representar receita não faturada — recomenda-se conferência.
@@ -171,11 +170,11 @@ _Nenhum código SIGTAP foi vinculado a este prontuário._
 ## Resumo Consolidado
 
 - **Prontuários processados:** 10
-- **Códigos SIGTAP atribuídos:** 20
-- **Códigos com valor maior que zero:** 14
+- **Códigos SIGTAP atribuídos:** 19
+- **Códigos com valor maior que zero:** 13
 - **Correspondências de confiança BAIXA (conferir):** 4
 - **Termos sem correspondência (verificar):** 11
 - **Termos marcados como sem código próprio (conferir marcação):** 7
-- **VALOR TOTAL SUGERIDO:** R$ 1.294,17
+- **VALOR TOTAL SUGERIDO:** R$ 656,98
 
 _SH = Serviço Hospitalar, SA = Serviço Ambulatorial, SP = Serviço Profissional. Valores conforme tabela SIGTAP/DATASUS._

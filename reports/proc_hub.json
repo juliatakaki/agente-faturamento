@@ -1,7 +1,7 @@
 [
   {
     "prontuario_id": "HUB001",
-    "data_processamento": "2026-08-31T20:30:06.456804",
+    "data_processamento": "2026-09-01T18:36:39.350319",
     "modelo_utilizado": "api/groq — openai/gpt-oss-120b",
     "extrator": "regras",
     "orquestracao": "deterministica",
@@ -48,7 +48,7 @@
   },
   {
     "prontuario_id": "HUB002",
-    "data_processamento": "2026-08-31T20:30:06.480714",
+    "data_processamento": "2026-09-01T18:36:39.371000",
     "modelo_utilizado": "api/groq — openai/gpt-oss-120b",
     "extrator": "regras",
     "orquestracao": "deterministica",
@@ -72,7 +72,7 @@
   },
   {
     "prontuario_id": "HUB003",
-    "data_processamento": "2026-08-31T20:30:06.555267",
+    "data_processamento": "2026-09-01T18:36:39.429518",
     "modelo_utilizado": "api/groq — openai/gpt-oss-120b",
     "extrator": "regras",
     "orquestracao": "deterministica",
@@ -139,7 +139,7 @@
   },
   {
     "prontuario_id": "HUB004",
-    "data_processamento": "2026-08-31T20:30:14.396379",
+    "data_processamento": "2026-09-01T18:36:45.110163",
     "modelo_utilizado": "api/groq — openai/gpt-oss-120b",
     "extrator": "regras",
     "orquestracao": "deterministica",
@@ -258,7 +258,7 @@
   },
   {
     "prontuario_id": "HUB005",
-    "data_processamento": "2026-08-31T20:30:16.301549",
+    "data_processamento": "2026-09-01T18:36:46.696337",
     "modelo_utilizado": "api/groq — openai/gpt-oss-120b",
     "extrator": "regras",
     "orquestracao": "deterministica",
@@ -275,12 +275,12 @@
     ],
     "resumo": {
       "total_entidades_extraidas": 8,
-      "total_codigos_sigtap": 5,
+      "total_codigos_sigtap": 4,
       "total_nao_encontrados": 2,
       "total_nao_faturaveis": 1,
-      "total_nao_realizados": 0,
+      "total_nao_realizados": 1,
       "total_baixa_confianca": 2,
-      "valor_total": 1155.81
+      "valor_total": 518.62
     },
     "entidades_por_categoria": {
       "PROCEDIMENTO": [
@@ -299,22 +299,6 @@
       ]
     },
     "codigos_sigtap": [
-      {
-        "codigo": "04.07.04.016-1",
-        "descricao": "LAPAROTOMIA EXPLORADORA",
-        "grupo": "Procedimentos cirúrgicos",
-        "origem": "Laparotomia exploradora",
-        "categoria": "PROCEDIMENTO",
-        "vl_sh": 497.2,
-        "vl_sa": 0.0,
-        "vl_sp": 139.99,
-        "vl_total": 637.19,
-        "nivel": "nivel1",
-        "score": 1.0,
-        "confianca": "alta",
-        "painel": false,
-        "tentativas_agente": null
-      },
       {
         "codigo": "04.17.01.006-0",
         "descricao": "SEDACAO",
@@ -387,12 +371,17 @@
     "termos_nao_faturaveis": [
       "noradrenalina"
     ],
-    "termos_nao_realizados": [],
+    "termos_nao_realizados": [
+      {
+        "texto": "Laparotomia exploradora",
+        "categoria": "PROCEDIMENTO"
+      }
+    ],
     "entidades_descartadas": []
   },
   {
     "prontuario_id": "HUB006",
-    "data_processamento": "2026-08-31T20:30:19.454152",
+    "data_processamento": "2026-09-01T18:36:50.051759",
     "modelo_utilizado": "api/groq — openai/gpt-oss-120b",
     "extrator": "regras",
     "orquestracao": "deterministica",
@@ -517,7 +506,7 @@
   },
   {
     "prontuario_id": "HUB007",
-    "data_processamento": "2026-08-31T20:30:21.103400",
+    "data_processamento": "2026-09-01T18:36:51.319861",
     "modelo_utilizado": "api/groq — openai/gpt-oss-120b",
     "extrator": "regras",
     "orquestracao": "deterministica",
@@ -615,7 +604,7 @@
   },
   {
     "prontuario_id": "HUB008",
-    "data_processamento": "2026-08-31T20:30:21.162475",
+    "data_processamento": "2026-09-01T18:36:51.353474",
     "modelo_utilizado": "api/groq — openai/gpt-oss-120b",
     "extrator": "regras",
     "orquestracao": "deterministica",
@@ -662,7 +651,7 @@
   },
   {
     "prontuario_id": "HUB009",
-    "data_processamento": "2026-08-31T20:30:21.179077",
+    "data_processamento": "2026-09-01T18:36:51.369901",
     "modelo_utilizado": "api/groq — openai/gpt-oss-120b",
     "extrator": "regras",
     "orquestracao": "deterministica",
@@ -686,7 +675,7 @@
   },
   {
     "prontuario_id": "HUB010",
-    "data_processamento": "2026-08-31T20:30:26.056039",
+    "data_processamento": "2026-09-01T18:36:52.080144",
     "modelo_utilizado": "api/groq — openai/gpt-oss-120b",
     "extrator": "regras",
     "orquestracao": "deterministica",
