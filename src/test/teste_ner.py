@@ -11,7 +11,7 @@ from ner.extractor import construir_ner, extrair_entidades
 
 nlp = construir_ner()
 
-with open("data/prontuarios.json", encoding="utf-8") as f:
+with open("data/prontuarios_hub.json", encoding="utf-8") as f:
     prontuarios = json.load(f)
 
 for p in prontuarios:
@@ -27,7 +27,7 @@ from ner.extractor import construir_ner, extrair_entidades
 
 nlp = construir_ner()
 
-with open("data/prontuarios.json", encoding="utf-8") as f:
+with open("data/prontuarios_hub.json", encoding="utf-8") as f:
     prontuarios = json.load(f)
 
 for p in prontuarios:

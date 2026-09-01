@@ -189,7 +189,7 @@ if __name__ == "__main__":
 
     nlp = construir_ner()
 
-    with open("../../data/prontuarios.json", encoding="utf-8") as f:
+    with open("../../data/prontuarios_hub.json", encoding="utf-8") as f:
         prontuarios = json.load(f)
 
     for p in prontuarios[:3]:

@@ -1,0 +1,723 @@
+[
+  {
+    "prontuario_id": "HUB001",
+    "data_processamento": "2026-08-31T20:30:06.456804",
+    "modelo_utilizado": "api/groq — openai/gpt-oss-120b",
+    "extrator": "regras",
+    "orquestracao": "deterministica",
+    "texto_prontuario": "EVOLUÇÃO DE ENFERMAGEM 04/02/25 às 11:26\n\nPaciente em REG, consciente, torporoso, anictérico,acianótico e afebril. Em VM por TOT ( modo: espontâneo, FiO² 25 %, Peep 8cmH²O). Abdome semi globoso, flácido a palpação. Dieta por SNE em drenagem. Diurese concentrada presente por SVD. Evacuação presente ( pouca quantidade) no momento do banho. Realizado banho no leito na paciente pela Equipe de Enfermagem.\n\nCurativos: \n\n- Realizo curativo em AVC em VFE.Sutura integra, ausência de sinais flogísticos. Realizo limpeza com SF 0,9% e antissepsia com clorexidina alcoólica. Ocluo com gaze e filme transparente.\n\n- Mantenho curativo em região sacra.\n\nIntervenções de enfermagem\n\n-Monitorização contínua;\n\n-Banho no leito + curativos; \n\n-Cama travada e grades elevadas;\n\n-Segue aos cuidados intensivo da equipe .",
+    "entidades_extraidas": [
+      "curativo"
+    ],
+    "resumo": {
+      "total_entidades_extraidas": 1,
+      "total_codigos_sigtap": 1,
+      "total_nao_encontrados": 0,
+      "total_nao_faturaveis": 0,
+      "total_nao_realizados": 0,
+      "total_baixa_confianca": 0,
+      "valor_total": 0.0
+    },
+    "entidades_por_categoria": {
+      "PROCEDIMENTO": [
+        "curativo"
+      ]
+    },
+    "codigos_sigtap": [
+      {
+        "codigo": "03.01.10.028-4",
+        "descricao": "CURATIVO SIMPLES",
+        "grupo": "Procedimentos clínicos",
+        "origem": "curativo",
+        "categoria": "PROCEDIMENTO",
+        "vl_sh": 0.0,
+        "vl_sa": 0.0,
+        "vl_sp": 0.0,
+        "vl_total": 0.0,
+        "nivel": "nivel1",
+        "score": 0.702,
+        "confianca": "media",
+        "painel": false,
+        "tentativas_agente": null
+      }
+    ],
+    "termos_nao_encontrados": [],
+    "termos_nao_faturaveis": [],
+    "termos_nao_realizados": [],
+    "entidades_descartadas": []
+  },
+  {
+    "prontuario_id": "HUB002",
+    "data_processamento": "2026-08-31T20:30:06.480714",
+    "modelo_utilizado": "api/groq — openai/gpt-oss-120b",
+    "extrator": "regras",
+    "orquestracao": "deterministica",
+    "texto_prontuario": "16/07/2025 - às 9:00 horas \n\nEVOLUÇÃO DO SERVIÇO DE PSICOLOGIA - ENFERMARIA DE ESPECIALIDADES CLÍNICAS \n\nSERVIÇO DE PSICOLOGIA - CARDIOLOGIA\n\nAtendimento psicológico realizado mediante busca ativa. \n\nTrata-se do paciente x, [AGE] anos, casado, 4 filhos, possui a religião católica. Natural da Bahia.\n\nConstam em prontuário médico as seguintes informações:\n\n# HDA - Transcrita:\n\nPaciente DPOC, previamente ativo, HAS em uso prévio de losartana, vem apresentando há 6 meses dispneia, dessaturação e tontura, com várias idas ao PS, com necessidade de suporte de O2, diureticoterapia e corticoterapia. Realizou consulta com cardiologista particular, realizou exames complementares tendo sido identificado estenose ao grave (grad 47). Traz relatório médico solicitando TAVI, devido ao alto risco cirúrgico. Relata que vem apresentando dor torácica em pontada, de curta duração, que melhora após massagem local. Nega síncope. Apresenta dispneia aos pequenos esforços como tomar banho, CF III. Paciente foi atendido em 16/06/2025, no ambulatório de Cardiologia do ICTDF, para avaliação do quadro, com diagnóstico confirmado de estenose aórtica acentuada, apresentando várias internações por descompensações da doença, assim sendo foi indicado tratamento cirúrgico, mas devido ao alto risco do paciente, o tratamento deverá ser por TAVI. \n\nPorém, paciente na entrada (dia 20/06) apresentava-se dispenico, com tempo de enchimento capilar elevado e livedo reticular, porém, extremidades quentes - Sepse? Mantida antibioticoterapia e iniciada dobutamina com desmame em 22/06 e desmama de cateter de O2 em 23/06. Paciente submetido à CATE em 21/06 com ATC de DA e CX em 24/06, sendo posteriormente encaminhado à enfermaria, onde segue aos cuidados da equipe de cardiologia.\n\n# Lista de problemas\n\n1) DESCOMPENSAÇÃO CLÍNICO RESPIRATÓRIA - (EM RESOLUÇÃO)\n\n- IC Perfil B (UPA) --> uso excessivo de diurético em UPA --> hipovolemia\n\n-- >alcalose de contração --> hipoK (2,7 em 21/06)\n\n- DPOC exacerbado? PAC? Sepse de foco pulmonar?- Resolvido \n\n- DHE - Resolvido \n\n2) ESTENOSE AÓRTICA GRAVE - gradiente 47mmhg e área valvar < 0,9cm2\n\n--- STS Score e/ou EuroSCORE II é elevado, reforçando a contraindicaçao relativa a cirurgia convencional; \n\n--- Aguardando realização de TAVI - Programada para 17/07\n\n3) DAC \n\n--> CATE (21/06): DA c/ lesão de 50% no 1/3 proximal, 70% na transição do 1/3 proximal para médio e 60% no 1/3 distal | Cx: 80% no 1/3 proximal \n\n--> ATC de DA e CX (24/06)\n\n4) DPOC há [AGE] anos\n\n---- Ex- tabagista (cessou há [AGE] anos, CT 23 maços x ano)\n\n5) HAS \n\nOBS: Nega IAM, AVE, DM\n\n#ATENDIMENTO PSICOLÓGICO\n\nRealizado atendimento psicológico ao paciente, na ocasião, acompanhado pela filha (x).\n\nEXAME PSÍQUICO \n\nAo exame psíquico, paciente apresenta nível de consciência sem alterações, demais funções psíquicas preservadas, atitude cooperativa e disponível ao diálogo. Apresenta humor eutímico com afeto ansioso relacionado a cirurgia de TAVI programada para amanhã. Menciona preocupações referentes a cirurgia e o medo de morrer. Foi realizada educação em saúde, conjuntamente com interno de medicina, para que o paciente pudesse sanar suas dúvidas e compreender sobre os procedimentos a serem realizados, diminuindo aspectos emocionais de ansiedade. \n\nPossui enfrentamento adaptativo religioso. A rede de apoio inclui as duas filhas. apresenta compreensão do seu quadro clínico atual, doença de base e tratamento. Informa que a irmã também virá para Brasília auxiliar nos cuidados. A família é estruturada, funcional, compreende a doença e o tratamento e é presente no hospital. \n\nRealizada intervenções:\n\n- escuta ativa e empática;\n\n- acolhimento e suporte emocional;\n\n- avaliação do estado mental do paciente;\n\n- educação em saúde\n\n- orientações psicológicas pertinentes ao processo saúde-doença;\n\n- psicoeducação \n\n- reforço recursos de enfrentamento adaptativos e promoção de resiliência.\n\nCD:\n\n- mantenho acompanhamento e suporte emocional durante a internação. \n\n- disponibilizo serviço de psicologia ao paciente e à família conforme demanda.",
+    "entidades_extraidas": [],
+    "resumo": {
+      "total_entidades_extraidas": 0,
+      "total_codigos_sigtap": 0,
+      "total_nao_encontrados": 0,
+      "total_nao_faturaveis": 0,
+      "total_nao_realizados": 0,
+      "total_baixa_confianca": 0,
+      "valor_total": 0
+    },
+    "entidades_por_categoria": {},
+    "codigos_sigtap": [],
+    "termos_nao_encontrados": [],
+    "termos_nao_faturaveis": [],
+    "termos_nao_realizados": [],
+    "entidades_descartadas": []
+  },
+  {
+    "prontuario_id": "HUB003",
+    "data_processamento": "2026-08-31T20:30:06.555267",
+    "modelo_utilizado": "api/groq — openai/gpt-oss-120b",
+    "extrator": "regras",
+    "orquestracao": "deterministica",
+    "texto_prontuario": "EVOLUÇÃO DE ENFERMAGEM 31/03/25 às 21h\n\nPaciente segue em repouso no leito de UCO, acompanhada por familiar, consciente, orientada, verbalizando necessidades. Refere dor intensa em FO MID e . Hemodinamicamente estável sem aminas. Estável hemodinamicamente, sem DVA, sem sedação. Anictérica, acianótica, hipocorada (2/4) e afebril. Eupneica. Respiração espontânea em ar ambiente sem aporte de oxigênio. Dieta por via oral. Diurese presente em SVD. Evacuação ausente no momento do banho no leito. Presença de hiperemia em região sacral. Instalo placa de alevyn. Extremidades com pouca perfusão sem edema, ativa no leito. Paciente com queixa álgica. Administrado Morfina durante a realização do curativo.\n\nCurativos\n\n**CVC - JIE Sutura integra, ausência de sinais flogísticos. Realizo limpeza com SF 0,9% e antissepsia com clorexidina alcoólica. Ocluo com gaze e filme transparente.\n\n**Realizo curativo em MID lesão cavitária com pequena quantidade de exsudato serosanguinolento. Realizo limpeza com SF 0,9% , ocluo com alginato, gaze, compressa e filme transparente.\n\n** Realizado curativo em FO da região external. Realizado limpeza com SF 0,9%, ocluo com alginato, gazes, compressa estéril e filme transparente.\n\nIntervenções de enfermagem\n\n- Manter Monitorização\n\n- Cabeceira/grades elevadas, cama travada.\n\n- Vigilância hemodinâmica.\n\n- Cuidados intensivos.",
+    "entidades_extraidas": [
+      "Morfina",
+      "curativo"
+    ],
+    "resumo": {
+      "total_entidades_extraidas": 2,
+      "total_codigos_sigtap": 2,
+      "total_nao_encontrados": 0,
+      "total_nao_faturaveis": 0,
+      "total_nao_realizados": 0,
+      "total_baixa_confianca": 1,
+      "valor_total": 0.0
+    },
+    "entidades_por_categoria": {
+      "MEDICAMENTO": [
+        "Morfina"
+      ],
+      "PROCEDIMENTO": [
+        "curativo"
+      ]
+    },
+    "codigos_sigtap": [
+      {
+        "codigo": "06.04.05.007-0",
+        "descricao": "MORFINA 10 MG (POR COMPRIMIDO)",
+        "grupo": "Medicamentos",
+        "origem": "Morfina",
+        "categoria": "MEDICAMENTO",
+        "vl_sh": 0.0,
+        "vl_sa": 0.0,
+        "vl_sp": 0.0,
+        "vl_total": 0.0,
+        "nivel": "nivel1",
+        "score": 0.683,
+        "confianca": "baixa",
+        "painel": false,
+        "tentativas_agente": null
+      },
+      {
+        "codigo": "03.01.10.028-4",
+        "descricao": "CURATIVO SIMPLES",
+        "grupo": "Procedimentos clínicos",
+        "origem": "curativo",
+        "categoria": "PROCEDIMENTO",
+        "vl_sh": 0.0,
+        "vl_sa": 0.0,
+        "vl_sp": 0.0,
+        "vl_total": 0.0,
+        "nivel": "nivel1",
+        "score": 0.702,
+        "confianca": "media",
+        "painel": false,
+        "tentativas_agente": null
+      }
+    ],
+    "termos_nao_encontrados": [],
+    "termos_nao_faturaveis": [],
+    "termos_nao_realizados": [],
+    "entidades_descartadas": []
+  },
+  {
+    "prontuario_id": "HUB004",
+    "data_processamento": "2026-08-31T20:30:14.396379",
+    "modelo_utilizado": "api/groq — openai/gpt-oss-120b",
+    "extrator": "regras",
+    "orquestracao": "deterministica",
+    "texto_prontuario": "=======================J6===========\n\nEVOLUÇÃO MÉDICA NOTURNA - UTI HUB 14/10/25\n\n==================================\n\nx, [AGE] anos\n\n[DOB]\n\n.\n\nDIH:\n\n- HRPL: 02/07/25\n\n- UTI DAHER: 14/08/25\n\n- HRPL: 10/09/25\n\n- UTI HRSM: 20/09/25\n\n- Readmissão pós-UTI HRPL: 01/10/25\n\n- UTI HUB: 08/10/25\n\n# Lista de problemas:\n\n1- Novo choque séptico em 09/25\n\n--- IRpA + broncoespasmo grave\n\n--- 18/09 ICS por KPC MDR\n\n--- Endocardite?\n\n2- Hematoma subgaleal a/e (queda durante o transporte)\n\n3- Sequela de AVCi\n\n4- IRA kdigo III com necessidade de HD\n\n-- Cr basal: 0,98 ( set/2025)\n\n5 - Anemia grave\n\n.\n\n# História pregressa (Informações relatadas por esposa):\n\n- Choque septico + Meningoencefalite previamente tratadas em 07/25\n\n- Hanseníase tratada há anos - reação hansênica na UTI Daher (após suspensão de talidomida)\n\n- HAS + DM + Polineuropatia + depressão e ansiedade + sequela de AVCi\n\nMedicações de uso contínuo: \n\nMorfina 10mg 4-0-0\n\namitriptilina 25mg 0- 0-4\n\nglicazida 60mg 1-0-0\n\nmetformina 500mg 0-1-1\n\natenolol 25mg 1-0-0\n\ndipirona 1g SOS\n\nprednisolona 2ml/dia.\n\n- Negou: Alergias, uso de álcool, drogas ilícitas, uso de tabaco\n\n.\n\n# Culturas:\n\n- AT (09/10): Enterococcus faecium\n\n- Uro (09/10): leveduras\n\n- Hemoculturas 27/09: negativas\n\n- Hemocultura 18/09: K. pneumoniae multiR S/ torgena (KPC+NDM) / Hemocultura [AGE]A: K. pneumoniae panR (KPC+NDM)\n\n- Urocultura 20/09: leveduras\n\n- Hemoculturas 20/09: K. pneumoniae panR (KPC+NDM) com sinergismo positivo\n\n.\n\n# ATB:\n\n- Atual: Torgena (01/10) + Aztreonam (02/10) + Amicacina (09/10) + Linezolida (D0 13/10) + Micafungina (D0 13/10)\n\n- Prévio: Vancomicina (09/10 - 13/10), Meropenem + Polimixina B + Unasyn (D0 em 10/09); Tazocin (uma dose) em 01/07/25/ Ceftriaxona 2g de 12/12h D0 01/07/25 / Vancomicina 02/07-09/07 / Aciclovir 02/[AGE] a 09/07/ Unasyn 02/07 - 09/07; Mero, vanco 12/[AGE] a 22/07 / Amicacina 15/[AGE] a 22/07/ Levo 28/[AGE] a 07/08.\n\n.\n\n# Dispositivos:\n\n- CVC VJIE 09/10\n\n- CDL VJID 09/10\n\n- TQT 18/09\n\n- SNE\n\n- PAI ARE 08/10\n\nPrévios:\n\n- CVC VFD 06/10 - 09/10\n\n- SVD 04/10 - 13/10 \n\n.\n\n# EXAMES COMPLEMENTARES: \n\nLaboratorial\n\n07/10: Hb 6,2/ Ht 18,7/ leuco 23700/ plaq 528/ INR 1,25/ ureia 244/ TGP 43/ TGO 35/ Na 168/ PT 5,1/ K 4,5/ Mg 3,2/ glic 176/ GGT 962/ CPK 45/ creat 2,42/ Cl 132/ Ca 8,1/ BT 4,8 e BD 3,7\n\n29/01 VDRL: NR / Anti HIV: NR / Anti HBC total: NR / Anti HBS: 2,0 / HBsAg: NR / Anti HCV: NR / Sorologia Chagas: NR\n\n01/07 VDRL: NR / HBsAg: NR / Anti HCV: NR / TR HIV: NR / TR NS1: NR\n\n18/09 Painel Viral: negativo\n\nImagem\n\nTC de crânio sem contraste em 07/10: Cisternas encefálicas e sulcos corticais de amplitude dentro dos limites normais. Sistema ventricular de morfologia e dimensões preservadas. Parênquima encefálico com coeficientes de atenuação preservados. Hipoatenuação nucleocapsular à direita compatível com infarto lacunar pregresso. Não há desvio das estruturas da linha mediana. Aumento de partes moles extra-cranianas na região parietal direita.\n\n \n\nECG (16/09/25): Ritmo sinusal, FC= 70bpm, inversão de onda t septal.\n\n \n\nTC CRÂNIO S/C (02/07/25): Área de gliose/encefalomalácia sequelar na região núcleo-capsular anterior direita. Restante do parênquima encefálico com morfologia e densidade normais. Sulcos e cisternas cerebrais preservados. Sistema ventricular com morfologia e dimensões normais. Tronco cerebral e cerebelo com densidade preservada. Não há evidência de lesão expansiva, sangramento intracraniano, coleções extra-axiais ou desvio das estruturas da linha média. Não há indícios de calcificações patológicas no parênquima cerebral. Estruturas ósseas sem alterações. Espessametno mucoso frontal, etmoidal e maxilar direitos.\n\nTC DE ABDOME (21/09/25): Formações nodulares hipodensas esparsas pelo fígado, indeterminados ao método sem contraste. Ateromatose aórtica e ilíacas. Coproestase nas molduras cólicas.\n\nTC DE TÓRAX (21/09/25): Estudo tomográfico do tórax sem alterações dignas de nota.\n\nTC DE CRÂNIO (21/09/25): Focos sequelares por provável isquemia antiga corticossubcortical no giro frontal médio direito, bem como no corpo estriado ipsilateral, associados a efeito atrófico regional.\n\n#HDA: Paciente deu entrada no HRPL acompanhado de esposa e amigos por volta das 14h30 de 01/07, sendo recebido na sala vermelha em glasgow 3, hipotenso com PAM de 45, taquicardíaco (105-110bpm). Realizado IOT devido a RNC. Eposa informou que o mesmo vinha a 7 dias apresentando diversos episódios de vômitos e cefaleia. Paciente foi encaminhado para UTI DAHER onde ficou internado por cerca de mais de 1 mes em tratamento de meningoencefalite. Pos internação em UTI, retornou ao HRPL dia 10/09 sendo admitido na enfermaria de pós- UTI. Dia 18/09 paciente evoluiu com nova piora respiratória associada a rebaixamento do nível de consciência, secundário a sepse de foco pulmonar e cutaneo ( necrose de pododactilos ) sendo internado em sala amarela do HRPL e regulado para UTI sendo transferido para UTISM dia 20/09. Retornou a enfermaria de pos UTI do HRPL dia 01/10 em uso de esquema antibiotico de amplo espectro. Mantia desconforto respiratorio com episodios de broncoespasmos e necessidade de medidas clíncias, entretanto, dia 04/10 foi encaminhado a sala vermelha do HRPL devido a IRpA e necessidade de acomplação a VM. Sendo encaminhado a ITU do HUB.\n\n.\n\n# Admissão HUB:\n\nPaciente procedente do HRPl em grave estado geral, sob sedoanalgesia com precedex 5ml/h e fentanil 5ml/h, em RASS -5. Hemodinâmica estável em uso de noradrenalina 0,5 mcg/Kg/min. Em VM acoplado a TQT (modo PCV) com FR 18, Pins 13, FiO2 50%, PEEP 7, confortável. SNE aberta, sem débito algum. Evacuações ausentes. Diurese através de SVD sem urina no coletor. Paciente mal distribuído com edema de 4 membros, quemose e edema escotral. Afebril. Lesão em sacral e trocantéricas estágio 2.\n\n# Evolução:\n\nPaciente em grave estado geral, sem sedoanalgesia, pupilas isocóricas e fotorreagentes, em RASS -5. Hemodinamica estável sem DVA, tendendo a hipotensão. Ventilação por TQT/VM (modo PSV) Ps 15, FiO2 30%, PEEP 5, FR 29, Vc 398. Em dieta via SNE a 25 ml/h, com 02 escapes glicêmicos. Diurese presente em fralda quantificação de 200ml/12h em TRS contínua tendo tido UF 1200 ml. Evacuação presente de carater amolecido. \n\nAfebril no período, em uso de antibioticoterapia. \n\n# Exame físico:\n\n- ECT: GEG,Ictérico , acianótico e mal distribuído, pupilas isocóricas e fotorreagentes, presença de hematoma subgaleal em região temporoparietooccipital direito \n\n- ACV: Ritmo cardíaco regular em dois tempos, bulhas normofonéticas. Não ausculto sopros. \n\n- ARP: MV diminuido , roncos difusos\n\n- ABD: Semigloboso, sem massas ou VMG. Ruídos hidroaéreos presentes.\n\n- EXT: com edema simétrico de extremidades, panturrilhas livres; TEC 5 segundos. Podáctilos do pé direito de aspecto necrótico. \n\n.\n\n# Condutas:\n\n- Reponho potássio (Gasometria com K de 2,59). Exames de rotina coletado após reposição com K de 6,16. Introduzo gluconato de cálcio\n\n- Retorno noradrenalina\n\n- Parecer Dermatologia para seguimento do tratamento hanseniase (vide prontuario SESDF)\n\n- Manter Ceftazidima, Aztreonam, linezolida, micafungina\n\n- Aguardo Hemo, swab retal\n\n- Mantenho sem tromboprofilaxia devido hematoma subgaleal\n\n- Cuidados intensivos",
+    "entidades_extraidas": [
+      "Morfina",
+      "Hemocultura",
+      "Vancomicina",
+      "Meropenem",
+      "ureia",
+      "sedoanalgesia",
+      "fentanil",
+      "noradrenalina"
+    ],
+    "resumo": {
+      "total_entidades_extraidas": 8,
+      "total_codigos_sigtap": 4,
+      "total_nao_encontrados": 2,
+      "total_nao_faturaveis": 2,
+      "total_nao_realizados": 0,
+      "total_baixa_confianca": 1,
+      "valor_total": 43.64
+    },
+    "entidades_por_categoria": {
+      "MEDICAMENTO": [
+        "Morfina",
+        "Vancomicina",
+        "Meropenem",
+        "fentanil",
+        "noradrenalina"
+      ],
+      "EXAME": [
+        "Hemocultura",
+        "ureia"
+      ],
+      "PROCEDIMENTO": [
+        "sedoanalgesia"
+      ]
+    },
+    "codigos_sigtap": [
+      {
+        "codigo": "06.04.05.007-0",
+        "descricao": "MORFINA 10 MG (POR COMPRIMIDO)",
+        "grupo": "Medicamentos",
+        "origem": "Morfina",
+        "categoria": "MEDICAMENTO",
+        "vl_sh": 0.0,
+        "vl_sa": 0.0,
+        "vl_sp": 0.0,
+        "vl_total": 0.0,
+        "nivel": "nivel1",
+        "score": 0.683,
+        "confianca": "baixa",
+        "painel": false,
+        "tentativas_agente": null
+      },
+      {
+        "codigo": "02.02.08.015-3",
+        "descricao": "HEMOCULTURA",
+        "grupo": "Procedimentos com finalidade diagnóstica",
+        "origem": "Hemocultura",
+        "categoria": "EXAME",
+        "vl_sh": 0.0,
+        "vl_sa": 11.49,
+        "vl_sp": 0.0,
+        "vl_total": 11.49,
+        "nivel": "nivel1",
+        "score": 1.0,
+        "confianca": "alta",
+        "painel": false,
+        "tentativas_agente": null
+      },
+      {
+        "codigo": "02.02.01.069-4",
+        "descricao": "DOSAGEM DE UREIA",
+        "grupo": "Procedimentos com finalidade diagnóstica",
+        "origem": "ureia",
+        "categoria": "EXAME",
+        "vl_sh": 0.0,
+        "vl_sa": 1.85,
+        "vl_sp": 0.0,
+        "vl_total": 1.85,
+        "nivel": "nivel1",
+        "score": 0.832,
+        "confianca": "media",
+        "painel": false,
+        "tentativas_agente": null
+      },
+      {
+        "codigo": "04.17.01.006-0",
+        "descricao": "SEDACAO",
+        "grupo": "Procedimentos cirúrgicos",
+        "origem": "sedoanalgesia",
+        "categoria": "PROCEDIMENTO",
+        "vl_sh": 0.0,
+        "vl_sa": 15.15,
+        "vl_sp": 15.15,
+        "vl_total": 30.3,
+        "nivel": "nivel0",
+        "score": 1.0,
+        "confianca": "alta",
+        "painel": false,
+        "tentativas_agente": null
+      }
+    ],
+    "termos_nao_encontrados": [
+      "Meropenem",
+      "fentanil"
+    ],
+    "termos_nao_faturaveis": [
+      "Vancomicina",
+      "noradrenalina"
+    ],
+    "termos_nao_realizados": [],
+    "entidades_descartadas": []
+  },
+  {
+    "prontuario_id": "HUB005",
+    "data_processamento": "2026-08-31T20:30:16.301549",
+    "modelo_utilizado": "api/groq — openai/gpt-oss-120b",
+    "extrator": "regras",
+    "orquestracao": "deterministica",
+    "texto_prontuario": "EVOLUÇÃO DIURNA – 20/03/2025\n\nDIAGNÓSTICO CLÍNICO: \n\n1)POI - Laparotomia exploradora - Abdome agudo - urinoma e peritonite \n\n----> Lavagem de cavidade - inúmeras lojas de abscesso cavitário \n\n----> Reimplante d eureteres na neobexiga \n\n----> Dreno hemovac \n\n2) Leiomiomiossarcoma G2 de próstata/bexiga (pT3 pN0)\n\n--- Tratamento atual (jan/25): discussão de adjuvancia --> proposta de RDT adjuvante exclusiva\n\n--- Cistoprostatectomia radical + Urostomia à Bricker - 18/09/24 Hospital DAHER - Dr. [NAME_DOCTOR]\n\n3) Infecção de trato urinário complicada\n\n--- URC 18/02: KPC - Sensível a amicacina > paciente refratário ao tratamento\n\n--- 3ª internação nos últimos 3 meses (10/12/24, 29/12/24, 11/03/25) - todas por infecção do trato urinário\n\n4) IRA KDIGO III\n\n--- Etiologia: infeccioso + nefrotoxicidade + pós-renal\n\n--- Início TRS 15/03/25 (evoluiu para anúria)\n\n5) Gastrite? Colite?\n\n______________________________________________________________________\n\nCOMORBIDADE: \n\n_____________________________________________________________________\n\nHISTÓRIA DA DOENÇA ATUAL: \n\nPaciente refere episódios febris de 38,9°C, calafrios, fazendo, uso dipirona 500 mg de 8 em 8 horas com melhora parcial dos episódios febris. Refere quadro ITU iniciado há 1 mês com internação no HUB. \n\nRefere ter procurado atendimento particular com indicação de manejo da ITU uso de amicacina iv por 7 dias em posto de saúde, paciente terminou ciclo de ATB há 2 dias com permanência dos episódios febris. Refere fezes normais. Traz relatório de infectologista particular com cultura de 18/02/2025 positiva para KPC. Nega outras queixas no momento. \n\nRefere internação no HUB em janeiro para manejo de de ITU.\n\nSINAIS VITAIS:\n\nPA: 103/73mmHg FC: 51bpm FR: 20/20irpm SpO2: 99%\n\nAVALIAÇÃO:\n\nNeurológica: Sob sedoanalgesia (midazolam 8ml/h e fentanil 7ml/h), RASS-4.\n\nHemodinâmica: Estável em uso de noradrenalina 15ml/h e (vasopressina desligada pela manhã).\n\nMonitorização Ventilatória: em VM/TOT, modo PCV, Pins 13, VCexp ~472ml, VMin ~9,5L/min, FR 20/20irpm, Ti 1,0, I:E 1:2,0, PEEP 5cmH2O e FiO2 40%, sincrônico com a VM, expansibilidade torácica simétrica.\n\nMecânica Pulmonar: DP 11 / CEST 43,6 / RWA 12\n\nAP: SP+, com roncos apicais.\n\n☐Normal ☐ Sibilos ☒Roncos ☐ Estertores \n\nAparelho Locomotor e Tegumentar: Abdome globoso e flácido, hipocorado, TEC = 5 seg, bricker a direita e hemovac à esquerda , edema em extremidades +/+4, hipotérmico (33°C) em uso de aquecedor. Dependente funcional total no momento. Relato de ser previamente hígido. NPM atual: 1 / IMS atual: 10.\n\nPressão do Cuff: ☒Conforme ☐ Não conforme Valor: 30/30cmH2O\n\nASPECTO DA SECREÇÃO TOT/TQT \n\nCor: \n\n☒ Mucopurulenta ☐ Purulenta ☐ Esverdeada ☐Sanguinolenta ☒ Mucoide/hialina/clara\n\nConsistência: ☒ Fluida ☐Espessa ☐Rolhosa \n\nQuantidade de secreção: \n\n☒ PQS ☐ MQS ☐ GQS ☐ ↑ da necessidade de aspiração ☐ Sem necessidade de aspiração\n\n______________________________________________________________________\n\nGasometria arterial\n\nFiO2 30%| pH 7,34 | PaCO2 36,8 | PaO2 74,5 | HCO3 20,1 | BE -5,8 | SaO2 95,6% | P/F 248 | Lac 18.\n\n______________________________________________________________________\n\nCONDUTA:\n\nFisioterapia Respiratória:\n\n- Monitorização cardiorrespiratória;\n\n- Avaliação respiratória;\n\n- Ajuste da pressão de cuff;\n\n- Cuidados com circuito VM, fixador e filtro HME;\n\n- Ajuste de parâmetros ventilatórios: Pins 13, FR 18/18, PEEP 5, FIO2 21%\n\n- Vigilância.\n\nFisioterapia Motora:\n\n- Posicionamento funcional no leito;\n\n- Elevação da cabeceira em 30º.\n\nObservações: \n\n- Aguarda estabilidade para avaliação de desmame;\n\n- Atendimento sem intercorrências.",
+    "entidades_extraidas": [
+      "Laparotomia exploradora",
+      "sedoanalgesia",
+      "midazolam",
+      "fentanil",
+      "noradrenalina",
+      "Gasometria arterial",
+      "Fisioterapia Respiratória",
+      "Fisioterapia Motora"
+    ],
+    "resumo": {
+      "total_entidades_extraidas": 8,
+      "total_codigos_sigtap": 5,
+      "total_nao_encontrados": 2,
+      "total_nao_faturaveis": 1,
+      "total_nao_realizados": 0,
+      "total_baixa_confianca": 2,
+      "valor_total": 1155.81
+    },
+    "entidades_por_categoria": {
+      "PROCEDIMENTO": [
+        "Laparotomia exploradora",
+        "sedoanalgesia",
+        "Fisioterapia Respiratória",
+        "Fisioterapia Motora"
+      ],
+      "MEDICAMENTO": [
+        "midazolam",
+        "fentanil",
+        "noradrenalina"
+      ],
+      "EXAME": [
+        "Gasometria arterial"
+      ]
+    },
+    "codigos_sigtap": [
+      {
+        "codigo": "04.07.04.016-1",
+        "descricao": "LAPAROTOMIA EXPLORADORA",
+        "grupo": "Procedimentos cirúrgicos",
+        "origem": "Laparotomia exploradora",
+        "categoria": "PROCEDIMENTO",
+        "vl_sh": 497.2,
+        "vl_sa": 0.0,
+        "vl_sp": 139.99,
+        "vl_total": 637.19,
+        "nivel": "nivel1",
+        "score": 1.0,
+        "confianca": "alta",
+        "painel": false,
+        "tentativas_agente": null
+      },
+      {
+        "codigo": "04.17.01.006-0",
+        "descricao": "SEDACAO",
+        "grupo": "Procedimentos cirúrgicos",
+        "origem": "sedoanalgesia",
+        "categoria": "PROCEDIMENTO",
+        "vl_sh": 0.0,
+        "vl_sa": 15.15,
+        "vl_sp": 15.15,
+        "vl_total": 30.3,
+        "nivel": "nivel0",
+        "score": 1.0,
+        "confianca": "alta",
+        "painel": false,
+        "tentativas_agente": null
+      },
+      {
+        "codigo": "02.11.08.002-0",
+        "descricao": "GASOMETRIA",
+        "grupo": "Procedimentos com finalidade diagnóstica",
+        "origem": "Gasometria arterial",
+        "categoria": "EXAME",
+        "vl_sh": 0.0,
+        "vl_sa": 2.78,
+        "vl_sp": 0.0,
+        "vl_total": 2.78,
+        "nivel": "nivel0",
+        "score": 1.0,
+        "confianca": "alta",
+        "painel": false,
+        "tentativas_agente": null
+      },
+      {
+        "codigo": "03.03.14.013-5",
+        "descricao": "TRATAMENTO DE OUTRAS DOENCAS DO APARELHO RESPIRATORIO",
+        "grupo": "Procedimentos clínicos",
+        "origem": "Fisioterapia Respiratória",
+        "categoria": "PROCEDIMENTO",
+        "vl_sh": 451.47,
+        "vl_sa": 0.0,
+        "vl_sp": 29.4,
+        "vl_total": 480.87,
+        "nivel": "nivel_semantico",
+        "score": 0.825,
+        "confianca": "baixa",
+        "painel": false,
+        "tentativas_agente": null
+      },
+      {
+        "codigo": "03.02.05.002-7",
+        "descricao": "ATENDIMENTO FISIOTERAPÊUTICO NAS ALTERAÇÕES MOTORAS",
+        "grupo": "Procedimentos clínicos",
+        "origem": "Fisioterapia Motora",
+        "categoria": "PROCEDIMENTO",
+        "vl_sh": 0.0,
+        "vl_sa": 4.67,
+        "vl_sp": 0.0,
+        "vl_total": 4.67,
+        "nivel": "nivel_semantico",
+        "score": 0.833,
+        "confianca": "baixa",
+        "painel": false,
+        "tentativas_agente": null
+      }
+    ],
+    "termos_nao_encontrados": [
+      "midazolam",
+      "fentanil"
+    ],
+    "termos_nao_faturaveis": [
+      "noradrenalina"
+    ],
+    "termos_nao_realizados": [],
+    "entidades_descartadas": []
+  },
+  {
+    "prontuario_id": "HUB006",
+    "data_processamento": "2026-08-31T20:30:19.454152",
+    "modelo_utilizado": "api/groq — openai/gpt-oss-120b",
+    "extrator": "regras",
+    "orquestracao": "deterministica",
+    "texto_prontuario": "EVOLUÇÃO UTI GERAL NOTURNA HUB - 06/09/2025\n\n======================================\n\nDADOS DO PACIENTE:\n\nNome: x\n\nIdade: [AGE] ANOS\n\n[DOB]\n\n[RG]\n\nCNS [CNS]\n\nPeso estimado: 58 KG\n\nSra x [PHONE]) -Esposa \n\nSENHA DO SABIN( Para resultado de Imunofenopatipagem ) : P[PHONE]\n\n N5PF5\n\nDIH UPA GAMA: 27/07/2025 \n\nDIH UTI HUB: 21/08/25\n\n# HIPÓTESES DIAGNÓSTICAS:\n\n1. Leucemia plasmocitária (confirmada)\n\n - Acometimento renal + Anemia + Dor lombar / Lesão lítica \n\n - IFSP (24/08/25): 99,81% dos plasmócitos (40,31% das células analisadas). O estudo imunofenotípico evidencia circulação em sangue periférico de 40,31% de plasmócitos com imunofenótipo anormal e expressão monoclonal de cadeia leve lambda (citoplasmática)\n\n - Tratamento hematológico: C1D1 VCD 26/08/25 e 01/09/2025 \n\n2. Anemia hemolitica\n\n - Insuficiência hepática aguda\n\n - IRA kdigo II (cr basal 0,81 em 08/08/25) - em recuperação renal\n\n3. Candidemia\n\n - HMC (21/08): crescimento de leveduras \n\n4. Choque séptico de foco pulmonar \n\n - IOT em 19/08\n\n - Tc de Tórax 31/08: Derrame pleural bilateral com sinais de loculação.\n\n5. Fibrilação atrial de alta resposta \n\n6. IRA KDIGO III multifatorial em resolução \n\n - Creat basal (08/08/25): 0,81\n\n - Creat atual da admissão (21/08): 6,9\n\n - Hipercalemia 21/08: 6,8 \n\n# Prévios:\n\n- DPOC padrão enfisematoso\n\n- EX tabagista ([AGE] anos/maço)\n\n- Ex etilista\n\n- FA\n\n- HAS\n\n- Hérnia inguinal esquerda sem sinais obstrutivos\n\n- Ateromatose aorta e ilíaca\n\n# HDA DA ADMISSÃO (UPA)\n\nPaciente proveniente do lago azul apos realizar laboratoriais de urgencia e evidencia hb: 6,6 ht:20 pla:54:000 referindo dor lombar sem esteriorização sanguinia, nega febre\n\n# MEDICAÇÕES EM USO CONTINUO:\n\n- LOSARTANA 50MG 1-0-0\n\n- FUROSEMIDA 40MG 1-0-0\n\n- METOPROLOL 25MG 2-0-2\n\n##HDA/ ADMISSÃO UTI HUB \n\nPaciente, [AGE] anos, com relato de dor lombar crônica. Foi admitido na UPA do GAMA no final de julho de 2025 por astenia e manutenção do quadro de dor lombar. Na admissão, constatado bictopenia (Hb 6,6 Plaq 54.000). Além disso, possui acometimento renal e evidencia de lesão lítica em T5 evidenciada em TC corporal total. Já avaliado pela hematologia de hospital externo (vide abaixo em pareceres)\n\nPaciente admitido na UTI em grave estado geral. Sob sedoanalgesia com midazolam 15ml/h e fentanil 10ml/h. RASS -5Hemodinamica instável, com FAARV. FC de 156bpm. Em uso de noradrenalina e vasopressina. Admitido Paciente admitido sem monitorização de pressão arterial invasiva.Respiração sob VM - PCV - FiO2 45% - PEEP 8 - Vol 501. Em uso de SVD. Segundo evolução, realizada tentativa de passagem e SNE, porém paciente evoluiu com epistaxe de grande monta com saída de coágulos, além de falha de progressão a partir de 3o proximal de esôfago. Admitido nesta unidade com sangramento em cavidade oral e nasal ativos. Relatado pela equipe do transporte que paciente estava com FAARV durante o transporte, com FC de 180bpm, sendo realizado metoprolol IV para controle de frequência durante o transporte. \n\nGasoV (admissão): HCO3 20,4 | K+ 6,17 \n\nEvolução Clínica:\n\nPaciente em grave estado geral, sob precedex 6ml/h com RASS 0, desconfortavel. \n\nHemodinamicamente estável, sem aminas vasoativas. Ventilação sob IOT/VM - Espontâneo- PS 14/ FIO2 35/ PEEP 8,. Diurese preservada em uso de SVD com DU de 1800ml/24h. Evacuações presentes. Dieta em uso de SNE, sem intercorrências. Glicemias adequadas. Afebril. \n\n Crescimento de bacilos gram negativos em hemocultura 03/09\n\nDU : 12 HS >>>600 ML BH + 1.600 ML\n\nGASA PH 7.519 PCO2 25.3 PO2 54.7 BIC 22.3 P/F 182\n\nAspirado grande quantidade de sangue pelo TOT\n\nAo exame físico: \n\nGrave estado geral, sedado, RASS 0, pupilas isocóricas e fotorreagentes, hipocorado +++/4+, hidratado, acianotico, anicterico. Afebril ao toque. \n\nAR: MV ausente em base direita, Roncos difusos\n\nACV: Ritmo irregular, BNF, sem sopros\n\nAbdome: plano, flácido, RHA negativos, sem sinais de peritonismo, palpação de região inguinal esquerda evidencia massa endurecida (topografia de hérnia inguinal prévia)\n\nExtremidades: quentes, TEC <3seg, Edema bilateral em membros inferiores (2+/4+) sem sinais de empastamento\n\nDISPOSITIVOS\n\n- CVC JE 29/08\n\n- PAI A. braquial D 31/08\n\n- IOT 19/08 > trocado em 30/08\n\nPrévio:\n\n CDL FE (21/08 - 27/08)\n\n-PAI FE (21/08) -29/08\n\n-AVC FD - 29/08\n\n#ATB\n\nAtual:\n\nMeropenem D0 21/08\n\nVancomicina D0 27/08\n\nMicafungina D0 04/09\n\n.\n\nPrévio:\n\nAnfotericina B 02/09-04/09\n\nAnidulofungina 28/08-02/09\n\nAmicacina 21/08 - 26/08\n\nTazocin 15-21/08\n\nMicafungina D0 25/08 - 28/08\n\n.\n\n# CORTICOIDE : \n\n- DEXAMETASONA 40MG EV - 24/08/2025 \n\n- DEXAMETASONA 40MG EV - 01/09/2025\n\n#CULTURAS\n\n- HMC (21/08): crescimento de leveduras\n\n- URC (21/08): negativa\n\n- Asp traqueal (21/08): Klebisiella spp multiS\n\n- HMC 27/08: negativa \n\n- HMC 28/08: crescimento de leveduras \n\n- HMC 31/08: Aguarda resultado\n\n- HMC 03/09: Aguarda resultado\n\n#Transfusões\n\nPlaquetas: 25/08, 26/08, 02/09\n\nHemáceas: 1 CH 25/08, 1CH 26/08, 2CH 03/09\n\n# EXAMES LABORATORIAIS\n\n1) Externos\n\n- 15/08/2025: K 4,5 NA 135 CR 1,1 UR 64 HB 7,3 LEUCO 9,9 PLQ34.000 EAS LEUCO 14.000\n\n- 17/08/2025: GASA: pH 7,24, PO2 33 BIC 12, BE -13, LAC 5,3 // HCV NR // TROPONINA 0,137 || ALBUMNA 1,61 // K 5,9 // COVID NR // UREIA 118 // DHL 1031 // FAL 144 // GLICEMIA JEJUM 70 // GAMA-GT 66 // Cr 2,35 // CPK 60 // CK MB MASSA 2,60 // BT 2,39 // BD 0,0 // BI 2,39 // ALT 23 // AST 47 || AMILASE 20 // Ca 9,2 // FÓSFORO 7,65 // Mg 2,33\n\n// Na 137 |/ CI 95 // EAS: MICROBIOTA 2+/4+, LEUCO 38.000 // Hb 6,9 // Ht 20,5 // LEUCO 45,2 // PLAQUETAS 51\n\n- LAB 18/08/2025 - HCV NR K 5,6 UR 136 CR 3,89 CPK 43 MAG 2,41 EAS INFECCIOSO LEUCO NUMEROSOS HEM\n\n2,16 HB 6,7 HTC 19 LEUCO 59800 PLAQ 45000\n\n- LAB 19/08/2025 - MAG 3,12 K 5,3 UR 148 NA 142 EAS HEM NUMER LEUCO 34000 FB ++ HEM 2,09 HB 6,2 LEUCO\n\nGASO PH 7,41 PO2 85 PCO2 29 CHCO3 18 LAC 4,6 BILI 00 NA 137 K 6,1 HCV NR \n\n2) HUB\n\n- 27/08: proteinúria de 24h 5470mg/24h\n\n# Exames de imagem\n\nEcocardioTT 29/08: FE 26% Disfunção sistólica do VE de grau acentuado. Disfunção diastólica do VE grau I. Dilatação do VE grau discreto. IM grau discreto. \n\nTc de seios da face 01/09: Sinusopatia dos seios frontal, maxilar e etmoidal esquerdos. Velamento total nos seios esfenoidais, o esquerdo contendo material hiperatenuante. Concha média esquerda bolhosa. Secreções bolhosas depositadas na cavidade nasal posterior/nasofaringe, bilateralmente.\n\nTc de Tórax 01/09: Moderado derrame pleural bilateral com sinais de loculação, associada a colapso parcial dos lobos inferiores e médio. Há ainda opacidades heterogêneas predominantemente consolidativas adjacentes, mais provavelmente atelectásicas. Pequenas opacidades heterogêneas nos lobos superiores , predominantemente em vidro fosco, mais evidentes à direita, inespecíficas, que devem corresponder a processo inflamatório/infeccioso. Opacidade irregular peribroncovascular com broncogramas aéreos no segmento ápico-posterior do lobo superior esquerdo, medindo 42 x 30 mm, indeterminada. \n\n- ANGIOTC (16/08/2025): Não há sinais de tromboembolismo pulmonar agudo.\n\nPequeno derrame pleural bilateral, maior à direita, com atelectasia restritiva adjacente. Extensas consolidações com broncogramas aéreos bilaterais, predominando nos lobos inferiores e médio, associadas a acúmulo de secreção brônquica, favorecendo broncopneumonia. Enfisema parasseptal nos lobos superiores.\n\n- TOMOGRAFIA COMPUTADORIZADA DO CORPO TOTAL: Heterogeneidade óssea difusa do crânio, coluna vertebral e da bacia, suspeitas para acometimento difuso da doença pesquisada. Lesão lítica com conteúdo de partes moles no contorno posterior do corpo vertebral de T5, medindo cerca de 1,3 cm, com rotura da cortical associada.\n\n- TC DE PELVE (30/07/25): Próstata globosa, abaulando o assoalho vesical. Ateromatose aórtica e ilíaca. Alterações degenerativas nas estruturas osseas avaliadas, destacando-se redução difusa da densidade óssea. Hérnia inguinal à esquerda, com insinuação de conteúdo adiposo e pequeno segmento do cólon sigmoide, que não exibe sinais obstrutivos\n\nPareceres:\n\nCirurgia Geral 03/09: - Visto melhora clínica nas últimas 24hrs, com VM em modo suporte e redução de sedação, sem indicação de TQT no momento\n\n- Solicitar novo parecer em caso de falha de extubação \n\nCirurgia Torácica 03/09: SEM INDICAÇÃO DE ABORDAGEM PELA CIRURGIA TORÁCICA DE URGÊNCIA NO MOMENTO2- ORIENTO PROSSEGUIR COM PROPEDÊUTICA DE DERRAME PLEURAL - SUGIRO REALIZAR TORACOCENTESE DIAGNOSTICA. 3- EM CASO DE SINAIS DE LIQUIDO PLEURAL COMPLICADO APÓS TORACOCENTESE SOLICITAR NOVO PARECER DA CIRURGIA TORÁCICA PARA AVALIAR INTERVENÇÃO PLEURAL.\n\n- HEMATOLOGIA HBDF (12/08/2025): evidencia de anemia, com rouleaux eritrocitário, assim como aumento de Cr [Cr 1,18 Hb 7,0 Ht 21,9 VCM 92 HCM 32 RDW 17,6 Leuco 5800Seg 2320 Mon 580 Ly 2900 Plaqyetas 20kJ. Sugestões: Iniciar Alopurinol em baixa dose 300 mg/dia hoje 14/08/25; Fazer 12 mg em dose única de Ivermectina hoje 14/08/25; Iniciar em 15/08/25 Pulsoterapia de Dexametasona (40 mg/dia por 4 dias). Iniciar Aciclovir 400 mg de 12/12 hs + Bactrim 02 cps. às segundas, quartas e sextas. Solicitar ECOTT; Solicitar sorologias de Hepatites B e C\n\n.\n\n- Cardiologia (HBDF): FA de alta resposta e dispneia aos mínimos esforços secundários ao quadro de base (anemia severa, infecção sobreposta, mieloma múltiplo...). Conduta: Controle de FC com metoprolol (aumentar dose até 200 mg/dia) e se necessário, digoxina 0,25 mg (caso função renal normal); Se FAARV, tentar seloken EV e deslanosídeo EV; Contraindicada anticoagulação em virtude do alto risco x benefício\n\n#Pendências\n\n- Resultado de mielograma (coletado em 12/08/2025)\n\n- Resultado de imunofixação sérica (coletado em 12/08/2025)\n\n- Resultado de beta-2-microglobulina (coletado em 12/08/2025)\n\n- Aguarda proteinuria de 24hs solicitados em 24/08/2025 \n\n- Realização fundo de olho - solicitados dia 25/08 \n\n- Baciloscopia, Genexpert, IGRA, galactomanana \n\nIMPRESSÃO : \n\n1-Queda de 02 pontos de Hb , grande quantidade de sangue pelo TOT\n\n2-Taquipneico e dessaturação em PSV >> Necessidade de aumento de FIO2 + PEEP\n\n3-BH +++>> Furosemida ACM\n\nConduta:\n\n1. Mantenho ATB vigente \n\n2. Sem critérios clínicos de Gasométricos para desmame de VM\n\n3. Retorno com analgosedação >> Programar TQT\n\n4. 02 CH + Plaquetas \n\n5. Mantenho transamim \n\n Gatilhos transfusionais:\n\n----- Embora risco de hiperviscosidade, considerar HB <7 gatilho transfusional, visto risco de desconforto respiratório por hiperviscosidade menos importante em cenário de gravidade e paciente em VM \n\n----- Transfusão de 6 UI randômicas de plaquetas ou 1 aférese (filtrado e irradiado) se plaquetas < 10.000/mm3 ou < 20.000/mm3 com febre. Se sangramento ativo manter acima de 50.000/mm3\n\n------ Transfusão de plasma fresco congelado (10ml/kg de peso e reavaliar 2 horas após) se fibrinogênio < 100 ou INR 1,5x/LSN associado a sangramento ativo, visando manter fibrinogênio acima de 100 e INR corrigido\n\n------- Transfusão de crioprecipitado (1UI a cada 10kg de peso) se mantiver fibrinogênio < 100 associado a sangramento ativo, mesmo após transfusão de plasma fresco congelado",
+    "entidades_extraidas": [
+      "sedoanalgesia",
+      "midazolam",
+      "fentanil",
+      "noradrenalina",
+      "hemocultura",
+      "Meropenem",
+      "Vancomicina",
+      "DEXAMETASONA",
+      "TROPONINA",
+      "UREIA"
+    ],
+    "resumo": {
+      "total_entidades_extraidas": 10,
+      "total_codigos_sigtap": 4,
+      "total_nao_encontrados": 4,
+      "total_nao_faturaveis": 2,
+      "total_nao_realizados": 0,
+      "total_baixa_confianca": 0,
+      "valor_total": 61.64
+    },
+    "entidades_por_categoria": {
+      "PROCEDIMENTO": [
+        "sedoanalgesia"
+      ],
+      "MEDICAMENTO": [
+        "midazolam",
+        "fentanil",
+        "noradrenalina",
+        "Meropenem",
+        "Vancomicina",
+        "DEXAMETASONA"
+      ],
+      "EXAME": [
+        "hemocultura",
+        "TROPONINA",
+        "UREIA"
+      ]
+    },
+    "codigos_sigtap": [
+      {
+        "codigo": "04.17.01.006-0",
+        "descricao": "SEDACAO",
+        "grupo": "Procedimentos cirúrgicos",
+        "origem": "sedoanalgesia",
+        "categoria": "PROCEDIMENTO",
+        "vl_sh": 0.0,
+        "vl_sa": 15.15,
+        "vl_sp": 15.15,
+        "vl_total": 30.3,
+        "nivel": "nivel0",
+        "score": 1.0,
+        "confianca": "alta",
+        "painel": false,
+        "tentativas_agente": null
+      },
+      {
+        "codigo": "02.02.08.015-3",
+        "descricao": "HEMOCULTURA",
+        "grupo": "Procedimentos com finalidade diagnóstica",
+        "origem": "hemocultura",
+        "categoria": "EXAME",
+        "vl_sh": 0.0,
+        "vl_sa": 11.49,
+        "vl_sp": 0.0,
+        "vl_total": 11.49,
+        "nivel": "nivel1",
+        "score": 1.0,
+        "confianca": "alta",
+        "painel": false,
+        "tentativas_agente": null
+      },
+      {
+        "codigo": "02.02.03.120-9",
+        "descricao": "DOSAGEM DE TROPONINA",
+        "grupo": "Procedimentos com finalidade diagnóstica",
+        "origem": "TROPONINA",
+        "categoria": "EXAME",
+        "vl_sh": 9.0,
+        "vl_sa": 9.0,
+        "vl_sp": 0.0,
+        "vl_total": 18.0,
+        "nivel": "nivel1",
+        "score": 0.843,
+        "confianca": "media",
+        "painel": false,
+        "tentativas_agente": null
+      },
+      {
+        "codigo": "02.02.01.069-4",
+        "descricao": "DOSAGEM DE UREIA",
+        "grupo": "Procedimentos com finalidade diagnóstica",
+        "origem": "UREIA",
+        "categoria": "EXAME",
+        "vl_sh": 0.0,
+        "vl_sa": 1.85,
+        "vl_sp": 0.0,
+        "vl_total": 1.85,
+        "nivel": "nivel1",
+        "score": 0.832,
+        "confianca": "media",
+        "painel": false,
+        "tentativas_agente": null
+      }
+    ],
+    "termos_nao_encontrados": [
+      "midazolam",
+      "fentanil",
+      "Meropenem",
+      "DEXAMETASONA"
+    ],
+    "termos_nao_faturaveis": [
+      "noradrenalina",
+      "Vancomicina"
+    ],
+    "termos_nao_realizados": [],
+    "entidades_descartadas": []
+  },
+  {
+    "prontuario_id": "HUB007",
+    "data_processamento": "2026-08-31T20:30:21.103400",
+    "modelo_utilizado": "api/groq — openai/gpt-oss-120b",
+    "extrator": "regras",
+    "orquestracao": "deterministica",
+    "texto_prontuario": "EVOLUÇÃO DE ENFERMAGEM 04/05/25 às 10:51\n\nPaciente GEG, Hemodinamicamente instável em uso de noradrenalina a 22 ml/h e vasopressina a 4 ml/h. Sedoanalgesia: fentanil a 7 ml/h e midazolam a 8 ml/h ambos em bic.RASS -5. Anictérico, acianótico e afebril. Em VM por TOT ( modo: A/C, Fio²: 25%, peep: 10) bem adaptado a VM sem desconforto aparente ou dessaturação. SNE zero devido instabilidade, porém com aporte calórico. Dispositivos: AVC em VFD; CDL em VJIE e PAI em ARE.Diurese presente por SVD e evacuação ausente no momento do banho no leito. \n\n#Curativos\n\n- Realizo curativo CDL em VJIE e CVC em VFD. VFE Sutura integra, ausência de sinais flogísticos. Realizo limpeza com SF 0,9% e antissepsia com clorexidina alcoólica. Ocluo com gaze e filme transparente.\n\n- Mantenho placa de hidropolímero em sacral.\n\n- Mantenho curativo de PAI, sem sujidade e dentro do prazo de validade\n\n#Intervenções de enfermagem\n\n- Monitorização cardíaca;\n\n- Banho no leito + curativos;\n\n- Realizado gasometria arterial;\n\n- Cama travada e grades elevadas;\n\n- Segue aos cuidados da equipe.",
+    "entidades_extraidas": [
+      "noradrenalina",
+      "Sedoanalgesia",
+      "fentanil",
+      "midazolam",
+      "curativo",
+      "gasometria arterial"
+    ],
+    "resumo": {
+      "total_entidades_extraidas": 6,
+      "total_codigos_sigtap": 3,
+      "total_nao_encontrados": 2,
+      "total_nao_faturaveis": 1,
+      "total_nao_realizados": 0,
+      "total_baixa_confianca": 0,
+      "valor_total": 33.08
+    },
+    "entidades_por_categoria": {
+      "MEDICAMENTO": [
+        "noradrenalina",
+        "fentanil",
+        "midazolam"
+      ],
+      "PROCEDIMENTO": [
+        "Sedoanalgesia",
+        "curativo"
+      ],
+      "EXAME": [
+        "gasometria arterial"
+      ]
+    },
+    "codigos_sigtap": [
+      {
+        "codigo": "04.17.01.006-0",
+        "descricao": "SEDACAO",
+        "grupo": "Procedimentos cirúrgicos",
+        "origem": "Sedoanalgesia",
+        "categoria": "PROCEDIMENTO",
+        "vl_sh": 0.0,
+        "vl_sa": 15.15,
+        "vl_sp": 15.15,
+        "vl_total": 30.3,
+        "nivel": "nivel0",
+        "score": 1.0,
+        "confianca": "alta",
+        "painel": false,
+        "tentativas_agente": null
+      },
+      {
+        "codigo": "03.01.10.028-4",
+        "descricao": "CURATIVO SIMPLES",
+        "grupo": "Procedimentos clínicos",
+        "origem": "curativo",
+        "categoria": "PROCEDIMENTO",
+        "vl_sh": 0.0,
+        "vl_sa": 0.0,
+        "vl_sp": 0.0,
+        "vl_total": 0.0,
+        "nivel": "nivel1",
+        "score": 0.702,
+        "confianca": "media",
+        "painel": false,
+        "tentativas_agente": null
+      },
+      {
+        "codigo": "02.11.08.002-0",
+        "descricao": "GASOMETRIA",
+        "grupo": "Procedimentos com finalidade diagnóstica",
+        "origem": "gasometria arterial",
+        "categoria": "EXAME",
+        "vl_sh": 0.0,
+        "vl_sa": 2.78,
+        "vl_sp": 0.0,
+        "vl_total": 2.78,
+        "nivel": "nivel0",
+        "score": 1.0,
+        "confianca": "alta",
+        "painel": false,
+        "tentativas_agente": null
+      }
+    ],
+    "termos_nao_encontrados": [
+      "fentanil",
+      "midazolam"
+    ],
+    "termos_nao_faturaveis": [
+      "noradrenalina"
+    ],
+    "termos_nao_realizados": [],
+    "entidades_descartadas": []
+  },
+  {
+    "prontuario_id": "HUB008",
+    "data_processamento": "2026-08-31T20:30:21.162475",
+    "modelo_utilizado": "api/groq — openai/gpt-oss-120b",
+    "extrator": "regras",
+    "orquestracao": "deterministica",
+    "texto_prontuario": "EVOLUÇÃO DE ENFERMAGEM\n\nPaciente internado em leito comum, no momento acompanhado por esposa (x), em precaução de contato e sem queixas. AO exame físico: BEG, AA, hipocorado, hidratado, respirando espontaneamente em ar ambiente. Face apresentando edema. FAV em MSD. Abdome semidistendido, com FO longitudinal em QID, apresentando pontos hiperemiados, mascerados, com secreção espontânea e odor fétido. Extremidades aquecidas e perfusas. Dieta por VO com baixa aceitação. Diurese por SVD (100 ml) concentrada. Evacuação fisiológica presente. \n\n#MOTIVO DA INTERNAÇÃO:\n\n- Tx Renal\n\n- Infecção de FO\n\n#COMORBIDADES:\n\n- DRC \n\n- ARRITMIA (CDI)\n\n#DISPOSITIVOS: \n\n- AVP em MSD J22 (04/03) - íntegro e sem sinais flogísticos. \n\n- SVD : sistema sem grumos ou sedimentos e apresentando 100 ml de urina acastanhada. \n\n#CURATIVOS:\n\n- Curativo anterior saturado em grande quantidade com secreção citada anteriormente e odor característico; \n\n- Realizo curativo em FO em QID após expressão manual realizada por Dr. [NAME_DOCTOR] com SF 0,9%, clorexidina alcoólica e oclusão com compressa estéril e filme transparente. \n\nCONDUTA:\n\n- Mantenho grades elevadas e cama travada;\n\n- Oriento informar equipe se apresentar alguma alteração;\n\n- Realizo troca de curativo; \n\n- Segue aos cuidados da equipe de Enfermagem;",
+    "entidades_extraidas": [
+      "Curativo"
+    ],
+    "resumo": {
+      "total_entidades_extraidas": 1,
+      "total_codigos_sigtap": 1,
+      "total_nao_encontrados": 0,
+      "total_nao_faturaveis": 0,
+      "total_nao_realizados": 0,
+      "total_baixa_confianca": 0,
+      "valor_total": 0.0
+    },
+    "entidades_por_categoria": {
+      "PROCEDIMENTO": [
+        "Curativo"
+      ]
+    },
+    "codigos_sigtap": [
+      {
+        "codigo": "03.01.10.028-4",
+        "descricao": "CURATIVO SIMPLES",
+        "grupo": "Procedimentos clínicos",
+        "origem": "Curativo",
+        "categoria": "PROCEDIMENTO",
+        "vl_sh": 0.0,
+        "vl_sa": 0.0,
+        "vl_sp": 0.0,
+        "vl_total": 0.0,
+        "nivel": "nivel1",
+        "score": 0.702,
+        "confianca": "media",
+        "painel": false,
+        "tentativas_agente": null
+      }
+    ],
+    "termos_nao_encontrados": [],
+    "termos_nao_faturaveis": [],
+    "termos_nao_realizados": [],
+    "entidades_descartadas": []
+  },
+  {
+    "prontuario_id": "HUB009",
+    "data_processamento": "2026-08-31T20:30:21.179077",
+    "modelo_utilizado": "api/groq — openai/gpt-oss-120b",
+    "extrator": "regras",
+    "orquestracao": "deterministica",
+    "texto_prontuario": "EVOLUÇÃO MÉDICA - [NAME_DOCTOR]\n\n==============================================\n\n.\n\n# IDENTIFICAÇÃO\n\nPaciente: x , [AGE] ANOS\n\n[DOB]\n\nPeso seco: 80 kg\n\n.O10\n\n# ATB\n\n>> Atual:\n\nUnasyn D0 15/09\n\nTigeciclina D0 16/09\n\nPoli B D0 17/09 \n\n>> Prévio:\n\nMero D0 04/09/25 -???\n\nCefepime 04/09 - 08/09\n\nTazocin 04/09 - 04/09 e 16/06/ - 23/06\n\nUnasyn 01/05 - 08/05\n\nAzitro 02/05 - 07/05\n\nVanco: D0 04/09/25 - 16/09/2025\n\n# CULTURAS\n\nAT 12/09/25: A Baumanii\n\nHMC 12/09/25: A Baumanii \n\nSwab 12/09/25: Negativa\n\nHMC (H. Base): em andamento\n\n# DISPOSITIVOS \n\nCVC VJIE 15/09/2025\n\nSNE? \n\n.\n\nPrévio:\n\nCVC VJID 04/09 - 15/09\n\n.\n\n#IMAGEM\n\nTC abd c/c 14/09: Fígado com volume normal e contorno liso. Parênquima hepático com textura homogênea, atenuação usual e realce uniforme. Pequena formação hipodensa ovalada no segmento VIII, medindo 4 mm, indeterminada devido a suas pequenas dimensões. \n\n.\n\nTC tórax c/c 14/09/2025: Volumosa lesão escavada de paredes irregulares no segmento apicoposterior à esquerda, medindo 56 x 41 mm, associada a bronquiectasias de tração, provável lesão neoplásica escavada. Múltiplos nódulos de contornos irregulares, não calcificados, alguns escavados, o maior medindo 25 x 24 mm no segmento anterior do lobo superior esquerdo, sugestivos de processo neoplásico secundário. Atelectasias subsegmentares esparsas bilaterais, de aspecto residual. Espessamento parietal brônquico difuso, sobretudo dos lobos inferiores. Volumosa coleção pleural loculada à esquerda. Tronco pulmonar no limite superior da normalidade, medindo 29 mm. Tecido com aparentes focos de realce na região para-aórtica/subaórtica, medindo cerca de 59 x 25 mm, indeterminado. Linfonodomegalia subcarinal, medindo 15 mm, sugestiva de acometimento neoplásico secundário \n\n.\n\nTC crânio c/c 14/09/25: \n\nRedução volumétrica encefálica sem predomínio lobar. Ateromatose intracraniana. Achados adicionais: Sinusopatia maxilar, esfenoidal e de algumas células etmoidais \n\n.\n\nAngio-TC Tórax 07/09/025: negativa para TEP; massas e nódulos pulmonares esparsos bilateralmente, o maior em LSE; coleção liquida pleural em LIE; \n\n.\n\nPET-TC 10/06/25: \n\n• Massa mediastinal com discreto aumento do metabolismo consistente com a lesão primária já conhecida.\n\n• Lesões cerebelares com realce pelo meio de contraste, suspeitas para envolvimento neoplásico secundário.\n\n• Linfonodos hipermetabólicos nas cadeias infracarinal e hilar pulmonar esquerda condizentes com envolvimento neoplásico secundário.\n\n• Opacidade pulmonar no segmento posterior do lobo superior esquerdo, suspeita.\n\n• Opacidades pulmonares no lobo inferior direito e superior esquerdo, indeterminadas, mas que podem ter etiologia inflamatória/ infecciosa.\n\n# PARECERES\n\nPsiquiatria 19/09/25:\n\nCondutas sugeridas:\n\n • Reintrodução da risperidona 1mg VO 12/12h, conforme uso prévio.\n\n • Introdução de lorazepam 0,5mg VO 8/8h (1mg 1/2-1/2-1/2), com proposta de redução gradual de 0,5mg/semana até a retirada completa como forma de atenuar prováveis sintomas de abstinência.\n\n • Considerar, sempre que viável, alternativas à contenção mecânica, tendo em vista o relato de desconforto associado e a possibilidade de agravamento do quadro confusional.\n\n • Medidas de suporte ambiental e comportamental podem auxiliar na reorientação e no controle do quadro confusional.\n\n.\n\nCir. Torácica 08/09/25: paciente sem indicação de pleuroscopia e/ou de procedimento cirúrgicos invasivos pela Cir Torácica; caso seja necessário, realizar punção torácica apenas guiada por imagem em virtude do risco de sangramento associado à doença de base com provável acometimento pleural associado.\n\nHematologia 08/09/25:especialidade chamada para avaliar bicitopenia em paciente com Neo Pulmão sob QT. \n\nHD prováveis: Bicitopenia por Sepses ou Bicitopenia por Mielotoxicidade da QT.\n\nOrientado: Transfundir plaquetas se PLQ < 15.000 ou presença de sangramentos; evitar anticoagulantes se PLQ < 30.000.\n\n.\n\n# CONDUTA:\n\n- Solicito parecer fonoaudiologia para liberação de dieta VO.\n\n- Mantenho dieta enteral.\n\n- Cuidados intensivos.\n\n- Reponho potássio e magnésio\n\n- Ajusto metadona\n\n- Manter Antibióticos até dia 24/09.\n\n- Alta médica via sisleitos para HBDF, procedência do paciente\n\n.\n\nx R2 CM sob orientações de Dra. [NAME_DOCTOR]",
+    "entidades_extraidas": [],
+    "resumo": {
+      "total_entidades_extraidas": 0,
+      "total_codigos_sigtap": 0,
+      "total_nao_encontrados": 0,
+      "total_nao_faturaveis": 0,
+      "total_nao_realizados": 0,
+      "total_baixa_confianca": 0,
+      "valor_total": 0
+    },
+    "entidades_por_categoria": {},
+    "codigos_sigtap": [],
+    "termos_nao_encontrados": [],
+    "termos_nao_faturaveis": [],
+    "termos_nao_realizados": [],
+    "entidades_descartadas": []
+  },
+  {
+    "prontuario_id": "HUB010",
+    "data_processamento": "2026-08-31T20:30:26.056039",
+    "modelo_utilizado": "api/groq — openai/gpt-oss-120b",
+    "extrator": "regras",
+    "orquestracao": "deterministica",
+    "texto_prontuario": "EVOLUÇÃO MÉDICA NOTURNA UTI HUB 26/10/25\n\n======================================\n\n.\n\n# Identificação: \n\n- Paciente: x, [AGE] anos \n\n- Data de Nasc.: [NAME] \n\n- DIH HUB CPAv: 15/09 \n\n- Readmissão em CPA Vermelho: 04/10\n\n- DIH UTI HUB: 07/10\n\n.\n\nPela oncologia HRT: investimento pleno. Em esquema de RT exclusiva por status clínico ruim para QT. \n\n.\n\n# Motivo da Internação: \n\n1 ) IRpA 04/10\n\n--- TQT obstruída? Broncoespasmo? \n\n---TC TÓRAX 16/10/25: Cavidade volumosa em lobo superior direito, com liquido em seu interior, opacidades consolidativas presentes\n\n--- Em uso de ATB terapia guiada\n\n2) Choque Séptico de Foco Pulmonar (entrada 15/09) - resolvido\n\n-- Hipotensão + tosse durante RTx\n\n-- Cavitações pulmonares em lobo superior direito, segmento basilar posterior direito e língula com evolução em 8 meses (TC de tórax jan/25 sem alterações)\n\n-- Cavitação em LSD com foco gasoso com drenagem de secreção purulenta após dreno de tórax (Segundo tumor primário? Pneumonia Necrotizante? TB? Aspergilose?)\n\n-- Realizada TQT urgencia e Drenagem toracica de urgencia\n\n-- Testes para TB negativos\n\n3) Sindrome de realimentação\n\n--- desnutrição associada à neoplasia?\n\n4) Colite pseudomembranosa durante internação - resolvida\n\n- Fez uso de Vancomicina oral 125mg 12/12h por 8 dias\n\n5) Lesão cutânea a/e\n\nFusariose? Histoplasmose disseminada? PLEVA? Vasculite (secundária a sepse)? \n\n--- dermatologia descarta hipótese de escabiose e herpes zóster\n\n--- realizada biopsia em 20/10/25\n\n6) Plegia de MMII a/e\n\n--- secundário à metástases? mielite?\n\n--- solicitada RNM de coluna lombar c/c via regulação\n\n--- pela neurologia: neuropatia do doente crítico\n\n.\n\n# HPP:\n\n- DPOC padrão enfisematoso\n\n>>> Enfisema pulmonar centrolobular e parasseptal, moderado \n\n- CEC de orofaringe\n\n>>> Pequena área mal definida de realce na mucosa da cavidade oral à esquerda, junto à base da língua, medindo 14 x 11 mm \n\n>>> 22/02/2025 Bx palato: CEC nao queratinizante. IAl e IPN negativas. \n\n>>> Acompanhamento oncologia HRT; RTX no HUB (26/35 sessões)\n\n- Etilismo: ex-etilista há 5 meses, bebeu por [AGE] anos\n\n- Tabagismo: ex-tabagista há 5 meses, bebeu por [AGE] anos \n\n- Nega alergias\n\n.\n\n# Medicações de Uso Contínuo Domiciliar:\n\n- Nega\n\n.\n\n# Dispositivos:\n\nTQT de urgência (16/09/25)\n\nSVD (09/10/25)\n\nCVC VFD 12/10/25\n\nGTT 19/10\n\nPrévios:\n\nDreno de tórax à D de urgência 16/09 - 09/10\n\nCVC VJID 16/09/25 - 12/10/25\n\nSNE 14/10 - 19/10\n\nPAI ARD 19/10 - 26/10 \n\n.\n\n# Culturas:\n\n- Teste rápido para criptococo 22/10/25: negativo\n\n- BAAR 10/10: negativo\n\n- HMC (05/10): negativo\n\n- AT (05/10): Stenotrophonomas\n\n- GeneExpert 08/10 negativo\n\n- HMC (29/09/25): NRC \n\n- AT (16/09/25): micológico direto negativo\n\n- BAAR (16/09/25): Negativo\n\n- URC (16/09/25): Negativa \n\n- HMC (15/09/25): Negativa \n\n.\n\n#Antibióticos:\n\nAtuais:\n\n- Bactrim D0 12/10/25\n\n- Levofloxacino D1 13/10\n\n- Aciclovir EV 12/12h D0 18/10 (hipotese de herpes virus na pele)\n\n.\n\nPrévios:\n\n- Fluconazol 21/10/25 - 22/10/25 \n\n- Meropenem 15/09 - 21/10\n\n- Linezolida 26/09/25 - 14/10/25\n\n- Amicacina 28/09/25 - 14/10/25\n\n- Vancomicina oral 125mg 12/12h D0 01/09/25 - 09/10/25\n\n- Vancomicina 750mg 12/12h D0 15/09/25 - 25/10/25\n\n.\n\nEvolução:\n\nEncontro paciente no leito acompanhado pela esposa, obedecendo a comandos. Hemodinamica estável sem DVA. Eupneico em VM/PSV sob TQT suporte 12, PEEP 8, Vc 357, FiO2 30%, FR 18. Diurese em SVD, com bom debito alto devido estimulo com diuretico, 1800ml/12h. Evacuação presente, 200ml. 01 pico febril às 18h em uso de antibioticoterapia guiada. Dieta via GTT a 45ml/h, sem intercorrencias.\n\nExame Físico:\n\nAR: MVF, sem ruidos adventicios. \n\nACV: RCR, 2T, BNF, SS . \n\nAbdome: semigloboso, flácido, sem sinais de peritonite, cicatriz limpa e seca de procedimento cirurgico para GTT. Fascie de dor à palpaçãp superficial.\n\nMMII: Edema MMII 2+/4+, TEC 4 segundos, boa perfusão periférica. \n\nPresença de escara estagio 2 em dorso. \n\nPresença de lesões erimato-descamativas com papulas umbilicadas em membros e tronco, de aspecto seco e descamativo\n\n.\n\n# Exames de Imagem:\n\n- TC seios da face (25/10):\n\nSepto nasal desviado para a direita. Múltiplas erosões na coroa de diversos elementos dentários, com destaque para osteólise periapical no dente 44 \n\n- TC tórax (25/10): \n\nManutenção da coleção anterior do pulmão direito, mais evidente no lobo médio. Permanência do derrame pleural à esquerda, bem como da atelectasia do parênquima adjacente. Estabilidade da cavidade volumosa no lobo superior direito, de paredes espessas e irregulares, com conteúdo líquido em seu interior. Discreta redução da atelectasia do lobo superior direito. Aumento das opacidades em vidro fosco no lobo superior esquerdo e estabilidade das áreas nodulares/consolidativas, de provável caráter inflamatório/infeccioso. Enfisema pulmonar centrolobular e parasseptal, moderado \n\n- TC de tórax s/c (15/10/25):\n\nLeve aumento do derrame pleural à esquerda, bem como da atelectasia do parênquima adjacente.\n\nEstabilidade da cavidade volumosa no lobo superior direito, de paredes espessas e irregulares, com aumento do conteúdo líquido em seu interior.\n\nAumento das opacidades nodulares/consolidativas no lobo superior esquerdo, de provável caráter inflamatório/infeccioso. Aumento do espessamento septal inter e intralobular, bilateral, mais acentuado à direita.\n\n- TC de Tórax s/C (07/10/25): Análise comparativa com o estudo prévio evidenciou:\n\nLeve redução do hidropneumotórax à direita, com maior componente gasoso no estudo atual.Estabilidade do derrame pleural à esquerda com redução do componente de atelectasia compressiva do parênquima pulmonar adjacente.\n\nEstabilidade da cavidade volumosa no lobo superior direito, de paredes espessas e irregulares, ainda com líquido em seu interior, provavelmente espesso, apresentando gás e parênquima colapsado.Aumento/surgimento de opacidades consolidativas e em vidro fosco no lobo superior esquerdo, provavelmente relacionadas a processo infeccioso.Aumento da atelectasia do lobo inferior direito.\n\n- TC de tórax C/C (25/09/25): Aumento do hidropneumotórax bilateral, agora mais evidente à esquerda com redução na expansibilidade pulmonar, com aumento da quantidade de derrame e líquido com aspecto de empiema, com formato lenticular.\n\nAumento significativo do derrame pleural à esquerda, agora volumoso.\n\nLeve redução da cavidade volumosa no lobo superior direito, de paredes espessas e irregulares, ainda com líquido em seu interior, provavelmente espesso, apresentando gás e parênquima colapsado, com realce periférico. Aumento do nódulo subpleural no anterior do lobo superior esquerdo, medindo 11,5 mm. Discreto aumento da broncocele no lobo superior direito, medindo 16 x 13 mm, aumento na quantidade de secreção na bronquiectasia de paredes espessas na língula. Houve piora do derrame pleural, bilateral, agora acentuado à esquerda e persiste secreção espessa no interior da cavidade no pulmão direito, sem critérios por imagem para retirada do dreno.\n\n.\n\n# PARECER DOS CUIDADOS PALIATIVOS #\n\n. Chamada para avaliar o Sr x, [AGE] anos, com diagnóstico de carcinoma espinocelular de orofaringe em tratamento radioterápico, sem evidência de metástases à distância, evoluindo com infecção pulmonar grave e refratária à antibioticoterapia de amplo espectro (Meropenem, Linezolida, Amicacina e Vancomicina oral). Apresenta cavitações pulmonares bilaterais e derrames pleurais, com provável abscesso pulmonar à direita e empiema à esquerda, sendo atualmente discutida abordagem cirúrgica torácica (pleurostomia ou pleurodese) como medida de controle do foco infeccioso. Paciente com status funcional muito comprometido, em ventilação mecânica por traqueostomia, uso de vasopressor, desnutrição grave e anemia importante. \n\nSolicitado parecer para abordagem familiar quanto à conscientização diagnóstica, prognóstica e de gravidade para elaboração de plano avançado de cuidados.\n\nConverso com esposa x, faço acolhimento, marcado reunião familiar para próxima terça dia 07/10. \n\n# PARECER DA CIRURGIA TORÁCICA \n\n \"\"Discutido dia 04/10 presencialmente com equipe de Cirurgia Torácica abordagem pulmonar. Devido características tomográficas sugere-se quadro de abscesso pulmonar (parenquima), não sendo indicado pleuroscopia. Há possibilidade de realização de pleurostomia em caso de evolução desfavorável a despeito de ATBterapia. \"\"\n\n.\n\n# Pendências:\n\n- Avaliar Risco x Benefício de cirurgia para drenagem de parenquima pulmonar (vide TC torax 16/10)\n\n- Biópsia cutanea com cultura para fungos em 20/10/25\n\n- Pesquisa de histoplasmose na urina (LACEN) - solicitado em 22/10/25\n\n- Aspirado Traqueal 22/10\n\n- RNM coluna lombar c/c- AGENDADA NO HUB 28/10 07H\n\n- RNM coluna toracica c/c já solicitada\n\n- ENMG solicitada em 23/10\n\n# Conduta:\n\n- Cirurgia toracica contraindica procedimento de pneumectomia a esquerda devido alta taxa de mortalidade no procedimento\n\n- Mantenho corticoie devido suspeita de insuficiencia adrenal\n\n- Ivermectina: 21/10, 28/10 e 04/11\n\n- Mantenho aciclovir 12/12h EV até D7 (manter ate 25/10)\n\n- Manter Bactrim e Levo até 03/11",
+    "entidades_extraidas": [
+      "Vancomicina",
+      "Meropenem"
+    ],
+    "resumo": {
+      "total_entidades_extraidas": 2,
+      "total_codigos_sigtap": 0,
+      "total_nao_encontrados": 1,
+      "total_nao_faturaveis": 1,
+      "total_nao_realizados": 0,
+      "total_baixa_confianca": 0,
+      "valor_total": 0
+    },
+    "entidades_por_categoria": {
+      "MEDICAMENTO": [
+        "Vancomicina",
+        "Meropenem"
+      ]
+    },
+    "codigos_sigtap": [],
+    "termos_nao_encontrados": [
+      "Meropenem"
+    ],
+    "termos_nao_faturaveis": [
+      "Vancomicina"
+    ],
+    "termos_nao_realizados": [],
+    "entidades_descartadas": []
+  }
+]

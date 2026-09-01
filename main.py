@@ -15,7 +15,7 @@ Uso:
     python main.py --saida-relatorio rel    # outro nome de relatório
 
 Padrões (relativos à raiz do projeto, onde este arquivo está):
-    entrada          -> data/prontuarios.json
+    entrada          -> data/prontuarios_hub.json
     json intermediário -> reports/relatorios_processados.json
     relatório final  -> reports/relatorio_sus(.md/.pdf)
 """
@@ -138,7 +138,7 @@ def selecionar_modelo_interativo():
 def _caminhos_padrao():
     """Monta os caminhos padrão relativos à raiz do projeto."""
     return {
-        "entrada": os.path.join(RAIZ, "data", "prontuarios.json"),
+        "entrada": os.path.join(RAIZ, "data", "prontuarios_hub.json"),
         "json_intermediario": os.path.join(RAIZ, "reports", "relatorios_processados.json"),
         "saida_relatorio": os.path.join(RAIZ, "reports", "relatorio_sus"),
     }
@@ -151,7 +151,7 @@ def _parse_args():
     )
     parser.add_argument(
         "--entrada", default=padroes["entrada"],
-        help="JSON de prontuários de entrada (padrão: data/prontuarios.json)"
+        help="JSON de prontuários de entrada (padrão: data/prontuarios_hub.json)"
     )
     parser.add_argument(
         "--json-intermediario", default=padroes["json_intermediario"],
@@ -185,7 +185,7 @@ async def executar(entrada, json_intermediario, saida_relatorio, gerar_pdf=True)
     if not os.path.exists(entrada):
         raise FileNotFoundError(
             f"Arquivo de entrada não encontrado: {entrada}\n"
-            f"Verifique se os prontuários estão em data/prontuarios.json "
+            f"Verifique se os prontuários estão em data/prontuarios_hub.json "
             f"ou informe outro caminho com --entrada."
         )
 

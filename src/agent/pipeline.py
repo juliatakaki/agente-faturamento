@@ -1133,7 +1133,7 @@ async def processar_lote(caminho_entrada: str, caminho_saida: str) -> list[dict]
 
 if __name__ == "__main__":
     base = os.path.dirname(__file__)
-    entrada_padrao = os.path.join(base, "..", "..", "data", "prontuarios.json")
+    entrada_padrao = os.path.join(base, "..", "..", "data", "prontuarios_hub.json")
     saida_padrao = os.path.join(base, "..", "..", "reports", "relatorios_processados.json")
 
     entrada = sys.argv[1] if len(sys.argv) > 1 else entrada_padrao
