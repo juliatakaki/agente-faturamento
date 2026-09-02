@@ -107,6 +107,28 @@ _MARCADORES_NAO_REALIZADO = (
 )
 
 
+# Termos extraídos que, sozinhos, não carregam contexto suficiente para
+# apontar UM código SIGTAP com confiança -- mesmo problema documentado como
+# "regra de ouro" em sinonimos_sigtap.json, mas do lado da extração: aqui o
+# termo em si (não um alvo de dicionário) é curto demais para diferenciar
+# entre códigos próximos.
+#
+# Caso que motivou a lista: "curativo" sozinho resolve no nível 1 para
+# CURATIVO SIMPLES (03.01.10.028-4) por pontuação F1 -- a descrição mais
+# curta natural vence contra CURATIVO GRAU II C/ OU S/ DEBRIDAMENTO
+# (04.01.01.001-5), mesmo quando o texto ao redor descreve lesão com
+# debridamento/exsudato que indicaria o grau maior. Em vez de arriscar o
+# código errado (ou fixar um mapeamento não validado pelo faturamento),
+# o termo é desviado da busca inteiramente e cai para revisão manual.
+#
+# Só adicionar aqui com evidência de ambiguidade real observada nos dados --
+# mesmo critério do arquivo de sinônimos: é melhor cair em revisão manual do
+# que resolver automaticamente para um código plausível e errado.
+_TERMOS_GENERICOS_REVISAR = frozenset({
+    "curativo",
+})
+
+
 # ── Tipos ──────────────────────────────────────────────────────────────────
 
 class EstadoPipeline(TypedDict):
@@ -117,6 +139,7 @@ class EstadoPipeline(TypedDict):
     resultados_sigtap: list[dict]      # saída da consulta MCP
     termos_nao_encontrados: list[str]  # buscados sem correspondência (REVISAR)
     termos_nao_faturaveis: list[str]   # sem código próprio no SIGTAP
+    termos_ambiguos: list[str]         # genéricos demais, desviados da busca (REVISAR)
     termos_nao_realizados: list[dict]  # mencionados mas não executados
     entidades_descartadas: list[str]   # fora das categorias faturáveis
     relatorio: dict                    # relatório final
@@ -792,10 +815,11 @@ def _registrar_resultado(
 
 async def _consultar_sigtap(
     entidades: list[dict], ferramenta_busca
-) -> tuple[list[dict], list[str], list[str]]:
+) -> tuple[list[dict], list[str], list[str], list[str]]:
     """
     Laço determinístico: uma busca por entidade, na ordem em que o extrator
-    as devolveu. Devolve (resultados, nao_encontrados, nao_faturaveis).
+    as devolveu. Devolve (resultados, nao_encontrados, nao_faturaveis,
+    termos_ambiguos).
 
     A categoria vem direto da entidade (fonte determinística), sem passar
     pelo LLM -- eliminando a chance de o modelo trocá-la.
@@ -803,12 +827,23 @@ async def _consultar_sigtap(
     resultados: list[dict] = []
     nao_encontrados: list[str] = []
     nao_faturaveis: list[str] = []
+    termos_ambiguos: list[str] = []
 
     for entidade in entidades:
         termo = _limpar_texto(str(entidade.get("texto", "")).strip())
         if not termo:
             continue
         categoria = str(entidade.get("categoria", "")).strip().upper()
+
+        # Termo genérico demais para confiar numa correspondência automática
+        # -- ver comentário de _TERMOS_GENERICOS_REVISAR. Nem chega a
+        # consultar o SIGTAP: cai direto para revisão manual.
+        if termo.lower() in _TERMOS_GENERICOS_REVISAR:
+            print(f"    [Genérico - revisar] '{termo}' ({categoria or 'sem categoria'}) "
+                  f"— termo curto demais para diferenciar entre códigos próximos")
+            if termo not in termos_ambiguos:
+                termos_ambiguos.append(termo)
+            continue
 
         correspondencias, duracao = await _buscar_um_termo(
             ferramenta_busca, termo, categoria
@@ -818,7 +853,7 @@ async def _consultar_sigtap(
             resultados, nao_encontrados, nao_faturaveis,
         )
 
-    return resultados, nao_encontrados, nao_faturaveis
+    return resultados, nao_encontrados, nao_faturaveis, termos_ambiguos
 
 
 async def _consultar_sigtap_via_llm(
@@ -956,11 +991,15 @@ async def no_consulta_sigtap(estado: EstadoPipeline) -> EstadoPipeline:
               f"{', '.join(e['texto'] for e in nao_realizadas)}")
 
     if ORQUESTRACAO_POR_LLM:
+        # Modo legado (comparação do TCC 2): não aplica a checagem de termos
+        # genéricos, para não alterar o comportamento que está sendo
+        # reproduzido para fins de comparação.
         resultados, nao_encontrados, nao_faturaveis = await _consultar_sigtap_via_llm(
             entidades_buscaveis, ferramentas, ferramenta_busca
         )
+        termos_ambiguos: list[str] = []
     else:
-        resultados, nao_encontrados, nao_faturaveis = await _consultar_sigtap(
+        resultados, nao_encontrados, nao_faturaveis, termos_ambiguos = await _consultar_sigtap(
             entidades_buscaveis, ferramenta_busca
         )
 
@@ -971,6 +1010,7 @@ async def no_consulta_sigtap(estado: EstadoPipeline) -> EstadoPipeline:
     print(f"  [SIGTAP] {len(resultados)} termo(s) com correspondência, "
           f"{len(nao_faturaveis)} sem código próprio, "
           f"{len(nao_encontrados)} sem correspondência, "
+          f"{len(termos_ambiguos)} genérico(s) desviado(s) para revisão, "
           f"{len(baixa_confianca)} de baixa confiança.")
     if baixa_confianca:
         print(f"  [SIGTAP] Conferir manualmente: {', '.join(baixa_confianca)}")
@@ -983,6 +1023,7 @@ async def no_consulta_sigtap(estado: EstadoPipeline) -> EstadoPipeline:
         "termos_nao_encontrados": nao_encontrados,
         "termos_nao_faturaveis": nao_faturaveis,
         "termos_nao_realizados": nao_realizadas,
+        "termos_ambiguos": termos_ambiguos,
         "entidades_descartadas": entidades_descartadas,
     }
 
@@ -1035,6 +1076,7 @@ def no_relatorio(estado: EstadoPipeline) -> EstadoPipeline:
             "total_nao_encontrados": len(estado.get("termos_nao_encontrados", [])),
             "total_nao_faturaveis": len(estado.get("termos_nao_faturaveis", [])),
             "total_nao_realizados": len(nao_realizados),
+            "total_ambiguos": len(estado.get("termos_ambiguos", [])),
             "total_baixa_confianca": sum(
                 1 for c in codigos if c.get("confianca") == "baixa"
             ),
@@ -1042,13 +1084,16 @@ def no_relatorio(estado: EstadoPipeline) -> EstadoPipeline:
         },
         "entidades_por_categoria": _agrupar_por_categoria(estado["entidades_brutas"]),
         "codigos_sigtap": codigos,
-        # Três listas com significados distintos para quem confere:
+        # Quatro listas com significados distintos para quem confere:
         #  - nao_encontrados: a busca falhou, pode haver receita a cobrar
         #  - nao_faturaveis: o dicionário marcou como sem código próprio
         #  - nao_realizados: mencionados no prontuário mas não executados
+        #  - ambiguos: termo genérico demais para diferenciar entre códigos
+        #    próximos (ex: "curativo" sozinho); a busca nem chegou a rodar
         "termos_nao_encontrados": estado.get("termos_nao_encontrados", []),
         "termos_nao_faturaveis": estado.get("termos_nao_faturaveis", []),
         "termos_nao_realizados": nao_realizados,
+        "termos_ambiguos": estado.get("termos_ambiguos", []),
         "entidades_descartadas": estado.get("entidades_descartadas", []),
     }
 
@@ -1104,6 +1149,7 @@ async def processar_prontuario(prontuario: dict) -> dict:
         "termos_nao_encontrados": [],
         "termos_nao_faturaveis": [],
         "termos_nao_realizados": [],
+        "termos_ambiguos": [],
         "entidades_descartadas": [],
         "relatorio": {},
     }

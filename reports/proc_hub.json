@@ -1,7 +1,7 @@
 [
   {
     "prontuario_id": "HUB001",
-    "data_processamento": "2026-09-01T18:36:39.350319",
+    "data_processamento": "2026-09-02T16:51:37.180290",
     "modelo_utilizado": "api/groq — openai/gpt-oss-120b",
     "extrator": "regras",
     "orquestracao": "deterministica",
@@ -11,44 +11,31 @@
     ],
     "resumo": {
       "total_entidades_extraidas": 1,
-      "total_codigos_sigtap": 1,
+      "total_codigos_sigtap": 0,
       "total_nao_encontrados": 0,
       "total_nao_faturaveis": 0,
       "total_nao_realizados": 0,
+      "total_ambiguos": 1,
       "total_baixa_confianca": 0,
-      "valor_total": 0.0
+      "valor_total": 0
     },
     "entidades_por_categoria": {
       "PROCEDIMENTO": [
         "curativo"
       ]
     },
-    "codigos_sigtap": [
-      {
-        "codigo": "03.01.10.028-4",
-        "descricao": "CURATIVO SIMPLES",
-        "grupo": "Procedimentos clínicos",
-        "origem": "curativo",
-        "categoria": "PROCEDIMENTO",
-        "vl_sh": 0.0,
-        "vl_sa": 0.0,
-        "vl_sp": 0.0,
-        "vl_total": 0.0,
-        "nivel": "nivel1",
-        "score": 0.702,
-        "confianca": "media",
-        "painel": false,
-        "tentativas_agente": null
-      }
-    ],
+    "codigos_sigtap": [],
     "termos_nao_encontrados": [],
     "termos_nao_faturaveis": [],
     "termos_nao_realizados": [],
+    "termos_ambiguos": [
+      "curativo"
+    ],
     "entidades_descartadas": []
   },
   {
     "prontuario_id": "HUB002",
-    "data_processamento": "2026-09-01T18:36:39.371000",
+    "data_processamento": "2026-09-02T16:51:37.254917",
     "modelo_utilizado": "api/groq — openai/gpt-oss-120b",
     "extrator": "regras",
     "orquestracao": "deterministica",
@@ -60,6 +47,7 @@
       "total_nao_encontrados": 0,
       "total_nao_faturaveis": 0,
       "total_nao_realizados": 0,
+      "total_ambiguos": 0,
       "total_baixa_confianca": 0,
       "valor_total": 0
     },
@@ -68,11 +56,12 @@
     "termos_nao_encontrados": [],
     "termos_nao_faturaveis": [],
     "termos_nao_realizados": [],
+    "termos_ambiguos": [],
     "entidades_descartadas": []
   },
   {
     "prontuario_id": "HUB003",
-    "data_processamento": "2026-09-01T18:36:39.429518",
+    "data_processamento": "2026-09-02T16:51:37.498456",
     "modelo_utilizado": "api/groq — openai/gpt-oss-120b",
     "extrator": "regras",
     "orquestracao": "deterministica",
@@ -83,10 +72,11 @@
     ],
     "resumo": {
       "total_entidades_extraidas": 2,
-      "total_codigos_sigtap": 2,
+      "total_codigos_sigtap": 1,
       "total_nao_encontrados": 0,
       "total_nao_faturaveis": 0,
       "total_nao_realizados": 0,
+      "total_ambiguos": 1,
       "total_baixa_confianca": 1,
       "valor_total": 0.0
     },
@@ -114,32 +104,19 @@
         "confianca": "baixa",
         "painel": false,
         "tentativas_agente": null
-      },
-      {
-        "codigo": "03.01.10.028-4",
-        "descricao": "CURATIVO SIMPLES",
-        "grupo": "Procedimentos clínicos",
-        "origem": "curativo",
-        "categoria": "PROCEDIMENTO",
-        "vl_sh": 0.0,
-        "vl_sa": 0.0,
-        "vl_sp": 0.0,
-        "vl_total": 0.0,
-        "nivel": "nivel1",
-        "score": 0.702,
-        "confianca": "media",
-        "painel": false,
-        "tentativas_agente": null
       }
     ],
     "termos_nao_encontrados": [],
     "termos_nao_faturaveis": [],
     "termos_nao_realizados": [],
+    "termos_ambiguos": [
+      "curativo"
+    ],
     "entidades_descartadas": []
   },
   {
     "prontuario_id": "HUB004",
-    "data_processamento": "2026-09-01T18:36:45.110163",
+    "data_processamento": "2026-09-02T16:52:08.313818",
     "modelo_utilizado": "api/groq — openai/gpt-oss-120b",
     "extrator": "regras",
     "orquestracao": "deterministica",
@@ -160,6 +137,7 @@
       "total_nao_encontrados": 2,
       "total_nao_faturaveis": 2,
       "total_nao_realizados": 0,
+      "total_ambiguos": 0,
       "total_baixa_confianca": 1,
       "valor_total": 43.64
     },
@@ -254,11 +232,12 @@
       "noradrenalina"
     ],
     "termos_nao_realizados": [],
+    "termos_ambiguos": [],
     "entidades_descartadas": []
   },
   {
     "prontuario_id": "HUB005",
-    "data_processamento": "2026-09-01T18:36:46.696337",
+    "data_processamento": "2026-09-02T16:52:12.038429",
     "modelo_utilizado": "api/groq — openai/gpt-oss-120b",
     "extrator": "regras",
     "orquestracao": "deterministica",
@@ -279,6 +258,7 @@
       "total_nao_encontrados": 2,
       "total_nao_faturaveis": 1,
       "total_nao_realizados": 1,
+      "total_ambiguos": 0,
       "total_baixa_confianca": 2,
       "valor_total": 518.62
     },
@@ -377,11 +357,12 @@
         "categoria": "PROCEDIMENTO"
       }
     ],
+    "termos_ambiguos": [],
     "entidades_descartadas": []
   },
   {
     "prontuario_id": "HUB006",
-    "data_processamento": "2026-09-01T18:36:50.051759",
+    "data_processamento": "2026-09-02T16:52:19.403986",
     "modelo_utilizado": "api/groq — openai/gpt-oss-120b",
     "extrator": "regras",
     "orquestracao": "deterministica",
@@ -404,6 +385,7 @@
       "total_nao_encontrados": 4,
       "total_nao_faturaveis": 2,
       "total_nao_realizados": 0,
+      "total_ambiguos": 0,
       "total_baixa_confianca": 0,
       "valor_total": 61.64
     },
@@ -502,11 +484,12 @@
       "Vancomicina"
     ],
     "termos_nao_realizados": [],
+    "termos_ambiguos": [],
     "entidades_descartadas": []
   },
   {
     "prontuario_id": "HUB007",
-    "data_processamento": "2026-09-01T18:36:51.319861",
+    "data_processamento": "2026-09-02T16:52:23.217803",
     "modelo_utilizado": "api/groq — openai/gpt-oss-120b",
     "extrator": "regras",
     "orquestracao": "deterministica",
@@ -521,10 +504,11 @@
     ],
     "resumo": {
       "total_entidades_extraidas": 6,
-      "total_codigos_sigtap": 3,
+      "total_codigos_sigtap": 2,
       "total_nao_encontrados": 2,
       "total_nao_faturaveis": 1,
       "total_nao_realizados": 0,
+      "total_ambiguos": 1,
       "total_baixa_confianca": 0,
       "valor_total": 33.08
     },
@@ -560,22 +544,6 @@
         "tentativas_agente": null
       },
       {
-        "codigo": "03.01.10.028-4",
-        "descricao": "CURATIVO SIMPLES",
-        "grupo": "Procedimentos clínicos",
-        "origem": "curativo",
-        "categoria": "PROCEDIMENTO",
-        "vl_sh": 0.0,
-        "vl_sa": 0.0,
-        "vl_sp": 0.0,
-        "vl_total": 0.0,
-        "nivel": "nivel1",
-        "score": 0.702,
-        "confianca": "media",
-        "painel": false,
-        "tentativas_agente": null
-      },
-      {
         "codigo": "02.11.08.002-0",
         "descricao": "GASOMETRIA",
         "grupo": "Procedimentos com finalidade diagnóstica",
@@ -600,11 +568,14 @@
       "noradrenalina"
     ],
     "termos_nao_realizados": [],
+    "termos_ambiguos": [
+      "curativo"
+    ],
     "entidades_descartadas": []
   },
   {
     "prontuario_id": "HUB008",
-    "data_processamento": "2026-09-01T18:36:51.353474",
+    "data_processamento": "2026-09-02T16:52:23.247367",
     "modelo_utilizado": "api/groq — openai/gpt-oss-120b",
     "extrator": "regras",
     "orquestracao": "deterministica",
@@ -614,44 +585,31 @@
     ],
     "resumo": {
       "total_entidades_extraidas": 1,
-      "total_codigos_sigtap": 1,
+      "total_codigos_sigtap": 0,
       "total_nao_encontrados": 0,
       "total_nao_faturaveis": 0,
       "total_nao_realizados": 0,
+      "total_ambiguos": 1,
       "total_baixa_confianca": 0,
-      "valor_total": 0.0
+      "valor_total": 0
     },
     "entidades_por_categoria": {
       "PROCEDIMENTO": [
         "Curativo"
       ]
     },
-    "codigos_sigtap": [
-      {
-        "codigo": "03.01.10.028-4",
-        "descricao": "CURATIVO SIMPLES",
-        "grupo": "Procedimentos clínicos",
-        "origem": "Curativo",
-        "categoria": "PROCEDIMENTO",
-        "vl_sh": 0.0,
-        "vl_sa": 0.0,
-        "vl_sp": 0.0,
-        "vl_total": 0.0,
-        "nivel": "nivel1",
-        "score": 0.702,
-        "confianca": "media",
-        "painel": false,
-        "tentativas_agente": null
-      }
-    ],
+    "codigos_sigtap": [],
     "termos_nao_encontrados": [],
     "termos_nao_faturaveis": [],
     "termos_nao_realizados": [],
+    "termos_ambiguos": [
+      "Curativo"
+    ],
     "entidades_descartadas": []
   },
   {
     "prontuario_id": "HUB009",
-    "data_processamento": "2026-09-01T18:36:51.369901",
+    "data_processamento": "2026-09-02T16:52:23.305879",
     "modelo_utilizado": "api/groq — openai/gpt-oss-120b",
     "extrator": "regras",
     "orquestracao": "deterministica",
@@ -663,6 +621,7 @@
       "total_nao_encontrados": 0,
       "total_nao_faturaveis": 0,
       "total_nao_realizados": 0,
+      "total_ambiguos": 0,
       "total_baixa_confianca": 0,
       "valor_total": 0
     },
@@ -671,11 +630,12 @@
     "termos_nao_encontrados": [],
     "termos_nao_faturaveis": [],
     "termos_nao_realizados": [],
+    "termos_ambiguos": [],
     "entidades_descartadas": []
   },
   {
     "prontuario_id": "HUB010",
-    "data_processamento": "2026-09-01T18:36:52.080144",
+    "data_processamento": "2026-09-02T16:52:30.400085",
     "modelo_utilizado": "api/groq — openai/gpt-oss-120b",
     "extrator": "regras",
     "orquestracao": "deterministica",
@@ -690,6 +650,7 @@
       "total_nao_encontrados": 1,
       "total_nao_faturaveis": 1,
       "total_nao_realizados": 0,
+      "total_ambiguos": 0,
       "total_baixa_confianca": 0,
       "valor_total": 0
     },
@@ -707,6 +668,7 @@
       "Vancomicina"
     ],
     "termos_nao_realizados": [],
+    "termos_ambiguos": [],
     "entidades_descartadas": []
   }
 ]

@@ -1,6 +1,6 @@
 # Relatório de Faturamento SUS - SIGTAP
 
-**Data de geração:** 01/09/2026 às 18:36  
+**Data de geração:** 02/09/2026 às 16:52  
 **Total de prontuários processados:** 10  
 **Modelo utilizado:** api/groq — openai/gpt-oss-120b  
 **Consulta ao SIGTAP:** laço determinístico
@@ -11,11 +11,7 @@
 
 ## Prontuário: HUB001
 
-| Código SIGTAP | Procedimento | Origem | Nível | Confiança | SH | SA | SP | Total |
-|---|---|---|---|---|---:|---:|---:|---:|
-| 03.01.10.028-4 | CURATIVO SIMPLES | curativo | Exata | Média | R$ 0,00 | R$ 0,00 | R$ 0,00 | R$ 0,00 |
-
-**Subtotal do prontuário HUB001: R$ 0,00**
+_Nenhum código SIGTAP foi vinculado a este prontuário._
 
 ---
 
@@ -30,7 +26,6 @@ _Nenhum código SIGTAP foi vinculado a este prontuário._
 | Código SIGTAP | Procedimento | Origem | Nível | Confiança | SH | SA | SP | Total |
 |---|---|---|---|---|---:|---:|---:|---:|
 | 06.04.05.007-0 | MORFINA 10 MG (POR COMPRIMIDO) | Morfina | Exata | **BAIXA** | R$ 0,00 | R$ 0,00 | R$ 0,00 | R$ 0,00 |
-| 03.01.10.028-4 | CURATIVO SIMPLES | curativo | Exata | Média | R$ 0,00 | R$ 0,00 | R$ 0,00 | R$ 0,00 |
 
 **Subtotal do prontuário HUB003: R$ 0,00**
 
@@ -117,7 +112,6 @@ _Nenhum código SIGTAP foi vinculado a este prontuário._
 | Código SIGTAP | Procedimento | Origem | Nível | Confiança | SH | SA | SP | Total |
 |---|---|---|---|---|---:|---:|---:|---:|
 | 04.17.01.006-0 | SEDACAO | Sedoanalgesia | Dicionário | Alta | R$ 0,00 | R$ 15,15 | R$ 15,15 | R$ 30,30 |
-| 03.01.10.028-4 | CURATIVO SIMPLES | curativo | Exata | Média | R$ 0,00 | R$ 0,00 | R$ 0,00 | R$ 0,00 |
 | 02.11.08.002-0 | GASOMETRIA | gasometria arterial | Dicionário | Alta | R$ 0,00 | R$ 2,78 | R$ 0,00 | R$ 2,78 |
 
 **Subtotal do prontuário HUB007: R$ 33,08**
@@ -137,11 +131,7 @@ _Nenhum código SIGTAP foi vinculado a este prontuário._
 
 ## Prontuário: HUB008
 
-| Código SIGTAP | Procedimento | Origem | Nível | Confiança | SH | SA | SP | Total |
-|---|---|---|---|---|---:|---:|---:|---:|
-| 03.01.10.028-4 | CURATIVO SIMPLES | Curativo | Exata | Média | R$ 0,00 | R$ 0,00 | R$ 0,00 | R$ 0,00 |
-
-**Subtotal do prontuário HUB008: R$ 0,00**
+_Nenhum código SIGTAP foi vinculado a este prontuário._
 
 ---
 
@@ -170,7 +160,7 @@ _Nenhum código SIGTAP foi vinculado a este prontuário._
 ## Resumo Consolidado
 
 - **Prontuários processados:** 10
-- **Códigos SIGTAP atribuídos:** 19
+- **Códigos SIGTAP atribuídos:** 15
 - **Códigos com valor maior que zero:** 13
 - **Correspondências de confiança BAIXA (conferir):** 4
 - **Termos sem correspondência (verificar):** 11

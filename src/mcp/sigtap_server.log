@@ -4915,3 +4915,128 @@ connection to server at "localhost" (127.0.0.1), port 5432 failed: Connection re
 [18:36:52] [NIVEL4] Tentativa 1: DESISTIR — Meropenem é um antibiótico de uso hospitalar que não possui código próprio no SIGTAP; medicamentos de rotina são faturados dentro de procedimentos ou como insum
 [18:36:52] [NIVEL4] ===== Ciclo de 'Meropenem' encerrado sem correspondência (1 tentativa(s)) =====
 [18:36:52] [TOOL] 'Meropenem' (cat=MEDICAMENTO) -> vazio, 0.66s
+[16:50:42] [SIGTAP] Iniciando servidor MCP...
+[16:50:42] [NIVEL0] Dicionário carregado: 31 sinônimo(s), 21 termo(s) não faturável(is).
+[16:50:42] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[16:50:44] [SIGTAP] Tabela carregada: 4994 procedimentos, 9 grupos, em 1.8s.
+[16:50:45] [SEMANTICO] Cache reaproveitado (4994 linhas).
+[16:50:45] [SEMANTICO] Carregando modelo 'paraphrase-multilingual-MiniLM-L12-v2' (HF_HUB_OFFLINE=1)...
+[16:51:36] [SEMANTICO] Modelo carregado em 51.4s.
+[16:51:36] [AQUECIMENTO] Primeiro encode em 0.5s.
+[16:51:36] [AQUECIMENTO] Concluído em 54.0s.
+[16:51:36] [SIGTAP] Pontuação bidirecional ativa: rejeição F1 < 0.45, confiança alta >= 0.85, média >= 0.7.
+[16:51:36] [SIGTAP] Nível 4 (agente): ATIVO, teto de 6 tentativas por termo.
+[16:51:36] [SIGTAP] Pronto, aguardando conexão via stdio...
+[16:51:37] [SIGTAP] 'Morfina' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[16:51:37] [TOOL] 'Morfina' (cat=MEDICAMENTO) -> nivel1, score=0.683, confianca=baixa, painel=False, 2 resultado(s), 0.13s
+[16:51:37] [SIGTAP] 'Morfina' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[16:51:37] [TOOL] 'Morfina' (cat=MEDICAMENTO) -> nivel1, score=0.683, confianca=baixa, painel=False, 2 resultado(s), 0.01s
+[16:51:37] [SIGTAP] 'Hemocultura' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[16:51:37] [TOOL] 'Hemocultura' (cat=EXAME) -> nivel1, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.03s
+[16:51:37] [NIVEL0] 'Vancomicina' marcado como não faturável separadamente (medicamentos_uso_hospitalar).
+[16:51:37] [TOOL] 'Vancomicina' (cat=MEDICAMENTO) -> nao_faturavel, 0.01s
+[16:51:37] [SIGTAP] 'Meropenem' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[16:51:37] [SEMANTICO] 'meropenem': 0.513 (limiar 0.8) -> ABCIXIMABE
+[16:51:37] [NIVEL4] Agente usando API (groq): openai/gpt-oss-120b
+[16:52:01] [NIVEL4] ===== Iniciando ciclo para 'Meropenem' (categoria=MEDICAMENTO, teto de 6 tentativas) =====
+[16:52:06] [NIVEL4] Tentativa 1: DESISTIR — Meropenem é um antibiótico de uso hospitalar que não possui código próprio no SIGTAP; medicamentos de rotina são faturados dentro de procedimentos ou como insum
+[16:52:06] [NIVEL4] ===== Ciclo de 'Meropenem' encerrado sem correspondência (1 tentativa(s)) =====
+[16:52:06] [TOOL] 'Meropenem' (cat=MEDICAMENTO) -> vazio, 28.90s
+[16:52:06] [SIGTAP] 'ureia' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[16:52:06] [TOOL] 'ureia' (cat=EXAME) -> nivel1, score=0.832, confianca=media, painel=False, 2 resultado(s), 0.01s
+[16:52:06] [NIVEL0] 'sedoanalgesia' -> ['sedacao']
+[16:52:06] [TOOL] 'sedoanalgesia' (cat=PROCEDIMENTO) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.06s
+[16:52:06] [SIGTAP] 'fentanil' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[16:52:06] [SEMANTICO] 'fentanil': 0.667 (limiar 0.8) -> MORFINA  DE LIBERACAO CONTROLADA 60 MG (POR CAPSULA)
+[16:52:06] [NIVEL4] ===== Iniciando ciclo para 'fentanil' (categoria=MEDICAMENTO, teto de 6 tentativas) =====
+[16:52:08] [NIVEL4] Tentativa 1: DESISTIR — Fentanil é um medicamento de uso hospitalar que não possui código próprio no SIGTAP; sua administração é incluída em procedimentos de anestesia ou analgesia e n
+[16:52:08] [NIVEL4] ===== Ciclo de 'fentanil' encerrado sem correspondência (1 tentativa(s)) =====
+[16:52:08] [TOOL] 'fentanil' (cat=MEDICAMENTO) -> vazio, 1.40s
+[16:52:08] [NIVEL0] 'noradrenalina' marcado como não faturável separadamente (medicamentos_uso_hospitalar).
+[16:52:08] [TOOL] 'noradrenalina' (cat=MEDICAMENTO) -> nao_faturavel, 0.00s
+[16:52:08] [NIVEL0] 'sedoanalgesia' -> ['sedacao']
+[16:52:08] [TOOL] 'sedoanalgesia' (cat=PROCEDIMENTO) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.07s
+[16:52:08] [SIGTAP] 'midazolam' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[16:52:08] [SEMANTICO] 'midazolam': 0.651 (limiar 0.8) -> ABCIXIMABE
+[16:52:08] [NIVEL4] ===== Iniciando ciclo para 'midazolam' (categoria=MEDICAMENTO, teto de 6 tentativas) =====
+[16:52:09] [NIVEL4] Tentativa 1: DESISTIR — midazolam é um medicamento de uso hospitalar rotineiro e não possui código próprio no SIGTAP; medicamentos são faturados dentro de procedimentos ou como insumos
+[16:52:09] [NIVEL4] ===== Ciclo de 'midazolam' encerrado sem correspondência (1 tentativa(s)) =====
+[16:52:09] [TOOL] 'midazolam' (cat=MEDICAMENTO) -> vazio, 1.29s
+[16:52:09] [SIGTAP] 'fentanil' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[16:52:10] [SEMANTICO] 'fentanil': 0.667 (limiar 0.8) -> MORFINA  DE LIBERACAO CONTROLADA 60 MG (POR CAPSULA)
+[16:52:10] [NIVEL4] ===== Iniciando ciclo para 'fentanil' (categoria=MEDICAMENTO, teto de 6 tentativas) =====
+[16:52:11] [NIVEL4] Tentativa 1: DESISTIR — Fentanil é um medicamento de uso hospitalar que não possui código próprio no SIGTAP; sua administração é faturada dentro de procedimentos de anestesia ou analge
+[16:52:11] [NIVEL4] ===== Ciclo de 'fentanil' encerrado sem correspondência (1 tentativa(s)) =====
+[16:52:11] [TOOL] 'fentanil' (cat=MEDICAMENTO) -> vazio, 1.53s
+[16:52:11] [NIVEL0] 'noradrenalina' marcado como não faturável separadamente (medicamentos_uso_hospitalar).
+[16:52:11] [TOOL] 'noradrenalina' (cat=MEDICAMENTO) -> nao_faturavel, 0.00s
+[16:52:11] [NIVEL0] 'Gasometria arterial' -> ['gasometria']
+[16:52:11] [TOOL] 'Gasometria arterial' (cat=EXAME) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.08s
+[16:52:11] [SIGTAP] 'Fisioterapia Respiratória' (cat=PROCEDIMENTO): busca restrita a 2700 de 4994 procedimentos.
+[16:52:11] [SEMANTICO] 'fisioterapia respiratoria': 0.825 (limiar 0.8) -> TRATAMENTO DE OUTRAS DOENCAS DO APARELHO RESPIRATORIO
+[16:52:11] [TOOL] 'Fisioterapia Respiratória' (cat=PROCEDIMENTO) -> nivel_semantico, score=0.825, confianca=baixa, painel=False, 1 resultado(s), 0.20s
+[16:52:11] [SIGTAP] 'Fisioterapia Motora' (cat=PROCEDIMENTO): busca restrita a 2700 de 4994 procedimentos.
+[16:52:11] [SEMANTICO] 'fisioterapia motora': 0.833 (limiar 0.8) -> ATENDIMENTO FISIOTERAPÊUTICO NAS ALTERAÇÕES MOTORAS
+[16:52:12] [TOOL] 'Fisioterapia Motora' (cat=PROCEDIMENTO) -> nivel_semantico, score=0.833, confianca=baixa, painel=False, 1 resultado(s), 0.23s
+[16:52:12] [NIVEL0] 'sedoanalgesia' -> ['sedacao']
+[16:52:12] [TOOL] 'sedoanalgesia' (cat=PROCEDIMENTO) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.09s
+[16:52:12] [SIGTAP] 'midazolam' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[16:52:12] [SEMANTICO] 'midazolam': 0.651 (limiar 0.8) -> ABCIXIMABE
+[16:52:12] [NIVEL4] ===== Iniciando ciclo para 'midazolam' (categoria=MEDICAMENTO, teto de 6 tentativas) =====
+[16:52:14] [NIVEL4] Tentativa 1: DESISTIR — midazolam é um medicamento de uso hospitalar rotineiro e não possui código próprio no SIGTAP; medicamentos são faturados dentro de procedimentos ou como insumos
+[16:52:14] [NIVEL4] ===== Ciclo de 'midazolam' encerrado sem correspondência (1 tentativa(s)) =====
+[16:52:14] [TOOL] 'midazolam' (cat=MEDICAMENTO) -> vazio, 2.11s
+[16:52:14] [SIGTAP] 'fentanil' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[16:52:14] [SEMANTICO] 'fentanil': 0.667 (limiar 0.8) -> MORFINA  DE LIBERACAO CONTROLADA 60 MG (POR CAPSULA)
+[16:52:14] [NIVEL4] ===== Iniciando ciclo para 'fentanil' (categoria=MEDICAMENTO, teto de 6 tentativas) =====
+[16:52:16] [NIVEL4] Tentativa 1: DESISTIR — Fentanil é um medicamento de uso hospitalar que não possui código próprio no SIGTAP; sua administração é incluída nos procedimentos de anestesia ou analgesia e 
+[16:52:16] [NIVEL4] ===== Ciclo de 'fentanil' encerrado sem correspondência (1 tentativa(s)) =====
+[16:52:16] [TOOL] 'fentanil' (cat=MEDICAMENTO) -> vazio, 1.67s
+[16:52:16] [NIVEL0] 'noradrenalina' marcado como não faturável separadamente (medicamentos_uso_hospitalar).
+[16:52:16] [TOOL] 'noradrenalina' (cat=MEDICAMENTO) -> nao_faturavel, 0.00s
+[16:52:16] [SIGTAP] 'hemocultura' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[16:52:16] [TOOL] 'hemocultura' (cat=EXAME) -> nivel1, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.03s
+[16:52:16] [SIGTAP] 'Meropenem' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[16:52:16] [SEMANTICO] 'meropenem': 0.513 (limiar 0.8) -> ABCIXIMABE
+[16:52:16] [NIVEL4] ===== Iniciando ciclo para 'Meropenem' (categoria=MEDICAMENTO, teto de 6 tentativas) =====
+[16:52:17] [NIVEL4] Tentativa 1: DESISTIR — Meropenem é um antibiótico de uso hospitalar que não possui código próprio no SIGTAP; medicamentos de rotina são faturados dentro de procedimentos ou como insum
+[16:52:17] [NIVEL4] ===== Ciclo de 'Meropenem' encerrado sem correspondência (1 tentativa(s)) =====
+[16:52:17] [TOOL] 'Meropenem' (cat=MEDICAMENTO) -> vazio, 1.31s
+[16:52:17] [NIVEL0] 'Vancomicina' marcado como não faturável separadamente (medicamentos_uso_hospitalar).
+[16:52:17] [TOOL] 'Vancomicina' (cat=MEDICAMENTO) -> nao_faturavel, 0.00s
+[16:52:17] [SIGTAP] 'DEXAMETASONA' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[16:52:17] [SEMANTICO] 'dexametasona': 0.504 (limiar 0.8) -> CLORIDRATO DE TIROFIBANA
+[16:52:17] [NIVEL4] ===== Iniciando ciclo para 'DEXAMETASONA' (categoria=MEDICAMENTO, teto de 6 tentativas) =====
+[16:52:19] [NIVEL4] Tentativa 1: DESISTIR — Dexametasona é um medicamento de uso hospitalar rotineiro e não possui código próprio no SIGTAP; sua administração é incluída nos códigos de procedimentos clíni
+[16:52:19] [NIVEL4] ===== Ciclo de 'DEXAMETASONA' encerrado sem correspondência (1 tentativa(s)) =====
+[16:52:19] [TOOL] 'DEXAMETASONA' (cat=MEDICAMENTO) -> vazio, 1.54s
+[16:52:19] [SIGTAP] 'TROPONINA' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[16:52:19] [TOOL] 'TROPONINA' (cat=EXAME) -> nivel1, score=0.843, confianca=media, painel=False, 1 resultado(s), 0.02s
+[16:52:19] [SIGTAP] 'UREIA' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[16:52:19] [TOOL] 'UREIA' (cat=EXAME) -> nivel1, score=0.832, confianca=media, painel=False, 2 resultado(s), 0.01s
+[16:52:19] [NIVEL0] 'noradrenalina' marcado como não faturável separadamente (medicamentos_uso_hospitalar).
+[16:52:19] [TOOL] 'noradrenalina' (cat=MEDICAMENTO) -> nao_faturavel, 0.00s
+[16:52:19] [NIVEL0] 'Sedoanalgesia' -> ['sedacao']
+[16:52:19] [TOOL] 'Sedoanalgesia' (cat=PROCEDIMENTO) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.08s
+[16:52:19] [SIGTAP] 'fentanil' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[16:52:19] [SEMANTICO] 'fentanil': 0.667 (limiar 0.8) -> MORFINA  DE LIBERACAO CONTROLADA 60 MG (POR CAPSULA)
+[16:52:19] [NIVEL4] ===== Iniciando ciclo para 'fentanil' (categoria=MEDICAMENTO, teto de 6 tentativas) =====
+[16:52:21] [NIVEL4] Tentativa 1: DESISTIR — Fentanil é um medicamento de uso hospitalar que não possui código próprio no SIGTAP; sua administração é faturada dentro de procedimentos de anestesia ou analge
+[16:52:21] [NIVEL4] ===== Ciclo de 'fentanil' encerrado sem correspondência (1 tentativa(s)) =====
+[16:52:21] [TOOL] 'fentanil' (cat=MEDICAMENTO) -> vazio, 1.63s
+[16:52:21] [SIGTAP] 'midazolam' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[16:52:21] [SEMANTICO] 'midazolam': 0.651 (limiar 0.8) -> ABCIXIMABE
+[16:52:21] [NIVEL4] ===== Iniciando ciclo para 'midazolam' (categoria=MEDICAMENTO, teto de 6 tentativas) =====
+[16:52:23] [NIVEL4] Tentativa 1: DESISTIR — midazolam é um medicamento de uso hospitalar rotineiro e não possui código próprio no SIGTAP; medicamentos são faturados dentro de procedimentos ou como insumos
+[16:52:23] [NIVEL4] ===== Ciclo de 'midazolam' encerrado sem correspondência (1 tentativa(s)) =====
+[16:52:23] [TOOL] 'midazolam' (cat=MEDICAMENTO) -> vazio, 1.81s
+[16:52:23] [NIVEL0] 'gasometria arterial' -> ['gasometria']
+[16:52:23] [TOOL] 'gasometria arterial' (cat=EXAME) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.09s
+[16:52:23] [NIVEL0] 'Vancomicina' marcado como não faturável separadamente (medicamentos_uso_hospitalar).
+[16:52:23] [TOOL] 'Vancomicina' (cat=MEDICAMENTO) -> nao_faturavel, 0.00s
+[16:52:23] [SIGTAP] 'Meropenem' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[16:52:23] [SEMANTICO] 'meropenem': 0.513 (limiar 0.8) -> ABCIXIMABE
+[16:52:23] [NIVEL4] ===== Iniciando ciclo para 'Meropenem' (categoria=MEDICAMENTO, teto de 6 tentativas) =====
+[16:52:30] [NIVEL4] Tentativa 1: DESISTIR — Meropenem é um antibiótico de uso hospitalar que não possui código próprio no SIGTAP; medicamentos de rotina são faturados dentro de procedimentos ou como insum
+[16:52:30] [NIVEL4] ===== Ciclo de 'Meropenem' encerrado sem correspondência (1 tentativa(s)) =====
+[16:52:30] [TOOL] 'Meropenem' (cat=MEDICAMENTO) -> vazio, 6.93s
