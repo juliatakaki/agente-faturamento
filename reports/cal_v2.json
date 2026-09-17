@@ -2,7 +2,7 @@
   {
     "prontuario_id": "PEP001",
     "data_processamento": "2026-08-20T16:48:38.566819",
-    "modelo_utilizado": "api/groq — openai/gpt-oss-120b",
+    "modelo_utilizado": "api/groq - openai/gpt-oss-120b",
     "extrator": "llm",
     "orquestracao": "deterministica",
     "texto_prontuario": "Paciente masculino, 67 anos, internado na UTI adulto por insuficiência respiratória aguda. Realizada intubação orotraqueal e instalado ventilação mecânica invasiva. Administrado midazolam e fentanil em infusão contínua para sedoanalgesia. Coletado hemograma completo e hemocultura. Iniciada antibioticoterapia com piperacilina-tazobactam. Realizado raio-x de tórax portátil. Cateter venoso central inserido em subclávia direita sob técnica asséptica.",
@@ -126,7 +126,7 @@
   {
     "prontuario_id": "PEP002",
     "data_processamento": "2026-08-20T16:48:43.248315",
-    "modelo_utilizado": "api/groq — openai/gpt-oss-120b",
+    "modelo_utilizado": "api/groq - openai/gpt-oss-120b",
     "extrator": "llm",
     "orquestracao": "deterministica",
     "texto_prontuario": "Paciente feminina, 54 anos, admitida em UTI após parada cardiorrespiratória revertida. Realizado eletrocardiograma de 12 derivações. Instalado monitor cardíaco contínuo. Coletado troponina, CK-MB e gasometria arterial. Administrada adrenalina EV durante reanimação. Realizado ecocardiograma à beira leito. Iniciada infusão de noradrenalina para suporte vasopressor. Sondagem vesical de demora instalada para controle de diurese. Realizada tomografia computadorizada de crânio sem contraste.",
@@ -295,7 +295,7 @@
   {
     "prontuario_id": "PEP003",
     "data_processamento": "2026-08-20T16:49:18.419734",
-    "modelo_utilizado": "api/groq — openai/gpt-oss-120b",
+    "modelo_utilizado": "api/groq - openai/gpt-oss-120b",
     "extrator": "llm",
     "orquestracao": "deterministica",
     "texto_prontuario": "Paciente masculino, 72 anos, com sepse de foco abdominal. Realizada laparotomia exploradora com drenagem de abscesso. Administrada vancomicina e meropeném conforme antibiograma. Coletados lactato, PCR e procalcitonina. Realizado ultrassom abdominal à beira leito. Instalado cateter arterial em radial esquerda para monitorização invasiva de pressão arterial. Hemotransfusão de 2 concentrados de hemácias realizada. Realizado curativo com troca de dreno abdominal.",
@@ -485,7 +485,7 @@
   {
     "prontuario_id": "PEP004",
     "data_processamento": "2026-08-20T16:50:11.639824",
-    "modelo_utilizado": "api/groq — openai/gpt-oss-120b",
+    "modelo_utilizado": "api/groq - openai/gpt-oss-120b",
     "extrator": "llm",
     "orquestracao": "deterministica",
     "texto_prontuario": "Paciente feminina, 45 anos, pós-operatório de neurocirurgia para drenagem de hematoma subdural. Realizado controle tomográfico de crânio com contraste. Monitorização de pressão intracraniana instalada. Administrado manitol e dexametasona EV. Fisioterapia motora e respiratória realizadas. Coletado líquido cefalorraquidiano para análise. Realizado eletroencefalograma. Sonda nasoenteral inserida para nutrição enteral.",
@@ -591,7 +591,7 @@
   {
     "prontuario_id": "PEP005",
     "data_processamento": "2026-08-20T16:50:53.389669",
-    "modelo_utilizado": "api/groq — openai/gpt-oss-120b",
+    "modelo_utilizado": "api/groq - openai/gpt-oss-120b",
     "extrator": "llm",
     "orquestracao": "deterministica",
     "texto_prontuario": "Paciente masculino, 58 anos, admitido por insuficiência renal aguda dialítica. Realizada hemodiálise de urgência por cateter de duplo lúmen em jugular interna direita. Coletados ureia, creatinina e eletrólitos. Administrado bicarbonato de sódio EV para correção de acidose metabólica. Realizado ultrassom renal. Balanço hídrico estrito realizado. Pesagem diária do paciente. Reposição de albumina humana 20% administrada.",
@@ -742,7 +742,7 @@
   {
     "prontuario_id": "PEP006",
     "data_processamento": "2026-08-20T16:51:45.820534",
-    "modelo_utilizado": "api/groq — openai/gpt-oss-120b",
+    "modelo_utilizado": "api/groq - openai/gpt-oss-120b",
     "extrator": "llm",
     "orquestracao": "deterministica",
     "texto_prontuario": "Paciente feminina, 63 anos, queimadura de segundo e terceiro graus em 40% da superfície corporal. Realizado curativo com sulfadiazina de prata nas regiões afetadas. Administrada morfina EV para controle de dor. Coletados cultura de ferida e swab de queimadura. Realizada enxertia de pele em membro superior direito. Suporte nutricional parenteral total instalado. Fisioterapia para prevenção de contraturas realizada. Coletado proteína C reativa e albumina sérica.",
@@ -869,7 +869,7 @@
   {
     "prontuario_id": "PEP007",
     "data_processamento": "2026-08-20T16:52:04.425470",
-    "modelo_utilizado": "api/groq — openai/gpt-oss-120b",
+    "modelo_utilizado": "api/groq - openai/gpt-oss-120b",
     "extrator": "llm",
     "orquestracao": "deterministica",
     "texto_prontuario": "Paciente masculino, 80 anos, com acidente vascular cerebral isquêmico. Administrado alteplase EV dentro da janela terapêutica. Realizada tomografia computadorizada de crânio e angiotomografia de vasos cerebrais. Instalado cateter nasal de oxigênio. Monitor de saturação contínua instalado. Coletados hemograma, coagulograma e perfil lipídico. Fisioterapia neurológica iniciada. Sonda vesical de demora inserida. Realizado Doppler transcraniano.",
@@ -1122,7 +1122,7 @@
   {
     "prontuario_id": "PEP008",
     "data_processamento": "2026-08-20T16:52:36.608774",
-    "modelo_utilizado": "api/groq — openai/gpt-oss-120b",
+    "modelo_utilizado": "api/groq - openai/gpt-oss-120b",
     "extrator": "llm",
     "orquestracao": "deterministica",
     "texto_prontuario": "Paciente feminina, 39 anos, internada por cetoacidose diabética grave. Administrada insulina regular em bomba de infusão contínua. Reposição volêmica com solução salina 0,9% realizada. Coletados glicemia capilar horária, gasometria venosa e cetonemia. Administrado cloreto de potássio EV para correção de hipocalemia. Realizado eletrocardiograma de controle. Monitor cardíaco instalado. Coletados hemograma completo e função renal.",
@@ -1277,7 +1277,7 @@
   {
     "prontuario_id": "PEP009",
     "data_processamento": "2026-08-20T16:53:54.114271",
-    "modelo_utilizado": "api/groq — openai/gpt-oss-120b",
+    "modelo_utilizado": "api/groq - openai/gpt-oss-120b",
     "extrator": "llm",
     "orquestracao": "deterministica",
     "texto_prontuario": "Paciente masculino, 55 anos, pós-operatório imediato de cirurgia cardíaca com circulação extracorpórea para revascularização do miocárdio. Realizado ecocardiograma transesofágico intraoperatório. Monitorização hemodinâmica invasiva com cateter de Swan-Ganz instalada. Administrada protamina para reversão de heparina. Realizado raio-x de tórax pós-operatório. Drenos mediastinais e pleurais instalados. Fisioterapia respiratória realizada. Coletados troponina e coagulograma pós-operatórios.",
@@ -1450,7 +1450,7 @@
   {
     "prontuario_id": "PEP010",
     "data_processamento": "2026-08-20T16:54:56.878105",
-    "modelo_utilizado": "api/groq — openai/gpt-oss-120b",
+    "modelo_utilizado": "api/groq - openai/gpt-oss-120b",
     "extrator": "llm",
     "orquestracao": "deterministica",
     "texto_prontuario": "Paciente feminina, 71 anos, com pneumonia grave por influenza. Administrado oseltamivir e azitromicina EV. Instalada ventilação não invasiva com máscara facial total. Coletados painel viral respiratório e escarro para cultura. Realizado raio-x de tórax e tomografia de tórax sem contraste. Administrada metilprednisolona EV. Fisioterapia respiratória e nebulização com broncodilatador realizadas. Coletados lactato e gasometria arterial seriados.",

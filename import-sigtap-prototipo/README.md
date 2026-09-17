@@ -5,12 +5,12 @@ largura fixa (fixed-width) do SIGTAP/DATASUS para o PostgreSQL.
 
 ## O que tem aqui
 
-- `docker-compose.yml` — sobe um PostgreSQL 16 do zero
-- `gerar_ddl.py` — lê os arquivos de layout e gera `schema.sql` + `layouts.json`
-- `importar.py` — lê os arquivos de dados (largura fixa) e carrega no Postgres
-- `requirements.txt` — dependências Python
+- `docker-compose.yml` - sobe um PostgreSQL 16 do zero
+- `gerar_ddl.py` - lê os arquivos de layout e gera `schema.sql` + `layouts.json`
+- `importar.py` - lê os arquivos de dados (largura fixa) e carrega no Postgres
+- `requirements.txt` - dependências Python
 
-## Passo 1 — Organize os arquivos
+## Passo 1 - Organize os arquivos
 
 Coloque **na mesma pasta**:
 
@@ -19,13 +19,13 @@ Coloque **na mesma pasta**:
   `tb_descricao_layout.txt`, etc (se existirem soltos, eles têm prioridade
   sobre o que estiver no `layout.txt` mestre, caso haja divergência)
 - Todos os arquivos de **dados** (ex: `tb_procedimento.txt`,
-  `rl_procedimento_cid.txt`, etc.) — um arquivo de dados por tabela,
+  `rl_procedimento_cid.txt`, etc.) - um arquivo de dados por tabela,
   com o nome do arquivo igual ao nome da tabela.
 
 Essa pasta pode ser a mesma onde estão `docker-compose.py`, `gerar_ddl.py`
-etc, ou uma pasta separada — você passa o caminho como argumento.
+etc, ou uma pasta separada - você passa o caminho como argumento.
 
-## Passo 2 — Suba o Postgres
+## Passo 2 - Suba o Postgres
 
 ```bash
 docker compose up -d
@@ -40,13 +40,13 @@ Espere alguns segundos e confirme que está saudável:
 docker compose ps
 ```
 
-## Passo 3 — Instale as dependências Python
+## Passo 3 - Instale as dependências Python
 
 ```bash
 pip install -r requirements.txt
 ```
 
-## Passo 4 — Gere o schema (DDL)
+## Passo 4 - Gere o schema (DDL)
 
 ```bash
 python gerar_ddl.py /caminho/para/sua/pasta/com/layouts
@@ -57,11 +57,11 @@ Isso vai:
 2. Gerar `schema.sql` (os `CREATE TABLE`) dentro dessa mesma pasta
 3. Gerar `layouts.json` (usado no próximo passo)
 
-**Se a contagem de tabelas não bater com as 48 que você tem**, me avisa —
+**Se a contagem de tabelas não bater com as 48 que você tem**, me avisa -
 provavelmente há algum arquivo de layout com nome ou formato diferente do
 padrão `<nome_tabela>_layout.txt`, e eu ajusto o parser.
 
-## Passo 5 — Crie as tabelas no Postgres
+## Passo 5 - Crie as tabelas no Postgres
 
 ```bash
 psql -h localhost -U sigtap -d sigtap -f /caminho/para/sua/pasta/schema.sql
@@ -74,7 +74,7 @@ instalado localmente, dá pra rodar de dentro do container:
 docker compose exec -T postgres psql -U sigtap -d sigtap < /caminho/para/sua/pasta/schema.sql
 ```
 
-## Passo 6 — Importe os dados
+## Passo 6 - Importe os dados
 
 ```bash
 python importar.py /caminho/para/sua/pasta/com/dados \
@@ -115,9 +115,9 @@ Se a detecção automática errar para algum arquivo específico:
 python importar.py /caminho/para/sua/pasta --encoding latin-1 ...
 ```
 
-## Passo 7 — Aplique as foreign keys (opcional)
+## Passo 7 - Aplique as foreign keys (opcional)
 
-O `schema.sql` gerado cria só as colunas, sem constraints de FK — isso é
+O `schema.sql` gerado cria só as colunas, sem constraints de FK - isso é
 proposital, porque criar as FKs antes de popular os dados pode falhar caso
 a ordem de carga não respeite as dependências (ex: `rl_procedimento_cid`
 referencia `tb_procedimento` e `tb_cid`).
@@ -137,9 +137,9 @@ do mesmo jeito que fiz para o DDL.
 - Os campos `NUMBER` foram mapeados para `NUMERIC` sem precisão fixa, porque
   o layout fornecido não especifica quantas casas decimais cada campo tem
   (ex: `VL_SH`, valores monetários, provavelmente têm 2 decimais, mas isso
-  não está no layout — me avise se você tiver essa informação em algum outro
+  não está no layout - me avise se você tiver essa informação em algum outro
   lugar e eu ajusto).
-- `CREATE TABLE IF NOT EXISTS` — rodar o `schema.sql` de novo não dá erro,
+- `CREATE TABLE IF NOT EXISTS` - rodar o `schema.sql` de novo não dá erro,
   mas também não atualiza uma tabela já existente. Se mudar o layout, dropar
   a tabela antes (`DROP TABLE tb_x;`) ou rodar `docker compose down -v` para
   resetar o banco do zero.

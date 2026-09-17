@@ -111,11 +111,11 @@
   "_revisar_alvo_generico": {
     "_comentario": "Entradas REMOVIDAS do dicionário ativo porque o alvo era genérico demais e resolvia para um procedimento específico arbitrário (ver REGRA DE OURO acima). Ficam registradas aqui para não se perderem: se o setor de faturamento indicar qual é o código correto em cada contexto, reescreva a entrada com o alvo específico e mova de volta para 'sinonimos'.",
 
-    "raio x": "resolvia para RADIOGRAFIA DE LARINGE — depende da região anatômica",
-    "ultrassom": "resolvia para ULTRASSONOGRAFIA DE TIREOIDE — depende do órgão",
-    "hemotransfusao": "resolvia para TRANSFUSÃO DE CRIOPRECIPITADO — depende do hemocomponente (concentrado de hemácias, plasma, plaquetas...)",
-    "eletroencefalograma": "resolvia para EEG QUANTITATIVO C/ MAPEAMENTO — o SIGTAP tem várias modalidades de EEG e nenhuma genérica",
-    "fisioterapia respiratoria": "'atendimento fisioterapeutico' resolvia para PACIENTE NEONATO — o SIGTAP separa por condição e faixa etária",
+    "raio x": "resolvia para RADIOGRAFIA DE LARINGE - depende da região anatômica",
+    "ultrassom": "resolvia para ULTRASSONOGRAFIA DE TIREOIDE - depende do órgão",
+    "hemotransfusao": "resolvia para TRANSFUSÃO DE CRIOPRECIPITADO - depende do hemocomponente (concentrado de hemácias, plasma, plaquetas...)",
+    "eletroencefalograma": "resolvia para EEG QUANTITATIVO C/ MAPEAMENTO - o SIGTAP tem várias modalidades de EEG e nenhuma genérica",
+    "fisioterapia respiratoria": "'atendimento fisioterapeutico' resolvia para PACIENTE NEONATO - o SIGTAP separa por condição e faixa etária",
     "fisioterapia motora": "idem",
     "fisioterapia neurologica": "idem"
   },

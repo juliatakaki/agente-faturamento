@@ -2,7 +2,7 @@
   {
     "prontuario_id": "VAL001",
     "data_processamento": "2026-08-20T17:31:11.650266",
-    "modelo_utilizado": "api/groq — openai/gpt-oss-120b",
+    "modelo_utilizado": "api/groq - openai/gpt-oss-120b",
     "extrator": "llm",
     "orquestracao": "deterministica",
     "texto_prontuario": "Gestante, 28 anos, 39 semanas, admitida em trabalho de parto. Realizado US obstétrico à admissão com BCF presente. Optado por parto cesáreo por desproporção céfalo-pélvica. Realizada anestesia raquidiana. Cesariana sem intercorrências, recém-nascido com Apgar 9/10. Administrada ocitocina no pós-parto imediato. Coletado hemograma de controle e tipagem sanguínea. Realizada laqueadura tubária a pedido, com consentimento prévio em prontuário.",
@@ -147,7 +147,7 @@
   {
     "prontuario_id": "VAL002",
     "data_processamento": "2026-08-20T17:31:20.271086",
-    "modelo_utilizado": "api/groq — openai/gpt-oss-120b",
+    "modelo_utilizado": "api/groq - openai/gpt-oss-120b",
     "extrator": "llm",
     "orquestracao": "deterministica",
     "texto_prontuario": "Paciente masculino, 34 anos, vítima de acidente motociclístico, com fratura exposta de fêmur direito. Realizado RX de fêmur em duas incidências e TC de bacia. Indicada osteossíntese de fêmur com haste intramedular bloqueada. Realizado desbridamento de ferida e lavagem cirúrgica. Administrada cefazolina profilática. Instalada tração esquelética transesquelética no pré-operatório. Transfusão de concentrado de hemácias por queda de hemoglobina.",
@@ -266,7 +266,7 @@
   {
     "prontuario_id": "VAL003",
     "data_processamento": "2026-08-20T17:31:54.016758",
-    "modelo_utilizado": "api/groq — openai/gpt-oss-120b",
+    "modelo_utilizado": "api/groq - openai/gpt-oss-120b",
     "extrator": "llm",
     "orquestracao": "deterministica",
     "texto_prontuario": "Lactente de 8 meses, internado por bronquiolite viral aguda. Coletado HMG e PCR. Realizado RX tx evidenciando hiperinsuflação. Iniciada oxigenoterapia por cateter nasal a 1 L/min. Realizada aspiração de vias aéreas superiores de forma intermitente. Fisioterapia respiratória pediátrica realizada duas vezes ao dia. Pesquisa de vírus sincicial respiratório em aspirado de nasofaringe positiva. Mantida hidratação venosa.",
@@ -447,7 +447,7 @@
   {
     "prontuario_id": "VAL004",
     "data_processamento": "2026-08-20T17:33:57.442984",
-    "modelo_utilizado": "api/groq — openai/gpt-oss-120b",
+    "modelo_utilizado": "api/groq - openai/gpt-oss-120b",
     "extrator": "llm",
     "orquestracao": "deterministica",
     "texto_prontuario": "Paciente feminina, 52 anos, em tratamento de neoplasia de mama. Realizada implantação de cateter totalmente implantável para quimioterapia. Iniciado ciclo de doxorrubicina e ciclofosfamida conforme protocolo institucional. Coletados hemograma, função hepática e função renal previamente. Realizada mamografia bilateral de controle. Ecocardiograma solicitado para avaliação de fração de ejeção antes da antraciclina.",
@@ -569,7 +569,7 @@
   {
     "prontuario_id": "VAL005",
     "data_processamento": "2026-08-20T17:35:17.354851",
-    "modelo_utilizado": "api/groq — openai/gpt-oss-120b",
+    "modelo_utilizado": "api/groq - openai/gpt-oss-120b",
     "extrator": "llm",
     "orquestracao": "deterministica",
     "texto_prontuario": "Homem, 41 anos, trazido pelo SAMU após queda de altura. Realizado FAST à admissão, negativo para líquido livre. Solicitados GASO arterial, U/C, TGO/TGP e coagulograma. ECG sem alterações isquêmicas. Realizada TC de crânio, coluna cervical e abdome total. Puncionado acesso venoso periférico calibroso bilateral. Imobilização cervical mantida com colar. Sutura de laceração em couro cabeludo de aproximadamente 8 cm.",
@@ -740,7 +740,7 @@
   {
     "prontuario_id": "VAL006",
     "data_processamento": "2026-08-20T17:35:19.790128",
-    "modelo_utilizado": "api/groq — openai/gpt-oss-120b",
+    "modelo_utilizado": "api/groq - openai/gpt-oss-120b",
     "extrator": "llm",
     "orquestracao": "deterministica",
     "texto_prontuario": "Paciente evoluiu estável nas últimas 24 horas. Solicitado ecocardiograma transtorácico, ainda não realizado por indisponibilidade de agenda. A tomografia de abdome programada para hoje foi cancelada em razão de creatinina elevada. Foi coletado hemograma completo, com resultado dentro da normalidade. Não foi realizada a endoscopia digestiva alta, adiada para após compensação clínica. Mantida antibioticoterapia. Colonoscopia programada para a próxima semana em regime ambulatorial. Realizado curativo em úlcera sacral.",
@@ -832,7 +832,7 @@
   {
     "prontuario_id": "VAL007",
     "data_processamento": "2026-08-20T17:35:38.443158",
-    "modelo_utilizado": "api/groq — openai/gpt-oss-120b",
+    "modelo_utilizado": "api/groq - openai/gpt-oss-120b",
     "extrator": "llm",
     "orquestracao": "deterministica",
     "texto_prontuario": "Paciente masculino, 63 anos, com angina instável. Realizado cateterismo cardíaco por via radial direita. Angioplastia coronariana transluminal percutânea com implante de stent farmacológico em descendente anterior. Utilizado balão de angioplastia e fio-guia. Administrado clopidogrel e ácido acetilsalicílico. Realizado ecocardiograma transtorácico pós-procedimento. Curva de troponina seriada coletada.",
@@ -1015,7 +1015,7 @@
   {
     "prontuario_id": "VAL008",
     "data_processamento": "2026-08-20T17:36:09.049259",
-    "modelo_utilizado": "api/groq — openai/gpt-oss-120b",
+    "modelo_utilizado": "api/groq - openai/gpt-oss-120b",
     "extrator": "llm",
     "orquestracao": "deterministica",
     "texto_prontuario": "Paciente em programa de hemodiálise crônica, comparece para sessão de rotina. Realizada sessão de hemodiálise de 4 horas por fístula arteriovenosa. Coletados ureia pré e pós-diálise, creatinina, potássio, cálcio e fósforo. Realizada dosagem de paratormônio trimestral. Administrada eritropoetina subcutânea e ferro endovenoso. Avaliada fístula arteriovenosa com ultrassonografia com Doppler.",

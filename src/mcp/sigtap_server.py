@@ -137,10 +137,10 @@ def _carregar_dicionario() -> tuple[dict[str, list[str]], dict[str, str]]:
             dados = json.load(f)
     except FileNotFoundError:
         _log(f"[NIVEL0] AVISO: dicionário não encontrado em "
-             f"{_CAMINHO_SINONIMOS} — Nível 0 desativado.")
+             f"{_CAMINHO_SINONIMOS} - Nível 0 desativado.")
         return _sinonimos, _nao_faturavel
     except json.JSONDecodeError as e:
-        _log(f"[NIVEL0] ERRO de sintaxe no dicionário ({e}) — Nível 0 desativado.")
+        _log(f"[NIVEL0] ERRO de sintaxe no dicionário ({e}) - Nível 0 desativado.")
         return _sinonimos, _nao_faturavel
 
     for chave, alvos in (dados.get("sinonimos") or {}).items():
@@ -206,7 +206,7 @@ RETENTAR_SEM_FILTRO = os.getenv("SIGTAP_RETENTAR_SEM_FILTRO", "false").lower() =
 
 
 # ══════════════════════════════════════════════════════════════════════════
-# PONTUAÇÃO BIDIRECIONAL — o critério central de correspondência
+# PONTUAÇÃO BIDIRECIONAL - o critério central de correspondência
 # ══════════════════════════════════════════════════════════════════════════
 #
 # PROBLEMA QUE ISTO RESOLVE
@@ -416,7 +416,7 @@ def _obter_embeddings_tabela(tabela: pd.DataFrame) -> np.ndarray:
                 _log(f"[SEMANTICO] Cache reaproveitado ({len(cache)} linhas).")
                 _embeddings_tabela = cache
                 return _embeddings_tabela
-            _log("[SEMANTICO] Cache desatualizado (tabela mudou) — recalculando...")
+            _log("[SEMANTICO] Cache desatualizado (tabela mudou) - recalculando...")
 
         modelo = _carregar_modelo_embeddings()
         _log(f"[SEMANTICO] Calculando embeddings para {len(tabela)} descrições...")
@@ -541,7 +541,7 @@ def _carregar_do_postgres() -> pd.DataFrame:
             grupos = pd.read_sql_query(QUERY_GRUPOS, conn)
         engine.dispose()
     except ImportError:
-        _log("[SIGTAP] SQLAlchemy não instalado — usando psycopg2 direto.")
+        _log("[SIGTAP] SQLAlchemy não instalado - usando psycopg2 direto.")
         try:
             conn = psycopg2.connect(
                 **DB_CONFIG, connect_timeout=SIGTAP_DB_CONNECT_TIMEOUT
@@ -726,7 +726,7 @@ def _buscar_niveis_texto(
     palavras = _palavras_uteis(termo_norm) or [termo_norm]
     idf_total = sum(_idf_palavra(p) for p in palavras) or 1.0
 
-    # ── Nível 1 — todas as palavras do termo aparecem na descrição.
+    # ── Nível 1 - todas as palavras do termo aparecem na descrição.
     # A ordenação e a aceitação usam a pontuação bidirecional: entre os
     # candidatos que contêm o termo inteiro, vence o que traz menos
     # qualificadores estranhos.
@@ -740,7 +740,7 @@ def _buscar_niveis_texto(
         if not pontuados.empty:
             return pontuados, "nivel1", float(pontuados.iloc[0]["_score"])
 
-    # ── Nível 2 — parcial: subconjunto das palavras do termo aparece na
+    # ── Nível 2 - parcial: subconjunto das palavras do termo aparece na
     # descrição. Exige cobertura mínima de informação e, depois, passa pela
     # mesma pontuação bidirecional.
     def _cobertura(desc: str) -> float:
@@ -756,7 +756,7 @@ def _buscar_niveis_texto(
         if not pontuados.empty:
             return pontuados, "nivel2", float(pontuados.iloc[0]["_score"])
 
-    # ── Nível semântico — significado via embeddings, dentro do recorte.
+    # ── Nível semântico - significado via embeddings, dentro do recorte.
     if os.getenv("USAR_BUSCA_SEMANTICA", "true").lower() == "true" and not candidatos.empty:
         try:
             resultados, score_sem = _buscar_semantico(termo_norm, candidatos)
@@ -769,7 +769,7 @@ def _buscar_niveis_texto(
         except ImportError:
             _log("[SEMANTICO] AVISO: 'sentence-transformers' não instalado.")
 
-    # ── Nível 3 — fuzzy, com limiar alto. Nomes de analitos diferem por
+    # ── Nível 3 - fuzzy, com limiar alto. Nomes de analitos diferem por
     # prefixos curtos e o fuzzy os confunde (procalcitonina x calcitonina).
     if not candidatos.empty:
         scores = candidatos["descricao_norm"].apply(
@@ -788,7 +788,7 @@ def _buscar_niveis_texto(
 
 
 # ══════════════════════════════════════════════════════════════════════════
-# NÍVEL 4 — CICLO AGÊNTICO
+# NÍVEL 4 - CICLO AGÊNTICO
 # ══════════════════════════════════════════════════════════════════════════
 #
 # É AQUI que o sistema tem um agente. A diferença não está em usar um LLM
@@ -980,7 +980,7 @@ def _fallback_llm_agente(
             f'Categoria: {categoria or "não informada"}\n'
             f'Espaço de busca: {len(candidatos_base)} procedimentos do SIGTAP '
             f'compatíveis com essa categoria.\n\n'
-            f'JÁ FOI TENTADO, sem resultado: "{termo_norm_original}" — nas '
+            f'JÁ FOI TENTADO, sem resultado: "{termo_norm_original}" - nas '
             f'buscas exata, parcial, semântica e por similaridade. Repetir '
             f'esse mesmo termo daria exatamente o mesmo resultado.\n\n'
             f'Proponha um termo com PALAVRAS DIFERENTES, ou desista se '
@@ -1002,14 +1002,14 @@ def _fallback_llm_agente(
 
         if not decisao:
             _log(f"[NIVEL4] Tentativa {tentativa}: resposta não interpretável "
-                 f"como JSON — desistindo. Resposta: {conteudo[:120]!r}")
+                 f"como JSON - desistindo. Resposta: {conteudo[:120]!r}")
             return None
 
         acao = str(decisao.get("acao", "")).strip().lower()
         motivo = str(decisao.get("motivo", ""))[:160]
 
         if acao == "desistir":
-            _log(f"[NIVEL4] Tentativa {tentativa}: DESISTIR — {motivo}")
+            _log(f"[NIVEL4] Tentativa {tentativa}: DESISTIR - {motivo}")
             _log(f"[NIVEL4] ===== Ciclo de '{termo}' encerrado sem "
                  f"correspondência ({tentativa} tentativa(s)) =====")
             return None
@@ -1017,41 +1017,41 @@ def _fallback_llm_agente(
         if acao == "aceitar":
             if ultima_lista is None or ultima_lista.empty:
                 _log(f"[NIVEL4] Tentativa {tentativa}: tentou ACEITAR sem "
-                     f"lista de candidatos — desistindo.")
+                     f"lista de candidatos - desistindo.")
                 return None
 
             indice = _indice_valido(decisao.get("indice"), len(ultima_lista))
             if indice is None:
                 _log(f"[NIVEL4] Tentativa {tentativa}: índice inválido "
-                     f"({decisao.get('indice')!r}) — desistindo.")
+                     f"({decisao.get('indice')!r}) - desistindo.")
                 return None
 
             escolhido = ultima_lista.iloc[[indice]]
             _log(f"[NIVEL4] Tentativa {tentativa}: ACEITAR índice {indice} -> "
                  f"{escolhido.iloc[0]['descricao'][:60]} "
-                 f"({escolhido.iloc[0]['codigo']}) — {motivo}")
+                 f"({escolhido.iloc[0]['codigo']}) - {motivo}")
             _log(f"[NIVEL4] ===== Ciclo de '{termo}' resolvido em "
                  f"{tentativa} tentativa(s) =====")
             return escolhido, tentativa
 
         if acao != "buscar":
             _log(f"[NIVEL4] Tentativa {tentativa}: ação desconhecida "
-                 f"({acao!r}) — desistindo.")
+                 f"({acao!r}) - desistindo.")
             return None
 
         termo_sugerido = str(decisao.get("termo", "")).strip()
         if not termo_sugerido:
-            _log(f"[NIVEL4] Tentativa {tentativa}: BUSCAR sem termo — desistindo.")
+            _log(f"[NIVEL4] Tentativa {tentativa}: BUSCAR sem termo - desistindo.")
             return None
 
         termo_sugerido_norm = _normalizar(termo_sugerido).strip()
 
         if termo_sugerido_norm in tentados:
             _log(f"[NIVEL4] Tentativa {tentativa}: BUSCAR '{termo_sugerido}' "
-                 f"— JÁ TENTADO, avisando o modelo sem repetir a busca.")
+                 f"- JÁ TENTADO, avisando o modelo sem repetir a busca.")
             historico.append(AIMessage(content=conteudo))
             historico.append(HumanMessage(content=(
-                f'O termo "{termo_sugerido}" já foi tentado nesta sessão — a '
+                f'O termo "{termo_sugerido}" já foi tentado nesta sessão - a '
                 f'busca ignora maiúsculas, acentos e hífens, então o '
                 f'resultado seria idêntico.\n\n'
                 f'Já tentados: {", ".join(sorted(tentados))}\n\n'
@@ -1060,7 +1060,7 @@ def _fallback_llm_agente(
             continue
 
         tentados.add(termo_sugerido_norm)
-        _log(f"[NIVEL4] Tentativa {tentativa}: BUSCAR '{termo_sugerido}' — {motivo}")
+        _log(f"[NIVEL4] Tentativa {tentativa}: BUSCAR '{termo_sugerido}' - {motivo}")
 
         resultados, nivel_interno, _ = _buscar_niveis_texto(
             termo_sugerido_norm, candidatos_base
@@ -1158,7 +1158,7 @@ def _buscar_com_nivel(
     if nivel != "vazio":
         return resultados, nivel, score
 
-    # ── Nível 4 — ciclo agêntico, só para o que todos os níveis
+    # ── Nível 4 - ciclo agêntico, só para o que todos os níveis
     # determinísticos deixaram passar.
     if USAR_LLM_FALLBACK and not candidatos.empty:
         try:
@@ -1170,7 +1170,7 @@ def _buscar_com_nivel(
             _log(f"[NIVEL4] Erro inesperado no ciclo ({type(e).__name__}: {e}).")
 
     if RETENTAR_SEM_FILTRO and categoria:
-        _log(f"[SIGTAP] '{termo}' sem correspondência no grupo — retentando "
+        _log(f"[SIGTAP] '{termo}' sem correspondência no grupo - retentando "
              f"sem filtro (confiança baixa).")
         resultados, nivel, _ = _buscar_niveis_texto(termo_norm, tabela)
         if nivel != "vazio":

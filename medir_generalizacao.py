@@ -165,7 +165,7 @@ def resumir(relatorios: list[dict], chaves_dicionario: set[str]) -> dict:
 
 
 def _pct(parte: int, total: int) -> str:
-    return f"{parte / total:.0%}" if total else "—"
+    return f"{parte / total:.0%}" if total else "-"
 
 
 def _linha(rotulo: str, a: str, b: str) -> str:

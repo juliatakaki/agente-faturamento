@@ -1,5 +1,5 @@
 """
-main.py — Ponto de entrada único do protótipo.
+main.py - Ponto de entrada único do protótipo.
 
 Executa o fluxo completo de faturamento SUS de ponta a ponta:
 
@@ -66,11 +66,11 @@ MODELO_GOOGLE_PADRAO = os.getenv("MODELO_GOOGLE", "gemini-3.5-flash")
 
 # Cada opção: (rótulo exibido, provedor, modelo, é_api)
 OPCOES_MODELO = [
-    (f"Local — Ollama ({MODELO_OLLAMA_PADRAO})",
+    (f"Local - Ollama ({MODELO_OLLAMA_PADRAO})",
      "local", MODELO_OLLAMA_PADRAO, False),
-    (f"API — Groq ({MODELO_GROQ_PADRAO})",
+    (f"API - Groq ({MODELO_GROQ_PADRAO})",
      "groq", MODELO_GROQ_PADRAO, True),
-    (f"API — Google ({MODELO_GOOGLE_PADRAO})",
+    (f"API - Google ({MODELO_GOOGLE_PADRAO})",
      "google", MODELO_GOOGLE_PADRAO, True),
 ]
 
@@ -132,7 +132,7 @@ def selecionar_modelo_interativo():
     os.environ["PROVEDOR_API"] = provedor
     os.environ["MODELO_API"] = modelo
     print(f"\n-> Usando modelo via API ({provedor}): {modelo}\n")
-    return f"{provedor} — {modelo}"
+    return f"{provedor} - {modelo}"
 
 
 def _caminhos_padrao():
@@ -179,7 +179,7 @@ async def executar(entrada, json_intermediario, saida_relatorio, gerar_pdf=True)
 
     # ── Etapa 1: pipeline (NER -> LLM/MCP -> JSON consolidado) ──────────────
     print("=" * 60)
-    print("ETAPA 1/2 — Processando prontuários (NER + LLM + SIGTAP)")
+    print("ETAPA 1/2 - Processando prontuários (NER + LLM + SIGTAP)")
     print("=" * 60)
 
     if not os.path.exists(entrada):
@@ -195,7 +195,7 @@ async def executar(entrada, json_intermediario, saida_relatorio, gerar_pdf=True)
     # ── Etapa 2: geração do relatório final (.md e .pdf) ───────────────────
     print()
     print("=" * 60)
-    print("ETAPA 2/2 — Gerando relatório de faturamento")
+    print("ETAPA 2/2 - Gerando relatório de faturamento")
     print("=" * 60)
 
     os.makedirs(os.path.dirname(saida_relatorio), exist_ok=True)
@@ -207,7 +207,7 @@ async def executar(entrada, json_intermediario, saida_relatorio, gerar_pdf=True)
         f.write(md)
     print(f"Gerado: {caminho_md}")
 
-    # PDF (opcional — depende do reportlab)
+    # PDF (opcional - depende do reportlab)
     caminho_pdf = None
     if gerar_pdf:
         try:
@@ -215,7 +215,7 @@ async def executar(entrada, json_intermediario, saida_relatorio, gerar_pdf=True)
             gerar_relatorio.gerar_pdf(relatorios, caminho_pdf)
             print(f"Gerado: {caminho_pdf}")
         except ImportError:
-            print("AVISO: reportlab não instalado — PDF não gerado. "
+            print("AVISO: reportlab não instalado - PDF não gerado. "
                   "Instale com 'pip install reportlab' ou use --sem-pdf. "
                   "O relatório .md foi gerado normalmente.")
             caminho_pdf = None

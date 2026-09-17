@@ -185,7 +185,7 @@ def main():
             print()
         else:
             sem_indicio.append((termo, secao))
-            print(f"[ok    ] {termo}  ({secao}) — nenhum indício na tabela")
+            print(f"[ok    ] {termo}  ({secao}) - nenhum indício na tabela")
 
     conn.close()
 
@@ -196,7 +196,7 @@ def main():
     print(f"  Marcações sem indício na tabela:       {len(sem_indicio)}")
 
     if suspeitos:
-        print("\nTERMOS A REVER — o SIGTAP tem procedimentos cujo nome contém")
+        print("\nTERMOS A REVER - o SIGTAP tem procedimentos cujo nome contém")
         print("o termo (ou um sinônimo). Confira cada um: se algum for de fato")
         print("o item do prontuário, remova a entrada de 'nao_faturavel' no")
         print("JSON e, se necessário, crie um sinônimo apontando para ele.\n")

@@ -191,9 +191,9 @@ def _montar_config_mcp() -> dict:
 def _descrever_modelo_atual() -> str:
     """Descrição curta do modelo configurado, para conferência nos logs."""
     if os.getenv("PROVEDOR_LLM", "local").strip().lower() == "api":
-        return (f"api/{os.getenv('PROVEDOR_API', '?')} — "
+        return (f"api/{os.getenv('PROVEDOR_API', '?')} - "
                 f"{os.getenv('MODELO_API', '?')}")
-    return f"local/ollama — {os.getenv('MODELO_LOCAL', 'llama3.2')}"
+    return f"local/ollama - {os.getenv('MODELO_LOCAL', 'llama3.2')}"
 
 
 # ── Sessão MCP persistente ─────────────────────────────────────────────────
@@ -381,7 +381,7 @@ itens passíveis de faturamento hospitalar mencionados nele.
 
 Para cada item, informe TRÊS coisas: o termo, a categoria e o status.
 
-CATEGORIA — uma destas quatro:
+CATEGORIA - uma destas quatro:
 - PROCEDIMENTO: procedimentos clínicos e cirúrgicos
   (ex: "intubação orotraqueal", "laparotomia exploradora")
 - EXAME: exames laboratoriais ou de imagem
@@ -391,12 +391,12 @@ CATEGORIA — uma destas quatro:
 - MEDICAMENTO: medicamentos administrados
   (ex: "midazolam", "piperacilina-tazobactam")
 
-STATUS — esta é a parte mais importante. Prontuário registra tanto o que foi
+STATUS - esta é a parte mais importante. Prontuário registra tanto o que foi
 FEITO quanto o que foi apenas cogitado. Só o que foi realizado pode ser
 faturado; cobrar um exame que não aconteceu é irregularidade grave.
 - REALIZADO: o item foi efetivamente executado
   ("realizada laparotomia", "coletado hemograma", "administrado midazolam")
-- NAO_REALIZADO: o item foi mencionado mas NÃO executado — solicitado e
+- NAO_REALIZADO: o item foi mencionado mas NÃO executado - solicitado e
   ainda pendente, cancelado, suspenso, adiado, programado para depois, ou
   explicitamente negado
   ("solicitado ecocardiograma, ainda não realizado", "tomografia cancelada",
@@ -516,8 +516,26 @@ async def extrair_entidades_llm(texto_prontuario: str) -> list[dict]:
               f"Verifique a chave de API e a rede.")
         return []
 
+    # Normaliza o conteúdo da resposta para string. A maioria dos provedores
+    # devolve resposta.content como string, mas alguns (Gemini via LangChain)
+    # devolvem uma LISTA de blocos -- e _extrair_json_da_resposta faz .strip(),
+    # que quebra em lista. Aqui as partes de texto são unidas numa string.
+    conteudo = resposta.content
+    if isinstance(conteudo, list):
+        partes = []
+        for parte in conteudo:
+            if isinstance(parte, str):
+                partes.append(parte)
+            elif isinstance(parte, dict):
+                partes.append(parte.get("text", "") or parte.get("content", ""))
+            else:
+                partes.append(str(parte))
+        conteudo = "".join(partes)
+    elif not isinstance(conteudo, str):
+        conteudo = str(conteudo)
+
     try:
-        entidades = _extrair_json_da_resposta(resposta.content)
+        entidades = _extrair_json_da_resposta(conteudo)
     except (json.JSONDecodeError, ValueError) as e:
         print(f"  [EXTRATOR-LLM] AVISO: resposta não interpretável como JSON ({e}).")
         return []
@@ -696,7 +714,7 @@ def _tentar_json(texto: str) -> list[dict]:
 
 
 # ══════════════════════════════════════════════════════════════════════════
-# CONSULTA AO SIGTAP — laço determinístico
+# CONSULTA AO SIGTAP - laço determinístico
 # ══════════════════════════════════════════════════════════════════════════
 #
 # POR QUE UM LAÇO EM PYTHON, E NÃO O LLM ORQUESTRANDO
@@ -768,7 +786,7 @@ def _registrar_resultado(
     # encontrados", porque o significado para quem confere é oposto.
     if correspondencias and correspondencias[0].get("nivel") == "nao_faturavel":
         print(f"    [Não faturável] '{termo}' ({categoria or 'sem categoria'}) "
-              f"— marcado como sem código próprio no SIGTAP")
+              f"- marcado como sem código próprio no SIGTAP")
         if termo and termo not in nao_faturaveis:
             nao_faturaveis.append(termo)
         return
@@ -840,7 +858,7 @@ async def _consultar_sigtap(
         # consultar o SIGTAP: cai direto para revisão manual.
         if termo.lower() in _TERMOS_GENERICOS_REVISAR:
             print(f"    [Genérico - revisar] '{termo}' ({categoria or 'sem categoria'}) "
-                  f"— termo curto demais para diferenciar entre códigos próximos")
+                  f"- termo curto demais para diferenciar entre códigos próximos")
             if termo not in termos_ambiguos:
                 termos_ambiguos.append(termo)
             continue

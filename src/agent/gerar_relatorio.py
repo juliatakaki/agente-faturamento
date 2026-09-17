@@ -74,14 +74,14 @@ ROTULO_CONFIANCA = {
 TEXTO_PENDENCIA = (
     "Estes termos foram identificados no prontuário mas não puderam ser "
     "vinculados a um código SIGTAP pela busca automática. Podem representar "
-    "receita não faturada — recomenda-se conferência."
+    "receita não faturada."
 )
 
 TEXTO_MARCADO_SEM_CODIGO = (
     "O dicionário do sistema registra estes itens como não faturáveis "
     "separadamente (embutidos em outro procedimento ou fora do rol da "
     "tabela). Essa marcação NÃO foi validada pelo setor de faturamento e "
-    "já se mostrou incorreta em auditoria — conferir antes de descartar."
+    "já se mostrou incorreta em auditoria - conferir antes de descartar."
 )
 
 
@@ -98,11 +98,11 @@ def formatar_reais(valor: float) -> str:
 
 
 def _rotulo_nivel(codigo_nivel: str) -> str:
-    return ROTULO_NIVEL.get(codigo_nivel or "", codigo_nivel or "—")
+    return ROTULO_NIVEL.get(codigo_nivel or "", codigo_nivel or "-")
 
 
 def _rotulo_confianca(confianca: str) -> str:
-    return ROTULO_CONFIANCA.get(confianca or "", confianca or "—")
+    return ROTULO_CONFIANCA.get(confianca or "", confianca or "-")
 
 
 def _metadados_execucao(prontuarios: list[dict]) -> tuple[str, str]:
@@ -175,8 +175,8 @@ def gerar_markdown(prontuarios: list[dict]) -> str:
         linhas.append(f"**Consulta ao SIGTAP:** {orquestracao}")
     linhas.append("")
     linhas.append(
-        "> **Relatório de apoio ao faturamento — não substitui conferência "
-        "humana.** As correspondências são sugestões da busca automática e "
+        "> **Relatório de apoio ao faturamento.** "
+        "As correspondências são sugestões da busca automática e "
         "devem ser verificadas antes do envio, com prioridade para as de "
         "confiança **BAIXA**. O dicionário de termos usado pelo sistema ainda "
         "não foi validado pelo setor de faturamento."
@@ -237,7 +237,7 @@ def gerar_markdown(prontuarios: list[dict]) -> str:
 
         # ── Pendência: a busca não encontrou ───────────────────────────────
         if nao_encontrados:
-            linhas.append("> **Sem correspondência — verificação manual**  ")
+            linhas.append("> **Sem correspondência - verificação manual**  ")
             linhas.append(f"> {TEXTO_PENDENCIA}")
             linhas.append(">")
             for termo in nao_encontrados:
@@ -316,11 +316,11 @@ def _normalizar_basico(texto: str) -> str:
 # só encontrado/não encontrado/descartada, e por isso pintava de amarelo
 # ("encontrado") os termos marcados como sem código próprio -- afirmando no
 # texto o oposto do que a tabela do mesmo prontuário mostrava.
-COR_ENCONTRADO = "#fff2a8"       # amarelo  — código atribuído
-COR_BAIXA_CONFIANCA = "#ffd9a8"  # laranja  — código atribuído, conferir
-COR_NAO_ENCONTRADO = "#ffb3b3"   # vermelho — sem correspondência
-COR_NAO_FATURAVEL = "#dcdcdc"    # cinza    — marcado como sem código próprio
-COR_DESCARTADA = "#bcd8f5"       # azul     — fora das categorias faturáveis
+COR_ENCONTRADO = "#fff2a8"       # amarelo  - código atribuído
+COR_BAIXA_CONFIANCA = "#ffd9a8"  # laranja  - código atribuído, conferir
+COR_NAO_ENCONTRADO = "#ffb3b3"   # vermelho - sem correspondência
+COR_NAO_FATURAVEL = "#dcdcdc"    # cinza    - marcado como sem código próprio
+COR_DESCARTADA = "#bcd8f5"       # azul     - fora das categorias faturáveis
 
 # Prioridade na sobreposição: quanto maior, mais prevalece. O vermelho vence
 # porque uma pendência não pode ficar escondida sob outro destaque.
@@ -512,8 +512,8 @@ def gerar_pdf(prontuarios: list[dict], caminho_pdf: str) -> None:
             f"Consulta ao SIGTAP: {orquestracao}", estilo_normal))
 
     story.append(Paragraph(
-        "<b>Relatório de apoio ao faturamento — não substitui conferência "
-        "humana.</b> As correspondências abaixo são sugestões da busca "
+        "<b>Relatório de apoio ao faturamento.</b> "
+        "As correspondências abaixo são sugestões da busca "
         "automática e devem ser verificadas antes do envio, com prioridade "
         "para as de confiança <b>BAIXA</b>. Os itens que o sistema marcou "
         "como sem código próprio no SIGTAP também precisam de conferência: "
@@ -549,7 +549,7 @@ def gerar_pdf(prontuarios: list[dict], caminho_pdf: str) -> None:
                     'fora das categorias faturáveis' % COR_DESCARTADA
                 )
             bloco.append(Paragraph(
-                "Texto do prontuário — " + "; ".join(legenda) + ".",
+                "Texto do prontuário - " + "; ".join(legenda) + ".",
                 estilo_rotulo))
 
             texto_destacado = _destacar_termos_html(texto_pep, [
@@ -647,7 +647,7 @@ def gerar_pdf(prontuarios: list[dict], caminho_pdf: str) -> None:
         # ── Pendência: a busca não encontrou ───────────────────────────────
         if termos["nao_encontrados"]:
             bloco.append(Paragraph(
-                f"<b>Sem correspondência — verificação manual:</b> "
+                f"<b>Sem correspondência - verificação manual:</b> "
                 f"{TEXTO_PENDENCIA}",
                 estilo_nota_pendencia
             ))
