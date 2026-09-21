@@ -328,18 +328,26 @@ def _criar_llm_api(provedor_api: str, modelo: str):
     """
     Instancia o cliente do provedor escolhido. Imports tardios para que o
     agente rode em modo local sem ter todos os pacotes de API instalados.
+
+    max_tokens generoso em todos os provedores: prontuários grandes geram
+    listas longas de entidades, e modelos que "raciocinam" (ex.: gpt-oss)
+    consomem parte do limite de saída com raciocínio interno. Sem folga, a
+    resposta é cortada no meio (finish_reason='length') e o JSON fica
+    inválido -- foi o que truncava a extração dos prontuários mais extensos.
     """
     if provedor_api == "openai":
         from langchain_openai import ChatOpenAI
-        return ChatOpenAI(model=modelo, temperature=0)
+        return ChatOpenAI(model=modelo, temperature=0, max_tokens=8192)
 
     if provedor_api == "google":
         from langchain_google_genai import ChatGoogleGenerativeAI
-        return ChatGoogleGenerativeAI(model=modelo, temperature=0)
+        return ChatGoogleGenerativeAI(
+            model=modelo, temperature=0, max_output_tokens=8192
+        )
 
     if provedor_api == "anthropic":
         from langchain_anthropic import ChatAnthropic
-        return ChatAnthropic(model=modelo, temperature=0)
+        return ChatAnthropic(model=modelo, temperature=0, max_tokens=8192)
 
     if provedor_api == "groq":
         # A Groq expõe API compatível com a da OpenAI.
@@ -350,13 +358,13 @@ def _criar_llm_api(provedor_api: str, modelo: str):
         return ChatOpenAI(
             model=modelo, temperature=0, api_key=chave_groq,
             base_url="https://api.groq.com/openai/v1",
+            max_tokens=8192,
         )
 
     raise ValueError(
         f"PROVEDOR_API não suportado: '{provedor_api}'. "
         "Use 'openai', 'google', 'anthropic' ou 'groq'."
     )
-
 
 NLP = construir_ner()
 
@@ -555,9 +563,6 @@ async def extrair_entidades_llm(texto_prontuario: str) -> list[dict]:
                   f"tentativa {tentativa}/{MAX_TENTATIVAS}.")
             resposta = None
         except Exception as e:
-            # Rate limit (cota de API estourada) não adianta repetir agora --
-            # a cota reseta por minuto ou por dia. Interrompe o lote com uma
-            # mensagem clara em vez de deixar o traceback explodir.
             if _e_erro_de_cota(e):
                 raise RuntimeError(
                     "Cota da API do modelo esgotada (rate limit). O lote foi "
@@ -566,16 +571,13 @@ async def extrair_entidades_llm(texto_prontuario: str) -> list[dict]:
                     "outra chave/plano. Detalhe do provedor: "
                     f"{str(e)[:300]}"
                 ) from e
-            # Outros erros da API: trata como falha transitória e tenta de novo.
             print(f"  [EXTRATOR-LLM] erro na chamada ({type(e).__name__}) na "
                   f"tentativa {tentativa}/{MAX_TENTATIVAS}: {str(e)[:150]}")
             resposta = None
 
         if resposta is not None:
-            # Normaliza o conteúdo para string. A maioria dos provedores devolve
-            # resposta.content como string, mas alguns (Gemini via LangChain)
-            # devolvem uma LISTA de blocos -- e _extrair_json_da_resposta faz
-            # .strip(), que quebra em lista. Aqui as partes são unidas.
+            # Normaliza o conteúdo para string. Alguns provedores (Gemini via
+            # LangChain) devolvem resposta.content como LISTA de blocos.
             bruto = resposta.content
             if isinstance(bruto, list):
                 partes = []
@@ -592,11 +594,10 @@ async def extrair_entidades_llm(texto_prontuario: str) -> list[dict]:
 
             if bruto.strip():
                 conteudo = bruto
-                break  # resposta com conteúdo -> sai do laço de tentativas
+                break
             print(f"  [EXTRATOR-LLM] resposta vazia na tentativa "
                   f"{tentativa}/{MAX_TENTATIVAS}.")
 
-        # ainda há tentativas? espera (backoff) antes da próxima
         if tentativa < MAX_TENTATIVAS:
             espera = ESPERA_ENTRE_TENTATIVAS[tentativa - 1]
             print(f"  [EXTRATOR-LLM] repetindo em {espera}s...")
@@ -627,14 +628,10 @@ async def extrair_entidades_llm(texto_prontuario: str) -> list[dict]:
         if not texto or categoria not in CATEGORIAS_BUSCAVEIS:
             continue
 
-        # Status vindo do modelo; ausente é tratado como REALIZADO para não
-        # perder itens quando o modelo ignora o campo (o texto abaixo ainda
-        # pode rebaixá-lo).
         status = str(e.get("status", "")).strip().upper()
         if status != STATUS_NAO_REALIZADO:
             status = STATUS_REALIZADO
 
-        # Rede de segurança: o texto do prontuário pode contradizer o modelo.
         if status == STATUS_REALIZADO and _verificar_status_no_texto(
             texto, texto_prontuario
         ):
