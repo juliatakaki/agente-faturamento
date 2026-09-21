@@ -146,3 +146,39 @@ cistoprostatectomia radical
 urostomia à Bricker
 solução salina 0,9%
 cultura de swab
+limpeza de ferida
+expressão manual
+Swab
+evacuação
+curativo em AVC
+curativo em região sacra
+sutura integra
+limpeza com SF 0,9%
+antissepsia com clorexidina alcoólica
+oclução com gaze
+cama travada e grades elevadas
+ATC de DA
+CX
+Desmame
+Cateter de O2
+Sutura de FO da região external
+Sutura de MID lesão cavitária
+Ocluo com alginato
+Ocluo com gaze
+Hemodinamicamente estável
+Diurese presente
+Dieta por via oral
+Respiração espontânea
+Eupneica
+Anictérica
+Acianótica
+Hipocorada
+Afebril
+Instalo placa de alevyn
+Extremidades com pouca perfusão
+Ativa no leito
+Paciente com queixa álgica
+Cabeceira/grades elevadas
+Cama travada
+Vigilância hemodinâmica
+Cuidados intensivos

@@ -495,6 +495,12 @@ def gerar_pdf(prontuarios: list[dict], caminho_pdf: str) -> None:
         "NotaInfo", parent=styles["Normal"], fontSize=8,
         textColor=colors.HexColor("#555555"), leftIndent=6, spaceBefore=4,
     )
+    # Outras hipóteses (ranqueamento): candidatos alternativos para conferência
+    estilo_alternativas = ParagraphStyle(
+        "Alternativas", parent=styles["Normal"], fontSize=8,
+        textColor=colors.HexColor("#33506b"), leftIndent=6,
+        spaceBefore=4, spaceAfter=2,
+    )
     estilo_subtotal = ParagraphStyle(
         "Subtotal", parent=styles["Normal"], fontSize=10, alignment=2,  # direita
         spaceBefore=4, spaceAfter=8,
@@ -660,6 +666,30 @@ def gerar_pdf(prontuarios: list[dict], caminho_pdf: str) -> None:
                 f"Subtotal do prontuário {pront_id}: <b>{formatar_reais(subtotal)}</b>",
                 estilo_subtotal
             ))
+
+            # ── Outras hipóteses (ranqueamento) ────────────────────────────
+            # Para cada termo cujo código escolhido tem candidatos
+            # alternativos, lista as demais hipóteses ranqueadas (2ª, 3ª),
+            # para o faturista poder escolher outra em vez da primeira. Só
+            # entram os termos que de fato têm alternativas.
+            codigos_com_alt = [c for c in codigos if c.get("alternativas")]
+            if codigos_com_alt:
+                bloco.append(Paragraph(
+                    "<b>Outras hipóteses para conferência:</b>",
+                    estilo_alternativas
+                ))
+                for c in codigos_com_alt:
+                    origem = str(c.get("origem", ""))
+                    partes = []
+                    for i, alt in enumerate(c.get("alternativas", []), start=2):
+                        desc_alt = alt.get("descricao", "")
+                        cod_alt = alt.get("codigo", "")
+                        vl_alt = formatar_reais(alt.get("vl_total", 0.0))
+                        partes.append(f"{i}ª: {desc_alt} ({cod_alt}, {vl_alt})")
+                    bloco.append(Paragraph(
+                        f"<b>{origem}</b> → " + " · ".join(partes),
+                        estilo_alternativas
+                    ))
         else:
             bloco.append(Paragraph(
                 "Nenhum código SIGTAP foi vinculado a este prontuário.",
@@ -745,7 +775,7 @@ def gerar_pdf(prontuarios: list[dict], caminho_pdf: str) -> None:
 
     doc.build(story)
 
-
+    
 def main():
     parser = argparse.ArgumentParser(
         description="Gera relatório de faturamento SUS (.md e .pdf) a partir do JSON do pipeline"

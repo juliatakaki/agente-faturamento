@@ -491,6 +491,34 @@ def _verificar_status_no_texto(termo: str, texto_prontuario: str) -> bool:
         for marcador in _MARCADORES_NAO_REALIZADO
     )
 
+def _e_erro_de_cota(excecao: Exception) -> bool:
+    """
+    Detecta se a exceção é um estouro de cota / rate limit da API, de forma
+    robusta a qual provedor está em uso (a Groq usa a lib da OpenAI, o Google
+    tem a sua). Checa tanto o tipo da exceção quanto o texto da mensagem,
+    porque nem todo provedor expõe uma classe própria acessível aqui.
+    """
+    # Tenta reconhecer pela classe da OpenAI (usada por OpenAI e Groq),
+    # com import defensivo para não exigir o pacote quando se usa só Ollama.
+    try:
+        from openai import RateLimitError
+        if isinstance(excecao, RateLimitError):
+            return True
+    except ImportError:
+        pass
+
+    # Fallback pelo conteúdo da mensagem -- cobre outros provedores e o
+    # código HTTP 429, que é o padrão para "rate limit".
+    texto = str(excecao).lower()
+    return (
+        "rate limit" in texto
+        or "rate_limit" in texto
+        or "429" in texto
+        or "quota" in texto
+        or "tokens per day" in texto
+        or "tpd" in texto
+    )
+
 
 async def extrair_entidades_llm(texto_prontuario: str) -> list[dict]:
     """
@@ -500,6 +528,12 @@ async def extrair_entidades_llm(texto_prontuario: str) -> list[dict]:
     É AQUI, e não na orquestração, que faz sentido comparar modelos: ler um
     texto narrativo e decidir o que é item faturável -- e se foi realizado --
     é trabalho cognitivo real, com espaço amplo para os modelos divergirem.
+
+    A chamada ao LLM é repetida em caso de falha transitória (resposta vazia
+    ou timeout), com espera crescente entre tentativas. Já o estouro de cota
+    da API (rate limit) não é transitório dentro da execução -- a cota é por
+    minuto/dia --, então interrompe o lote com uma mensagem clara, em vez de
+    insistir à toa ou explodir com um traceback.
     """
     llm = criar_llm()
     mensagens = [
@@ -507,32 +541,71 @@ async def extrair_entidades_llm(texto_prontuario: str) -> list[dict]:
         HumanMessage(content=f"Texto do prontuário:\n\n{texto_prontuario}"),
     ]
 
-    try:
-        resposta = await asyncio.wait_for(
-            llm.ainvoke(mensagens), timeout=TIMEOUT_LLM_CHAMADA
-        )
-    except asyncio.TimeoutError:
-        print(f"  [EXTRATOR-LLM] TIMEOUT ({TIMEOUT_LLM_CHAMADA}s). "
-              f"Verifique a chave de API e a rede.")
-        return []
+    MAX_TENTATIVAS = 3
+    ESPERA_ENTRE_TENTATIVAS = [2, 4]  # segundos, backoff crescente
 
-    # Normaliza o conteúdo da resposta para string. A maioria dos provedores
-    # devolve resposta.content como string, mas alguns (Gemini via LangChain)
-    # devolvem uma LISTA de blocos -- e _extrair_json_da_resposta faz .strip(),
-    # que quebra em lista. Aqui as partes de texto são unidas numa string.
-    conteudo = resposta.content
-    if isinstance(conteudo, list):
-        partes = []
-        for parte in conteudo:
-            if isinstance(parte, str):
-                partes.append(parte)
-            elif isinstance(parte, dict):
-                partes.append(parte.get("text", "") or parte.get("content", ""))
-            else:
-                partes.append(str(parte))
-        conteudo = "".join(partes)
-    elif not isinstance(conteudo, str):
-        conteudo = str(conteudo)
+    conteudo = None
+    for tentativa in range(1, MAX_TENTATIVAS + 1):
+        try:
+            resposta = await asyncio.wait_for(
+                llm.ainvoke(mensagens), timeout=TIMEOUT_LLM_CHAMADA
+            )
+        except asyncio.TimeoutError:
+            print(f"  [EXTRATOR-LLM] TIMEOUT ({TIMEOUT_LLM_CHAMADA}s) na "
+                  f"tentativa {tentativa}/{MAX_TENTATIVAS}.")
+            resposta = None
+        except Exception as e:
+            # Rate limit (cota de API estourada) não adianta repetir agora --
+            # a cota reseta por minuto ou por dia. Interrompe o lote com uma
+            # mensagem clara em vez de deixar o traceback explodir.
+            if _e_erro_de_cota(e):
+                raise RuntimeError(
+                    "Cota da API do modelo esgotada (rate limit). O lote foi "
+                    "interrompido. Opções: aguardar o reset da cota, trocar de "
+                    "provedor no menu (ex.: Ollama local, sem cota) ou usar "
+                    "outra chave/plano. Detalhe do provedor: "
+                    f"{str(e)[:300]}"
+                ) from e
+            # Outros erros da API: trata como falha transitória e tenta de novo.
+            print(f"  [EXTRATOR-LLM] erro na chamada ({type(e).__name__}) na "
+                  f"tentativa {tentativa}/{MAX_TENTATIVAS}: {str(e)[:150]}")
+            resposta = None
+
+        if resposta is not None:
+            # Normaliza o conteúdo para string. A maioria dos provedores devolve
+            # resposta.content como string, mas alguns (Gemini via LangChain)
+            # devolvem uma LISTA de blocos -- e _extrair_json_da_resposta faz
+            # .strip(), que quebra em lista. Aqui as partes são unidas.
+            bruto = resposta.content
+            if isinstance(bruto, list):
+                partes = []
+                for parte in bruto:
+                    if isinstance(parte, str):
+                        partes.append(parte)
+                    elif isinstance(parte, dict):
+                        partes.append(parte.get("text", "") or parte.get("content", ""))
+                    else:
+                        partes.append(str(parte))
+                bruto = "".join(partes)
+            elif not isinstance(bruto, str):
+                bruto = str(bruto)
+
+            if bruto.strip():
+                conteudo = bruto
+                break  # resposta com conteúdo -> sai do laço de tentativas
+            print(f"  [EXTRATOR-LLM] resposta vazia na tentativa "
+                  f"{tentativa}/{MAX_TENTATIVAS}.")
+
+        # ainda há tentativas? espera (backoff) antes da próxima
+        if tentativa < MAX_TENTATIVAS:
+            espera = ESPERA_ENTRE_TENTATIVAS[tentativa - 1]
+            print(f"  [EXTRATOR-LLM] repetindo em {espera}s...")
+            await asyncio.sleep(espera)
+
+    if not conteudo:
+        print(f"  [EXTRATOR-LLM] falhou após {MAX_TENTATIVAS} tentativa(s) "
+              f"(resposta vazia ou timeout). Prontuário sem entidades.")
+        return []
 
     try:
         entidades = _extrair_json_da_resposta(conteudo)
@@ -574,7 +647,6 @@ async def extrair_entidades_llm(texto_prontuario: str) -> list[dict]:
         print(f"  [EXTRATOR-LLM] {len(rebaixadas)} item(ns) rebaixado(s) para "
               f"NÃO REALIZADO pelo contexto do texto: {', '.join(rebaixadas)}")
     return validas
-
 
 async def no_ner(estado: EstadoPipeline) -> EstadoPipeline:
     """
