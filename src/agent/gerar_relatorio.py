@@ -157,7 +157,6 @@ def _totais(prontuarios: list[dict]) -> dict:
     t["valor"] = round(t["valor"], 2)
     return t
 
-
 # ── Markdown ───────────────────────────────────────────────────────────────
 
 def gerar_markdown(prontuarios: list[dict]) -> str:
@@ -231,6 +230,30 @@ def gerar_markdown(prontuarios: list[dict]) -> str:
                 f"**Subtotal do prontuário {pront_id}: {formatar_reais(subtotal)}**"
             )
             linhas.append("")
+
+            # ── Outras hipóteses (ranqueamento) ────────────────────────────
+            # Para cada termo cujo código escolhido tem candidatos
+            # alternativos, lista as demais hipóteses ranqueadas, para o
+            # faturista poder escolher outra em vez da primeira. Só entram os
+            # termos que de fato têm alternativas.
+            codigos_com_alt = [
+                c for c in codigos if c.get("alternativas")
+            ]
+            if codigos_com_alt:
+                linhas.append("_Outras hipóteses para conferência:_")
+                linhas.append("")
+                for c in codigos_com_alt:
+                    origem = str(c.get("origem", "")).replace("|", "/")
+                    partes = []
+                    for i, alt in enumerate(c.get("alternativas", []), start=2):
+                        desc_alt = str(alt.get("descricao", "")).replace("|", "/")
+                        cod_alt = alt.get("codigo", "")
+                        vl_alt = formatar_reais(alt.get("vl_total", 0.0))
+                        partes.append(
+                            f"{i}ª: {desc_alt} ({cod_alt}, {vl_alt})"
+                        )
+                    linhas.append(f"- **{origem}** → " + " · ".join(partes))
+                linhas.append("")
         else:
             linhas.append("_Nenhum código SIGTAP foi vinculado a este prontuário._")
             linhas.append("")
@@ -286,7 +309,6 @@ def gerar_markdown(prontuarios: list[dict]) -> str:
     linhas.append("")
 
     return "\n".join(linhas)
-
 
 # ── Destaque do texto do prontuário ────────────────────────────────────────
 

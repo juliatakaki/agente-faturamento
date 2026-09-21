@@ -79,3 +79,70 @@ cultura de escarro
 função renal
 punção de acesso venoso periférico
 Meropenem
+tubo orotraqueal
+banho no leito
+curativo de acesso venoso central
+soro fisiológico 0,9%
+clorexidina alcoólica
+gaze
+filme transparente
+dobutamina
+antibiótico
+cateter de oxigênio
+alginato
+acesso venoso central
+urocultura
+dexmedetomidina
+ceftazidima-avibactam
+aztreonam
+amicacina
+linezolida
+micafungina
+gluconato de cálcio
+sonda nasogástrica
+solução fisiológica 0,9%
+ATC de DA e CX
+exame psíquico
+dreno hemovac
+urostomia de Bricker
+dipirona
+vasopressina
+solução fisiológica
+placa de hidropolímero
+expressão manual de fístula
+compressa estéril
+Unasyn
+Tigeciclina
+Poli B
+Mero
+Cefepime
+Tazocin
+Azitro
+Vanco
+Potássio
+Magnésio
+angiotomografia de tórax
+sonda vesical
+gastrostomia
+dreno torácico
+bactrim
+levofloxacino
+aciclovir
+fluconazol
+vancomicina oral
+cateter vesical
+VDRL
+painel viral
+tubo de traqueostomia
+amitriptilina
+glicazida
+metformina
+atenolol
+torgena
+polimixina B
+ceftriaxona
+precedex
+cistoprostatectomia radical
+urostomia à Bricker
+solução salina 0,9%
+cultura de swab

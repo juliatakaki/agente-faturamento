@@ -1045,13 +1045,17 @@ async def no_consulta_sigtap(estado: EstadoPipeline) -> EstadoPipeline:
         "entidades_descartadas": entidades_descartadas,
     }
 
-
 def no_relatorio(estado: EstadoPipeline) -> EstadoPipeline:
     """Consolida os resultados num relatório estruturado."""
     print("  [RELATÓRIO] Gerando relatório...")
 
     codigos_encontrados = {}
     for resultado in estado["resultados_sigtap"]:
+        # As alternativas são do RESULTADO (irmãs de "correspondencias"),
+        # não de cada correspondência. Ficam penduradas no código principal
+        # apenas como informação para conferência: não passam pela
+        # deduplicação nem entram no valor faturado.
+        alternativas = resultado.get("alternativas", [])
         for correspondencia in resultado.get("correspondencias", []):
             if not isinstance(correspondencia, dict) or "codigo" not in correspondencia:
                 continue
@@ -1072,6 +1076,19 @@ def no_relatorio(estado: EstadoPipeline) -> EstadoPipeline:
                     "confianca": correspondencia.get("confianca", ""),
                     "painel": bool(resultado.get("painel")),
                     "tentativas_agente": correspondencia.get("tentativas_agente"),
+                    # Outras hipóteses ranqueadas para o mesmo termo (2º, 3º
+                    # candidatos), para o faturista escolher. Só informativas.
+                    "alternativas": [
+                        {
+                            "codigo": a.get("codigo", ""),
+                            "descricao": a.get("descricao", ""),
+                            "vl_total": a.get("vl_total", 0.0),
+                            "nivel": a.get("nivel", ""),
+                            "confianca": a.get("confianca", ""),
+                        }
+                        for a in alternativas
+                        if isinstance(a, dict) and a.get("codigo")
+                    ],
                 }
 
     codigos = list(codigos_encontrados.values())
