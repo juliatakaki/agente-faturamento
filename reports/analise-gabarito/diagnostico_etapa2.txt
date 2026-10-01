@@ -1,0 +1,200 @@
+
+==========================================================================================
+1. TIPO DE NOTA (classificação por regex)
+==========================================================================================
+metodo              -  cabecalho  corpo  total
+tipo                                          
+medica              0         73     91    164
+nao_identificado  109          0      0    109
+fisioterapia        0          2     70     72
+enfermagem          0         59      4     63
+psicologia          0          4      0      4
+fonoaudiologia      0          3      0      3
+vazia               3          0      0      3
+servico_social      0          2      0      2
+total             112        143    165    420
+
+Primeira linha das 109 evoluções não identificadas (dígitos trocados por #):
+   28x  [ESTABELECIMENTO_SAUDE]
+    9x  #SSVV:
+    9x  PRESCRICAO DA TERAPIA NUTRICIONAL:
+    4x  EVOLUCAO
+    3x  PRESCRICAO NUTRICIONAL
+    3x  PACIENTE: [PACIENTE] [DOB] IDADE: [AGE] ANOS LEITO: [LOCAL]
+    2x  EM TEMPO:
+    2x  HOSPITAL UNIVERSITARIO DE BRASILIA ([ESTABELECIMENTO_SAUDE])
+    2x  EVOLUCAO DIURNA – ##/##/####
+    1x  ### REAPASSADA SNE. REALIZADO RX DE CONTROLE E SNE BEM POSICIONADA. DI
+    1x  FORMULARIOS ASG
+    1x  [NAME] [PESSOA], [AGE] ANOS
+    1x  DESCRICAO DE PROCEDIMENTO
+    1x  [ESTABELECIMENTO_SAUDE] - [ESTABELECIMENTO_SAUDE]
+    1x  ##.##.##- REALIZO SAFETY HUNDDLE COM EQUIPE MULTIPROFISSIONAL
+    1x  REAVALIACAO
+    1x  PACIENTE EVOLUIU COM PCR EM AESP POR PROVAVEL ROLHA. FEITO # MINUTOS D
+    1x  CIRURGIA CARDIOVASCULAR
+    1x  # MOTIVO DA ADMISSAO:
+    1x  # CIRURGIA DO APARELHO DIGESTIVO
+    1x  IMPRESSAO :
+    1x  # CONDUTA:
+    1x  EM TEMPO: PACIENTE RETORNA DO CENTRO CIRURGICO APOS AMPUTACAO POR DESA
+    1x  DESCRICAO PUNCAO DE PRESSAO ARTERIAL INVASIVA
+    1x  PACIENTE ORIENTADA NO INICIO DO PLANTAO , APATICA ,ASTENICA , EM USO D
+
+==========================================================================================
+2. CONFERÊNCIAS
+==========================================================================================
+label == 1 exatamente quando tem 03.01.01.004-8: True (divergências: 0)
+Linhas com 004-8 E 017-0 juntos: 0
+Linhas sem código, por tipo de nota:
+  medica              13 de 164
+  nao_identificado    17 de 109
+  fisioterapia         1 de 72
+  enfermagem           3 de 63
+  psicologia           0 de 4
+  fonoaudiologia       0 de 3
+  vazia                3 de 3
+  servico_social       1 de 2
+
+==========================================================================================
+3. CÓDIGO x TIPO DE NOTA  (% das notas daquele tipo que têm o código; códigos com >= 20 linhas)
+==========================================================================================
+                                           medica (n=164)  nao_identificado (n=109)  fisioterapia (n=72)  enfermagem (n=63)  psicologia (n=4)  fonoaudiologia (n=3)  vazia (n=3)  servico_social (n=2)
+codigo                                                                                                                                                                                                
+08.02.01.008-3 DIARIA DE UNIDADE DE TERAP              68                        44                   46                 38                50                     0            0                     0
+03.01.10.014-4 OXIGENOTERAPIA POR DIA                  34                        20                   49                 38                 0                    33            0                     0
+03.01.01.017-0 CONSULTA/AVALIAÇÃO EM PACI              57                        24                    4                  3                 0                     0            0                     0
+02.01.02.004-1 COLETA DE MATERIAL PARA EX              42                        25                   14                 13                25                     0            0                     0
+03.01.01.004-8 CONSULTA DE PROFISSIONAIS                7                        25                   40                 38               100                    67            0                    50
+03.09.01.004-7 NUTRIÇÃO ENTERAL EM ADULTO              17                        24                    3                 27                 0                    67            0                     0
+04.01.01.001-5 CURATIVO GRAU II C/ OU S/                8                        10                   10                 68                 0                     0            0                     0
+02.11.08.002-0 GASOMETRIA                              19                         6                   44                  3                 0                     0            0                     0
+03.02.04.002-1 ATENDIMENTO FISIOTERAPÊUTI               2                         1                   83                  0                 0                     0            0                     0
+03.02.05.002-7 ATENDIMENTO FISIOTERAPÊUTI               3                         1                   75                  0                 0                     0            0                     0
+03.01.10.007-1 CUIDADOS C/ TRAQUEOSTOMIA               10                         6                   25                 14                 0                     0            0                     0
+03.05.01.013-1 HEMODIÁLISE P/ PACIENTES R              12                         6                    6                 10                 0                    33            0                     0
+03.01.10.005-5 CATETERISMO VESICAL DE DEM               6                         5                    4                 16                 0                     0            0                     0
+03.09.01.010-1 PASSAGEM DE SONDA NASO ENT               5                        10                    1                 10                 0                    33            0                     0
+02.11.02.003-6 ELETROCARDIOGRAMA                        7                         5                    3                  5                 0                     0            0                     0
+02.14.01.001-5 GLICEMIA CAPILAR                         5                         7                    6                  2                 0                     0            0                     0
+
+==========================================================================================
+4. CÓDIGO x UNIDADE  (% das notas da unidade que têm o código)
+==========================================================================================
+                                           UTI ADULTO (n=229)  UTI CORONARIANA (n=191)
+codigo                                                                                
+08.02.01.008-3 DIARIA DE UNIDADE DE TERAP                  55                       48
+03.01.10.014-4 OXIGENOTERAPIA POR DIA                      42                       21
+03.01.01.017-0 CONSULTA/AVALIAÇÃO EM PACI                  28                       31
+02.01.02.004-1 COLETA DE MATERIAL PARA EX                  28                       26
+03.01.01.004-8 CONSULTA DE PROFISSIONAIS                   22                       25
+03.09.01.004-7 NUTRIÇÃO ENTERAL EM ADULTO                  22                       13
+04.01.01.001-5 CURATIVO GRAU II C/ OU S/                   19                       16
+02.11.08.002-0 GASOMETRIA                                  21                       13
+03.02.04.002-1 ATENDIMENTO FISIOTERAPÊUTI                  16                       15
+03.02.05.002-7 ATENDIMENTO FISIOTERAPÊUTI                  14                       15
+03.01.10.007-1 CUIDADOS C/ TRAQUEOSTOMIA                   17                        6
+03.05.01.013-1 HEMODIÁLISE P/ PACIENTES R                  10                        7
+03.01.10.005-5 CATETERISMO VESICAL DE DEM                   9                        4
+03.09.01.010-1 PASSAGEM DE SONDA NASO ENT                   7                        5
+02.11.02.003-6 ELETROCARDIOGRAMA                            2                        8
+02.14.01.001-5 GLICEMIA CAPILAR                             5                        5
+08.02.01.021-0 DIÁRIA DE UNIDADE DE TERAP                   0                        3
+
+Tipo de nota x unidade (nº de linhas):
+unidades_funcionais  UTI ADULTO  UTI CORONARIANA
+tipo                                            
+medica                       99               65
+nao_identificado             48               61
+fisioterapia                 41               31
+enfermagem                   34               29
+psicologia                    2                2
+fonoaudiologia                1                2
+vazia                         3                0
+servico_social                1                1
+
+==========================================================================================
+5. ANOTADORES (annotation_group)
+==========================================================================================
+       linhas  pacientes  media_codigos  %_sem_codigo  %_UTI_coronariana
+grupo                                                                   
+1          84         65           2.92          11.9               47.6
+2          84         59           2.51           4.8               45.2
+3          84         64           2.36          22.6               46.4
+4          84         63           4.44           4.8               42.9
+5          84         55           4.01           1.2               45.2
+
+Pacientes com evoluções em mais de um anotador: 83 de 150
+
+Mistura de tipos de nota por anotador (% das linhas do grupo):
+tipo              medica  nao_identificado  fisioterapia  enfermagem  psicologia  fonoaudiologia  vazia  servico_social
+annotation_group                                                                                                       
+1                   43.0              27.0          10.0        17.0         2.0             1.0    0.0             0.0
+2                   42.0              23.0          20.0        13.0         0.0             0.0    1.0             1.0
+3                   32.0              30.0          21.0        12.0         0.0             1.0    2.0             1.0
+4                   38.0              30.0          17.0        12.0         2.0             1.0    0.0             0.0
+5                   40.0              20.0          18.0        21.0         0.0             0.0    0.0             0.0
+
+Código x anotador (% das linhas do grupo que têm o código):
+                                           1 (n=84)  2 (n=84)  3 (n=84)  4 (n=84)  5 (n=84)
+codigo                                                                                     
+08.02.01.008-3 DIARIA DE UNIDADE DE TERAP        36        43        20        85        77
+03.01.10.014-4 OXIGENOTERAPIA POR DIA            24        19        37        35        49
+03.01.01.017-0 CONSULTA/AVALIAÇÃO EM PACI        52        51         0         0        44
+02.01.02.004-1 COLETA DE MATERIAL PARA EX        36        26         2        68         5
+03.01.01.004-8 CONSULTA DE PROFISSIONAIS          8        31         7        17        55
+03.09.01.004-7 NUTRIÇÃO ENTERAL EM ADULTO        26         8        17        21        17
+04.01.01.001-5 CURATIVO GRAU II C/ OU S/         15        13        21        18        20
+02.11.08.002-0 GASOMETRIA                        12        13        14        26        19
+03.02.04.002-1 ATENDIMENTO FISIOTERAPÊUTI        12        13        15        18        19
+03.02.05.002-7 ATENDIMENTO FISIOTERAPÊUTI        12        13        13        14        19
+03.01.10.007-1 CUIDADOS C/ TRAQUEOSTOMIA         13         4         0        30        12
+03.05.01.013-1 HEMODIÁLISE P/ PACIENTES R        10         5         6        19         5
+03.01.10.005-5 CATETERISMO VESICAL DE DEM         0         1        24         7         1
+03.09.01.010-1 PASSAGEM DE SONDA NASO ENT         1         0        23         6         2
+02.11.02.003-6 ELETROCARDIOGRAMA                  6         0         4        12         4
+02.14.01.001-5 GLICEMIA CAPILAR                   0         6         4        15         0
+
+Mesmo recorte, só notas de ENFERMAGEM e só notas MÉDICAS (isola o efeito do tipo de nota):
+
+-- enfermagem --
+                                           1 (n=14)  2 (n=11)  3 (n=10)  4 (n=10)  5 (n=18)
+codigo                                                                                     
+08.02.01.008-3 DIARIA DE UNIDADE DE TERAP         0        18         0        60        89
+03.01.10.014-4 OXIGENOTERAPIA POR DIA            14        36        50        40        50
+03.01.01.017-0 CONSULTA/AVALIAÇÃO EM PACI         0        18         0         0         0
+02.01.02.004-1 COLETA DE MATERIAL PARA EX         0         9         0        40        17
+03.01.01.004-8 CONSULTA DE PROFISSIONAIS         14        36        10         0        94
+03.09.01.004-7 NUTRIÇÃO ENTERAL EM ADULTO        14         9        10        40        50
+04.01.01.001-5 CURATIVO GRAU II C/ OU S/         79        73        90        30        67
+02.11.08.002-0 GASOMETRIA                         0         0         0         0        11
+03.02.04.002-1 ATENDIMENTO FISIOTERAPÊUTI         0         0         0         0         0
+03.02.05.002-7 ATENDIMENTO FISIOTERAPÊUTI         0         0         0         0         0
+03.01.10.007-1 CUIDADOS C/ TRAQUEOSTOMIA          7         9         0        30        22
+03.05.01.013-1 HEMODIÁLISE P/ PACIENTES R         7         9        10        10        11
+03.01.10.005-5 CATETERISMO VESICAL DE DEM         0         0        70        20         6
+03.09.01.010-1 PASSAGEM DE SONDA NASO ENT         0         0        40         0        11
+02.11.02.003-6 ELETROCARDIOGRAMA                  0         0         0        10        11
+02.14.01.001-5 GLICEMIA CAPILAR                   0         0         0        10         0
+
+-- medica --
+                                           1 (n=36)  2 (n=35)  3 (n=27)  4 (n=32)  5 (n=34)
+codigo                                                                                     
+08.02.01.008-3 DIARIA DE UNIDADE DE TERAP        69        66        26        97        76
+03.01.10.014-4 OXIGENOTERAPIA POR DIA            42        20        30        34        41
+03.01.01.017-0 CONSULTA/AVALIAÇÃO EM PACI        94        80         0         0        91
+02.01.02.004-1 COLETA DE MATERIAL PARA EX        69        46         4        81         3
+03.01.01.004-8 CONSULTA DE PROFISSIONAIS          0         6         4        19         9
+03.09.01.004-7 NUTRIÇÃO ENTERAL EM ADULTO        42        11        11        19         0
+04.01.01.001-5 CURATIVO GRAU II C/ OU S/          3         6        15        12         6
+02.11.08.002-0 GASOMETRIA                        22        26        11        31         3
+03.02.04.002-1 ATENDIMENTO FISIOTERAPÊUTI         6         0         0         6         0
+03.02.05.002-7 ATENDIMENTO FISIOTERAPÊUTI         6         0         0         9         0
+03.01.10.007-1 CUIDADOS C/ TRAQUEOSTOMIA         25         3         0        19         0
+03.05.01.013-1 HEMODIÁLISE P/ PACIENTES R        19         9         4        22         6
+03.01.10.005-5 CATETERISMO VESICAL DE DEM         0         0        30         6         0
+03.09.01.010-1 PASSAGEM DE SONDA NASO ENT         3         0        15         9         0
+02.11.02.003-6 ELETROCARDIOGRAMA                 11         0         4        16         3
+02.14.01.001-5 GLICEMIA CAPILAR                   0        11         0        12         0
+
+Saída gravada em C:\Users\user\Documents\Faculdade\TCC\prototipo\reports\analise-gabarito\diagnostico_etapa2.txt

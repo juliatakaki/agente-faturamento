@@ -390,14 +390,23 @@ itens passíveis de faturamento hospitalar mencionados nele.
 Para cada item, informe TRÊS coisas: o termo, a categoria e o status.
 
 CATEGORIA - uma destas quatro:
-- PROCEDIMENTO: procedimentos clínicos e cirúrgicos
-  (ex: "intubação orotraqueal", "laparotomia exploradora")
+- PROCEDIMENTO: procedimentos clínicos, cirúrgicos, terapêuticos e de
+  reabilitação (ex: "intubação orotraqueal", "laparotomia exploradora",
+  "fisioterapia respiratória", "fisioterapia motora", "nutrição enteral",
+  "hemodiálise", "transfusão de hemácias")
 - EXAME: exames laboratoriais ou de imagem
   (ex: "hemograma completo", "raio-x de tórax")
 - MATERIAL: materiais e insumos
   (ex: "cateter venoso central", "sonda vesical")
 - MEDICAMENTO: medicamentos administrados
   (ex: "midazolam", "piperacilina-tazobactam")
+
+ATO vs. DISPOSITIVO: quando o texto menciona uma terapia administrada por
+meio de um dispositivo, registre AMBOS separadamente, pois os dois podem ser
+faturáveis. Ex: "dieta por sonda nasoenteral" gera tanto "nutrição enteral"
+(o procedimento) quanto "sonda nasoenteral" (o material); "oxigênio por
+cateter nasal" gera a oxigenoterapia e o cateter. Não registre apenas o
+dispositivo, esquecendo o procedimento associado.
 
 STATUS - esta é a parte mais importante. Prontuário registra tanto o que foi
 FEITO quanto o que foi apenas cogitado. Só o que foi realizado pode ser
@@ -1029,6 +1038,88 @@ REGRAS IMPORTANTES:
 
     return resultados, nao_encontrados, nao_faturaveis
 
+# ── Regras de faturamento por tipo de documento ─────────────────────────────
+# Códigos que vêm do TIPO do documento, não de ação no texto. Etapa
+# DESLIGÁVEL por USAR_REGRAS_DOCUMENTO, para comparar desempenho com/sem.
+USAR_REGRAS_DOCUMENTO = os.getenv("USAR_REGRAS_DOCUMENTO", "false").strip().lower() == "true"
+
+_COD_CONSULTA_NAO_MEDICO = "03.01.01.004-8"
+_COD_CONSULTA_MEDICO = "03.01.01.017-0"
+_COD_DIARIA_UTI = "08.02.01.008-3"
+
+_MARCADORES_NAO_MEDICO = [
+    "evolucao de enfermagem",
+    "evolucao do servico de psicologia",
+    "evolucao de psicologia",
+    "evolucao de fisioterapia",
+]
+_MARCADORES_MEDICO = [
+    "evolucao medica",
+    "evolucao uti",
+    "evolucao clinica",
+]
+
+
+def _detectar_tipo_evolucao(texto_prontuario: str) -> str | None:
+    """Decide o tipo de documento pelo cabeçalho: 'medico', 'nao_medico' ou None."""
+    t = _normalizar_texto_simples(texto_prontuario)
+    for m in _MARCADORES_MEDICO:
+        if m in t:
+            return "medico"
+    for m in _MARCADORES_NAO_MEDICO:
+        if m in t:
+            return "nao_medico"
+    # genérico: menciona "evolucao" sem dizer de quem -> conta como médico
+    if "evolucao" in t:
+        return "medico"
+    return None
+
+
+async def _buscar_codigo_exato(ferramenta_busca_codigo, codigo: str) -> dict | None:
+    """Chama buscar_por_codigo (MCP) para obter descrição e valores de um código."""
+    if ferramenta_busca_codigo is None:
+        return None
+    try:
+        resposta = await ferramenta_busca_codigo.ainvoke({"codigo": codigo})
+    except Exception as e:
+        print(f"  [REGRA-DOC] falha ao buscar valores do código {codigo}: {e}")
+        return None
+    try:
+        dados = json.loads(resposta) if isinstance(resposta, str) else resposta
+    except (json.JSONDecodeError, TypeError):
+        return None
+    return dados if isinstance(dados, dict) else None
+
+
+async def _aplicar_regras_documento(ferramenta_busca_codigo, texto_prontuario: str) -> list[dict]:
+    """
+    Gera os códigos que vêm do TIPO do documento (consulta e diária), com os
+    valores buscados na tabela. Retorna correspondências no mesmo formato da
+    busca textual, marcadas com nivel='regra_documento'.
+    """
+    tipo = _detectar_tipo_evolucao(texto_prontuario)
+    if tipo is None:
+        return []
+    if tipo == "nao_medico":
+        codigos = [_COD_CONSULTA_NAO_MEDICO]
+    else:
+        codigos = [_COD_CONSULTA_MEDICO, _COD_DIARIA_UTI]
+
+    resultados = []
+    for codigo in codigos:
+        dados = await _buscar_codigo_exato(ferramenta_busca_codigo, codigo)
+        if dados:
+            dados["nivel"] = "regra_documento"
+            dados["score"] = 1.0
+            dados["confianca"] = "alta"
+            resultados.append({
+                "termo_buscado": f"[regra: {tipo}]",
+                "categoria": "PROCEDIMENTO",
+                "correspondencias": [dados],
+                "alternativas": [],
+                "painel": False,
+            })
+    return resultados
 
 async def no_consulta_sigtap(estado: EstadoPipeline) -> EstadoPipeline:
     """
@@ -1047,6 +1138,11 @@ async def no_consulta_sigtap(estado: EstadoPipeline) -> EstadoPipeline:
         raise RuntimeError(
             "Ferramenta 'buscar_procedimento' não encontrada no servidor MCP."
         )
+
+    # <<< REGRA: pega também a ferramenta de busca por código exato
+    ferramenta_busca_codigo = next(
+        (f for f in ferramentas if f.name == "buscar_por_codigo"), None
+    )
 
     # Filtro por categoria feito no CÓDIGO (determinístico).
     entidades_faturaveis = [
@@ -1078,9 +1174,6 @@ async def no_consulta_sigtap(estado: EstadoPipeline) -> EstadoPipeline:
               f"{', '.join(e['texto'] for e in nao_realizadas)}")
 
     if ORQUESTRACAO_POR_LLM:
-        # Modo legado (comparação do TCC 2): não aplica a checagem de termos
-        # genéricos, para não alterar o comportamento que está sendo
-        # reproduzido para fins de comparação.
         resultados, nao_encontrados, nao_faturaveis = await _consultar_sigtap_via_llm(
             entidades_buscaveis, ferramentas, ferramenta_busca
         )
@@ -1089,6 +1182,17 @@ async def no_consulta_sigtap(estado: EstadoPipeline) -> EstadoPipeline:
         resultados, nao_encontrados, nao_faturaveis, termos_ambiguos = await _consultar_sigtap(
             entidades_buscaveis, ferramenta_busca
         )
+
+    # <<< REGRA: aplica as regras de documento (se ligada) e junta ao resultado
+    if USAR_REGRAS_DOCUMENTO:
+        resultados_regra = await _aplicar_regras_documento(
+            ferramenta_busca_codigo, estado.get("texto", "")
+        )
+        if resultados_regra:
+            nomes = [r["correspondencias"][0].get("descricao", "") for r in resultados_regra]
+            print(f"  [REGRA-DOC] {len(resultados_regra)} código(s) por regra de "
+                  f"documento: {', '.join(nomes)}")
+            resultados = resultados + resultados_regra
 
     baixa_confianca = [
         r["termo_buscado"] for r in resultados

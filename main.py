@@ -62,14 +62,18 @@ from agent import gerar_relatorio
 #   MODELO_GROQ=openai/gpt-oss-20b python main.py
 MODELO_OLLAMA_PADRAO = os.getenv("MODELO_OLLAMA", "llama3.2")
 MODELO_GROQ_PADRAO = os.getenv("MODELO_GROQ", "openai/gpt-oss-120b")
+MODELO_GROQ_QWEN_PADRAO = os.getenv("MODELO_GROQ_QWEN", "qwen/qwen3.8-27b")
 MODELO_GOOGLE_PADRAO = os.getenv("MODELO_GOOGLE", "gemini-3.5-flash")
 
+# Cada opção: (rótulo exibido, provedor, modelo, é_api)
 # Cada opção: (rótulo exibido, provedor, modelo, é_api)
 OPCOES_MODELO = [
     (f"Local - Ollama ({MODELO_OLLAMA_PADRAO})",
      "local", MODELO_OLLAMA_PADRAO, False),
     (f"API - Groq ({MODELO_GROQ_PADRAO})",
      "groq", MODELO_GROQ_PADRAO, True),
+    (f"API - Groq ({MODELO_GROQ_QWEN_PADRAO})",
+     "groq", MODELO_GROQ_QWEN_PADRAO, True),
     (f"API - Google ({MODELO_GOOGLE_PADRAO})",
      "google", MODELO_GOOGLE_PADRAO, True),
 ]

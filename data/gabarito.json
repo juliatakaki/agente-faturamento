@@ -1,0 +1,86 @@
+{
+  "_descricao": "Gabarito (padrão-ouro) de faturamento dos prontuários HUB, conforme codificação de referência. Códigos normalizados ao formato do SIGTAP (NN.NN.NN.NNN-N) para casar com a saída do sistema.",
+  "gabarito": [
+    {
+      "prontuario_id": "HUB001",
+      "codigos": [
+        {"codigo": "03.01.01.004-8", "descricao": "CONSULTA DE PROFISSIONAIS DE NIVEL SUPERIOR NA ATENCAO ESPECIALIZADA (EXCETO MEDICO)"},
+        {"codigo": "04.01.01.001-5", "descricao": "CURATIVO GRAU II C/ OU S/ DEBRIDAMENTO"}
+      ]
+    },
+    {
+      "prontuario_id": "HUB002",
+      "codigos": [
+        {"codigo": "03.01.01.004-8", "descricao": "CONSULTA DE PROFISSIONAIS DE NIVEL SUPERIOR NA ATENCAO ESPECIALIZADA (EXCETO MEDICO)"}
+      ]
+    },
+    {
+      "prontuario_id": "HUB003",
+      "codigos": [
+        {"codigo": "03.01.01.004-8", "descricao": "CONSULTA DE PROFISSIONAIS DE NIVEL SUPERIOR NA ATENCAO ESPECIALIZADA (EXCETO MEDICO)"},
+        {"codigo": "04.01.01.001-5", "descricao": "CURATIVO GRAU II C/ OU S/ DEBRIDAMENTO"}
+      ]
+    },
+    {
+      "prontuario_id": "HUB004",
+      "codigos": [
+        {"codigo": "08.02.01.008-3", "descricao": "DIARIA DE UNIDADE DE TERAPIA INTENSIVA ADULTO (UTI II)"},
+        {"codigo": "03.01.01.017-0", "descricao": "CONSULTA/AVALIACAO EM PACIENTE INTERNADO"},
+        {"codigo": "02.01.02.004-1", "descricao": "COLETA DE MATERIAL PARA EXAME LABORATORIAL"},
+        {"codigo": "03.01.10.007-1", "descricao": "CUIDADOS C/ TRAQUEOSTOMIA"},
+        {"codigo": "03.01.10.014-4", "descricao": "OXIGENOTERAPIA POR DIA"},
+        {"codigo": "02.11.08.002-0", "descricao": "GASOMETRIA"}
+      ]
+    },
+    {
+      "prontuario_id": "HUB005",
+      "codigos": [
+        {"codigo": "03.02.04.002-1", "descricao": "ATENDIMENTO FISIOTERAPEUTICO EM PACIENTE COM TRANSTORNO RESPIRATORIO"},
+        {"codigo": "03.02.05.002-7", "descricao": "ATENDIMENTO FISIOTERAPEUTICO NAS ALTERACOES MOTORAS"}
+      ]
+    },
+    {
+      "prontuario_id": "HUB006",
+      "codigos": [
+        {"codigo": "08.02.01.008-3", "descricao": "DIARIA DE UNIDADE DE TERAPIA INTENSIVA ADULTO (UTI II)"},
+        {"codigo": "03.01.01.017-0", "descricao": "CONSULTA/AVALIACAO EM PACIENTE INTERNADO"},
+        {"codigo": "02.01.02.004-1", "descricao": "COLETA DE MATERIAL PARA EXAME LABORATORIAL"},
+        {"codigo": "03.01.10.007-1", "descricao": "CUIDADOS C/ TRAQUEOSTOMIA"},
+        {"codigo": "03.02.04.002-1", "descricao": "ATENDIMENTO FISIOTERAPEUTICO EM PACIENTE COM TRANSTORNO RESPIRATORIO"},
+        {"codigo": "03.02.05.002-7", "descricao": "ATENDIMENTO FISIOTERAPEUTICO NAS ALTERACOES MOTORAS"},
+        {"codigo": "03.01.10.014-4", "descricao": "OXIGENOTERAPIA POR DIA"},
+        {"codigo": "02.11.08.002-0", "descricao": "GASOMETRIA"}
+      ]
+    },
+    {
+      "prontuario_id": "HUB007",
+      "codigos": [
+        {"codigo": "04.01.01.001-5", "descricao": "CURATIVO GRAU II C/ OU S/ DEBRIDAMENTO"}
+      ]
+    },
+    {
+      "prontuario_id": "HUB008",
+      "codigos": [
+        {"codigo": "04.01.01.001-5", "descricao": "CURATIVO GRAU II C/ OU S/ DEBRIDAMENTO"}
+      ]
+    },
+    {
+      "prontuario_id": "HUB009",
+      "codigos": [
+        {"codigo": "08.02.01.008-3", "descricao": "DIARIA DE UNIDADE DE TERAPIA INTENSIVA ADULTO (UTI II)"},
+        {"codigo": "03.01.01.017-0", "descricao": "CONSULTA/AVALIACAO EM PACIENTE INTERNADO"},
+        {"codigo": "03.09.01.004-7", "descricao": "NUTRICAO ENTERAL EM ADULTO"}
+      ]
+    },
+    {
+      "prontuario_id": "HUB010",
+      "codigos": [
+        {"codigo": "08.02.01.008-3", "descricao": "DIARIA DE UNIDADE DE TERAPIA INTENSIVA ADULTO (UTI II)"},
+        {"codigo": "03.01.01.017-0", "descricao": "CONSULTA/AVALIACAO EM PACIENTE INTERNADO"},
+        {"codigo": "03.01.10.007-1", "descricao": "CUIDADOS C/ TRAQUEOSTOMIA"},
+        {"codigo": "03.01.10.014-4", "descricao": "OXIGENOTERAPIA POR DIA"},
+        {"codigo": "03.09.01.004-7", "descricao": "NUTRICAO ENTERAL EM ADULTO"}
+      ]
+    }
+  ]
+}

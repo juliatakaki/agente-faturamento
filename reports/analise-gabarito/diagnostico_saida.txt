@@ -1,0 +1,185 @@
+
+======================================================================
+1. ESTRUTURA
+======================================================================
+Linhas: 420
+Colunas (17): ['source_row_id', 'prontuario_hash', 'evolucoes', 'anamneses', 'itens_faturaveis', 'codigos_sigtap', 'qtde_itens_sigtap', 'annotation_group', 'annotation_group_row', 'unidades_funcionais', 'dthr_evolucao_dt', 'dthr_anamnese_dt', 'ano_evolucao', 'mes_evolucao', 'idade_na_evolucao', 'dias_anamnese_ate_evolucao', 'label']
+Colunas esperadas ausentes: []
+Colunas extras: []
+
+Taxa de nulos/vazios por coluna:
+  source_row_id                      0.0%
+  prontuario_hash                    0.0%
+  evolucoes                          0.7%
+  anamneses                          0.0%
+  itens_faturaveis                   9.0%
+  codigos_sigtap                     9.0%
+  qtde_itens_sigtap                  0.0%
+  annotation_group                   0.0%
+  annotation_group_row               0.0%
+  unidades_funcionais                0.0%
+  dthr_evolucao_dt                   0.0%
+  dthr_anamnese_dt                   0.0%
+  ano_evolucao                       0.0%
+  mes_evolucao                       0.0%
+  idade_na_evolucao                  0.0%
+  dias_anamnese_ate_evolucao         0.0%
+  label                              0.0%
+
+======================================================================
+2. CONSISTÊNCIA DO GABARITO
+======================================================================
+qtde_itens_sigtap == nº de códigos em codigos_sigtap: 100.0%
+códigos de itens_faturaveis == codigos_sigtap:        100.0%
+Linhas sem nenhum código: 38
+
+Distribuição de nº de códigos por linha:
+   0 códigos:    38 linhas (9.0%)
+   1 códigos:    61 linhas (14.5%)
+   2 códigos:    91 linhas (21.7%)
+   3 códigos:    58 linhas (13.8%)
+   4 códigos:    54 linhas (12.9%)
+   5 códigos:    37 linhas (8.8%)
+   6 códigos:    43 linhas (10.2%)
+   7 códigos:    20 linhas (4.8%)
+   8 códigos:    14 linhas (3.3%)
+   9 códigos:     4 linhas (1.0%)
+
+======================================================================
+3. FREQUÊNCIA DE CADA CÓDIGO (nº de linhas em que aparece)
+======================================================================
+Códigos distintos: 53
+Códigos com >= 20 linhas: 16
+Códigos com >= 50 linhas: 10
+
+  08.02.01.008-3    219  (52.1%)  DIARIA DE UNIDADE DE TERAPIA INTENSIVA ADULTO (UTI II)
+  03.01.10.014-4    137  (32.6%)  OXIGENOTERAPIA POR DIA
+  03.01.01.017-0    124  (29.5%)  CONSULTA/AVALIAÇÃO EM PACIENTE INTERNADO
+  02.01.02.004-1    115  (27.4%)  COLETA DE MATERIAL PARA EXAME LABORATORIAL
+  03.01.01.004-8     99  (23.6%)  CONSULTA DE PROFISSIONAIS DE NIVEL SUPERIOR NA ATENÇÃO ESPECIALIZADA (
+  03.09.01.004-7     75  (17.9%)  NUTRIÇÃO ENTERAL EM ADULTO
+  04.01.01.001-5     74  (17.6%)  CURATIVO GRAU II C/ OU S/ DEBRIDAMENTO
+  02.11.08.002-0     71  (16.9%)  GASOMETRIA
+  03.02.04.002-1     65  (15.5%)  ATENDIMENTO FISIOTERAPÊUTICO EM PACIENTE COM TRANSTORNO RESPIRATÓRIO S
+  03.02.05.002-7     60  (14.3%)  ATENDIMENTO FISIOTERAPÊUTICO NAS ALTERAÇÕES MOTORAS
+  03.01.10.007-1     49  (11.7%)  CUIDADOS C/ TRAQUEOSTOMIA
+  03.05.01.013-1     37  ( 8.8%)  HEMODIÁLISE P/ PACIENTES RENAIS AGUDOS / CRÔNICOS AGUDIZADOS S/ TRATAT
+  03.01.10.005-5     28  ( 6.7%)  CATETERISMO VESICAL DE DEMORA
+  03.09.01.010-1     27  ( 6.4%)  PASSAGEM DE SONDA NASO ENTERICA (INCLUI MATERIAL)
+  02.11.02.003-6     21  ( 5.0%)  ELETROCARDIOGRAMA
+  02.14.01.001-5     21  ( 5.0%)  GLICEMIA CAPILAR
+  03.02.06.002-2     16  ( 3.8%)  ATENDIMENTO FISIOTERAPÊUTICO EM PACIENTES COM DISTÚRBIOS NEURO-CINÉTIC
+  03.01.01.007-2     15  ( 3.6%)  CONSULTA MEDICA EM ATENÇÃO ESPECIALIZADA
+  02.05.01.003-2     12  ( 2.9%)  ECOCARDIOGRAFIA TRANSTORACICA
+  02.04.03.017-0     12  ( 2.9%)  RADIOGRAFIA DE TORAX (PA)
+  03.06.02.006-8      8  ( 1.9%)  TRANSFUSAO DE CONCENTRADO DE HEMACIAS
+  03.05.01.004-2      7  ( 1.7%)  HEMODIÁLISE CONTÍNUA
+  07.02.04.015-0      6  ( 1.4%)  CATETER VENOSO CENTRAL DUPLO LUMEN
+  04.06.03.001-4      6  ( 1.4%)  ANGIOPLASTIA CORONARIANA
+  08.02.01.021-0      6  ( 1.4%)  DIÁRIA DE UNIDADE DE TERAPIA INTENSIVA CORONARIANA-UCO TIPO II
+  02.06.02.003-1      4  ( 1.0%)  TOMOGRAFIA COMPUTADORIZADA DE TORAX
+  08.02.01.001-6      4  ( 1.0%)  DIARIA DE ACOMPANHANTE ADULTO (COM PERNOITE)
+  03.09.01.007-1      4  ( 1.0%)  NUTRICAO PARENTERAL EM ADULTO
+  02.06.03.001-0      4  ( 1.0%)  TOMOGRAFIA COMPUTADORIZADA DE ABDOMEN SUPERIOR
+  04.18.01.005-6      3  ( 0.7%)  IMPLANTE DE CATETER DUPLO LUMEN NA IRA (INCLUI CATETER)
+  02.06.01.007-9      3  ( 0.7%)  TOMOGRAFIA COMPUTADORIZADA DO CRANIO
+  02.06.03.003-7      3  ( 0.7%)  TOMOGRAFIA COMPUTADORIZADA DE PELVE / BACIA / ABDOMEN INFERIOR
+  02.02.03.120-9      3  ( 0.7%)  DOSAGEM DE TROPONINA
+  02.05.02.013-5      3  ( 0.7%)  ULTRASSONOGRAFIA DE TORAX (EXTRACARDIACA)
+  02.05.01.004-0      3  ( 0.7%)  ULTRASSONOGRAFIA DOPPLER COLORIDO DE VASOS
+  03.06.02.010-6      2  ( 0.5%)  TRANSFUSAO DE PLASMA FRESCO
+  04.15.04.004-3      2  ( 0.5%)  DEBRIDAMENTO DE ULCERA / NECROSE
+  02.11.05.004-0      1  ( 0.2%)  ELETROENCEFALOGRAMA EM VIGILIA E SONO ESPONTANEO C/ OU S/ FOTOESTIMULO
+  03.06.02.009-2      1  ( 0.2%)  TRANSFUSAO DE PLAQUETAS POR AFERESE
+  03.06.02.008-4      1  ( 0.2%)  TRANSFUSAO DE CRIOPRECIPITADO
+  04.18.02.003-5      1  ( 0.2%)  RETIRADA DE CATETER TIPO TENCKHOFF / SIMILAR DE LONGA PERMANÊNCIA
+  04.12.05.017-0      1  ( 0.2%)  TORACOCENTESE/DRENAGEM DE PLEURA
+  02.11.02.001-0      1  ( 0.2%)  CATETERISMO CARDIACO
+  02.09.01.003-7      1  ( 0.2%)  ESOFAGOGASTRODUODENOSCOPIA
+  02.01.01.040-2      1  ( 0.2%)  BIOPSIA DE PLEURA (POR ASPIRAÇÃO/AGULHA / PLEUROSCOPIA)
+  04.06.03.002-2      1  ( 0.2%)  ANGIOPLASTIA CORONARIANA C/ IMPLANTE DE DOIS STENTS
+  03.02.05.001-9      1  ( 0.2%)  ATENDIMENTO FISIOTERAPÊUTICO EM PACIENTES NO PRÉ E PÓS-OPERATÓRIO NAS 
+  03.02.02.003-9      1  ( 0.2%)  ATENDIMENTO FISIOTERAPÊUTICO EM PACIENTE NO PRÉ E PÓS CIRURGIA ONCOLÓG
+  03.02.02.002-0      1  ( 0.2%)  ATENDIMENTO FISIOTERAPÊUTICO EM PACIENTE ONCOLÓGICO CLÍNICO
+  06.03.05.010-7      1  ( 0.2%)  CLOPIDOGREL 75MG (COMPRIMIDO)
+  03.02.04.003-0      1  ( 0.2%)  ATENDIMENTO FISIOTERAPÊUTICO EM PACIENTE COM TRANSTORNO CLÍNICO CARDIO
+  03.02.06.004-9      1  ( 0.2%)  ATENDIMENTO FISIOTERAPÊUTICO EM PACIENTE C/ COMPROMETIMENTO COGNITIVO
+  03.09.06.001-0      1  ( 0.2%)  INSTALAÇÃO DE CATETER DUPLO LUMEN POR PUNÇÃO
+
+======================================================================
+4. PACIENTES E REPETIÇÃO
+======================================================================
+prontuario_hash distintos: 150
+Linhas por paciente: média 2.80, mediana 2, máx 13
+      1 linha(s): 62 pacientes
+      2 linha(s): 30 pacientes
+      3 linha(s): 16 pacientes
+    4-5 linha(s): 24 pacientes
+   6-10 linha(s): 17 pacientes
+    >10 linha(s): 1 pacientes
+
+Evoluções vazias: 3
+Textos de evolução duplicados exatamente (linhas extras): 0
+Linhas em que evolucoes == anamneses: 1
+Tamanho da evolução (caracteres): mediana 3754, p90 11286, máx 19232
+
+======================================================================
+5. TESTE DA HIPÓTESE 'GABARITO É DO DIA, NÃO DA NOTA'
+======================================================================
+Datas de evolução inválidas: 0
+Pares (paciente, dia) com mais de uma linha: 9
+  ... com textos de evolução diferentes entre si: 9
+  ... em que TODAS as linhas têm o mesmo conjunto de códigos: 1 (11.1%)
+  Jaccard médio entre linhas do mesmo dia: 0.179
+Base de comparação, mesmo paciente em dias consecutivos distintos: 261 pares, Jaccard médio 0.146
+(Jaccard do mesmo dia bem maior que o de dias distintos, com textos diferentes,
+ indica que o gabarito é do dia/conta e não da nota individual.)
+
+======================================================================
+6. COLUNAS DE AGRUPAMENTO E LABEL
+======================================================================
+annotation_group:
+  1                                                            84
+  2                                                            84
+  3                                                            84
+  4                                                            84
+  5                                                            84
+unidades_funcionais:
+  UTI ADULTO                                                   229
+  UTI CORONARIANA                                              191
+ano_evolucao:
+  2025                                                         420
+mes_evolucao:
+  2025-03                                                      44
+  2025-05                                                      44
+  2025-07                                                      42
+  2025-10                                                      39
+  2025-08                                                      39
+  2025-09                                                      36
+  2025-06                                                      36
+  2025-01                                                      31
+  2025-04                                                      30
+  2025-11                                                      27
+  2025-02                                                      26
+  2025-12                                                      26
+
+annotation_group_row por grupo (min, máx, nº linhas):
+  grupo 1: 1 a 84, 84 linhas
+  grupo 2: 1 a 84, 84 linhas
+  grupo 3: 1 a 84, 84 linhas
+  grupo 4: 1 a 84, 84 linhas
+  grupo 5: 1 a 84, 84 linhas
+
+label: 2 valores distintos, nulos 0.0%
+  0                                                                                321
+  1                                                                                99
+
+Nº médio de códigos por valor de label:
+  0                                                            3.05
+  1                                                            3.90
+
+Código mais frequente por valor de label (top 3):
+  0                                        08.02.01.008-3(169), 03.01.01.017-0(124), 02.01.02.004-1(102)
+  1                                        03.01.01.004-8(99), 08.02.01.008-3(50), 03.01.10.014-4(39)
+
+Saída gravada em C:\Users\user\Documents\Faculdade\TCC\prototipo\reports\analise-gabarito\diagnostico_saida.txt

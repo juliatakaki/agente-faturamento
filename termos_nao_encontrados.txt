@@ -182,3 +182,45 @@ Cabeceira/grades elevadas
 Cama travada
 Vigilância hemodinâmica
 Cuidados intensivos
+sorologia de Chagas
+ceftazidima
+filtro HME
+metoprolol
+losartana
+furosemida
+anfotericina B
+anidulofungina
+troca de tubo endotraqueal
+tubo endotraqueal
+mielograma
+imunofixação sérica
+aspiração traqueal
+imunofenotipagem por citometria de fluxo
+angiotomografia pulmonar
+ivermectina
+corticoide
+INR
+cultura de secreção
+monitorização hemodinâmica
+exame de bioquímica
+cateterismo venoso central
+cateter arterial braquial
+bilirrubina direta
+bilirrubina indireta
+angiotomografia
+HMC
+cateter de traqueostomia
+cateter vesical de demora
+gliclazida
+amikacina
+circuito de ventilação mecânica
+cateter de acesso interno
+banho
+cateter venoso central
+dreno de tórax
+sorologia Chagas
+cultura de secreção traqueal
+ampicilina-sulbactam
+cânula endotraqueal
+bioquímica sanguínea
+sonda de gastrostomia
