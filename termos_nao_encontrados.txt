@@ -224,3 +224,6 @@ ampicilina-sulbactam
 cânula endotraqueal
 bioquímica sanguínea
 sonda de gastrostomia
+alginate
+ajuste de pressão de cuff
+gastrostomia nasogástrica

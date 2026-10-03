@@ -13,7 +13,14 @@ O que faz
    usadas nas regras aparecem sem olhar o teste.
 3. Para cada código, soma os pesos das pistas encontradas no texto (score) e escolhe,
    só no treino, o limiar de score que maximiza o F1.
-4. Mede precisão, recall e F1 no teste, no total e por anotador.
+4. Classifica cada código como "direta" ou "candidato" pela precisão NO TREINO
+   (critério fixo PRECISAO_MINIMA_DIRETA, definido em src/agent/regras_texto.py).
+5. Mede precisão, recall e F1 no teste, no total e por anotador.
+6. Confere se o limiar e o modo derivados aqui batem com os fixados no módulo
+   regras_texto.py, que é o que o pipeline usa.
+
+As regras (pistas e pesos) são lidas de src/agent/regras_texto.py, a mesma fonte
+do pipeline, para o que é avaliado e o que roda nunca divergirem.
 
 Saídas em reports/analise-gabarito/
 - etapa3_regras.txt       relatório agregado
@@ -21,6 +28,7 @@ Saídas em reports/analise-gabarito/
                           predições, sem texto), para inspecionar os erros depois
 """
 import argparse
+import importlib.util
 import math
 import random
 import re
@@ -33,62 +41,22 @@ import pandas as pd
 RAIZ = Path(__file__).resolve().parents[2]
 PASTA_SAIDA = RAIZ / "reports" / "analise-gabarito"
 
+# Carrega src/agent/regras_texto.py pelo caminho do arquivo. Assim não importa o
+# pacote agent inteiro (que puxaria LangChain, MCP etc.), só o módulo de regras.
+_spec = importlib.util.spec_from_file_location(
+    "regras_texto", RAIZ / "src" / "agent" / "regras_texto.py")
+regras_texto = importlib.util.module_from_spec(_spec)
+_spec.loader.exec_module(regras_texto)
+
 SEMENTE = 42
 FRACAO_TESTE = 0.30
 
-# ----------------------------------------------------------------------
-# Regras. Cada código tem uma lista de (nome, regex, peso). O texto é
-# normalizado antes (minúsculas, sem acentos, tags de anonimização removidas).
-# Peso negativo = pista contra o código.
-# ----------------------------------------------------------------------
-REGRAS = {
-    "0401010015": ("CURATIVO GRAU II", [
-        ("realizo/realizado curativo", r"\brealiz\w*\s+(a\s+)?(troca\s+de\s+)?curativo", 3),
-        ("bloco curativos",            r"\bcurativos\b", 2),
-        ("curativo",                   r"\bcurativo\b", 1),
-        ("limpeza com sf",             r"\blimpeza\s+com\s+sf", 1),
-        ("clorexidina",                r"\bclorexidina\b", 1),
-        ("ocluo/oclusao",              r"\b(ocluo|ocluido|oclusao)\b", 1),
-        ("cobertura especial",         r"\b(alginato|hidrogel|hidrocoloide|espuma|alevyn|aguacel)\b", 1),
-        ("so mantenho curativo",       r"\bmantenho\s+curativo", -1),
-    ]),
-    "0211080020": ("GASOMETRIA", [
-        ("realizado/coletado gasometria", r"\b(realiz|colet)\w*\s+(a\s+)?gasometria", 3),
-        ("gasometria",                    r"\bgasometria\b", 1),
-        ("gasa/gaso",                     r"\bgas[ao]\b", 1),
-        ("ph",                            r"\bph\b", 1),
-        ("pao2/po2",                      r"\b(pao2|po2)\b", 1),
-        ("paco2/pco2",                    r"\b(paco2|pco2)\b", 1),
-        ("hco3/bic/be",                   r"\b(hco3|bic|be)\b", 1),
-    ]),
-    "0305010131": ("HEMODIALISE", [
-        ("hd",                  r"\bhd\b", 2),
-        ("hemodialise/dialise", r"\b(hemo)?dialise\b", 2),
-        ("uf",                  r"\buf\b", 2),
-        ("trs",                 r"\btrs\b", 1),
-        ("nefrologia",          r"\bnefro(logia)?\b", 1),
-        ("cdl",                 r"\bcdl\b", 1),
-    ]),
-    "0301100071": ("CUIDADOS C/ TRAQUEOSTOMIA", [
-        ("tqt",                 r"\btqt\b", 2),
-        ("traqueostomia",       r"\btraqueostomi\w*", 2),
-        ("cuff",                r"\bcuff\b", 1),
-        ("acoplado/via tqt",    r"\b(via|em|sob|por|acoplad\w*\s+a)\s+tqt\b", 1),
-        ("programar tqt",       r"\b(programar|programo|indicacao\s+de|aguarda\w*)\s+tqt\b", -2),
-    ]),
-    "0302040021": ("FISIOTERAPIA RESPIRATORIA", [
-        ("secao fisio respiratoria", r"\bfisioterapia\s+respiratoria\s*:", 3),
-        ("cabecalho fisioterapia",   r"\bevolucao\s+(de\s+|da\s+)?fisioterapia", 2),
-        ("monitorizacao ventilatoria", r"\bmonitorizacao\s+ventilatoria\b", 1),
-        ("aparelho locomotor",       r"\baparelho\s+locomotor\b", 1),
-    ]),
-    "0302050027": ("FISIOTERAPIA MOTORA", [
-        ("secao fisio motora",       r"\bfisioterapia\s+motora\s*:", 3),
-        ("cabecalho fisioterapia",   r"\bevolucao\s+(de\s+|da\s+)?fisioterapia", 2),
-        ("aparelho locomotor",       r"\baparelho\s+locomotor\b", 1),
-        ("cinesioterapia/sedestacao", r"\b(cinesioterapia|sedestacao|ortostatismo|mobilizacao)\b", 1),
-    ]),
-}
+# Regras no formato usado abaixo: {codigo_so_digitos: (nome, pistas)}
+REGRAS = {regras_texto.so_digitos(c): (r["rotulo"], r["pistas"])
+          for c, r in regras_texto.REGRAS.items()}
+LIMIAR_MODULO = {regras_texto.so_digitos(c): r["limiar"] for c, r in regras_texto.REGRAS.items()}
+MODO_MODULO = {regras_texto.so_digitos(c): r["modo"] for c, r in regras_texto.REGRAS.items()}
+PRECISAO_MINIMA_DIRETA = regras_texto.PRECISAO_MINIMA_DIRETA
 
 STOP = set("""a o as os e de da do das dos em no na nos nas com sem para por pelo pela pelos pelas um uma uns
 umas ao aos que se ou mas como mais menos muito ja nao sim foi ser esta estao seu sua seus suas ele ela eles
@@ -121,14 +89,7 @@ def carregar(caminho: Path) -> pd.DataFrame:
     return pd.read_csv(caminho, sep=sep, dtype=str, encoding="utf-8-sig")
 
 
-def normalizar(texto) -> str:
-    """Minúsculas, sem acentos, sem tags [ANONIMIZACAO], espaços colapsados. Mantém ':'."""
-    t = unicodedata.normalize("NFKD", str(texto))
-    t = "".join(c for c in t if not unicodedata.combining(c)).lower()
-    t = t.replace("²", "2")
-    t = re.sub(r"\[[^\]]*\]", " ", t)
-    t = re.sub(r"[^a-z0-9:]+", " ", t)
-    return re.sub(r"\s+", " ", t).strip()
+normalizar = regras_texto.normalizar
 
 
 def ngramas(texto_norm: str) -> set:
@@ -155,7 +116,7 @@ def formatar_codigo(c: str) -> str:
 
 
 def score(texto_norm: str, regras) -> int:
-    return sum(peso for _, rx, peso in regras if re.search(rx, texto_norm))
+    return regras_texto.pontuar(texto_norm, regras)[0]
 
 
 def metricas(ouro, pred):
@@ -263,10 +224,28 @@ def main():
         m_te = metricas(te[f"ouro_{c}"], te[f"pred_{c}"])
         resultados[c] = (nome, melhor, m_tr, m_te)
 
-    log(f"{'código':16s}{'nome':28s}{'limiar':>7s} | {'F1 treino':>9s} | {'TP':>4s}{'FP':>4s}{'FN':>4s} {'prec':>6s}{'rec':>6s}{'F1':>6s}  (teste)")
+    log(f"Modo: 'direta' se a precisão NO TREINO for >= {PRECISAO_MINIMA_DIRETA:.2f}, senão 'candidato'.")
+    log()
+    log(f"{'código':16s}{'nome':28s}{'limiar':>7s} | {'prec treino':>11s} {'modo':>10s} | "
+        f"{'TP':>4s}{'FP':>4s}{'FN':>4s} {'prec':>6s}{'rec':>6s}{'F1':>6s}  (teste)")
+    divergencias = []
     for c, (nome, L, mtr, mte) in resultados.items():
-        log(f"{formatar_codigo(c):16s}{nome:28s}{L:7d} | {fmt(mtr['f1']):>9s} | "
+        modo = (regras_texto.MODO_DIRETA if mtr["prec"] >= PRECISAO_MINIMA_DIRETA
+                else regras_texto.MODO_CANDIDATO)
+        log(f"{formatar_codigo(c):16s}{nome:28s}{L:7d} | {fmt(mtr['prec']):>11s} {modo:>10s} | "
             f"{mte['tp']:4d}{mte['fp']:4d}{mte['fn']:4d} {fmt(mte['prec'])} {fmt(mte['rec'])} {fmt(mte['f1'])}")
+        if L != LIMIAR_MODULO[c]:
+            divergencias.append(f"{formatar_codigo(c)}: limiar derivado {L}, no módulo {LIMIAR_MODULO[c]}")
+        if modo != MODO_MODULO[c]:
+            divergencias.append(f"{formatar_codigo(c)}: modo derivado {modo}, no módulo {MODO_MODULO[c]}")
+    log()
+    if divergencias:
+        log("ATENÇÃO: o que foi derivado aqui não bate com src/agent/regras_texto.py:")
+        for d in divergencias:
+            log(f"   {d}")
+        log("   Atualize 'limiar'/'modo' no módulo se a mudança for intencional.")
+    else:
+        log("Limiares e modos derivados no treino batem com src/agent/regras_texto.py.")
 
     tp = sum(r[3]["tp"] for r in resultados.values())
     fp = sum(r[3]["fp"] for r in resultados.values())
