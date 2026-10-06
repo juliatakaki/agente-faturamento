@@ -8,12 +8,28 @@ em dois formatos: Markdown (.md) e PDF.
 O relatório, por prontuário, lista cada código SIGTAP encontrado com seus
 três componentes de valor (SH, SA, SP), o total, o nível de busca que o
 resolveu e a confiança da correspondência; soma o valor do prontuário; e
-separa os termos que exigem atenção humana em duas listas distintas:
+separa os termos que exigem atenção humana em listas distintas:
 
   - SEM CORRESPONDÊNCIA: o termo existe no prontuário, deveria ter código,
     mas a busca não achou. Pode representar receita não faturada.
   - MARCADO COMO SEM CÓDIGO PRÓPRIO: o dicionário do sistema registra que o
     item não seria faturável separadamente.
+  - CANDIDATOS DE REGRA (out/2026): a regra de texto (src/agent/regras_texto.py)
+    achou indício do procedimento, mas o extrator não confirmou que ele foi
+    realizado nesta evolução. Não entram no valor.
+  - PARA REVISÃO (termos genéricos): termo curto demais para escolher um
+    código com segurança (ex.: "curativo" sozinho). A busca nem foi feita.
+  - CLASSIFICADOS COMO NÃO REALIZADOS: mencionados mas, segundo o sistema,
+    não executados nesta evolução. Não foram buscados nem entram no valor.
+
+Até out/2026 as duas últimas listas existiam no JSON do pipeline mas não
+apareciam no relatório: o "curativo" que o pipeline mandava "para revisão
+manual" nunca chegava ao faturista, e os não realizados eram pintados de
+amarelo no texto, com a legenda "código atribuído".
+
+Quando o extrator falha (timeout, erro de conexão, resposta inválida), o
+prontuário recebe um aviso no topo: os códigos que aparecem vêm só das
+regras, e a evolução precisa ser lida manualmente.
 
 CALIBRAÇÃO DA LINGUAGEM -- LEIA ANTES DE ALTERAR OS TEXTOS
 ----------------------------------------------------------
@@ -34,6 +50,11 @@ dizer "o sistema marcou" e não "não é faturável". A diferença não é de
 estilo: um faturista que lê a versão afirmativa não confere, e receita
 deixa de ser cobrada em silêncio.
 
+O mesmo cuidado vale para os candidatos de regra: o texto diz "há indício",
+não "foi realizado" nem "não foi realizado". Na avaliação da regra, a
+maior parte dos disparos sem confirmação era de procedimento já existente ou
+histórico, mas parte era procedimento feito e não codificado.
+
 Uso:
     python gerar_relatorio.py entrada.json
     python gerar_relatorio.py entrada.json --saida relatorio_sus
@@ -52,7 +73,8 @@ from datetime import datetime
 
 # Nível de busca que resolveu cada correspondência. Aparece no relatório
 # porque as garantias são muito diferentes entre eles: o Nível 0 é tradução
-# curada, enquanto o semântico e o do agente são aproximações.
+# curada, enquanto o semântico e o do agente são aproximações. As regras
+# não são busca: o código vem do tipo da nota ou de pistas no texto.
 ROTULO_NIVEL = {
     "nivel0": "Dicionário",
     "nivel1": "Exata",
@@ -60,6 +82,9 @@ ROTULO_NIVEL = {
     "nivel_semantico": "Semântica",
     "nivel3": "Similaridade",
     "nivel4": "Agente",
+    "regra_documento": "Regra de documento",
+    "regra_texto": "Regra de texto",
+    "regra_texto_confirmada": "Regra de texto (confirmada)",
 }
 
 ROTULO_CONFIANCA = {
@@ -68,7 +93,7 @@ ROTULO_CONFIANCA = {
     "baixa": "BAIXA",
 }
 
-# Texto usado nas duas notas por prontuário e no resumo. Centralizado aqui
+# Texto usado nas notas por prontuário e no resumo. Centralizado aqui
 # para que a calibração descrita no cabeçalho não se perca ao editar um
 # formato e esquecer o outro.
 TEXTO_PENDENCIA = (
@@ -82,6 +107,36 @@ TEXTO_MARCADO_SEM_CODIGO = (
     "separadamente (embutidos em outro procedimento ou fora do rol da "
     "tabela). Essa marcação NÃO foi validada pelo setor de faturamento e "
     "já se mostrou incorreta em auditoria - conferir antes de descartar."
+)
+
+TEXTO_CANDIDATOS = (
+    "As regras de texto encontraram indício destes procedimentos, mas o "
+    "extrator não confirmou que foram realizados nesta evolução. Eles NÃO "
+    "entram no valor sugerido. Conferir no texto se o procedimento foi feito "
+    "neste dia ou se é apenas menção (dispositivo já instalado, histórico, "
+    "valor transcrito)."
+)
+
+TEXTO_AMBIGUOS = (
+    "Termos genéricos demais para o sistema escolher um código com "
+    "segurança (ex.: 'curativo' sozinho pode ser curativo simples ou grau "
+    "II). A busca não foi feita; o código deve ser definido pelo faturista."
+)
+
+# "Classificados pelo sistema", e não "não realizados": a classificação é do
+# extrator e já variou entre execuções do mesmo prontuário (HUB005).
+TEXTO_NAO_REALIZADOS = (
+    "O sistema classificou estes itens como mencionados mas não realizados "
+    "nesta evolução (solicitados, programados, cancelados, suspensos ou "
+    "anteriores a ela). Eles não foram buscados e não entram no valor. A "
+    "classificação é automática e pode errar - conferir, principalmente "
+    "exames e procedimentos de valor alto."
+)
+
+TEXTO_FALHA_EXTRACAO = (
+    "A extração automática FALHOU neste prontuário. Os códigos abaixo vêm "
+    "apenas das regras de documento e de texto, e os demais procedimentos "
+    "não foram analisados. Esta evolução precisa ser lida manualmente."
 )
 
 
@@ -130,6 +185,20 @@ def _metadados_execucao(prontuarios: list[dict]) -> tuple[str, str]:
     return modelo, orquestracao
 
 
+def _config_regras(prontuarios: list[dict]) -> str:
+    """
+    Descreve se as regras de documento e de texto estavam ligadas, pelo que
+    o pipeline gravou. Relatórios gerados antes dessas flags existirem não
+    têm a informação, e isso é dito em vez de supor.
+    """
+    for p in prontuarios:
+        if "regras_documento" in p or "regras_texto" in p:
+            doc = "ligadas" if p.get("regras_documento") else "desligadas"
+            txt = "ligadas" if p.get("regras_texto") else "desligadas"
+            return f"regras de documento {doc}; regras de texto {txt}"
+    return "não informado"
+
+
 def _totais(prontuarios: list[dict]) -> dict:
     """
     Consolida os números do lote inteiro, separando o que é pendência do
@@ -138,8 +207,13 @@ def _totais(prontuarios: list[dict]) -> dict:
     t = {
         "codigos": 0,
         "codigos_com_valor": 0,
+        "codigos_por_regra": 0,
         "nao_encontrados": 0,
         "nao_faturaveis": 0,
+        "candidatos_regra": 0,
+        "ambiguos": 0,
+        "nao_realizados": 0,
+        "falhas_extracao": 0,
         "baixa_confianca": 0,
         "valor": 0.0,
     }
@@ -152,10 +226,41 @@ def _totais(prontuarios: list[dict]) -> dict:
                 t["codigos_com_valor"] += 1
             if c.get("confianca") == "baixa":
                 t["baixa_confianca"] += 1
+            if str(c.get("nivel", "")).startswith("regra_"):
+                t["codigos_por_regra"] += 1
         t["nao_encontrados"] += len(p.get("termos_nao_encontrados", []))
         t["nao_faturaveis"] += len(p.get("termos_nao_faturaveis", []))
+        t["candidatos_regra"] += len(p.get("candidatos_regra", []))
+        t["ambiguos"] += len(p.get("termos_ambiguos", []))
+        t["nao_realizados"] += len(p.get("termos_nao_realizados", []))
+        if p.get("falha_extracao"):
+            t["falhas_extracao"] += 1
     t["valor"] = round(t["valor"], 2)
     return t
+
+
+def _textos_nao_realizados(pront: dict) -> list[str]:
+    """Os não realizados vêm como dicts {texto, categoria}; aceita string também."""
+    saida = []
+    for item in pront.get("termos_nao_realizados", []):
+        texto = item.get("texto", "") if isinstance(item, dict) else str(item)
+        if texto.strip():
+            saida.append(texto.strip())
+    return saida
+
+
+def _descrever_nao_realizado(item) -> str:
+    """'ecocardiograma (EXAME)'"""
+    if isinstance(item, dict):
+        cat = item.get("categoria", "")
+        return f"{item.get('texto', '')} ({cat.lower()})" if cat else item.get("texto", "")
+    return str(item)
+
+
+def _descrever_candidato(cand: dict) -> str:
+    """'GASOMETRIA (02.11.08.002-0) - pistas: ph, pao2/po2'"""
+    pistas = ", ".join(cand.get("pistas", []))
+    return f"{cand.get('descricao', '')} ({cand.get('codigo', '')}) - pistas: {pistas}"
 
 # ── Markdown ───────────────────────────────────────────────────────────────
 
@@ -171,7 +276,8 @@ def gerar_markdown(prontuarios: list[dict]) -> str:
     linhas.append(f"**Total de prontuários processados:** {len(prontuarios)}  ")
     linhas.append(f"**Modelo utilizado:** {modelo}  ")
     if orquestracao:
-        linhas.append(f"**Consulta ao SIGTAP:** {orquestracao}")
+        linhas.append(f"**Consulta ao SIGTAP:** {orquestracao}  ")
+    linhas.append(f"**Regras:** {_config_regras(prontuarios)}")
     linhas.append("")
     linhas.append(
         "> **Relatório de apoio ao faturamento.** "
@@ -187,11 +293,19 @@ def gerar_markdown(prontuarios: list[dict]) -> str:
         codigos = pront.get("codigos_sigtap", [])
         nao_encontrados = pront.get("termos_nao_encontrados", [])
         nao_faturaveis = pront.get("termos_nao_faturaveis", [])
+        candidatos = pront.get("candidatos_regra", [])
+        falha = pront.get("falha_extracao", "")
 
         linhas.append("---")
         linhas.append("")
         linhas.append(f"## Prontuário: {pront_id}")
         linhas.append("")
+
+        # ── Falha do extrator: aviso antes de tudo ─────────────────────────
+        if falha:
+            linhas.append(f"> ⚠️ **{TEXTO_FALHA_EXTRACAO}**  ")
+            linhas.append(f"> Motivo: {falha}.")
+            linhas.append("")
 
         if codigos:
             linhas.append(
@@ -278,6 +392,35 @@ def gerar_markdown(prontuarios: list[dict]) -> str:
                 linhas.append(f"> - {termo}")
             linhas.append("")
 
+        # ── Termos genéricos: código a definir pelo faturista ──────────────
+        ambiguos = pront.get("termos_ambiguos", [])
+        if ambiguos:
+            linhas.append("> **Para revisão - termo genérico, código a definir**  ")
+            linhas.append(f"> {TEXTO_AMBIGUOS}")
+            linhas.append(">")
+            for termo in ambiguos:
+                linhas.append(f"> - {termo}")
+            linhas.append("")
+
+        # ── Classificados como não realizados ──────────────────────────────
+        nao_realizados = pront.get("termos_nao_realizados", [])
+        if nao_realizados:
+            linhas.append("> **Classificados pelo sistema como não realizados nesta evolução**  ")
+            linhas.append(f"> {TEXTO_NAO_REALIZADOS}")
+            linhas.append(">")
+            for item in nao_realizados:
+                linhas.append(f"> - {_descrever_nao_realizado(item)}")
+            linhas.append("")
+
+        # ── Candidatos de regra sem confirmação ────────────────────────────
+        if candidatos:
+            linhas.append("> **Indício pelas regras de texto, sem confirmação - conferir**  ")
+            linhas.append(f"> {TEXTO_CANDIDATOS}")
+            linhas.append(">")
+            for cand in candidatos:
+                linhas.append(f"> - {_descrever_candidato(cand)}")
+            linhas.append("")
+
     # ── Resumo consolidado ────────────────────────────────────────────────
     t = _totais(prontuarios)
     linhas.append("---")
@@ -285,7 +428,13 @@ def gerar_markdown(prontuarios: list[dict]) -> str:
     linhas.append("## Resumo Consolidado")
     linhas.append("")
     linhas.append(f"- **Prontuários processados:** {len(prontuarios)}")
+    if t["falhas_extracao"]:
+        linhas.append(
+            f"- **Prontuários com FALHA na extração (ler manualmente):** "
+            f"{t['falhas_extracao']}"
+        )
     linhas.append(f"- **Códigos SIGTAP atribuídos:** {t['codigos']}")
+    linhas.append(f"- **Códigos atribuídos por regra:** {t['codigos_por_regra']}")
     linhas.append(
         f"- **Códigos com valor maior que zero:** {t['codigos_com_valor']}"
     )
@@ -299,6 +448,17 @@ def gerar_markdown(prontuarios: list[dict]) -> str:
     linhas.append(
         f"- **Termos marcados como sem código próprio (conferir marcação):** "
         f"{t['nao_faturaveis']}"
+    )
+    linhas.append(
+        f"- **Indícios de regra sem confirmação (conferir, fora do valor):** "
+        f"{t['candidatos_regra']}"
+    )
+    linhas.append(
+        f"- **Termos genéricos para revisão (código a definir):** {t['ambiguos']}"
+    )
+    linhas.append(
+        f"- **Classificados como não realizados (conferir, fora do valor):** "
+        f"{t['nao_realizados']}"
     )
     linhas.append(f"- **VALOR TOTAL SUGERIDO:** {formatar_reais(t['valor'])}")
     linhas.append("")
@@ -343,15 +503,19 @@ COR_BAIXA_CONFIANCA = "#ffd9a8"  # laranja  - código atribuído, conferir
 COR_NAO_ENCONTRADO = "#ffb3b3"   # vermelho - sem correspondência
 COR_NAO_FATURAVEL = "#dcdcdc"    # cinza    - marcado como sem código próprio
 COR_DESCARTADA = "#bcd8f5"       # azul     - fora das categorias faturáveis
+COR_AMBIGUO = "#c9e4de"          # verde    - genérico, código a definir
+COR_NAO_REALIZADO = "#e1d5e7"    # lilás    - classificado como não realizado
 
 # Prioridade na sobreposição: quanto maior, mais prevalece. O vermelho vence
 # porque uma pendência não pode ficar escondida sob outro destaque.
 PRIORIDADE_COR = {
     COR_DESCARTADA: 1,
     COR_NAO_FATURAVEL: 2,
-    COR_ENCONTRADO: 3,
-    COR_BAIXA_CONFIANCA: 4,
-    COR_NAO_ENCONTRADO: 5,
+    COR_NAO_REALIZADO: 3,
+    COR_ENCONTRADO: 4,
+    COR_AMBIGUO: 5,
+    COR_BAIXA_CONFIANCA: 6,
+    COR_NAO_ENCONTRADO: 7,
 }
 
 
@@ -435,6 +599,8 @@ def _classificar_termos(pront: dict) -> dict:
     nao_encontrados = [t for t in pront.get("termos_nao_encontrados", []) if t]
     nao_faturaveis = [t for t in pront.get("termos_nao_faturaveis", []) if t]
     descartadas = [t for t in pront.get("entidades_descartadas", []) if t]
+    ambiguos = [t for t in pront.get("termos_ambiguos", []) if t]
+    nao_realizados = _textos_nao_realizados(pront)
 
     # Termos cuja correspondência ficou com confiança baixa: recebem cor
     # própria para que a conferência humana comece por eles.
@@ -446,7 +612,8 @@ def _classificar_termos(pront: dict) -> dict:
 
     ja_classificados = {
         _normalizar_basico(t.strip())
-        for t in nao_encontrados + nao_faturaveis + descartadas + baixa_confianca
+        for t in (nao_encontrados + nao_faturaveis + descartadas + baixa_confianca
+                  + ambiguos + nao_realizados)
     }
     encontrados = [
         e for e in entidades
@@ -459,6 +626,8 @@ def _classificar_termos(pront: dict) -> dict:
         "nao_encontrados": nao_encontrados,
         "nao_faturaveis": nao_faturaveis,
         "descartadas": descartadas,
+        "ambiguos": ambiguos,
+        "nao_realizados": nao_realizados,
     }
 
 
@@ -495,6 +664,28 @@ def gerar_pdf(prontuarios: list[dict], caminho_pdf: str) -> None:
         "NotaInfo", parent=styles["Normal"], fontSize=8,
         textColor=colors.HexColor("#555555"), leftIndent=6, spaceBefore=4,
     )
+    # Candidatos de regra (roxo): indício no texto, sem confirmação
+    estilo_nota_candidato = ParagraphStyle(
+        "NotaCandidato", parent=styles["Normal"], fontSize=8,
+        textColor=colors.HexColor("#5b3f7a"), leftIndent=6, spaceBefore=4,
+    )
+    # Termos genéricos (verde escuro): código a definir pelo faturista
+    estilo_nota_ambiguo = ParagraphStyle(
+        "NotaAmbiguo", parent=styles["Normal"], fontSize=8,
+        textColor=colors.HexColor("#2f5d50"), leftIndent=6, spaceBefore=4,
+    )
+    # Não realizados (cinza-lilás): fora do valor, conferir
+    estilo_nota_nao_realizado = ParagraphStyle(
+        "NotaNaoRealizado", parent=styles["Normal"], fontSize=8,
+        textColor=colors.HexColor("#5a4a66"), leftIndent=6, spaceBefore=4,
+    )
+    # Falha do extrator: caixa vermelha no topo do prontuário
+    estilo_falha = ParagraphStyle(
+        "Falha", parent=styles["Normal"], fontSize=8.5, leading=11,
+        textColor=colors.HexColor("#7a1f1f"),
+        backColor=colors.HexColor("#ffe0e0"), borderColor=colors.HexColor("#d98c8c"),
+        borderWidth=0.8, borderPadding=6, spaceBefore=4, spaceAfter=8,
+    )
     # Outras hipóteses (ranqueamento): candidatos alternativos para conferência
     estilo_alternativas = ParagraphStyle(
         "Alternativas", parent=styles["Normal"], fontSize=8,
@@ -513,7 +704,9 @@ def gerar_pdf(prontuarios: list[dict], caminho_pdf: str) -> None:
     estilo_rotulo = ParagraphStyle(
         "Rotulo", parent=styles["Normal"], fontSize=7.5,
         textColor=colors.HexColor("#555555"), leading=10,
-        spaceBefore=2, spaceAfter=2,
+        # spaceAfter maior que o borderPadding (6) da caixa do texto logo
+        # abaixo; com 2, a segunda linha da legenda ficava escondida sob a caixa
+        spaceBefore=2, spaceAfter=9,
     )
     estilo_aviso = ParagraphStyle(
         "Aviso", parent=styles["Normal"], fontSize=8.5, leading=11,
@@ -538,6 +731,7 @@ def gerar_pdf(prontuarios: list[dict], caminho_pdf: str) -> None:
     if orquestracao:
         story.append(Paragraph(
             f"Consulta ao SIGTAP: {orquestracao}", estilo_normal))
+    story.append(Paragraph(f"Regras: {_config_regras(prontuarios)}", estilo_normal))
 
     story.append(Paragraph(
         "<b>Relatório de apoio ao faturamento.</b> "
@@ -554,9 +748,19 @@ def gerar_pdf(prontuarios: list[dict], caminho_pdf: str) -> None:
         pront_id = pront.get("prontuario_id", "(sem identificação)")
         codigos = pront.get("codigos_sigtap", [])
         texto_pep = pront.get("texto_prontuario", "")
+        candidatos = pront.get("candidatos_regra", [])
+        falha = pront.get("falha_extracao", "")
         termos = _classificar_termos(pront)
 
         bloco = [Paragraph(f"Prontuário: {pront_id}", estilo_pront)]
+
+        # Falha do extrator: aviso antes do texto e da tabela, para não
+        # passar despercebido.
+        if falha:
+            bloco.append(Paragraph(
+                f"<b>ATENÇÃO: {TEXTO_FALHA_EXTRACAO}</b><br/>Motivo: {falha}.",
+                estilo_falha
+            ))
 
         # Texto original do prontuário com os termos destacados, exibido
         # antes da tabela para evidenciar a origem de cada código.
@@ -571,6 +775,16 @@ def gerar_pdf(prontuarios: list[dict], caminho_pdf: str) -> None:
                 ('<font backColor="%s"><b>&nbsp;cinza&nbsp;</b></font> '
                  'marcado como sem código próprio' % COR_NAO_FATURAVEL),
             ]
+            if termos["ambiguos"]:
+                legenda.append(
+                    '<font backColor="%s"><b>&nbsp;verde&nbsp;</b></font> '
+                    'termo genérico, código a definir' % COR_AMBIGUO
+                )
+            if termos["nao_realizados"]:
+                legenda.append(
+                    '<font backColor="%s"><b>&nbsp;lilás&nbsp;</b></font> '
+                    'classificado como não realizado' % COR_NAO_REALIZADO
+                )
             if termos["descartadas"]:
                 legenda.append(
                     '<font backColor="%s"><b>&nbsp;azul&nbsp;</b></font> '
@@ -586,6 +800,8 @@ def gerar_pdf(prontuarios: list[dict], caminho_pdf: str) -> None:
                 (termos["nao_encontrados"], COR_NAO_ENCONTRADO),
                 (termos["nao_faturaveis"], COR_NAO_FATURAVEL),
                 (termos["descartadas"], COR_DESCARTADA),
+                (termos["ambiguos"], COR_AMBIGUO),
+                (termos["nao_realizados"], COR_NAO_REALIZADO),
             ])
             bloco.append(Paragraph(texto_destacado, estilo_texto_pep))
 
@@ -716,6 +932,40 @@ def gerar_pdf(prontuarios: list[dict], caminho_pdf: str) -> None:
             for termo in termos["nao_faturaveis"]:
                 bloco.append(Paragraph(f"• {termo}", estilo_nota_info))
 
+        # ── Termos genéricos: código a definir pelo faturista ──────────────
+        if termos["ambiguos"]:
+            bloco.append(Paragraph(
+                f"<b>Para revisão - termo genérico, código a definir:</b> "
+                f"{TEXTO_AMBIGUOS}",
+                estilo_nota_ambiguo
+            ))
+            for termo in termos["ambiguos"]:
+                bloco.append(Paragraph(f"• {termo}", estilo_nota_ambiguo))
+
+        # ── Classificados como não realizados ──────────────────────────────
+        if pront.get("termos_nao_realizados"):
+            bloco.append(Paragraph(
+                f"<b>Classificados pelo sistema como não realizados nesta "
+                f"evolução:</b> {TEXTO_NAO_REALIZADOS}",
+                estilo_nota_nao_realizado
+            ))
+            for item in pront.get("termos_nao_realizados", []):
+                bloco.append(Paragraph(
+                    f"• {_descrever_nao_realizado(item)}", estilo_nota_nao_realizado
+                ))
+
+        # ── Candidatos de regra sem confirmação ────────────────────────────
+        if candidatos:
+            bloco.append(Paragraph(
+                f"<b>Indício pelas regras de texto, sem confirmação - conferir:"
+                f"</b> {TEXTO_CANDIDATOS}",
+                estilo_nota_candidato
+            ))
+            for cand in candidatos:
+                bloco.append(Paragraph(
+                    f"• {_descrever_candidato(cand)}", estilo_nota_candidato
+                ))
+
         # KeepTogether tenta nao quebrar o bloco do prontuario entre paginas
         story.append(KeepTogether(bloco))
         story.append(Spacer(1, 12))
@@ -724,16 +974,30 @@ def gerar_pdf(prontuarios: list[dict], caminho_pdf: str) -> None:
     t = _totais(prontuarios)
     story.append(Spacer(1, 10))
     story.append(Paragraph("Resumo Consolidado", estilo_pront))
-    resumo = [
-        ["Prontuários processados", str(len(prontuarios))],
+    # As linhas que recebem destaque são localizadas pelo rótulo, não por
+    # índice fixo, para não desalinhar quando uma linha nova entra.
+    rot_baixa = "Correspondências de confiança BAIXA (conferir)"
+    rot_nao_enc = "Termos sem correspondência (verificar)"
+    rot_falha = "Prontuários com FALHA na extração (ler manualmente)"
+    rot_cand = "Indícios de regra sem confirmação (conferir, fora do valor)"
+    resumo = [["Prontuários processados", str(len(prontuarios))]]
+    if t["falhas_extracao"]:
+        resumo.append([rot_falha, str(t["falhas_extracao"])])
+    resumo += [
         ["Códigos SIGTAP atribuídos", str(t["codigos"])],
+        ["Códigos atribuídos por regra", str(t["codigos_por_regra"])],
         ["Códigos com valor maior que zero", str(t["codigos_com_valor"])],
-        ["Correspondências de confiança BAIXA (conferir)", str(t["baixa_confianca"])],
-        ["Termos sem correspondência (verificar)", str(t["nao_encontrados"])],
+        [rot_baixa, str(t["baixa_confianca"])],
+        [rot_nao_enc, str(t["nao_encontrados"])],
         ["Marcados como sem código próprio (conferir marcação)",
          str(t["nao_faturaveis"])],
+        [rot_cand, str(t["candidatos_regra"])],
+        ["Termos genéricos para revisão (código a definir)", str(t["ambiguos"])],
+        ["Classificados como não realizados (conferir, fora do valor)",
+         str(t["nao_realizados"])],
         ["VALOR TOTAL SUGERIDO", formatar_reais(t["valor"])],
     ]
+    indice = {linha[0]: i for i, linha in enumerate(resumo)}
     tabela_resumo = Table(resumo, colWidths=[11*cm, 6*cm])
     estilo_resumo = [
         ("FONTSIZE", (0, 0), (-1, -1), 9.5),
@@ -747,11 +1011,18 @@ def gerar_pdf(prontuarios: list[dict], caminho_pdf: str) -> None:
     ]
     # realça as linhas que exigem ação humana
     if t["baixa_confianca"]:
-        estilo_resumo.append(
-            ("BACKGROUND", (0, 3), (-1, 3), colors.HexColor("#ffe9d1")))
+        i = indice[rot_baixa]
+        estilo_resumo.append(("BACKGROUND", (0, i), (-1, i), colors.HexColor("#ffe9d1")))
     if t["nao_encontrados"]:
-        estilo_resumo.append(
-            ("BACKGROUND", (0, 4), (-1, 4), colors.HexColor("#ffe0e0")))
+        i = indice[rot_nao_enc]
+        estilo_resumo.append(("BACKGROUND", (0, i), (-1, i), colors.HexColor("#ffe0e0")))
+    if t["candidatos_regra"]:
+        i = indice[rot_cand]
+        estilo_resumo.append(("BACKGROUND", (0, i), (-1, i), colors.HexColor("#ece3f5")))
+    if t["falhas_extracao"]:
+        i = indice[rot_falha]
+        estilo_resumo.append(("BACKGROUND", (0, i), (-1, i), colors.HexColor("#ffc9c9")))
+        estilo_resumo.append(("FONTNAME", (0, i), (-1, i), "Helvetica-Bold"))
     tabela_resumo.setStyle(TableStyle(estilo_resumo))
     story.append(tabela_resumo)
 
@@ -770,6 +1041,16 @@ def gerar_pdf(prontuarios: list[dict], caminho_pdf: str) -> None:
         "de itens sem código próprio, ainda não passou por validação do setor "
         "de faturamento.",
         ParagraphStyle("rodape2", parent=estilo_normal, fontSize=7.5,
+                       textColor=colors.HexColor("#888888"), spaceBefore=4)
+    ))
+    story.append(Paragraph(
+        "Regras: a regra de documento atribui consulta e diária pelo tipo da "
+        "evolução (médica ou não médica). A regra de texto atribui códigos por "
+        "pistas no texto; na avaliação com evoluções reais do HUB, a precisão "
+        "das regras diretas ficou entre 0,69 e 0,88, por isso recebem "
+        "confiança Média. A regra 'confirmada' só entra quando o extrator "
+        "também encontrou o procedimento como realizado.",
+        ParagraphStyle("rodape3", parent=estilo_normal, fontSize=7.5,
                        textColor=colors.HexColor("#888888"), spaceBefore=4)
     ))
 

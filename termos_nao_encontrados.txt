@@ -227,3 +227,9 @@ sonda de gastrostomia
 alginate
 ajuste de pressão de cuff
 gastrostomia nasogástrica
+cateterização venosa central
+urostomia Bricker
+lorazepam
+cateter de gastrostomia
+cateterização vesical
+piperacilina/tazobactam

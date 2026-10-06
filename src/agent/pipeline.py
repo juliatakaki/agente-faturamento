@@ -160,6 +160,7 @@ class EstadoPipeline(TypedDict):
     termos_ambiguos: list[str]         # genéricos demais, desviados da busca (REVISAR)
     termos_nao_realizados: list[dict]  # mencionados mas não executados
     candidatos_regra: list[dict]       # regra de texto disparou mas não foi confirmada (REVISAR)
+    falha_extracao: str                # motivo, se o extrator falhou; "" se não falhou
     entidades_descartadas: list[str]   # fora das categorias faturáveis
     relatorio: dict                    # relatório final
 
@@ -558,6 +559,24 @@ def _e_erro_de_cota(excecao: Exception) -> bool:
 
 async def extrair_entidades_llm(texto_prontuario: str) -> list[dict]:
     """
+    Versão que devolve só a lista de entidades, mantida para quem já chama
+    esta função. O pipeline usa _extrair_entidades_llm_com_status, que diz
+    também se a extração falhou.
+    """
+    entidades, _ = await _extrair_entidades_llm_com_status(texto_prontuario)
+    return entidades
+
+
+async def _extrair_entidades_llm_com_status(texto_prontuario: str) -> tuple[list[dict], str]:
+    """
+    Devolve (entidades, motivo_da_falha). motivo_da_falha é "" quando a
+    extração funcionou, inclusive quando o prontuário não tem nenhum item.
+
+    POR QUE DISTINGUIR: antes, falha e prontuário sem itens devolviam a mesma
+    lista vazia. No HUB006 o LLM deu timeout e dois erros de conexão, e o
+    relatório saiu como se a evolução estivesse quase vazia, sem nenhum aviso
+    para quem confere.
+
     Extrai entidades clínicas faturáveis direto do texto bruto, via LLM, em
     vez do NER por regras. Retorna dicts com texto, categoria e status.
 
@@ -634,17 +653,18 @@ async def extrair_entidades_llm(texto_prontuario: str) -> list[dict]:
     if not conteudo:
         print(f"  [EXTRATOR-LLM] falhou após {MAX_TENTATIVAS} tentativa(s) "
               f"(resposta vazia ou timeout). Prontuário sem entidades.")
-        return []
+        return [], (f"o modelo não respondeu após {MAX_TENTATIVAS} tentativas "
+                    f"(timeout, erro de conexão ou resposta vazia)")
 
     try:
         entidades = _extrair_json_da_resposta(conteudo)
     except (json.JSONDecodeError, ValueError) as e:
         print(f"  [EXTRATOR-LLM] AVISO: resposta não interpretável como JSON ({e}).")
-        return []
+        return [], "a resposta do modelo não era um JSON válido"
 
     if not isinstance(entidades, list):
         print("  [EXTRATOR-LLM] AVISO: resposta não é uma lista. Ignorada.")
-        return []
+        return [], "a resposta do modelo não era uma lista de itens"
 
     validas = []
     rebaixadas = []
@@ -671,7 +691,7 @@ async def extrair_entidades_llm(texto_prontuario: str) -> list[dict]:
     if rebaixadas:
         print(f"  [EXTRATOR-LLM] {len(rebaixadas)} item(ns) rebaixado(s) para "
               f"NÃO REALIZADO pelo contexto do texto: {', '.join(rebaixadas)}")
-    return validas
+    return validas, ""
 
 async def no_ner(estado: EstadoPipeline) -> EstadoPipeline:
     """
@@ -686,6 +706,7 @@ async def no_ner(estado: EstadoPipeline) -> EstadoPipeline:
     """
     print(f"  [NER] Processando {estado['prontuario_id']}...")
     extrator = os.getenv("EXTRATOR_ATIVO", "regras").strip().lower()
+    falha = ""
 
     if extrator == "regras":
         entidades = extrair_entidades(estado["texto"], NLP)
@@ -700,7 +721,7 @@ async def no_ner(estado: EstadoPipeline) -> EstadoPipeline:
             print(f"  [NER] {len(rebaixadas)} item(ns) marcado(s) como NÃO "
                   f"REALIZADO pelo contexto: {', '.join(rebaixadas)}")
     elif extrator == "llm":
-        entidades = await extrair_entidades_llm(estado["texto"])
+        entidades, falha = await _extrair_entidades_llm_com_status(estado["texto"])
     else:
         raise ValueError(f"EXTRATOR_ATIVO inválido: '{extrator}'. Use 'regras' ou 'llm'.")
 
@@ -709,7 +730,10 @@ async def no_ner(estado: EstadoPipeline) -> EstadoPipeline:
     )
     print(f"  [NER] ({extrator}) {len(entidades)} entidades extraídas "
           f"({n_realizadas} realizadas, {len(entidades) - n_realizadas} não realizadas).")
-    return {**estado, "entidades_brutas": entidades}
+    if falha:
+        print(f"  [NER] ATENÇÃO: extração falhou ({falha}). O relatório deste "
+              f"prontuário vai sinalizar a falha.")
+    return {**estado, "entidades_brutas": entidades, "falha_extracao": falha}
 
 
 def _limpar_texto(texto: str) -> str:
@@ -1211,25 +1235,30 @@ USAR_REGRAS_TEXTO = os.getenv("USAR_REGRAS_TEXTO", "false").strip().lower() == "
 
 _COD_CURATIVO_GRAU_II = "04.01.01.001-5"
 # Quando a regra de texto atribui o curativo grau II, resultados da busca
-# textual que caíram nestes códigos saem do relatório, porque descrevem o
-# mesmo ato com o código errado. Caso real: no HUB008, "troca de curativo"
-# escapou da lista de genéricos e a busca resolveu para CURATIVO SIMPLES,
-# ficando ao lado do grau II da regra. Base: o curativo simples não aparece
-# nenhuma vez nas 420 evoluções de UTI do gabarito do HUB.
-_CODIGOS_SUBSTITUIDOS_PELO_CURATIVO_REGRA = {"03.01.10.028-4"}
+# textual que descrevem o mesmo ato saem do relatório, porque o ato já está
+# coberto pela regra e a busca costuma errar o código.
+#
+# A remoção é pelo TERMO buscado (contém a palavra "curativo"), e não por uma
+# lista de códigos. A primeira versão removia só o CURATIVO SIMPLES
+# (03.01.10.028-4), que resolveu o HUB008 ("troca de curativo"), mas no
+# HUB001 o extrator devolveu "curativo de ferida" e a busca levou para
+# TRATAMENTO DE FERIDAS COM FITOTERÁPICO, que escapou da lista. Pelo termo,
+# qualquer variação é coberta. Base: nas 420 evoluções de UTI do gabarito do
+# HUB, todo curativo faturado foi grau II.
+_RX_TERMO_CURATIVO = re.compile(r"\bcurativos?\b")
 
 
 def _remover_curativo_textual(resultados: list[dict]) -> tuple[list[dict], list[str]]:
-    """Tira da busca textual os resultados de curativo simples. Devolve (restantes, termos removidos)."""
-    alvo = {regras_texto.so_digitos(c) for c in _CODIGOS_SUBSTITUIDOS_PELO_CURATIVO_REGRA}
+    """
+    Tira os resultados da busca textual cujo termo é um curativo. Resultados
+    de regra (termo entre colchetes) nunca são removidos. Devolve
+    (restantes, termos removidos).
+    """
     restantes, removidos = [], []
     for r in resultados:
-        codigos = {
-            regras_texto.so_digitos(str(c.get("codigo", "")))
-            for c in r.get("correspondencias", []) if isinstance(c, dict)
-        }
-        if codigos and codigos <= alvo:
-            removidos.append(r.get("termo_buscado", ""))
+        termo = str(r.get("termo_buscado", ""))
+        if not termo.startswith("[") and _RX_TERMO_CURATIVO.search(regras_texto.normalizar(termo)):
+            removidos.append(termo)
         else:
             restantes.append(r)
     return restantes, removidos
@@ -1459,7 +1488,7 @@ async def no_consulta_sigtap(estado: EstadoPipeline) -> EstadoPipeline:
             termos_ambiguos = [t for t in termos_ambiguos if t.lower() != "curativo"]
             resultados, removidos = _remover_curativo_textual(resultados)
             if removidos:
-                print(f"    [Regra de texto] curativo simples da busca textual substituído "
+                print(f"    [Regra de texto] curativo da busca textual substituído "
                       f"pelo grau II da regra: {', '.join(removidos)}")
 
         resultados = resultados + resultados_texto
@@ -1554,6 +1583,10 @@ def no_relatorio(estado: EstadoPipeline) -> EstadoPipeline:
         "orquestracao": "llm" if ORQUESTRACAO_POR_LLM else "deterministica",
         "regras_documento": USAR_REGRAS_DOCUMENTO,
         "regras_texto": USAR_REGRAS_TEXTO,
+        # Motivo da falha do extrator ("" se não falhou). Com falha, os
+        # códigos do relatório vêm só das regras e a evolução precisa de
+        # leitura manual.
+        "falha_extracao": estado.get("falha_extracao", ""),
         "texto_prontuario": estado.get("texto", ""),
         "entidades_extraidas": [e.get("texto", "") for e in estado["entidades_brutas"]],
         "resumo": {
@@ -1641,6 +1674,7 @@ async def processar_prontuario(prontuario: dict) -> dict:
         "termos_nao_realizados": [],
         "termos_ambiguos": [],
         "candidatos_regra": [],
+        "falha_extracao": "",
         "entidades_descartadas": [],
         "relatorio": {},
     }
