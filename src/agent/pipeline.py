@@ -160,6 +160,7 @@ class EstadoPipeline(TypedDict):
     termos_ambiguos: list[str]         # genéricos demais, desviados da busca (REVISAR)
     termos_nao_realizados: list[dict]  # mencionados mas não executados
     candidatos_regra: list[dict]       # regra de texto disparou mas não foi confirmada (REVISAR)
+    substituidos_por_regra: list[dict] # resultados da busca trocados pela regra (para avaliação)
     falha_extracao: str                # motivo, se o extrator falhou; "" se não falhou
     entidades_descartadas: list[str]   # fora das categorias faturáveis
     relatorio: dict                    # relatório final
@@ -306,6 +307,9 @@ def obter_ferramentas_mcp() -> list:
 
 _llm_cache = None
 
+# Limite de tokens da resposta do LLM. Ver _criar_llm_api().
+MAX_TOKENS_LLM = int(os.getenv("MAX_TOKENS_LLM", "8192"))
+
 
 def criar_llm():
     """
@@ -354,20 +358,27 @@ def _criar_llm_api(provedor_api: str, modelo: str):
     consomem parte do limite de saída com raciocínio interno. Sem folga, a
     resposta é cortada no meio (finish_reason='length') e o JSON fica
     inválido -- foi o que truncava a extração dos prontuários mais extensos.
+
+    O valor vem de MAX_TOKENS_LLM no .env (padrão 8192). Motivo (out/2026): no
+    plano gratuito do Groq o limite caiu para 8.000 tokens por minuto, e o
+    HUB004 passou a ser recusado com erro 413 (pedido de 11.669 tokens). Um
+    max_tokens menor reduz o tamanho do pedido, ao custo de mais risco de
+    resposta cortada nos prontuários com muitos itens.
     """
+    max_tokens = MAX_TOKENS_LLM
     if provedor_api == "openai":
         from langchain_openai import ChatOpenAI
-        return ChatOpenAI(model=modelo, temperature=0, max_tokens=8192)
+        return ChatOpenAI(model=modelo, temperature=0, max_tokens=max_tokens)
 
     if provedor_api == "google":
         from langchain_google_genai import ChatGoogleGenerativeAI
         return ChatGoogleGenerativeAI(
-            model=modelo, temperature=0, max_output_tokens=8192
+            model=modelo, temperature=0, max_output_tokens=max_tokens
         )
 
     if provedor_api == "anthropic":
         from langchain_anthropic import ChatAnthropic
-        return ChatAnthropic(model=modelo, temperature=0, max_tokens=8192)
+        return ChatAnthropic(model=modelo, temperature=0, max_tokens=max_tokens)
 
     if provedor_api == "groq":
         # A Groq expõe API compatível com a da OpenAI.
@@ -378,7 +389,7 @@ def _criar_llm_api(provedor_api: str, modelo: str):
         return ChatOpenAI(
             model=modelo, temperature=0, api_key=chave_groq,
             base_url="https://api.groq.com/openai/v1",
-            max_tokens=8192,
+            max_tokens=max_tokens,
         )
 
     raise ValueError(
@@ -528,6 +539,23 @@ def _verificar_status_no_texto(termo: str, texto_prontuario: str) -> bool:
         for marcador in _MARCADORES_NAO_REALIZADO
     )
 
+def _e_pedido_grande_demais(excecao: Exception) -> bool:
+    """
+    Detecta o erro 413 (pedido maior que o limite de tokens por minuto do
+    plano). Precisa ser testado ANTES de _e_erro_de_cota: a resposta do Groq
+    para o 413 traz o código 'rate_limit_exceeded' no corpo, e seria tratada
+    como cota esgotada, interrompendo o lote inteiro. Caso real: no HUB004,
+    um único prontuário grande derrubava os 10.
+
+    Diferente da cota, o 413 não se resolve esperando: o mesmo pedido vai
+    falhar de novo. Por isso vira falha só daquele prontuário.
+    """
+    if getattr(excecao, "status_code", None) == 413:
+        return True
+    texto = str(excecao).lower()
+    return "error code: 413" in texto or "request too large" in texto
+
+
 def _e_erro_de_cota(excecao: Exception) -> bool:
     """
     Detecta se a exceção é um estouro de cota / rate limit da API, de forma
@@ -610,6 +638,15 @@ async def _extrair_entidades_llm_com_status(texto_prontuario: str) -> tuple[list
                   f"tentativa {tentativa}/{MAX_TENTATIVAS}.")
             resposta = None
         except Exception as e:
+            if _e_pedido_grande_demais(e):
+                print(f"  [EXTRATOR-LLM] pedido grande demais para o limite por minuto "
+                      f"do provedor (413). Sem nova tentativa: o mesmo pedido falharia "
+                      f"de novo. Detalhe: {str(e)[:200]}")
+                return [], (
+                    "o texto é grande demais para o limite de tokens por minuto do "
+                    "provedor (erro 413); reduzir MAX_TOKENS_LLM no .env, usar "
+                    "outro provedor ou ler manualmente"
+                )
             if _e_erro_de_cota(e):
                 raise RuntimeError(
                     "Cota da API do modelo esgotada (rate limit). O lote foi "
@@ -1248,17 +1285,17 @@ _COD_CURATIVO_GRAU_II = "04.01.01.001-5"
 _RX_TERMO_CURATIVO = re.compile(r"\bcurativos?\b")
 
 
-def _remover_curativo_textual(resultados: list[dict]) -> tuple[list[dict], list[str]]:
+def _remover_curativo_textual(resultados: list[dict]) -> tuple[list[dict], list[dict]]:
     """
     Tira os resultados da busca textual cujo termo é um curativo. Resultados
     de regra (termo entre colchetes) nunca são removidos. Devolve
-    (restantes, termos removidos).
+    (restantes, resultados removidos).
     """
     restantes, removidos = [], []
     for r in resultados:
         termo = str(r.get("termo_buscado", ""))
         if not termo.startswith("[") and _RX_TERMO_CURATIVO.search(regras_texto.normalizar(termo)):
-            removidos.append(termo)
+            removidos.append(r)
         else:
             restantes.append(r)
     return restantes, removidos
@@ -1465,6 +1502,7 @@ async def no_consulta_sigtap(estado: EstadoPipeline) -> EstadoPipeline:
 
     # Regras de texto (se ligadas): regex + scoring sobre o texto da evolução.
     candidatos_regra: list[dict] = []
+    substituidos_por_regra: list[dict] = []
     if USAR_REGRAS_TEXTO:
         resultados_texto, candidatos_regra, curativo_por_regra = await _aplicar_regras_texto(
             ferramenta_busca_codigo,
@@ -1489,7 +1527,21 @@ async def no_consulta_sigtap(estado: EstadoPipeline) -> EstadoPipeline:
             resultados, removidos = _remover_curativo_textual(resultados)
             if removidos:
                 print(f"    [Regra de texto] curativo da busca textual substituído "
-                      f"pelo grau II da regra: {', '.join(removidos)}")
+                      f"pelo grau II da regra: "
+                      f"{', '.join(r.get('termo_buscado', '') for r in removidos)}")
+                # Guardados para a avaliação poder reconstruir o resultado
+                # "sem regras" a partir da mesma execução. Não vão para a
+                # tabela nem para o valor do relatório.
+                substituidos_por_regra = [
+                    {
+                        "termo": r.get("termo_buscado", ""),
+                        "codigo": c.get("codigo", ""),
+                        "descricao": c.get("descricao", ""),
+                        "nivel": c.get("nivel", ""),
+                    }
+                    for r in removidos
+                    for c in r.get("correspondencias", []) if isinstance(c, dict)
+                ]
 
         resultados = resultados + resultados_texto
 
@@ -1516,6 +1568,7 @@ async def no_consulta_sigtap(estado: EstadoPipeline) -> EstadoPipeline:
         "termos_nao_realizados": nao_realizadas,
         "termos_ambiguos": termos_ambiguos,
         "candidatos_regra": candidatos_regra,
+        "substituidos_por_regra": substituidos_por_regra,
         "entidades_descartadas": entidades_descartadas,
     }
 
@@ -1617,6 +1670,10 @@ def no_relatorio(estado: EstadoPipeline) -> EstadoPipeline:
         "termos_nao_realizados": nao_realizados,
         "termos_ambiguos": estado.get("termos_ambiguos", []),
         "candidatos_regra": candidatos_regra,
+        # Resultados da busca textual trocados por uma regra (hoje, só o
+        # curativo). Fora do valor; existem para a avaliação comparar o
+        # resultado com e sem regras numa única execução.
+        "substituidos_por_regra": estado.get("substituidos_por_regra", []),
         "entidades_descartadas": estado.get("entidades_descartadas", []),
     }
 
@@ -1674,6 +1731,7 @@ async def processar_prontuario(prontuario: dict) -> dict:
         "termos_nao_realizados": [],
         "termos_ambiguos": [],
         "candidatos_regra": [],
+        "substituidos_por_regra": [],
         "falha_extracao": "",
         "entidades_descartadas": [],
         "relatorio": {},

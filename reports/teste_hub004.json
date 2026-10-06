@@ -1,0 +1,93 @@
+[
+  {
+    "prontuario_id": "HUB004",
+    "data_processamento": "2026-10-06T11:27:28.038823",
+    "modelo_utilizado": "api/groq - openai/gpt-oss-120b",
+    "extrator": "llm",
+    "orquestracao": "deterministica",
+    "regras_documento": true,
+    "regras_texto": true,
+    "falha_extracao": "a resposta do modelo não era um JSON válido",
+    "texto_prontuario": "=======================J6===========\n\nEVOLUÇÃO MÉDICA NOTURNA - UTI HUB 14/10/25\n\n==================================\n\nx, [AGE] anos\n\n[DOB]\n\n.\n\nDIH:\n\n- HRPL: 02/07/25\n\n- UTI DAHER: 14/08/25\n\n- HRPL: 10/09/25\n\n- UTI HRSM: 20/09/25\n\n- Readmissão pós-UTI HRPL: 01/10/25\n\n- UTI HUB: 08/10/25\n\n# Lista de problemas:\n\n1- Novo choque séptico em 09/25\n\n--- IRpA + broncoespasmo grave\n\n--- 18/09 ICS por KPC MDR\n\n--- Endocardite?\n\n2- Hematoma subgaleal a/e (queda durante o transporte)\n\n3- Sequela de AVCi\n\n4- IRA kdigo III com necessidade de HD\n\n-- Cr basal: 0,98 ( set/2025)\n\n5 - Anemia grave\n\n.\n\n# História pregressa (Informações relatadas por esposa):\n\n- Choque septico + Meningoencefalite previamente tratadas em 07/25\n\n- Hanseníase tratada há anos - reação hansênica na UTI Daher (após suspensão de talidomida)\n\n- HAS + DM + Polineuropatia + depressão e ansiedade + sequela de AVCi\n\nMedicações de uso contínuo: \n\nMorfina 10mg 4-0-0\n\namitriptilina 25mg 0- 0-4\n\nglicazida 60mg 1-0-0\n\nmetformina 500mg 0-1-1\n\natenolol 25mg 1-0-0\n\ndipirona 1g SOS\n\nprednisolona 2ml/dia.\n\n- Negou: Alergias, uso de álcool, drogas ilícitas, uso de tabaco\n\n.\n\n# Culturas:\n\n- AT (09/10): Enterococcus faecium\n\n- Uro (09/10): leveduras\n\n- Hemoculturas 27/09: negativas\n\n- Hemocultura 18/09: K. pneumoniae multiR S/ torgena (KPC+NDM) / Hemocultura [AGE]A: K. pneumoniae panR (KPC+NDM)\n\n- Urocultura 20/09: leveduras\n\n- Hemoculturas 20/09: K. pneumoniae panR (KPC+NDM) com sinergismo positivo\n\n.\n\n# ATB:\n\n- Atual: Torgena (01/10) + Aztreonam (02/10) + Amicacina (09/10) + Linezolida (D0 13/10) + Micafungina (D0 13/10)\n\n- Prévio: Vancomicina (09/10 - 13/10), Meropenem + Polimixina B + Unasyn (D0 em 10/09); Tazocin (uma dose) em 01/07/25/ Ceftriaxona 2g de 12/12h D0 01/07/25 / Vancomicina 02/07-09/07 / Aciclovir 02/[AGE] a 09/07/ Unasyn 02/07 - 09/07; Mero, vanco 12/[AGE] a 22/07 / Amicacina 15/[AGE] a 22/07/ Levo 28/[AGE] a 07/08.\n\n.\n\n# Dispositivos:\n\n- CVC VJIE 09/10\n\n- CDL VJID 09/10\n\n- TQT 18/09\n\n- SNE\n\n- PAI ARE 08/10\n\nPrévios:\n\n- CVC VFD 06/10 - 09/10\n\n- SVD 04/10 - 13/10 \n\n.\n\n# EXAMES COMPLEMENTARES: \n\nLaboratorial\n\n07/10: Hb 6,2/ Ht 18,7/ leuco 23700/ plaq 528/ INR 1,25/ ureia 244/ TGP 43/ TGO 35/ Na 168/ PT 5,1/ K 4,5/ Mg 3,2/ glic 176/ GGT 962/ CPK 45/ creat 2,42/ Cl 132/ Ca 8,1/ BT 4,8 e BD 3,7\n\n29/01 VDRL: NR / Anti HIV: NR / Anti HBC total: NR / Anti HBS: 2,0 / HBsAg: NR / Anti HCV: NR / Sorologia Chagas: NR\n\n01/07 VDRL: NR / HBsAg: NR / Anti HCV: NR / TR HIV: NR / TR NS1: NR\n\n18/09 Painel Viral: negativo\n\nImagem\n\nTC de crânio sem contraste em 07/10: Cisternas encefálicas e sulcos corticais de amplitude dentro dos limites normais. Sistema ventricular de morfologia e dimensões preservadas. Parênquima encefálico com coeficientes de atenuação preservados. Hipoatenuação nucleocapsular à direita compatível com infarto lacunar pregresso. Não há desvio das estruturas da linha mediana. Aumento de partes moles extra-cranianas na região parietal direita.\n\n \n\nECG (16/09/25): Ritmo sinusal, FC= 70bpm, inversão de onda t septal.\n\n \n\nTC CRÂNIO S/C (02/07/25): Área de gliose/encefalomalácia sequelar na região núcleo-capsular anterior direita. Restante do parênquima encefálico com morfologia e densidade normais. Sulcos e cisternas cerebrais preservados. Sistema ventricular com morfologia e dimensões normais. Tronco cerebral e cerebelo com densidade preservada. Não há evidência de lesão expansiva, sangramento intracraniano, coleções extra-axiais ou desvio das estruturas da linha média. Não há indícios de calcificações patológicas no parênquima cerebral. Estruturas ósseas sem alterações. Espessametno mucoso frontal, etmoidal e maxilar direitos.\n\nTC DE ABDOME (21/09/25): Formações nodulares hipodensas esparsas pelo fígado, indeterminados ao método sem contraste. Ateromatose aórtica e ilíacas. Coproestase nas molduras cólicas.\n\nTC DE TÓRAX (21/09/25): Estudo tomográfico do tórax sem alterações dignas de nota.\n\nTC DE CRÂNIO (21/09/25): Focos sequelares por provável isquemia antiga corticossubcortical no giro frontal médio direito, bem como no corpo estriado ipsilateral, associados a efeito atrófico regional.\n\n#HDA: Paciente deu entrada no HRPL acompanhado de esposa e amigos por volta das 14h30 de 01/07, sendo recebido na sala vermelha em glasgow 3, hipotenso com PAM de 45, taquicardíaco (105-110bpm). Realizado IOT devido a RNC. Eposa informou que o mesmo vinha a 7 dias apresentando diversos episódios de vômitos e cefaleia. Paciente foi encaminhado para UTI DAHER onde ficou internado por cerca de mais de 1 mes em tratamento de meningoencefalite. Pos internação em UTI, retornou ao HRPL dia 10/09 sendo admitido na enfermaria de pós- UTI. Dia 18/09 paciente evoluiu com nova piora respiratória associada a rebaixamento do nível de consciência, secundário a sepse de foco pulmonar e cutaneo ( necrose de pododactilos ) sendo internado em sala amarela do HRPL e regulado para UTI sendo transferido para UTISM dia 20/09. Retornou a enfermaria de pos UTI do HRPL dia 01/10 em uso de esquema antibiotico de amplo espectro. Mantia desconforto respiratorio com episodios de broncoespasmos e necessidade de medidas clíncias, entretanto, dia 04/10 foi encaminhado a sala vermelha do HRPL devido a IRpA e necessidade de acomplação a VM. Sendo encaminhado a ITU do HUB.\n\n.\n\n# Admissão HUB:\n\nPaciente procedente do HRPl em grave estado geral, sob sedoanalgesia com precedex 5ml/h e fentanil 5ml/h, em RASS -5. Hemodinâmica estável em uso de noradrenalina 0,5 mcg/Kg/min. Em VM acoplado a TQT (modo PCV) com FR 18, Pins 13, FiO2 50%, PEEP 7, confortável. SNE aberta, sem débito algum. Evacuações ausentes. Diurese através de SVD sem urina no coletor. Paciente mal distribuído com edema de 4 membros, quemose e edema escotral. Afebril. Lesão em sacral e trocantéricas estágio 2.\n\n# Evolução:\n\nPaciente em grave estado geral, sem sedoanalgesia, pupilas isocóricas e fotorreagentes, em RASS -5. Hemodinamica estável sem DVA, tendendo a hipotensão. Ventilação por TQT/VM (modo PSV) Ps 15, FiO2 30%, PEEP 5, FR 29, Vc 398. Em dieta via SNE a 25 ml/h, com 02 escapes glicêmicos. Diurese presente em fralda quantificação de 200ml/12h em TRS contínua tendo tido UF 1200 ml. Evacuação presente de carater amolecido. \n\nAfebril no período, em uso de antibioticoterapia. \n\n# Exame físico:\n\n- ECT: GEG,Ictérico , acianótico e mal distribuído, pupilas isocóricas e fotorreagentes, presença de hematoma subgaleal em região temporoparietooccipital direito \n\n- ACV: Ritmo cardíaco regular em dois tempos, bulhas normofonéticas. Não ausculto sopros. \n\n- ARP: MV diminuido , roncos difusos\n\n- ABD: Semigloboso, sem massas ou VMG. Ruídos hidroaéreos presentes.\n\n- EXT: com edema simétrico de extremidades, panturrilhas livres; TEC 5 segundos. Podáctilos do pé direito de aspecto necrótico. \n\n.\n\n# Condutas:\n\n- Reponho potássio (Gasometria com K de 2,59). Exames de rotina coletado após reposição com K de 6,16. Introduzo gluconato de cálcio\n\n- Retorno noradrenalina\n\n- Parecer Dermatologia para seguimento do tratamento hanseniase (vide prontuario SESDF)\n\n- Manter Ceftazidima, Aztreonam, linezolida, micafungina\n\n- Aguardo Hemo, swab retal\n\n- Mantenho sem tromboprofilaxia devido hematoma subgaleal\n\n- Cuidados intensivos",
+    "entidades_extraidas": [],
+    "resumo": {
+      "total_entidades_extraidas": 0,
+      "total_codigos_sigtap": 2,
+      "total_nao_encontrados": 0,
+      "total_nao_faturaveis": 0,
+      "total_nao_realizados": 0,
+      "total_ambiguos": 0,
+      "total_candidatos_regra": 2,
+      "total_baixa_confianca": 0,
+      "valor_total": 600.0
+    },
+    "entidades_por_categoria": {},
+    "codigos_sigtap": [
+      {
+        "codigo": "03.01.01.017-0",
+        "descricao": "CONSULTA/AVALIAÇÃO EM PACIENTE INTERNADO",
+        "grupo": "Procedimentos clínicos",
+        "origem": "[regra: medico]",
+        "categoria": "PROCEDIMENTO",
+        "vl_sh": 0.0,
+        "vl_sa": 0.0,
+        "vl_sp": 0.0,
+        "vl_total": 0.0,
+        "nivel": "regra_documento",
+        "score": 1.0,
+        "confianca": "alta",
+        "painel": false,
+        "tentativas_agente": null,
+        "pistas_regra": [],
+        "alternativas": []
+      },
+      {
+        "codigo": "08.02.01.008-3",
+        "descricao": "DIARIA DE UNIDADE DE TERAPIA INTENSIVA ADULTO (UTI II)",
+        "grupo": "Ações complementares da atenção à saúde",
+        "origem": "[regra: medico]",
+        "categoria": "PROCEDIMENTO",
+        "vl_sh": 510.0,
+        "vl_sa": 0.0,
+        "vl_sp": 90.0,
+        "vl_total": 600.0,
+        "nivel": "regra_documento",
+        "score": 1.0,
+        "confianca": "alta",
+        "painel": false,
+        "tentativas_agente": null,
+        "pistas_regra": [],
+        "alternativas": []
+      }
+    ],
+    "termos_nao_encontrados": [],
+    "termos_nao_faturaveis": [],
+    "termos_nao_realizados": [],
+    "termos_ambiguos": [],
+    "candidatos_regra": [
+      {
+        "codigo": "03.05.01.013-1",
+        "descricao": "HEMODIALISE P/ PACIENTES RENAIS AGUDOS / CRONICOS AGUDIZADOS",
+        "score": 6,
+        "limiar": 4,
+        "pistas": [
+          "hd",
+          "uf",
+          "trs",
+          "cdl"
+        ]
+      },
+      {
+        "codigo": "03.01.10.007-1",
+        "descricao": "CUIDADOS C/ TRAQUEOSTOMIA",
+        "score": 3,
+        "limiar": 3,
+        "pistas": [
+          "tqt",
+          "acoplado/via tqt"
+        ]
+      }
+    ],
+    "entidades_descartadas": []
+  }
+]

@@ -15824,3 +15824,1288 @@ connection to server at "localhost" (127.0.0.1), port 5432 failed: Connection re
 [11:08:16] [SIGTAP] 'compressa' (cat=MATERIAL): busca restrita a 540 de 4994 procedimentos.
 [11:08:16] [SEMANTICO] 'compressa': 0.811 (limiar 0.8) -> BENGALA ARTICULADA
 [11:08:16] [TOOL] 'compressa' (cat=MATERIAL) -> nivel_semantico, score=0.811, confianca=baixa, painel=False, 1 resultado(s), 0.41s
+[11:25:39] [SIGTAP] Iniciando servidor MCP...
+[11:25:39] [NIVEL0] Dicionário carregado: 31 sinônimo(s), 21 termo(s) não faturável(is).
+[11:25:39] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[11:25:39] [SIGTAP] Tabela carregada: 4994 procedimentos, 9 grupos, em 0.4s.
+[11:25:39] [SEMANTICO] Cache reaproveitado (4994 linhas).
+[11:25:39] [SEMANTICO] Carregando modelo 'paraphrase-multilingual-MiniLM-L12-v2' (HF_HUB_OFFLINE=1)...
+[11:25:50] [SEMANTICO] Modelo carregado em 11.0s.
+[11:25:51] [AQUECIMENTO] Primeiro encode em 0.4s.
+[11:25:51] [AQUECIMENTO] Concluído em 11.9s.
+[11:25:51] [SIGTAP] Pontuação bidirecional ativa: rejeição F1 < 0.45, confiança alta >= 0.85, média >= 0.7.
+[11:25:51] [SIGTAP] Nível 4 (agente): ATIVO, teto de 6 tentativas por termo.
+[11:25:51] [SIGTAP] Pronto, aguardando conexão via stdio...
+[11:41:05] [SIGTAP] Iniciando servidor MCP...
+[11:41:05] [NIVEL0] Dicionário carregado: 31 sinônimo(s), 21 termo(s) não faturável(is).
+[11:41:05] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[11:41:06] [SIGTAP] Tabela carregada: 4994 procedimentos, 9 grupos, em 0.4s.
+[11:41:06] [SEMANTICO] Cache reaproveitado (4994 linhas).
+[11:41:06] [SEMANTICO] Carregando modelo 'paraphrase-multilingual-MiniLM-L12-v2' (HF_HUB_OFFLINE=1)...
+[11:41:21] [SEMANTICO] Modelo carregado em 15.1s.
+[11:41:21] [AQUECIMENTO] Primeiro encode em 0.3s.
+[11:41:21] [AQUECIMENTO] Concluído em 15.9s.
+[11:41:21] [SIGTAP] Pontuação bidirecional ativa: rejeição F1 < 0.45, confiança alta >= 0.85, média >= 0.7.
+[11:41:21] [SIGTAP] Nível 4 (agente): desativado, teto de 6 tentativas por termo.
+[11:41:21] [SIGTAP] Pronto, aguardando conexão via stdio...
+[11:41:21] [SIGTAP] 'Morfina' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:41:21] [TOOL] 'Morfina' (cat=MEDICAMENTO) -> nivel1, score=0.683, confianca=baixa, painel=False, 2 resultado(s), 0.07s
+[11:41:22] [SIGTAP] 'Morfina' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:41:22] [TOOL] 'Morfina' (cat=MEDICAMENTO) -> nivel1, score=0.683, confianca=baixa, painel=False, 2 resultado(s), 0.01s
+[11:41:22] [SIGTAP] 'Hemocultura' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[11:41:22] [TOOL] 'Hemocultura' (cat=EXAME) -> nivel1, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.03s
+[11:41:22] [NIVEL0] 'Vancomicina' marcado como não faturável separadamente (medicamentos_uso_hospitalar).
+[11:41:22] [TOOL] 'Vancomicina' (cat=MEDICAMENTO) -> nao_faturavel, 0.00s
+[11:41:22] [SIGTAP] 'Meropenem' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:41:22] [SEMANTICO] 'meropenem': 0.513 (limiar 0.8) -> ABCIXIMABE
+[11:41:22] [TOOL] 'Meropenem' (cat=MEDICAMENTO) -> vazio, 0.08s
+[11:41:22] [SIGTAP] 'ureia' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[11:41:22] [TOOL] 'ureia' (cat=EXAME) -> nivel1, score=0.832, confianca=media, painel=False, 2 resultado(s), 0.02s
+[11:41:22] [NIVEL0] 'sedoanalgesia' -> ['sedacao']
+[11:41:22] [TOOL] 'sedoanalgesia' (cat=PROCEDIMENTO) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.03s
+[11:41:22] [SIGTAP] 'fentanil' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:41:22] [SEMANTICO] 'fentanil': 0.667 (limiar 0.8) -> MORFINA  DE LIBERACAO CONTROLADA 60 MG (POR CAPSULA)
+[11:41:22] [TOOL] 'fentanil' (cat=MEDICAMENTO) -> vazio, 0.06s
+[11:41:22] [NIVEL0] 'noradrenalina' marcado como não faturável separadamente (medicamentos_uso_hospitalar).
+[11:41:22] [TOOL] 'noradrenalina' (cat=MEDICAMENTO) -> nao_faturavel, 0.00s
+[11:41:22] [NIVEL0] 'sedoanalgesia' -> ['sedacao']
+[11:41:22] [TOOL] 'sedoanalgesia' (cat=PROCEDIMENTO) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.05s
+[11:41:22] [SIGTAP] 'midazolam' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:41:22] [SEMANTICO] 'midazolam': 0.651 (limiar 0.8) -> ABCIXIMABE
+[11:41:22] [TOOL] 'midazolam' (cat=MEDICAMENTO) -> vazio, 0.08s
+[11:41:22] [SIGTAP] 'fentanil' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:41:22] [SEMANTICO] 'fentanil': 0.667 (limiar 0.8) -> MORFINA  DE LIBERACAO CONTROLADA 60 MG (POR CAPSULA)
+[11:41:22] [TOOL] 'fentanil' (cat=MEDICAMENTO) -> vazio, 0.05s
+[11:41:22] [NIVEL0] 'noradrenalina' marcado como não faturável separadamente (medicamentos_uso_hospitalar).
+[11:41:22] [TOOL] 'noradrenalina' (cat=MEDICAMENTO) -> nao_faturavel, 0.00s
+[11:41:22] [SIGTAP] 'hemocultura' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[11:41:22] [TOOL] 'hemocultura' (cat=EXAME) -> nivel1, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.02s
+[11:41:22] [SIGTAP] 'Meropenem' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:41:22] [SEMANTICO] 'meropenem': 0.513 (limiar 0.8) -> ABCIXIMABE
+[11:41:22] [TOOL] 'Meropenem' (cat=MEDICAMENTO) -> vazio, 0.04s
+[11:41:22] [NIVEL0] 'Vancomicina' marcado como não faturável separadamente (medicamentos_uso_hospitalar).
+[11:41:22] [TOOL] 'Vancomicina' (cat=MEDICAMENTO) -> nao_faturavel, 0.00s
+[11:41:22] [SIGTAP] 'DEXAMETASONA' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:41:23] [SEMANTICO] 'dexametasona': 0.504 (limiar 0.8) -> CLORIDRATO DE TIROFIBANA
+[11:41:23] [TOOL] 'DEXAMETASONA' (cat=MEDICAMENTO) -> vazio, 0.07s
+[11:41:23] [SIGTAP] 'TROPONINA' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[11:41:23] [TOOL] 'TROPONINA' (cat=EXAME) -> nivel1, score=0.843, confianca=media, painel=False, 1 resultado(s), 0.01s
+[11:41:23] [SIGTAP] 'UREIA' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[11:41:23] [TOOL] 'UREIA' (cat=EXAME) -> nivel1, score=0.832, confianca=media, painel=False, 2 resultado(s), 0.02s
+[11:43:36] [SIGTAP] Iniciando servidor MCP...
+[11:43:36] [NIVEL0] Dicionário carregado: 31 sinônimo(s), 21 termo(s) não faturável(is).
+[11:43:36] [SIGTAP] Conectando ao Postgres em localhost:5432/sigtap (timeout=5s)...
+[11:43:36] [SIGTAP] Tabela carregada: 4994 procedimentos, 9 grupos, em 0.4s.
+[11:43:36] [SEMANTICO] Cache reaproveitado (4994 linhas).
+[11:43:36] [SEMANTICO] Carregando modelo 'paraphrase-multilingual-MiniLM-L12-v2' (HF_HUB_OFFLINE=1)...
+[11:43:54] [SEMANTICO] Modelo carregado em 17.4s.
+[11:43:54] [AQUECIMENTO] Primeiro encode em 0.1s.
+[11:43:54] [AQUECIMENTO] Concluído em 17.9s.
+[11:43:54] [SIGTAP] Pontuação bidirecional ativa: rejeição F1 < 0.45, confiança alta >= 0.85, média >= 0.7.
+[11:43:54] [SIGTAP] Nível 4 (agente): desativado, teto de 6 tentativas por termo.
+[11:43:54] [SIGTAP] Pronto, aguardando conexão via stdio...
+[11:43:54] [NIVEL0] 'noradrenalina' marcado como não faturável separadamente (medicamentos_uso_hospitalar).
+[11:43:54] [TOOL] 'noradrenalina' (cat=MEDICAMENTO) -> nao_faturavel, 0.00s
+[11:43:54] [NIVEL0] 'Sedoanalgesia' -> ['sedacao']
+[11:43:54] [TOOL] 'Sedoanalgesia' (cat=PROCEDIMENTO) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.09s
+[11:43:54] [SIGTAP] 'fentanil' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:43:54] [SEMANTICO] 'fentanil': 0.667 (limiar 0.8) -> MORFINA  DE LIBERACAO CONTROLADA 60 MG (POR CAPSULA)
+[11:43:54] [TOOL] 'fentanil' (cat=MEDICAMENTO) -> vazio, 0.06s
+[11:43:54] [SIGTAP] 'midazolam' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:43:54] [SEMANTICO] 'midazolam': 0.651 (limiar 0.8) -> ABCIXIMABE
+[11:43:54] [TOOL] 'midazolam' (cat=MEDICAMENTO) -> vazio, 0.06s
+[11:43:54] [NIVEL0] 'gasometria arterial' -> ['gasometria']
+[11:43:54] [TOOL] 'gasometria arterial' (cat=EXAME) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.05s
+[11:43:54] [SIGTAP] 'hemocultura' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[11:43:54] [TOOL] 'hemocultura' (cat=EXAME) -> nivel1, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.02s
+[11:43:54] [NIVEL0] 'noradrenalina' marcado como não faturável separadamente (medicamentos_uso_hospitalar).
+[11:43:54] [TOOL] 'noradrenalina' (cat=MEDICAMENTO) -> nao_faturavel, 0.00s
+[11:43:54] [NIVEL0] 'Sedoanalgesia' -> ['sedacao']
+[11:43:54] [TOOL] 'Sedoanalgesia' (cat=PROCEDIMENTO) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.04s
+[11:43:54] [NIVEL0] 'gasometria arterial' -> ['gasometria']
+[11:43:55] [TOOL] 'gasometria arterial' (cat=EXAME) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.06s
+[11:43:55] [NIVEL0] 'noradrenalina' marcado como não faturável separadamente (medicamentos_uso_hospitalar).
+[11:43:55] [TOOL] 'noradrenalina' (cat=MEDICAMENTO) -> nao_faturavel, 0.00s
+[11:43:55] [SIGTAP] 'bomba de infusão' (cat=MATERIAL): busca restrita a 540 de 4994 procedimentos.
+[11:43:55] [TOOL] 'bomba de infusão' (cat=MATERIAL) -> nivel1, score=0.473, confianca=baixa, painel=False, 1 resultado(s), 0.01s
+[11:43:55] [SIGTAP] 'fentanil' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:43:55] [SEMANTICO] 'fentanil': 0.667 (limiar 0.8) -> MORFINA  DE LIBERACAO CONTROLADA 60 MG (POR CAPSULA)
+[11:43:55] [TOOL] 'fentanil' (cat=MEDICAMENTO) -> vazio, 0.06s
+[11:43:55] [NIVEL0] 'noradrenalina' marcado como não faturável separadamente (medicamentos_uso_hospitalar).
+[11:43:55] [TOOL] 'noradrenalina' (cat=MEDICAMENTO) -> nao_faturavel, 0.00s
+[11:43:55] [SIGTAP] 'fentanil' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:43:55] [SEMANTICO] 'fentanil': 0.667 (limiar 0.8) -> MORFINA  DE LIBERACAO CONTROLADA 60 MG (POR CAPSULA)
+[11:43:55] [TOOL] 'fentanil' (cat=MEDICAMENTO) -> vazio, 0.15s
+[11:43:55] [SIGTAP] 'midazolam' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:43:55] [SEMANTICO] 'midazolam': 0.651 (limiar 0.8) -> ABCIXIMABE
+[11:43:55] [TOOL] 'midazolam' (cat=MEDICAMENTO) -> vazio, 0.05s
+[11:43:55] [SIGTAP] 'meropenem' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:43:55] [SEMANTICO] 'meropenem': 0.513 (limiar 0.8) -> ABCIXIMABE
+[11:43:55] [TOOL] 'meropenem' (cat=MEDICAMENTO) -> vazio, 0.04s
+[11:43:55] [NIVEL0] 'vancomicina' marcado como não faturável separadamente (medicamentos_uso_hospitalar).
+[11:43:55] [TOOL] 'vancomicina' (cat=MEDICAMENTO) -> nao_faturavel, 0.00s
+[11:43:55] [NIVEL0] 'sedoanalgesia' -> ['sedacao']
+[11:43:55] [TOOL] 'sedoanalgesia' (cat=PROCEDIMENTO) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.04s
+[11:43:55] [SIGTAP] 'Creatinina' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[11:43:55] [TOOL] 'Creatinina' (cat=EXAME) -> nivel1, score=0.824, confianca=media, painel=False, 3 resultado(s), 0.01s
+[11:43:55] [SIGTAP] 'Troponina' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[11:43:55] [TOOL] 'Troponina' (cat=EXAME) -> nivel1, score=0.843, confianca=media, painel=False, 1 resultado(s), 0.01s
+[11:43:56] [NIVEL0] 'PCR' -> ['proteina c reativa']
+[11:43:56] [TOOL] 'PCR' (cat=EXAME) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.04s
+[11:43:56] [SIGTAP] 'Ureia' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[11:43:56] [TOOL] 'Ureia' (cat=EXAME) -> nivel1, score=0.832, confianca=media, painel=False, 2 resultado(s), 0.01s
+[11:43:56] [SIGTAP] 'Hemocultura' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[11:43:56] [TOOL] 'Hemocultura' (cat=EXAME) -> nivel1, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.01s
+[11:43:56] [NIVEL0] 'gasometria venosa' -> ['gasometria']
+[11:43:56] [TOOL] 'gasometria venosa' (cat=EXAME) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.05s
+[11:43:56] [SIGTAP] 'Morfina' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:43:56] [TOOL] 'Morfina' (cat=MEDICAMENTO) -> nivel1, score=0.683, confianca=baixa, painel=False, 2 resultado(s), 0.01s
+[11:43:56] [NIVEL0] 'Vancomicina' marcado como não faturável separadamente (medicamentos_uso_hospitalar).
+[11:43:56] [TOOL] 'Vancomicina' (cat=MEDICAMENTO) -> nao_faturavel, 0.00s
+[11:43:56] [SIGTAP] 'Meropenem' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:43:56] [SEMANTICO] 'meropenem': 0.513 (limiar 0.8) -> ABCIXIMABE
+[11:43:56] [TOOL] 'Meropenem' (cat=MEDICAMENTO) -> vazio, 0.06s
+[11:43:56] [SIGTAP] 'lactato' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[11:43:56] [TOOL] 'lactato' (cat=EXAME) -> nivel1, score=0.832, confianca=media, painel=False, 1 resultado(s), 0.01s
+[11:43:56] [SIGTAP] 'fentanil' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:43:56] [SEMANTICO] 'fentanil': 0.667 (limiar 0.8) -> MORFINA  DE LIBERACAO CONTROLADA 60 MG (POR CAPSULA)
+[11:43:56] [TOOL] 'fentanil' (cat=MEDICAMENTO) -> vazio, 0.04s
+[11:43:56] [SIGTAP] 'laparotomia exploradora' (cat=PROCEDIMENTO): busca restrita a 2700 de 4994 procedimentos.
+[11:43:56] [TOOL] 'laparotomia exploradora' (cat=PROCEDIMENTO) -> nivel1, score=1.000, confianca=alta, painel=False, 2 resultado(s), 0.02s
+[11:43:56] [SIGTAP] 'Meropenem' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:43:56] [SEMANTICO] 'meropenem': 0.513 (limiar 0.8) -> ABCIXIMABE
+[11:43:56] [TOOL] 'Meropenem' (cat=MEDICAMENTO) -> vazio, 0.06s
+[11:43:56] [NIVEL0] 'Vancomicina' marcado como não faturável separadamente (medicamentos_uso_hospitalar).
+[11:43:56] [TOOL] 'Vancomicina' (cat=MEDICAMENTO) -> nao_faturavel, 0.00s
+[11:43:56] [NIVEL0] 'pcr' -> ['proteina c reativa']
+[11:43:56] [TOOL] 'pcr' (cat=EXAME) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.05s
+[11:43:56] [SIGTAP] 'Uréia' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[11:43:56] [TOOL] 'Uréia' (cat=EXAME) -> nivel1, score=0.832, confianca=media, painel=False, 2 resultado(s), 0.01s
+[11:43:56] [NIVEL0] 'coagulograma' -> ['tempo de protrombina', 'tempo de tromboplastina parcial ativada']
+[11:43:56] [TOOL] 'coagulograma' (cat=EXAME) -> nivel0, score=1.000, confianca=alta, painel=True, 2 resultado(s), 0.10s
+[11:43:57] [SIGTAP] 'troponina' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[11:43:57] [TOOL] 'troponina' (cat=EXAME) -> nivel1, score=0.843, confianca=media, painel=False, 1 resultado(s), 0.02s
+[11:43:57] [NIVEL0] 'PCR' -> ['proteina c reativa']
+[11:43:57] [TOOL] 'PCR' (cat=EXAME) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.06s
+[11:43:57] [SIGTAP] 'Meropenem' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:43:57] [SEMANTICO] 'meropenem': 0.513 (limiar 0.8) -> ABCIXIMABE
+[11:43:57] [TOOL] 'Meropenem' (cat=MEDICAMENTO) -> vazio, 0.06s
+[11:43:57] [NIVEL0] 'Vancomicina' marcado como não faturável separadamente (medicamentos_uso_hospitalar).
+[11:43:57] [TOOL] 'Vancomicina' (cat=MEDICAMENTO) -> nao_faturavel, 0.00s
+[11:43:57] [NIVEL0] 'noradrenalina' marcado como não faturável separadamente (medicamentos_uso_hospitalar).
+[11:43:57] [TOOL] 'noradrenalina' (cat=MEDICAMENTO) -> nao_faturavel, 0.00s
+[11:43:57] [NIVEL0] 'noradrenalina' marcado como não faturável separadamente (medicamentos_uso_hospitalar).
+[11:43:57] [TOOL] 'noradrenalina' (cat=MEDICAMENTO) -> nao_faturavel, 0.00s
+[11:43:57] [SIGTAP] 'fentanil' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:43:57] [SEMANTICO] 'fentanil': 0.667 (limiar 0.8) -> MORFINA  DE LIBERACAO CONTROLADA 60 MG (POR CAPSULA)
+[11:43:57] [TOOL] 'fentanil' (cat=MEDICAMENTO) -> vazio, 0.07s
+[11:43:57] [SIGTAP] 'midazolam' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:43:57] [SEMANTICO] 'midazolam': 0.651 (limiar 0.8) -> ABCIXIMABE
+[11:43:57] [TOOL] 'midazolam' (cat=MEDICAMENTO) -> vazio, 0.04s
+[11:43:57] [SIGTAP] 'meropenem' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:43:57] [SEMANTICO] 'meropenem': 0.513 (limiar 0.8) -> ABCIXIMABE
+[11:43:57] [TOOL] 'meropenem' (cat=MEDICAMENTO) -> vazio, 0.05s
+[11:43:57] [NIVEL0] 'vancomicina' marcado como não faturável separadamente (medicamentos_uso_hospitalar).
+[11:43:57] [TOOL] 'vancomicina' (cat=MEDICAMENTO) -> nao_faturavel, 0.00s
+[11:43:57] [NIVEL0] 'sedoanalgesia' -> ['sedacao']
+[11:43:57] [TOOL] 'sedoanalgesia' (cat=PROCEDIMENTO) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.05s
+[11:43:57] [NIVEL0] 'pcr' -> ['proteina c reativa']
+[11:43:57] [TOOL] 'pcr' (cat=EXAME) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.03s
+[11:43:57] [SIGTAP] 'Hemocultura' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[11:43:58] [TOOL] 'Hemocultura' (cat=EXAME) -> nivel1, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.02s
+[11:43:58] [SIGTAP] 'hemodiálise' (cat=PROCEDIMENTO): busca restrita a 2700 de 4994 procedimentos.
+[11:43:58] [TOOL] 'hemodiálise' (cat=PROCEDIMENTO) -> nivel1, score=0.636, confianca=baixa, painel=False, 1 resultado(s), 0.04s
+[11:43:58] [NIVEL0] 'noradrenalina' marcado como não faturável separadamente (medicamentos_uso_hospitalar).
+[11:43:58] [TOOL] 'noradrenalina' (cat=MEDICAMENTO) -> nao_faturavel, 0.00s
+[11:43:58] [NIVEL0] 'Vancomicina' marcado como não faturável separadamente (medicamentos_uso_hospitalar).
+[11:43:58] [TOOL] 'Vancomicina' (cat=MEDICAMENTO) -> nao_faturavel, 0.00s
+[11:43:58] [SIGTAP] 'Meropenem' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:43:58] [SEMANTICO] 'meropenem': 0.513 (limiar 0.8) -> ABCIXIMABE
+[11:43:58] [TOOL] 'Meropenem' (cat=MEDICAMENTO) -> vazio, 0.07s
+[11:43:58] [NIVEL0] 'sedoanalgesia' -> ['sedacao']
+[11:43:58] [TOOL] 'sedoanalgesia' (cat=PROCEDIMENTO) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.04s
+[11:43:58] [NIVEL0] 'PCR' -> ['proteina c reativa']
+[11:43:58] [TOOL] 'PCR' (cat=EXAME) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.04s
+[11:43:58] [SIGTAP] 'Ureia' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[11:43:58] [TOOL] 'Ureia' (cat=EXAME) -> nivel1, score=0.832, confianca=media, painel=False, 2 resultado(s), 0.02s
+[11:43:58] [SIGTAP] 'Troponina' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[11:43:58] [TOOL] 'Troponina' (cat=EXAME) -> nivel1, score=0.843, confianca=media, painel=False, 1 resultado(s), 0.02s
+[11:43:58] [SIGTAP] 'fentanil' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:43:58] [SEMANTICO] 'fentanil': 0.667 (limiar 0.8) -> MORFINA  DE LIBERACAO CONTROLADA 60 MG (POR CAPSULA)
+[11:43:58] [TOOL] 'fentanil' (cat=MEDICAMENTO) -> vazio, 0.06s
+[11:43:58] [SIGTAP] 'midazolam' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:43:58] [SEMANTICO] 'midazolam': 0.651 (limiar 0.8) -> ABCIXIMABE
+[11:43:58] [TOOL] 'midazolam' (cat=MEDICAMENTO) -> vazio, 0.06s
+[11:43:58] [NIVEL0] 'Noradrenalina' marcado como não faturável separadamente (medicamentos_uso_hospitalar).
+[11:43:58] [TOOL] 'Noradrenalina' (cat=MEDICAMENTO) -> nao_faturavel, 0.00s
+[11:43:58] [SIGTAP] 'Hemocultura' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[11:43:58] [TOOL] 'Hemocultura' (cat=EXAME) -> nivel1, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.01s
+[11:43:58] [SIGTAP] 'Meropenem' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:43:58] [SEMANTICO] 'meropenem': 0.513 (limiar 0.8) -> ABCIXIMABE
+[11:43:58] [TOOL] 'Meropenem' (cat=MEDICAMENTO) -> vazio, 0.05s
+[11:43:59] [SIGTAP] 'Fisioterapia Respiratória' (cat=PROCEDIMENTO): busca restrita a 2700 de 4994 procedimentos.
+[11:43:59] [SEMANTICO] 'fisioterapia respiratoria': 0.825 (limiar 0.8) -> TRATAMENTO DE OUTRAS DOENCAS DO APARELHO RESPIRATORIO
+[11:43:59] [TOOL] 'Fisioterapia Respiratória' (cat=PROCEDIMENTO) -> nivel_semantico, score=0.825, confianca=baixa, painel=False, 1 resultado(s), 0.13s
+[11:43:59] [SIGTAP] 'Fisioterapia Motora' (cat=PROCEDIMENTO): busca restrita a 2700 de 4994 procedimentos.
+[11:43:59] [SEMANTICO] 'fisioterapia motora': 0.833 (limiar 0.8) -> ATENDIMENTO FISIOTERAPÊUTICO NAS ALTERAÇÕES MOTORAS
+[11:43:59] [TOOL] 'Fisioterapia Motora' (cat=PROCEDIMENTO) -> nivel_semantico, score=0.833, confianca=baixa, painel=False, 1 resultado(s), 0.11s
+[11:43:59] [NIVEL0] 'PCR' -> ['proteina c reativa']
+[11:43:59] [TOOL] 'PCR' (cat=EXAME) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.03s
+[11:43:59] [SIGTAP] 'Hemocultura' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[11:43:59] [TOOL] 'Hemocultura' (cat=EXAME) -> nivel1, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.01s
+[11:43:59] [SIGTAP] 'Meropenem' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:43:59] [SEMANTICO] 'meropenem': 0.513 (limiar 0.8) -> ABCIXIMABE
+[11:43:59] [TOOL] 'Meropenem' (cat=MEDICAMENTO) -> vazio, 0.04s
+[11:43:59] [NIVEL0] 'PCR' -> ['proteina c reativa']
+[11:43:59] [TOOL] 'PCR' (cat=EXAME) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.04s
+[11:43:59] [SIGTAP] 'troponina' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[11:43:59] [TOOL] 'troponina' (cat=EXAME) -> nivel1, score=0.843, confianca=media, painel=False, 1 resultado(s), 0.01s
+[11:43:59] [SIGTAP] 'Meropenem' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:43:59] [SEMANTICO] 'meropenem': 0.513 (limiar 0.8) -> ABCIXIMABE
+[11:43:59] [TOOL] 'Meropenem' (cat=MEDICAMENTO) -> vazio, 0.04s
+[11:43:59] [SIGTAP] 'HEMOCULTURA' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[11:43:59] [TOOL] 'HEMOCULTURA' (cat=EXAME) -> nivel1, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.02s
+[11:44:00] [SIGTAP] 'Hemocultura' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[11:44:00] [TOOL] 'Hemocultura' (cat=EXAME) -> nivel1, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.02s
+[11:44:00] [NIVEL0] 'PCR' -> ['proteina c reativa']
+[11:44:00] [TOOL] 'PCR' (cat=EXAME) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.04s
+[11:44:00] [SIGTAP] 'fentanil' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:44:00] [SEMANTICO] 'fentanil': 0.667 (limiar 0.8) -> MORFINA  DE LIBERACAO CONTROLADA 60 MG (POR CAPSULA)
+[11:44:00] [TOOL] 'fentanil' (cat=MEDICAMENTO) -> vazio, 0.05s
+[11:44:00] [SIGTAP] 'midazolam' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:44:00] [SEMANTICO] 'midazolam': 0.651 (limiar 0.8) -> ABCIXIMABE
+[11:44:00] [TOOL] 'midazolam' (cat=MEDICAMENTO) -> vazio, 0.06s
+[11:44:00] [NIVEL0] 'Noradrenalina' marcado como não faturável separadamente (medicamentos_uso_hospitalar).
+[11:44:00] [TOOL] 'Noradrenalina' (cat=MEDICAMENTO) -> nao_faturavel, 0.00s
+[11:44:00] [NIVEL0] 'vancomicina' marcado como não faturável separadamente (medicamentos_uso_hospitalar).
+[11:44:00] [TOOL] 'vancomicina' (cat=MEDICAMENTO) -> nao_faturavel, 0.00s
+[11:44:00] [SIGTAP] 'Meropenem' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:44:00] [SEMANTICO] 'meropenem': 0.513 (limiar 0.8) -> ABCIXIMABE
+[11:44:00] [TOOL] 'Meropenem' (cat=MEDICAMENTO) -> vazio, 0.07s
+[11:44:00] [NIVEL0] 'sedoanalgesia' -> ['sedacao']
+[11:44:00] [TOOL] 'sedoanalgesia' (cat=PROCEDIMENTO) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.03s
+[11:44:00] [NIVEL0] 'Sonda vesical de demora' -> ['cateterismo vesical de demora']
+[11:44:00] [TOOL] 'Sonda vesical de demora' (cat=MATERIAL) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.05s
+[11:44:00] [SIGTAP] 'Troponina' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[11:44:00] [TOOL] 'Troponina' (cat=EXAME) -> nivel1, score=0.843, confianca=media, painel=False, 1 resultado(s), 0.01s
+[11:44:00] [NIVEL0] 'noradrenalina' marcado como não faturável separadamente (medicamentos_uso_hospitalar).
+[11:44:00] [TOOL] 'noradrenalina' (cat=MEDICAMENTO) -> nao_faturavel, 0.00s
+[11:44:00] [NIVEL0] 'Noradrenalina' marcado como não faturável separadamente (medicamentos_uso_hospitalar).
+[11:44:00] [TOOL] 'Noradrenalina' (cat=MEDICAMENTO) -> nao_faturavel, 0.00s
+[11:44:00] [SIGTAP] 'Fentanil' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:44:00] [SEMANTICO] 'fentanil': 0.667 (limiar 0.8) -> MORFINA  DE LIBERACAO CONTROLADA 60 MG (POR CAPSULA)
+[11:44:00] [TOOL] 'Fentanil' (cat=MEDICAMENTO) -> vazio, 0.05s
+[11:44:01] [NIVEL0] 'PCR' -> ['proteina c reativa']
+[11:44:01] [TOOL] 'PCR' (cat=EXAME) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.04s
+[11:44:01] [NIVEL0] 'sedoanalgesia' -> ['sedacao']
+[11:44:01] [TOOL] 'sedoanalgesia' (cat=PROCEDIMENTO) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.04s
+[11:44:01] [SIGTAP] 'midazolam' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:44:01] [SEMANTICO] 'midazolam': 0.651 (limiar 0.8) -> ABCIXIMABE
+[11:44:01] [TOOL] 'midazolam' (cat=MEDICAMENTO) -> vazio, 0.07s
+[11:44:01] [SIGTAP] 'fentanil' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:44:01] [SEMANTICO] 'fentanil': 0.667 (limiar 0.8) -> MORFINA  DE LIBERACAO CONTROLADA 60 MG (POR CAPSULA)
+[11:44:01] [TOOL] 'fentanil' (cat=MEDICAMENTO) -> vazio, 0.05s
+[11:44:01] [NIVEL0] 'sonda vesical de demora' -> ['cateterismo vesical de demora']
+[11:44:01] [TOOL] 'sonda vesical de demora' (cat=MATERIAL) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.04s
+[11:44:01] [SIGTAP] 'Meropenem' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:44:01] [SEMANTICO] 'meropenem': 0.513 (limiar 0.8) -> ABCIXIMABE
+[11:44:01] [TOOL] 'Meropenem' (cat=MEDICAMENTO) -> vazio, 0.06s
+[11:44:01] [NIVEL0] 'Azitromicina' marcado como não faturável separadamente (medicamentos_uso_hospitalar).
+[11:44:01] [TOOL] 'Azitromicina' (cat=MEDICAMENTO) -> nao_faturavel, 0.00s
+[11:44:01] [SIGTAP] 'insulina regular' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:44:01] [SEMANTICO] 'insulina regular': 0.796 (limiar 0.8) -> INSULINA ANÁLOGA DE AÇÃO PROLONGADA DE 100 UI/ML
+[11:44:01] [TOOL] 'insulina regular' (cat=MEDICAMENTO) -> vazio, 0.06s
+[11:44:01] [SIGTAP] 'Cateter venoso central' (cat=MATERIAL): busca restrita a 540 de 4994 procedimentos.
+[11:44:01] [TOOL] 'Cateter venoso central' (cat=MATERIAL) -> nivel1, score=0.731, confianca=media, painel=False, 4 resultado(s), 0.01s
+[11:44:01] [SIGTAP] 'eletroencefalograma' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[11:44:01] [SEMANTICO] 'eletroencefalograma': 0.911 (limiar 0.8) -> ELETROGUSTOMETRIA
+[11:44:01] [TOOL] 'eletroencefalograma' (cat=EXAME) -> nivel_semantico, score=0.911, confianca=media, painel=False, 1 resultado(s), 0.06s
+[11:44:01] [SIGTAP] 'fisioterapia respiratória' (cat=PROCEDIMENTO): busca restrita a 2700 de 4994 procedimentos.
+[11:44:01] [SEMANTICO] 'fisioterapia respiratoria': 0.825 (limiar 0.8) -> TRATAMENTO DE OUTRAS DOENCAS DO APARELHO RESPIRATORIO
+[11:44:01] [TOOL] 'fisioterapia respiratória' (cat=PROCEDIMENTO) -> nivel_semantico, score=0.825, confianca=baixa, painel=False, 1 resultado(s), 0.11s
+[11:44:01] [SIGTAP] 'Nebulização' (cat=PROCEDIMENTO): busca restrita a 2700 de 4994 procedimentos.
+[11:44:01] [TOOL] 'Nebulização' (cat=PROCEDIMENTO) -> nivel1, score=0.694, confianca=baixa, painel=False, 1 resultado(s), 0.03s
+[11:44:01] [SIGTAP] 'hemotransfusão' (cat=PROCEDIMENTO): busca restrita a 2700 de 4994 procedimentos.
+[11:44:01] [SEMANTICO] 'hemotransfusao': 0.839 (limiar 0.8) -> HEMOFILTRAÇÃO
+[11:44:01] [TOOL] 'hemotransfusão' (cat=PROCEDIMENTO) -> nivel_semantico, score=0.839, confianca=baixa, painel=False, 1 resultado(s), 0.10s
+[11:44:01] [NIVEL0] 'heparina' marcado como não faturável separadamente (medicamentos_uso_hospitalar).
+[11:44:01] [TOOL] 'heparina' (cat=MEDICAMENTO) -> nao_faturavel, 0.00s
+[11:44:02] [NIVEL0] 'Noradrenalina' marcado como não faturável separadamente (medicamentos_uso_hospitalar).
+[11:44:02] [TOOL] 'Noradrenalina' (cat=MEDICAMENTO) -> nao_faturavel, 0.00s
+[11:44:02] [NIVEL0] 'sedoanalgesia' -> ['sedacao']
+[11:44:02] [TOOL] 'sedoanalgesia' (cat=PROCEDIMENTO) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.04s
+[11:44:02] [SIGTAP] 'Fentanil' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:44:02] [SEMANTICO] 'fentanil': 0.667 (limiar 0.8) -> MORFINA  DE LIBERACAO CONTROLADA 60 MG (POR CAPSULA)
+[11:44:02] [TOOL] 'Fentanil' (cat=MEDICAMENTO) -> vazio, 0.07s
+[11:44:02] [SIGTAP] 'midazolam' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:44:02] [SEMANTICO] 'midazolam': 0.651 (limiar 0.8) -> ABCIXIMABE
+[11:44:02] [TOOL] 'midazolam' (cat=MEDICAMENTO) -> vazio, 0.05s
+[11:44:02] [SIGTAP] 'Hemocultura' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[11:44:02] [TOOL] 'Hemocultura' (cat=EXAME) -> nivel1, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.01s
+[11:44:02] [SIGTAP] 'concentrado de hemácias' (cat=MATERIAL): busca restrita a 540 de 4994 procedimentos.
+[11:44:02] [SEMANTICO] 'concentrado de hemacias': 0.615 (limiar 0.8) -> PARTICULAS EMBOLIZANTES (FRASCO)
+[11:44:02] [TOOL] 'concentrado de hemácias' (cat=MATERIAL) -> vazio, 0.07s
+[11:44:02] [SIGTAP] 'Meropenem' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:44:02] [SEMANTICO] 'meropenem': 0.513 (limiar 0.8) -> ABCIXIMABE
+[11:44:02] [TOOL] 'Meropenem' (cat=MEDICAMENTO) -> vazio, 0.06s
+[11:44:02] [NIVEL0] 'Vancomicina' marcado como não faturável separadamente (medicamentos_uso_hospitalar).
+[11:44:02] [TOOL] 'Vancomicina' (cat=MEDICAMENTO) -> nao_faturavel, 0.00s
+[11:44:02] [SIGTAP] 'troponina' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[11:44:02] [TOOL] 'troponina' (cat=EXAME) -> nivel1, score=0.843, confianca=media, painel=False, 1 resultado(s), 0.02s
+[11:44:02] [SIGTAP] 'Hemocultura' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[11:44:02] [TOOL] 'Hemocultura' (cat=EXAME) -> nivel1, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.02s
+[11:44:02] [NIVEL0] 'PCR' -> ['proteina c reativa']
+[11:44:02] [TOOL] 'PCR' (cat=EXAME) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.05s
+[11:44:02] [SIGTAP] 'ureia' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[11:44:02] [TOOL] 'ureia' (cat=EXAME) -> nivel1, score=0.832, confianca=media, painel=False, 2 resultado(s), 0.01s
+[11:44:03] [SIGTAP] 'Troponina' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[11:44:03] [TOOL] 'Troponina' (cat=EXAME) -> nivel1, score=0.843, confianca=media, painel=False, 1 resultado(s), 0.01s
+[11:44:03] [NIVEL0] 'PCR' -> ['proteina c reativa']
+[11:44:03] [TOOL] 'PCR' (cat=EXAME) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.04s
+[11:44:03] [SIGTAP] 'Hemocultura' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[11:44:03] [TOOL] 'Hemocultura' (cat=EXAME) -> nivel1, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.01s
+[11:44:03] [SIGTAP] 'Meropenem' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:44:03] [SEMANTICO] 'meropenem': 0.513 (limiar 0.8) -> ABCIXIMABE
+[11:44:03] [TOOL] 'Meropenem' (cat=MEDICAMENTO) -> vazio, 0.07s
+[11:44:03] [NIVEL0] 'Noradrenalina' marcado como não faturável separadamente (medicamentos_uso_hospitalar).
+[11:44:03] [TOOL] 'Noradrenalina' (cat=MEDICAMENTO) -> nao_faturavel, 0.00s
+[11:44:03] [SIGTAP] 'bomba de infusão' (cat=MATERIAL): busca restrita a 540 de 4994 procedimentos.
+[11:44:03] [TOOL] 'bomba de infusão' (cat=MATERIAL) -> nivel1, score=0.473, confianca=baixa, painel=False, 1 resultado(s), 0.01s
+[11:44:03] [SIGTAP] 'dexametasona' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:44:03] [SEMANTICO] 'dexametasona': 0.504 (limiar 0.8) -> CLORIDRATO DE TIROFIBANA
+[11:44:03] [TOOL] 'dexametasona' (cat=MEDICAMENTO) -> vazio, 0.05s
+[11:44:03] [NIVEL0] 'Vancomicina' marcado como não faturável separadamente (medicamentos_uso_hospitalar).
+[11:44:03] [TOOL] 'Vancomicina' (cat=MEDICAMENTO) -> nao_faturavel, 0.00s
+[11:44:03] [NIVEL0] 'noradrenalina' marcado como não faturável separadamente (medicamentos_uso_hospitalar).
+[11:44:03] [TOOL] 'noradrenalina' (cat=MEDICAMENTO) -> nao_faturavel, 0.00s
+[11:44:03] [SIGTAP] 'Fentanil' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:44:03] [SEMANTICO] 'fentanil': 0.667 (limiar 0.8) -> MORFINA  DE LIBERACAO CONTROLADA 60 MG (POR CAPSULA)
+[11:44:03] [TOOL] 'Fentanil' (cat=MEDICAMENTO) -> vazio, 0.06s
+[11:44:03] [NIVEL0] 'PCR' -> ['proteina c reativa']
+[11:44:03] [TOOL] 'PCR' (cat=EXAME) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.04s
+[11:44:03] [SIGTAP] 'ureia' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[11:44:03] [TOOL] 'ureia' (cat=EXAME) -> nivel1, score=0.832, confianca=media, painel=False, 2 resultado(s), 0.01s
+[11:44:03] [NIVEL0] 'gasometria venosa' -> ['gasometria']
+[11:44:03] [TOOL] 'gasometria venosa' (cat=EXAME) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.05s
+[11:44:03] [SIGTAP] 'lactato' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[11:44:03] [TOOL] 'lactato' (cat=EXAME) -> nivel1, score=0.832, confianca=media, painel=False, 1 resultado(s), 0.01s
+[11:44:03] [SIGTAP] 'Troponina' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[11:44:03] [TOOL] 'Troponina' (cat=EXAME) -> nivel1, score=0.843, confianca=media, painel=False, 1 resultado(s), 0.01s
+[11:44:03] [NIVEL0] 'PCR' -> ['proteina c reativa']
+[11:44:04] [TOOL] 'PCR' (cat=EXAME) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.03s
+[11:44:04] [SIGTAP] 'CREATININA' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[11:44:04] [TOOL] 'CREATININA' (cat=EXAME) -> nivel1, score=0.824, confianca=media, painel=False, 3 resultado(s), 0.01s
+[11:44:04] [NIVEL0] 'HEPARINA' marcado como não faturável separadamente (medicamentos_uso_hospitalar).
+[11:44:04] [TOOL] 'HEPARINA' (cat=MEDICAMENTO) -> nao_faturavel, 0.00s
+[11:44:04] [SIGTAP] 'troponina' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[11:44:04] [TOOL] 'troponina' (cat=EXAME) -> nivel1, score=0.843, confianca=media, painel=False, 1 resultado(s), 0.01s
+[11:44:04] [NIVEL0] 'PCR' -> ['proteina c reativa']
+[11:44:04] [TOOL] 'PCR' (cat=EXAME) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.05s
+[11:44:04] [NIVEL0] 'sedoanalgesia' -> ['sedacao']
+[11:44:04] [TOOL] 'sedoanalgesia' (cat=PROCEDIMENTO) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.05s
+[11:44:04] [NIVEL0] 'Noradrenalina' marcado como não faturável separadamente (medicamentos_uso_hospitalar).
+[11:44:04] [TOOL] 'Noradrenalina' (cat=MEDICAMENTO) -> nao_faturavel, 0.00s
+[11:44:04] [NIVEL0] 'Gasometria arterial' -> ['gasometria']
+[11:44:04] [TOOL] 'Gasometria arterial' (cat=EXAME) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.05s
+[11:44:04] [SIGTAP] 'Fisioterapia Respiratória' (cat=PROCEDIMENTO): busca restrita a 2700 de 4994 procedimentos.
+[11:44:04] [SEMANTICO] 'fisioterapia respiratoria': 0.825 (limiar 0.8) -> TRATAMENTO DE OUTRAS DOENCAS DO APARELHO RESPIRATORIO
+[11:44:04] [TOOL] 'Fisioterapia Respiratória' (cat=PROCEDIMENTO) -> nivel_semantico, score=0.825, confianca=baixa, painel=False, 1 resultado(s), 0.14s
+[11:44:04] [SIGTAP] 'Fisioterapia Motora' (cat=PROCEDIMENTO): busca restrita a 2700 de 4994 procedimentos.
+[11:44:05] [SEMANTICO] 'fisioterapia motora': 0.833 (limiar 0.8) -> ATENDIMENTO FISIOTERAPÊUTICO NAS ALTERAÇÕES MOTORAS
+[11:44:05] [TOOL] 'Fisioterapia Motora' (cat=PROCEDIMENTO) -> nivel_semantico, score=0.833, confianca=baixa, painel=False, 1 resultado(s), 0.10s
+[11:44:05] [NIVEL0] 'Sonda vesical de demora' -> ['cateterismo vesical de demora']
+[11:44:05] [TOOL] 'Sonda vesical de demora' (cat=MATERIAL) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.04s
+[11:44:05] [NIVEL0] 'Vancomicina' marcado como não faturável separadamente (medicamentos_uso_hospitalar).
+[11:44:05] [TOOL] 'Vancomicina' (cat=MEDICAMENTO) -> nao_faturavel, 0.00s
+[11:44:05] [NIVEL0] 'Noradrenalina' marcado como não faturável separadamente (medicamentos_uso_hospitalar).
+[11:44:05] [TOOL] 'Noradrenalina' (cat=MEDICAMENTO) -> nao_faturavel, 0.00s
+[11:44:05] [SIGTAP] 'Midazolam' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:44:05] [SEMANTICO] 'midazolam': 0.651 (limiar 0.8) -> ABCIXIMABE
+[11:44:05] [TOOL] 'Midazolam' (cat=MEDICAMENTO) -> vazio, 0.06s
+[11:44:05] [SIGTAP] 'Fentanil' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:44:05] [SEMANTICO] 'fentanil': 0.667 (limiar 0.8) -> MORFINA  DE LIBERACAO CONTROLADA 60 MG (POR CAPSULA)
+[11:44:05] [TOOL] 'Fentanil' (cat=MEDICAMENTO) -> vazio, 0.07s
+[11:44:05] [SIGTAP] 'hemodiálise' (cat=PROCEDIMENTO): busca restrita a 2700 de 4994 procedimentos.
+[11:44:05] [TOOL] 'hemodiálise' (cat=PROCEDIMENTO) -> nivel1, score=0.636, confianca=baixa, painel=False, 1 resultado(s), 0.03s
+[11:44:05] [NIVEL0] 'Gasometria arterial' -> ['gasometria']
+[11:44:05] [TOOL] 'Gasometria arterial' (cat=EXAME) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.07s
+[11:44:05] [SIGTAP] 'Fisioterapia Respiratória' (cat=PROCEDIMENTO): busca restrita a 2700 de 4994 procedimentos.
+[11:44:05] [SEMANTICO] 'fisioterapia respiratoria': 0.825 (limiar 0.8) -> TRATAMENTO DE OUTRAS DOENCAS DO APARELHO RESPIRATORIO
+[11:44:05] [TOOL] 'Fisioterapia Respiratória' (cat=PROCEDIMENTO) -> nivel_semantico, score=0.825, confianca=baixa, painel=False, 1 resultado(s), 0.11s
+[11:44:05] [SIGTAP] 'Fisioterapia Motora' (cat=PROCEDIMENTO): busca restrita a 2700 de 4994 procedimentos.
+[11:44:05] [SEMANTICO] 'fisioterapia motora': 0.833 (limiar 0.8) -> ATENDIMENTO FISIOTERAPÊUTICO NAS ALTERAÇÕES MOTORAS
+[11:44:05] [TOOL] 'Fisioterapia Motora' (cat=PROCEDIMENTO) -> nivel_semantico, score=0.833, confianca=baixa, painel=False, 1 resultado(s), 0.11s
+[11:44:06] [NIVEL0] 'sedoanalgesia' -> ['sedacao']
+[11:44:06] [TOOL] 'sedoanalgesia' (cat=PROCEDIMENTO) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.04s
+[11:44:06] [SIGTAP] 'midazolam' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:44:06] [SEMANTICO] 'midazolam': 0.651 (limiar 0.8) -> ABCIXIMABE
+[11:44:06] [TOOL] 'midazolam' (cat=MEDICAMENTO) -> vazio, 0.06s
+[11:44:06] [SIGTAP] 'fentanil' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:44:06] [SEMANTICO] 'fentanil': 0.667 (limiar 0.8) -> MORFINA  DE LIBERACAO CONTROLADA 60 MG (POR CAPSULA)
+[11:44:06] [TOOL] 'fentanil' (cat=MEDICAMENTO) -> vazio, 0.05s
+[11:44:06] [NIVEL0] 'noradrenalina' marcado como não faturável separadamente (medicamentos_uso_hospitalar).
+[11:44:06] [TOOL] 'noradrenalina' (cat=MEDICAMENTO) -> nao_faturavel, 0.00s
+[11:44:06] [SIGTAP] 'lactato' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[11:44:06] [TOOL] 'lactato' (cat=EXAME) -> nivel1, score=0.832, confianca=media, painel=False, 1 resultado(s), 0.01s
+[11:44:06] [NIVEL0] 'Vancomicina' marcado como não faturável separadamente (medicamentos_uso_hospitalar).
+[11:44:06] [TOOL] 'Vancomicina' (cat=MEDICAMENTO) -> nao_faturavel, 0.00s
+[11:44:06] [SIGTAP] 'Meropenem' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:44:06] [SEMANTICO] 'meropenem': 0.513 (limiar 0.8) -> ABCIXIMABE
+[11:44:06] [TOOL] 'Meropenem' (cat=MEDICAMENTO) -> vazio, 0.06s
+[11:44:06] [SIGTAP] 'Fentanil' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:44:06] [SEMANTICO] 'fentanil': 0.667 (limiar 0.8) -> MORFINA  DE LIBERACAO CONTROLADA 60 MG (POR CAPSULA)
+[11:44:06] [TOOL] 'Fentanil' (cat=MEDICAMENTO) -> vazio, 0.05s
+[11:44:06] [SIGTAP] 'Midazolam' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:44:06] [SEMANTICO] 'midazolam': 0.651 (limiar 0.8) -> ABCIXIMABE
+[11:44:06] [TOOL] 'Midazolam' (cat=MEDICAMENTO) -> vazio, 0.05s
+[11:44:06] [NIVEL0] 'Gasometria arterial' -> ['gasometria']
+[11:44:06] [TOOL] 'Gasometria arterial' (cat=EXAME) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.04s
+[11:44:06] [SIGTAP] 'Fisioterapia Respiratória' (cat=PROCEDIMENTO): busca restrita a 2700 de 4994 procedimentos.
+[11:44:06] [SEMANTICO] 'fisioterapia respiratoria': 0.825 (limiar 0.8) -> TRATAMENTO DE OUTRAS DOENCAS DO APARELHO RESPIRATORIO
+[11:44:06] [TOOL] 'Fisioterapia Respiratória' (cat=PROCEDIMENTO) -> nivel_semantico, score=0.825, confianca=baixa, painel=False, 1 resultado(s), 0.10s
+[11:44:06] [SIGTAP] 'Fisioterapia Motora' (cat=PROCEDIMENTO): busca restrita a 2700 de 4994 procedimentos.
+[11:44:06] [SEMANTICO] 'fisioterapia motora': 0.833 (limiar 0.8) -> ATENDIMENTO FISIOTERAPÊUTICO NAS ALTERAÇÕES MOTORAS
+[11:44:06] [TOOL] 'Fisioterapia Motora' (cat=PROCEDIMENTO) -> nivel_semantico, score=0.833, confianca=baixa, painel=False, 1 resultado(s), 0.16s
+[11:44:07] [SIGTAP] 'midazolam' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:44:07] [SEMANTICO] 'midazolam': 0.651 (limiar 0.8) -> ABCIXIMABE
+[11:44:07] [TOOL] 'midazolam' (cat=MEDICAMENTO) -> vazio, 0.09s
+[11:44:07] [SIGTAP] 'fentanil' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:44:07] [SEMANTICO] 'fentanil': 0.667 (limiar 0.8) -> MORFINA  DE LIBERACAO CONTROLADA 60 MG (POR CAPSULA)
+[11:44:07] [TOOL] 'fentanil' (cat=MEDICAMENTO) -> vazio, 0.08s
+[11:44:07] [NIVEL0] 'noradrenalina' marcado como não faturável separadamente (medicamentos_uso_hospitalar).
+[11:44:07] [TOOL] 'noradrenalina' (cat=MEDICAMENTO) -> nao_faturavel, 0.00s
+[11:44:07] [NIVEL0] 'sedoanalgesia' -> ['sedacao']
+[11:44:07] [TOOL] 'sedoanalgesia' (cat=PROCEDIMENTO) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.05s
+[11:44:07] [SIGTAP] 'Ventilação Mecânica Invasiva' (cat=PROCEDIMENTO): busca restrita a 2700 de 4994 procedimentos.
+[11:44:07] [TOOL] 'Ventilação Mecânica Invasiva' (cat=PROCEDIMENTO) -> nivel1, score=0.590, confianca=baixa, painel=False, 1 resultado(s), 0.03s
+[11:44:07] [NIVEL0] 'Gasometria arterial' -> ['gasometria']
+[11:44:07] [TOOL] 'Gasometria arterial' (cat=EXAME) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.05s
+[11:44:07] [SIGTAP] 'Fisioterapia Respiratória' (cat=PROCEDIMENTO): busca restrita a 2700 de 4994 procedimentos.
+[11:44:07] [SEMANTICO] 'fisioterapia respiratoria': 0.825 (limiar 0.8) -> TRATAMENTO DE OUTRAS DOENCAS DO APARELHO RESPIRATORIO
+[11:44:07] [TOOL] 'Fisioterapia Respiratória' (cat=PROCEDIMENTO) -> nivel_semantico, score=0.825, confianca=baixa, painel=False, 1 resultado(s), 0.14s
+[11:44:07] [SIGTAP] 'Fisioterapia Motora' (cat=PROCEDIMENTO): busca restrita a 2700 de 4994 procedimentos.
+[11:44:07] [SEMANTICO] 'fisioterapia motora': 0.833 (limiar 0.8) -> ATENDIMENTO FISIOTERAPÊUTICO NAS ALTERAÇÕES MOTORAS
+[11:44:07] [TOOL] 'Fisioterapia Motora' (cat=PROCEDIMENTO) -> nivel_semantico, score=0.833, confianca=baixa, painel=False, 1 resultado(s), 0.09s
+[11:44:08] [NIVEL0] 'PCR' -> ['proteina c reativa']
+[11:44:08] [TOOL] 'PCR' (cat=EXAME) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.10s
+[11:44:08] [SIGTAP] 'Meropenem' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:44:08] [SEMANTICO] 'meropenem': 0.513 (limiar 0.8) -> ABCIXIMABE
+[11:44:08] [TOOL] 'Meropenem' (cat=MEDICAMENTO) -> vazio, 0.24s
+[11:44:08] [NIVEL0] 'Vancomicina' marcado como não faturável separadamente (medicamentos_uso_hospitalar).
+[11:44:08] [TOOL] 'Vancomicina' (cat=MEDICAMENTO) -> nao_faturavel, 0.00s
+[11:44:08] [NIVEL0] 'sedoanalgesia' -> ['sedacao']
+[11:44:08] [TOOL] 'sedoanalgesia' (cat=PROCEDIMENTO) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.06s
+[11:44:08] [SIGTAP] 'Midazolam' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:44:08] [SEMANTICO] 'midazolam': 0.651 (limiar 0.8) -> ABCIXIMABE
+[11:44:08] [TOOL] 'Midazolam' (cat=MEDICAMENTO) -> vazio, 0.05s
+[11:44:08] [SIGTAP] 'Fentanil' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:44:09] [SEMANTICO] 'fentanil': 0.667 (limiar 0.8) -> MORFINA  DE LIBERACAO CONTROLADA 60 MG (POR CAPSULA)
+[11:44:09] [TOOL] 'Fentanil' (cat=MEDICAMENTO) -> vazio, 0.06s
+[11:44:09] [NIVEL0] 'Noradrenalina' marcado como não faturável separadamente (medicamentos_uso_hospitalar).
+[11:44:09] [TOOL] 'Noradrenalina' (cat=MEDICAMENTO) -> nao_faturavel, 0.00s
+[11:44:09] [NIVEL0] 'gasometria venosa' -> ['gasometria']
+[11:44:09] [TOOL] 'gasometria venosa' (cat=EXAME) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.06s
+[11:44:09] [NIVEL0] 'sedoanalgesia' -> ['sedacao']
+[11:44:09] [TOOL] 'sedoanalgesia' (cat=PROCEDIMENTO) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.03s
+[11:44:09] [SIGTAP] 'Fentanil' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:44:09] [SEMANTICO] 'fentanil': 0.667 (limiar 0.8) -> MORFINA  DE LIBERACAO CONTROLADA 60 MG (POR CAPSULA)
+[11:44:09] [TOOL] 'Fentanil' (cat=MEDICAMENTO) -> vazio, 0.06s
+[11:44:09] [SIGTAP] 'Midazolam' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:44:09] [SEMANTICO] 'midazolam': 0.651 (limiar 0.8) -> ABCIXIMABE
+[11:44:09] [TOOL] 'Midazolam' (cat=MEDICAMENTO) -> vazio, 0.07s
+[11:44:09] [NIVEL0] 'Noradrenalina' marcado como não faturável separadamente (medicamentos_uso_hospitalar).
+[11:44:09] [TOOL] 'Noradrenalina' (cat=MEDICAMENTO) -> nao_faturavel, 0.00s
+[11:44:09] [NIVEL0] 'Gasometria arterial' -> ['gasometria']
+[11:44:09] [TOOL] 'Gasometria arterial' (cat=EXAME) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.05s
+[11:44:09] [SIGTAP] 'Fisioterapia Respiratória' (cat=PROCEDIMENTO): busca restrita a 2700 de 4994 procedimentos.
+[11:44:09] [SEMANTICO] 'fisioterapia respiratoria': 0.825 (limiar 0.8) -> TRATAMENTO DE OUTRAS DOENCAS DO APARELHO RESPIRATORIO
+[11:44:09] [TOOL] 'Fisioterapia Respiratória' (cat=PROCEDIMENTO) -> nivel_semantico, score=0.825, confianca=baixa, painel=False, 1 resultado(s), 0.13s
+[11:44:09] [SIGTAP] 'Fisioterapia Motora' (cat=PROCEDIMENTO): busca restrita a 2700 de 4994 procedimentos.
+[11:44:09] [SEMANTICO] 'fisioterapia motora': 0.833 (limiar 0.8) -> ATENDIMENTO FISIOTERAPÊUTICO NAS ALTERAÇÕES MOTORAS
+[11:44:09] [TOOL] 'Fisioterapia Motora' (cat=PROCEDIMENTO) -> nivel_semantico, score=0.833, confianca=baixa, painel=False, 1 resultado(s), 0.12s
+[11:44:09] [NIVEL0] 'PCR' -> ['proteina c reativa']
+[11:44:09] [TOOL] 'PCR' (cat=EXAME) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.04s
+[11:44:09] [SIGTAP] 'hemocultura' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[11:44:09] [TOOL] 'hemocultura' (cat=EXAME) -> nivel1, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.01s
+[11:44:10] [NIVEL0] 'gasometria venosa' -> ['gasometria']
+[11:44:10] [TOOL] 'gasometria venosa' (cat=EXAME) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.04s
+[11:44:10] [NIVEL0] 'PCR' -> ['proteina c reativa']
+[11:44:10] [TOOL] 'PCR' (cat=EXAME) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.04s
+[11:44:10] [SIGTAP] 'troponina' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[11:44:10] [TOOL] 'troponina' (cat=EXAME) -> nivel1, score=0.843, confianca=media, painel=False, 1 resultado(s), 0.01s
+[11:44:10] [NIVEL0] 'Monitor cardíaco' marcado como não faturável separadamente (procedimentos_embutidos).
+[11:44:10] [TOOL] 'Monitor cardíaco' (cat=MATERIAL) -> nao_faturavel, 0.00s
+[11:44:10] [NIVEL0] 'noradrenalina' marcado como não faturável separadamente (medicamentos_uso_hospitalar).
+[11:44:10] [TOOL] 'noradrenalina' (cat=MEDICAMENTO) -> nao_faturavel, 0.00s
+[11:44:10] [NIVEL0] 'gasometria arterial' -> ['gasometria']
+[11:44:10] [TOOL] 'gasometria arterial' (cat=EXAME) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.04s
+[11:44:10] [SIGTAP] 'Meropenem' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:44:10] [SEMANTICO] 'meropenem': 0.513 (limiar 0.8) -> ABCIXIMABE
+[11:44:10] [TOOL] 'Meropenem' (cat=MEDICAMENTO) -> vazio, 0.06s
+[11:44:10] [NIVEL0] 'Azitromicina' marcado como não faturável separadamente (medicamentos_uso_hospitalar).
+[11:44:10] [TOOL] 'Azitromicina' (cat=MEDICAMENTO) -> nao_faturavel, 0.00s
+[11:44:10] [SIGTAP] 'Cateter venoso central' (cat=MATERIAL): busca restrita a 540 de 4994 procedimentos.
+[11:44:10] [TOOL] 'Cateter venoso central' (cat=MATERIAL) -> nivel1, score=0.731, confianca=media, painel=False, 4 resultado(s), 0.01s
+[11:44:10] [NIVEL0] 'gasometria arterial' -> ['gasometria']
+[11:44:10] [TOOL] 'gasometria arterial' (cat=EXAME) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.03s
+[11:44:10] [SIGTAP] 'Troponina' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[11:44:10] [TOOL] 'Troponina' (cat=EXAME) -> nivel1, score=0.843, confianca=media, painel=False, 1 resultado(s), 0.01s
+[11:44:10] [NIVEL0] 'PCR' -> ['proteina c reativa']
+[11:44:10] [TOOL] 'PCR' (cat=EXAME) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.03s
+[11:44:10] [SIGTAP] 'Hemocultura' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[11:44:10] [TOOL] 'Hemocultura' (cat=EXAME) -> nivel1, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.01s
+[11:44:10] [NIVEL0] 'sedoanalgesia' -> ['sedacao']
+[11:44:10] [TOOL] 'sedoanalgesia' (cat=PROCEDIMENTO) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.02s
+[11:44:10] [NIVEL0] 'Gasometria arterial' -> ['gasometria']
+[11:44:10] [TOOL] 'Gasometria arterial' (cat=EXAME) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.03s
+[11:44:10] [SIGTAP] 'Fisioterapia Respiratória' (cat=PROCEDIMENTO): busca restrita a 2700 de 4994 procedimentos.
+[11:44:10] [SEMANTICO] 'fisioterapia respiratoria': 0.825 (limiar 0.8) -> TRATAMENTO DE OUTRAS DOENCAS DO APARELHO RESPIRATORIO
+[11:44:11] [TOOL] 'Fisioterapia Respiratória' (cat=PROCEDIMENTO) -> nivel_semantico, score=0.825, confianca=baixa, painel=False, 1 resultado(s), 0.08s
+[11:44:11] [SIGTAP] 'Fisioterapia Motora' (cat=PROCEDIMENTO): busca restrita a 2700 de 4994 procedimentos.
+[11:44:11] [SEMANTICO] 'fisioterapia motora': 0.833 (limiar 0.8) -> ATENDIMENTO FISIOTERAPÊUTICO NAS ALTERAÇÕES MOTORAS
+[11:44:11] [TOOL] 'Fisioterapia Motora' (cat=PROCEDIMENTO) -> nivel_semantico, score=0.833, confianca=baixa, painel=False, 1 resultado(s), 0.09s
+[11:44:11] [SIGTAP] 'Meropenem' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:44:11] [SEMANTICO] 'meropenem': 0.513 (limiar 0.8) -> ABCIXIMABE
+[11:44:11] [TOOL] 'Meropenem' (cat=MEDICAMENTO) -> vazio, 0.06s
+[11:44:11] [NIVEL0] 'Vancomicina' marcado como não faturável separadamente (medicamentos_uso_hospitalar).
+[11:44:11] [TOOL] 'Vancomicina' (cat=MEDICAMENTO) -> nao_faturavel, 0.00s
+[11:44:11] [NIVEL0] 'noradrenalina' marcado como não faturável separadamente (medicamentos_uso_hospitalar).
+[11:44:11] [TOOL] 'noradrenalina' (cat=MEDICAMENTO) -> nao_faturavel, 0.00s
+[11:44:11] [NIVEL0] 'Sedoanalgesia' -> ['sedacao']
+[11:44:11] [TOOL] 'Sedoanalgesia' (cat=PROCEDIMENTO) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.04s
+[11:44:11] [SIGTAP] 'creatinina' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[11:44:11] [TOOL] 'creatinina' (cat=EXAME) -> nivel1, score=0.824, confianca=media, painel=False, 3 resultado(s), 0.01s
+[11:44:11] [NIVEL0] 'PCR' -> ['proteina c reativa']
+[11:44:11] [TOOL] 'PCR' (cat=EXAME) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.04s
+[11:44:11] [NIVEL0] 'gasometria venosa' -> ['gasometria']
+[11:44:11] [TOOL] 'gasometria venosa' (cat=EXAME) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.08s
+[11:44:11] [NIVEL0] 'PCR' -> ['proteina c reativa']
+[11:44:11] [TOOL] 'PCR' (cat=EXAME) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.05s
+[11:44:11] [SIGTAP] 'Fisioterapia Respiratória' (cat=PROCEDIMENTO): busca restrita a 2700 de 4994 procedimentos.
+[11:44:11] [SEMANTICO] 'fisioterapia respiratoria': 0.825 (limiar 0.8) -> TRATAMENTO DE OUTRAS DOENCAS DO APARELHO RESPIRATORIO
+[11:44:11] [TOOL] 'Fisioterapia Respiratória' (cat=PROCEDIMENTO) -> nivel_semantico, score=0.825, confianca=baixa, painel=False, 1 resultado(s), 0.09s
+[11:44:11] [SIGTAP] 'Fisioterapia Motora' (cat=PROCEDIMENTO): busca restrita a 2700 de 4994 procedimentos.
+[11:44:11] [SEMANTICO] 'fisioterapia motora': 0.833 (limiar 0.8) -> ATENDIMENTO FISIOTERAPÊUTICO NAS ALTERAÇÕES MOTORAS
+[11:44:11] [TOOL] 'Fisioterapia Motora' (cat=PROCEDIMENTO) -> nivel_semantico, score=0.833, confianca=baixa, painel=False, 1 resultado(s), 0.08s
+[11:44:12] [SIGTAP] 'troponina' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[11:44:12] [TOOL] 'troponina' (cat=EXAME) -> nivel1, score=0.843, confianca=media, painel=False, 1 resultado(s), 0.01s
+[11:44:12] [NIVEL0] 'noradrenalina' marcado como não faturável separadamente (medicamentos_uso_hospitalar).
+[11:44:12] [TOOL] 'noradrenalina' (cat=MEDICAMENTO) -> nao_faturavel, 0.00s
+[11:44:12] [SIGTAP] 'UREIA' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[11:44:12] [TOOL] 'UREIA' (cat=EXAME) -> nivel1, score=0.832, confianca=media, painel=False, 2 resultado(s), 0.01s
+[11:44:12] [SIGTAP] 'Ureia' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[11:44:12] [TOOL] 'Ureia' (cat=EXAME) -> nivel1, score=0.832, confianca=media, painel=False, 2 resultado(s), 0.01s
+[11:44:12] [SIGTAP] 'Meropenem' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:44:12] [SEMANTICO] 'meropenem': 0.513 (limiar 0.8) -> ABCIXIMABE
+[11:44:12] [TOOL] 'Meropenem' (cat=MEDICAMENTO) -> vazio, 0.08s
+[11:44:12] [SIGTAP] 'fentanil' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:44:12] [SEMANTICO] 'fentanil': 0.667 (limiar 0.8) -> MORFINA  DE LIBERACAO CONTROLADA 60 MG (POR CAPSULA)
+[11:44:12] [TOOL] 'fentanil' (cat=MEDICAMENTO) -> vazio, 0.07s
+[11:44:12] [SIGTAP] 'midazolam' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:44:12] [SEMANTICO] 'midazolam': 0.651 (limiar 0.8) -> ABCIXIMABE
+[11:44:12] [TOOL] 'midazolam' (cat=MEDICAMENTO) -> vazio, 0.05s
+[11:44:12] [NIVEL0] 'noradrenalina' marcado como não faturável separadamente (medicamentos_uso_hospitalar).
+[11:44:12] [TOOL] 'noradrenalina' (cat=MEDICAMENTO) -> nao_faturavel, 0.00s
+[11:44:12] [NIVEL0] 'sedoanalgesia' -> ['sedacao']
+[11:44:12] [TOOL] 'sedoanalgesia' (cat=PROCEDIMENTO) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.03s
+[11:44:12] [NIVEL0] 'Sonda nasoenteral' marcado como não faturável separadamente (materiais_descartaveis).
+[11:44:12] [TOOL] 'Sonda nasoenteral' (cat=MATERIAL) -> nao_faturavel, 0.00s
+[11:44:12] [NIVEL0] 'heparina' marcado como não faturável separadamente (medicamentos_uso_hospitalar).
+[11:44:12] [TOOL] 'heparina' (cat=MEDICAMENTO) -> nao_faturavel, 0.00s
+[11:44:12] [SIGTAP] 'hemodiálise' (cat=PROCEDIMENTO): busca restrita a 2700 de 4994 procedimentos.
+[11:44:12] [TOOL] 'hemodiálise' (cat=PROCEDIMENTO) -> nivel1, score=0.636, confianca=baixa, painel=False, 1 resultado(s), 0.03s
+[11:44:12] [NIVEL0] 'noradrenalina' marcado como não faturável separadamente (medicamentos_uso_hospitalar).
+[11:44:12] [TOOL] 'noradrenalina' (cat=MEDICAMENTO) -> nao_faturavel, 0.00s
+[11:44:12] [NIVEL0] 'noradrenalina' marcado como não faturável separadamente (medicamentos_uso_hospitalar).
+[11:44:12] [TOOL] 'noradrenalina' (cat=MEDICAMENTO) -> nao_faturavel, 0.00s
+[11:44:12] [NIVEL0] 'sedoanalgesia' -> ['sedacao']
+[11:44:12] [TOOL] 'sedoanalgesia' (cat=PROCEDIMENTO) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.03s
+[11:44:12] [SIGTAP] 'fentanil' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:44:12] [SEMANTICO] 'fentanil': 0.667 (limiar 0.8) -> MORFINA  DE LIBERACAO CONTROLADA 60 MG (POR CAPSULA)
+[11:44:12] [TOOL] 'fentanil' (cat=MEDICAMENTO) -> vazio, 0.03s
+[11:44:12] [NIVEL0] 'Noradrenalina' marcado como não faturável separadamente (medicamentos_uso_hospitalar).
+[11:44:12] [TOOL] 'Noradrenalina' (cat=MEDICAMENTO) -> nao_faturavel, 0.00s
+[11:44:12] [SIGTAP] 'Fentanil' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:44:13] [SEMANTICO] 'fentanil': 0.667 (limiar 0.8) -> MORFINA  DE LIBERACAO CONTROLADA 60 MG (POR CAPSULA)
+[11:44:13] [TOOL] 'Fentanil' (cat=MEDICAMENTO) -> vazio, 0.04s
+[11:44:13] [SIGTAP] 'midazolam' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:44:13] [SEMANTICO] 'midazolam': 0.651 (limiar 0.8) -> ABCIXIMABE
+[11:44:13] [TOOL] 'midazolam' (cat=MEDICAMENTO) -> vazio, 0.05s
+[11:44:13] [SIGTAP] 'fentanil' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:44:13] [SEMANTICO] 'fentanil': 0.667 (limiar 0.8) -> MORFINA  DE LIBERACAO CONTROLADA 60 MG (POR CAPSULA)
+[11:44:13] [TOOL] 'fentanil' (cat=MEDICAMENTO) -> vazio, 0.05s
+[11:44:13] [NIVEL0] 'noradrenalina' marcado como não faturável separadamente (medicamentos_uso_hospitalar).
+[11:44:13] [TOOL] 'noradrenalina' (cat=MEDICAMENTO) -> nao_faturavel, 0.00s
+[11:44:13] [NIVEL0] 'PCR' -> ['proteina c reativa']
+[11:44:13] [TOOL] 'PCR' (cat=EXAME) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.04s
+[11:44:13] [SIGTAP] 'troponina' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[11:44:13] [TOOL] 'troponina' (cat=EXAME) -> nivel1, score=0.843, confianca=media, painel=False, 1 resultado(s), 0.01s
+[11:44:13] [SIGTAP] 'fentanil' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:44:13] [SEMANTICO] 'fentanil': 0.667 (limiar 0.8) -> MORFINA  DE LIBERACAO CONTROLADA 60 MG (POR CAPSULA)
+[11:44:13] [TOOL] 'fentanil' (cat=MEDICAMENTO) -> vazio, 0.04s
+[11:44:13] [NIVEL0] 'noradrenalina' marcado como não faturável separadamente (medicamentos_uso_hospitalar).
+[11:44:13] [TOOL] 'noradrenalina' (cat=MEDICAMENTO) -> nao_faturavel, 0.00s
+[11:44:13] [NIVEL0] 'Gasometria arterial' -> ['gasometria']
+[11:44:13] [TOOL] 'Gasometria arterial' (cat=EXAME) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.06s
+[11:44:13] [SIGTAP] 'Fisioterapia Respiratória' (cat=PROCEDIMENTO): busca restrita a 2700 de 4994 procedimentos.
+[11:44:13] [SEMANTICO] 'fisioterapia respiratoria': 0.825 (limiar 0.8) -> TRATAMENTO DE OUTRAS DOENCAS DO APARELHO RESPIRATORIO
+[11:44:13] [TOOL] 'Fisioterapia Respiratória' (cat=PROCEDIMENTO) -> nivel_semantico, score=0.825, confianca=baixa, painel=False, 1 resultado(s), 0.07s
+[11:44:13] [SIGTAP] 'Fisioterapia Motora' (cat=PROCEDIMENTO): busca restrita a 2700 de 4994 procedimentos.
+[11:44:13] [SEMANTICO] 'fisioterapia motora': 0.833 (limiar 0.8) -> ATENDIMENTO FISIOTERAPÊUTICO NAS ALTERAÇÕES MOTORAS
+[11:44:13] [TOOL] 'Fisioterapia Motora' (cat=PROCEDIMENTO) -> nivel_semantico, score=0.833, confianca=baixa, painel=False, 1 resultado(s), 0.10s
+[11:44:13] [NIVEL0] 'Vancomicina' marcado como não faturável separadamente (medicamentos_uso_hospitalar).
+[11:44:13] [TOOL] 'Vancomicina' (cat=MEDICAMENTO) -> nao_faturavel, 0.00s
+[11:44:13] [NIVEL0] 'PCR' -> ['proteina c reativa']
+[11:44:13] [TOOL] 'PCR' (cat=EXAME) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.05s
+[11:44:14] [SIGTAP] 'Fentanil' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:44:14] [SEMANTICO] 'fentanil': 0.667 (limiar 0.8) -> MORFINA  DE LIBERACAO CONTROLADA 60 MG (POR CAPSULA)
+[11:44:14] [TOOL] 'Fentanil' (cat=MEDICAMENTO) -> vazio, 0.05s
+[11:44:14] [SIGTAP] 'Midazolam' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:44:14] [SEMANTICO] 'midazolam': 0.651 (limiar 0.8) -> ABCIXIMABE
+[11:44:14] [TOOL] 'Midazolam' (cat=MEDICAMENTO) -> vazio, 0.06s
+[11:44:14] [NIVEL0] 'Noradrenalina' marcado como não faturável separadamente (medicamentos_uso_hospitalar).
+[11:44:14] [TOOL] 'Noradrenalina' (cat=MEDICAMENTO) -> nao_faturavel, 0.00s
+[11:44:14] [SIGTAP] 'Fisioterapia Respiratória' (cat=PROCEDIMENTO): busca restrita a 2700 de 4994 procedimentos.
+[11:44:14] [SEMANTICO] 'fisioterapia respiratoria': 0.825 (limiar 0.8) -> TRATAMENTO DE OUTRAS DOENCAS DO APARELHO RESPIRATORIO
+[11:44:14] [TOOL] 'Fisioterapia Respiratória' (cat=PROCEDIMENTO) -> nivel_semantico, score=0.825, confianca=baixa, painel=False, 1 resultado(s), 0.10s
+[11:44:14] [SIGTAP] 'Fisioterapia Motora' (cat=PROCEDIMENTO): busca restrita a 2700 de 4994 procedimentos.
+[11:44:14] [SEMANTICO] 'fisioterapia motora': 0.833 (limiar 0.8) -> ATENDIMENTO FISIOTERAPÊUTICO NAS ALTERAÇÕES MOTORAS
+[11:44:14] [TOOL] 'Fisioterapia Motora' (cat=PROCEDIMENTO) -> nivel_semantico, score=0.833, confianca=baixa, painel=False, 1 resultado(s), 0.12s
+[11:44:14] [NIVEL0] 'PCR' -> ['proteina c reativa']
+[11:44:14] [TOOL] 'PCR' (cat=EXAME) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.04s
+[11:44:14] [SIGTAP] 'fentanil' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:44:14] [SEMANTICO] 'fentanil': 0.667 (limiar 0.8) -> MORFINA  DE LIBERACAO CONTROLADA 60 MG (POR CAPSULA)
+[11:44:14] [TOOL] 'fentanil' (cat=MEDICAMENTO) -> vazio, 0.03s
+[11:44:14] [SIGTAP] 'midazolam' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:44:14] [SEMANTICO] 'midazolam': 0.651 (limiar 0.8) -> ABCIXIMABE
+[11:44:14] [TOOL] 'midazolam' (cat=MEDICAMENTO) -> vazio, 0.05s
+[11:44:14] [NIVEL0] 'Noradrenalina' marcado como não faturável separadamente (medicamentos_uso_hospitalar).
+[11:44:14] [TOOL] 'Noradrenalina' (cat=MEDICAMENTO) -> nao_faturavel, 0.00s
+[11:44:14] [NIVEL0] 'sedoanalgesia' -> ['sedacao']
+[11:44:14] [TOOL] 'sedoanalgesia' (cat=PROCEDIMENTO) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.04s
+[11:44:14] [NIVEL0] 'Gasometria arterial' -> ['gasometria']
+[11:44:14] [TOOL] 'Gasometria arterial' (cat=EXAME) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.04s
+[11:44:14] [SIGTAP] 'Fisioterapia Respiratória' (cat=PROCEDIMENTO): busca restrita a 2700 de 4994 procedimentos.
+[11:44:14] [SEMANTICO] 'fisioterapia respiratoria': 0.825 (limiar 0.8) -> TRATAMENTO DE OUTRAS DOENCAS DO APARELHO RESPIRATORIO
+[11:44:14] [TOOL] 'Fisioterapia Respiratória' (cat=PROCEDIMENTO) -> nivel_semantico, score=0.825, confianca=baixa, painel=False, 1 resultado(s), 0.10s
+[11:44:14] [SIGTAP] 'Fisioterapia Motora' (cat=PROCEDIMENTO): busca restrita a 2700 de 4994 procedimentos.
+[11:44:14] [SEMANTICO] 'fisioterapia motora': 0.833 (limiar 0.8) -> ATENDIMENTO FISIOTERAPÊUTICO NAS ALTERAÇÕES MOTORAS
+[11:44:14] [TOOL] 'Fisioterapia Motora' (cat=PROCEDIMENTO) -> nivel_semantico, score=0.833, confianca=baixa, painel=False, 1 resultado(s), 0.08s
+[11:44:15] [SIGTAP] 'Troponina' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[11:44:15] [TOOL] 'Troponina' (cat=EXAME) -> nivel1, score=0.843, confianca=media, painel=False, 1 resultado(s), 0.01s
+[11:44:15] [NIVEL0] 'PCR' -> ['proteina c reativa']
+[11:44:15] [TOOL] 'PCR' (cat=EXAME) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.04s
+[11:44:15] [SIGTAP] 'morfina' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:44:15] [TOOL] 'morfina' (cat=MEDICAMENTO) -> nivel1, score=0.683, confianca=baixa, painel=False, 2 resultado(s), 0.01s
+[11:44:15] [NIVEL0] 'Gasometria arterial' -> ['gasometria']
+[11:44:15] [TOOL] 'Gasometria arterial' (cat=EXAME) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.04s
+[11:44:15] [SIGTAP] 'Fisioterapia Respiratória' (cat=PROCEDIMENTO): busca restrita a 2700 de 4994 procedimentos.
+[11:44:15] [SEMANTICO] 'fisioterapia respiratoria': 0.825 (limiar 0.8) -> TRATAMENTO DE OUTRAS DOENCAS DO APARELHO RESPIRATORIO
+[11:44:15] [TOOL] 'Fisioterapia Respiratória' (cat=PROCEDIMENTO) -> nivel_semantico, score=0.825, confianca=baixa, painel=False, 1 resultado(s), 0.10s
+[11:44:15] [SIGTAP] 'Fisioterapia Motora' (cat=PROCEDIMENTO): busca restrita a 2700 de 4994 procedimentos.
+[11:44:15] [SEMANTICO] 'fisioterapia motora': 0.833 (limiar 0.8) -> ATENDIMENTO FISIOTERAPÊUTICO NAS ALTERAÇÕES MOTORAS
+[11:44:15] [TOOL] 'Fisioterapia Motora' (cat=PROCEDIMENTO) -> nivel_semantico, score=0.833, confianca=baixa, painel=False, 1 resultado(s), 0.08s
+[11:44:15] [NIVEL0] 'Vancomicina' marcado como não faturável separadamente (medicamentos_uso_hospitalar).
+[11:44:15] [TOOL] 'Vancomicina' (cat=MEDICAMENTO) -> nao_faturavel, 0.00s
+[11:44:15] [SIGTAP] 'Meropenem' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:44:15] [SEMANTICO] 'meropenem': 0.513 (limiar 0.8) -> ABCIXIMABE
+[11:44:15] [TOOL] 'Meropenem' (cat=MEDICAMENTO) -> vazio, 0.05s
+[11:44:15] [SIGTAP] 'Hemocultura' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[11:44:15] [TOOL] 'Hemocultura' (cat=EXAME) -> nivel1, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.01s
+[11:44:15] [NIVEL0] 'sedoanalgesia' -> ['sedacao']
+[11:44:15] [TOOL] 'sedoanalgesia' (cat=PROCEDIMENTO) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.05s
+[11:44:15] [NIVEL0] 'noradrenalina' marcado como não faturável separadamente (medicamentos_uso_hospitalar).
+[11:44:15] [TOOL] 'noradrenalina' (cat=MEDICAMENTO) -> nao_faturavel, 0.00s
+[11:44:15] [NIVEL0] 'gasometria arterial' -> ['gasometria']
+[11:44:15] [TOOL] 'gasometria arterial' (cat=EXAME) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.05s
+[11:44:15] [NIVEL0] 'PCR' -> ['proteina c reativa']
+[11:44:15] [TOOL] 'PCR' (cat=EXAME) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.04s
+[11:44:15] [NIVEL0] 'heparina' marcado como não faturável separadamente (medicamentos_uso_hospitalar).
+[11:44:15] [TOOL] 'heparina' (cat=MEDICAMENTO) -> nao_faturavel, 0.00s
+[11:44:15] [NIVEL0] 'gasometria venosa' -> ['gasometria']
+[11:44:16] [TOOL] 'gasometria venosa' (cat=EXAME) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.04s
+[11:44:16] [NIVEL0] 'PCR' -> ['proteina c reativa']
+[11:44:16] [TOOL] 'PCR' (cat=EXAME) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.04s
+[11:44:16] [SIGTAP] 'TROPONINA' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[11:44:16] [TOOL] 'TROPONINA' (cat=EXAME) -> nivel1, score=0.843, confianca=media, painel=False, 1 resultado(s), 0.01s
+[11:44:16] [SIGTAP] 'Hemocultura' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[11:44:16] [TOOL] 'Hemocultura' (cat=EXAME) -> nivel1, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.01s
+[11:44:16] [NIVEL0] 'vancomicina' marcado como não faturável separadamente (medicamentos_uso_hospitalar).
+[11:44:16] [TOOL] 'vancomicina' (cat=MEDICAMENTO) -> nao_faturavel, 0.00s
+[11:44:16] [SIGTAP] 'Meropenem' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:44:16] [SEMANTICO] 'meropenem': 0.513 (limiar 0.8) -> ABCIXIMABE
+[11:44:16] [TOOL] 'Meropenem' (cat=MEDICAMENTO) -> vazio, 0.06s
+[11:44:16] [NIVEL0] 'Noradrenalina' marcado como não faturável separadamente (medicamentos_uso_hospitalar).
+[11:44:16] [TOOL] 'Noradrenalina' (cat=MEDICAMENTO) -> nao_faturavel, 0.00s
+[11:44:16] [SIGTAP] 'Ureia' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[11:44:16] [TOOL] 'Ureia' (cat=EXAME) -> nivel1, score=0.832, confianca=media, painel=False, 2 resultado(s), 0.01s
+[11:44:16] [NIVEL0] 'heparina' marcado como não faturável separadamente (medicamentos_uso_hospitalar).
+[11:44:16] [TOOL] 'heparina' (cat=MEDICAMENTO) -> nao_faturavel, 0.00s
+[11:44:16] [SIGTAP] 'Troponina' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[11:44:16] [TOOL] 'Troponina' (cat=EXAME) -> nivel1, score=0.843, confianca=media, painel=False, 1 resultado(s), 0.01s
+[11:44:16] [NIVEL0] 'PCR' -> ['proteina c reativa']
+[11:44:16] [TOOL] 'PCR' (cat=EXAME) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.06s
+[11:44:16] [SIGTAP] 'morfina' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:44:16] [TOOL] 'morfina' (cat=MEDICAMENTO) -> nivel1, score=0.683, confianca=baixa, painel=False, 2 resultado(s), 0.01s
+[11:44:16] [SIGTAP] 'Fisioterapia Respiratória' (cat=PROCEDIMENTO): busca restrita a 2700 de 4994 procedimentos.
+[11:44:16] [SEMANTICO] 'fisioterapia respiratoria': 0.825 (limiar 0.8) -> TRATAMENTO DE OUTRAS DOENCAS DO APARELHO RESPIRATORIO
+[11:44:16] [TOOL] 'Fisioterapia Respiratória' (cat=PROCEDIMENTO) -> nivel_semantico, score=0.825, confianca=baixa, painel=False, 1 resultado(s), 0.12s
+[11:44:16] [SIGTAP] 'Fisioterapia Motora' (cat=PROCEDIMENTO): busca restrita a 2700 de 4994 procedimentos.
+[11:44:17] [SEMANTICO] 'fisioterapia motora': 0.833 (limiar 0.8) -> ATENDIMENTO FISIOTERAPÊUTICO NAS ALTERAÇÕES MOTORAS
+[11:44:17] [TOOL] 'Fisioterapia Motora' (cat=PROCEDIMENTO) -> nivel_semantico, score=0.833, confianca=baixa, painel=False, 1 resultado(s), 0.08s
+[11:44:17] [SIGTAP] 'Fentanil' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:44:17] [SEMANTICO] 'fentanil': 0.667 (limiar 0.8) -> MORFINA  DE LIBERACAO CONTROLADA 60 MG (POR CAPSULA)
+[11:44:17] [TOOL] 'Fentanil' (cat=MEDICAMENTO) -> vazio, 0.04s
+[11:44:17] [NIVEL0] 'Noradrenalina' marcado como não faturável separadamente (medicamentos_uso_hospitalar).
+[11:44:17] [TOOL] 'Noradrenalina' (cat=MEDICAMENTO) -> nao_faturavel, 0.00s
+[11:44:17] [SIGTAP] 'Midazolam' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:44:17] [SEMANTICO] 'midazolam': 0.651 (limiar 0.8) -> ABCIXIMABE
+[11:44:17] [TOOL] 'Midazolam' (cat=MEDICAMENTO) -> vazio, 0.05s
+[11:44:17] [NIVEL0] 'pcr' -> ['proteina c reativa']
+[11:44:17] [TOOL] 'pcr' (cat=EXAME) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.04s
+[11:44:17] [SIGTAP] 'morfina' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:44:17] [TOOL] 'morfina' (cat=MEDICAMENTO) -> nivel1, score=0.683, confianca=baixa, painel=False, 2 resultado(s), 0.01s
+[11:44:17] [SIGTAP] 'Fentanil' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:44:17] [SEMANTICO] 'fentanil': 0.667 (limiar 0.8) -> MORFINA  DE LIBERACAO CONTROLADA 60 MG (POR CAPSULA)
+[11:44:17] [TOOL] 'Fentanil' (cat=MEDICAMENTO) -> vazio, 0.05s
+[11:44:17] [SIGTAP] 'Lactato' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[11:44:17] [TOOL] 'Lactato' (cat=EXAME) -> nivel1, score=0.832, confianca=media, painel=False, 1 resultado(s), 0.01s
+[11:44:17] [SIGTAP] 'hemocultura' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[11:44:17] [TOOL] 'hemocultura' (cat=EXAME) -> nivel1, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.01s
+[11:44:17] [NIVEL0] 'perfil lipídico' -> ['colesterol total', 'triglicerideos', 'colesterol hdl']
+[11:44:17] [TOOL] 'perfil lipídico' (cat=EXAME) -> nivel0, score=1.000, confianca=alta, painel=True, 3 resultado(s), 0.12s
+[11:44:17] [NIVEL0] 'PCR' -> ['proteina c reativa']
+[11:44:17] [TOOL] 'PCR' (cat=EXAME) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.05s
+[11:44:17] [NIVEL0] 'Azitromicina' marcado como não faturável separadamente (medicamentos_uso_hospitalar).
+[11:44:17] [TOOL] 'Azitromicina' (cat=MEDICAMENTO) -> nao_faturavel, 0.00s
+[11:44:17] [NIVEL0] 'sedoanalgesia' -> ['sedacao']
+[11:44:17] [TOOL] 'sedoanalgesia' (cat=PROCEDIMENTO) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.04s
+[11:44:17] [SIGTAP] 'Midazolam' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:44:18] [SEMANTICO] 'midazolam': 0.651 (limiar 0.8) -> ABCIXIMABE
+[11:44:18] [TOOL] 'Midazolam' (cat=MEDICAMENTO) -> vazio, 0.06s
+[11:44:18] [SIGTAP] 'Fentanil' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:44:18] [SEMANTICO] 'fentanil': 0.667 (limiar 0.8) -> MORFINA  DE LIBERACAO CONTROLADA 60 MG (POR CAPSULA)
+[11:44:18] [TOOL] 'Fentanil' (cat=MEDICAMENTO) -> vazio, 0.07s
+[11:44:18] [NIVEL0] 'Noradrenalina' marcado como não faturável separadamente (medicamentos_uso_hospitalar).
+[11:44:18] [TOOL] 'Noradrenalina' (cat=MEDICAMENTO) -> nao_faturavel, 0.00s
+[11:44:18] [NIVEL0] 'PCR' -> ['proteina c reativa']
+[11:44:18] [TOOL] 'PCR' (cat=EXAME) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.03s
+[11:44:18] [SIGTAP] 'Ureia' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[11:44:18] [TOOL] 'Ureia' (cat=EXAME) -> nivel1, score=0.832, confianca=media, painel=False, 2 resultado(s), 0.01s
+[11:44:18] [SIGTAP] 'Creatinina' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[11:44:18] [TOOL] 'Creatinina' (cat=EXAME) -> nivel1, score=0.824, confianca=media, painel=False, 3 resultado(s), 0.01s
+[11:44:18] [NIVEL0] 'Vancomicina' marcado como não faturável separadamente (medicamentos_uso_hospitalar).
+[11:44:18] [TOOL] 'Vancomicina' (cat=MEDICAMENTO) -> nao_faturavel, 0.00s
+[11:44:18] [NIVEL0] 'noradrenalina' marcado como não faturável separadamente (medicamentos_uso_hospitalar).
+[11:44:18] [TOOL] 'noradrenalina' (cat=MEDICAMENTO) -> nao_faturavel, 0.00s
+[11:44:18] [SIGTAP] 'fentanil' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:44:18] [SEMANTICO] 'fentanil': 0.667 (limiar 0.8) -> MORFINA  DE LIBERACAO CONTROLADA 60 MG (POR CAPSULA)
+[11:44:18] [TOOL] 'fentanil' (cat=MEDICAMENTO) -> vazio, 0.05s
+[11:44:18] [NIVEL0] 'PCR' -> ['proteina c reativa']
+[11:44:18] [TOOL] 'PCR' (cat=EXAME) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.06s
+[11:44:18] [SIGTAP] 'ureia' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[11:44:18] [TOOL] 'ureia' (cat=EXAME) -> nivel1, score=0.832, confianca=media, painel=False, 2 resultado(s), 0.01s
+[11:44:18] [NIVEL0] 'Heparina' marcado como não faturável separadamente (medicamentos_uso_hospitalar).
+[11:44:18] [TOOL] 'Heparina' (cat=MEDICAMENTO) -> nao_faturavel, 0.00s
+[11:44:18] [SIGTAP] 'Troponina' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[11:44:18] [TOOL] 'Troponina' (cat=EXAME) -> nivel1, score=0.843, confianca=media, painel=False, 1 resultado(s), 0.02s
+[11:44:18] [SIGTAP] 'Ureia' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[11:44:18] [TOOL] 'Ureia' (cat=EXAME) -> nivel1, score=0.832, confianca=media, painel=False, 2 resultado(s), 0.01s
+[11:44:18] [SIGTAP] 'CREATININA' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[11:44:18] [TOOL] 'CREATININA' (cat=EXAME) -> nivel1, score=0.824, confianca=media, painel=False, 3 resultado(s), 0.01s
+[11:44:18] [NIVEL0] 'HEPARINA' marcado como não faturável separadamente (medicamentos_uso_hospitalar).
+[11:44:18] [TOOL] 'HEPARINA' (cat=MEDICAMENTO) -> nao_faturavel, 0.00s
+[11:44:18] [NIVEL0] 'Heparina' marcado como não faturável separadamente (medicamentos_uso_hospitalar).
+[11:44:18] [TOOL] 'Heparina' (cat=MEDICAMENTO) -> nao_faturavel, 0.00s
+[11:44:18] [NIVEL0] 'Sedoanalgesia' -> ['sedacao']
+[11:44:18] [TOOL] 'Sedoanalgesia' (cat=PROCEDIMENTO) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.03s
+[11:44:18] [NIVEL0] 'PCR' -> ['proteina c reativa']
+[11:44:18] [TOOL] 'PCR' (cat=EXAME) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.04s
+[11:44:19] [NIVEL0] 'sedoanalgesia' -> ['sedacao']
+[11:44:19] [TOOL] 'sedoanalgesia' (cat=PROCEDIMENTO) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.03s
+[11:44:19] [SIGTAP] 'Fentanil' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:44:19] [SEMANTICO] 'fentanil': 0.667 (limiar 0.8) -> MORFINA  DE LIBERACAO CONTROLADA 60 MG (POR CAPSULA)
+[11:44:19] [TOOL] 'Fentanil' (cat=MEDICAMENTO) -> vazio, 0.04s
+[11:44:19] [SIGTAP] 'Hemocultura' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[11:44:19] [TOOL] 'Hemocultura' (cat=EXAME) -> nivel1, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.01s
+[11:44:19] [SIGTAP] 'Meropenem' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:44:19] [SEMANTICO] 'meropenem': 0.513 (limiar 0.8) -> ABCIXIMABE
+[11:44:19] [TOOL] 'Meropenem' (cat=MEDICAMENTO) -> vazio, 0.05s
+[11:44:19] [NIVEL0] 'PCR' -> ['proteina c reativa']
+[11:44:19] [TOOL] 'PCR' (cat=EXAME) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.04s
+[11:44:19] [NIVEL0] 'Gasometria Venosa' -> ['gasometria']
+[11:44:19] [TOOL] 'Gasometria Venosa' (cat=EXAME) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.04s
+[11:44:19] [SIGTAP] 'lactato' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[11:44:19] [TOOL] 'lactato' (cat=EXAME) -> nivel1, score=0.832, confianca=media, painel=False, 1 resultado(s), 0.01s
+[11:44:19] [NIVEL0] 'noradrenalina' marcado como não faturável separadamente (medicamentos_uso_hospitalar).
+[11:44:19] [TOOL] 'noradrenalina' (cat=MEDICAMENTO) -> nao_faturavel, 0.00s
+[11:44:19] [NIVEL0] 'PCR' -> ['proteina c reativa']
+[11:44:19] [TOOL] 'PCR' (cat=EXAME) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.04s
+[11:44:19] [NIVEL0] 'Gasometria arterial' -> ['gasometria']
+[11:44:19] [TOOL] 'Gasometria arterial' (cat=EXAME) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.08s
+[11:44:19] [SIGTAP] 'Fisioterapia Respiratória' (cat=PROCEDIMENTO): busca restrita a 2700 de 4994 procedimentos.
+[11:44:19] [SEMANTICO] 'fisioterapia respiratoria': 0.825 (limiar 0.8) -> TRATAMENTO DE OUTRAS DOENCAS DO APARELHO RESPIRATORIO
+[11:44:19] [TOOL] 'Fisioterapia Respiratória' (cat=PROCEDIMENTO) -> nivel_semantico, score=0.825, confianca=baixa, painel=False, 1 resultado(s), 0.15s
+[11:44:19] [SIGTAP] 'Fisioterapia Motora' (cat=PROCEDIMENTO): busca restrita a 2700 de 4994 procedimentos.
+[11:44:20] [SEMANTICO] 'fisioterapia motora': 0.833 (limiar 0.8) -> ATENDIMENTO FISIOTERAPÊUTICO NAS ALTERAÇÕES MOTORAS
+[11:44:20] [TOOL] 'Fisioterapia Motora' (cat=PROCEDIMENTO) -> nivel_semantico, score=0.833, confianca=baixa, painel=False, 1 resultado(s), 0.10s
+[11:44:20] [SIGTAP] 'Meropenem' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:44:20] [SEMANTICO] 'meropenem': 0.513 (limiar 0.8) -> ABCIXIMABE
+[11:44:20] [TOOL] 'Meropenem' (cat=MEDICAMENTO) -> vazio, 0.06s
+[11:44:20] [NIVEL0] 'PCR' -> ['proteina c reativa']
+[11:44:20] [TOOL] 'PCR' (cat=EXAME) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.03s
+[11:44:20] [NIVEL0] 'gasometria venosa' -> ['gasometria']
+[11:44:20] [TOOL] 'gasometria venosa' (cat=EXAME) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.04s
+[11:44:20] [NIVEL0] 'tomografia de tórax' -> ['tomografia computadorizada de torax']
+[11:44:20] [TOOL] 'tomografia de tórax' (cat=EXAME) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.05s
+[11:44:20] [SIGTAP] 'hemocultura' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[11:44:20] [TOOL] 'hemocultura' (cat=EXAME) -> nivel1, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.01s
+[11:44:20] [SIGTAP] 'Troponina' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[11:44:20] [TOOL] 'Troponina' (cat=EXAME) -> nivel1, score=0.843, confianca=media, painel=False, 1 resultado(s), 0.01s
+[11:44:20] [SIGTAP] 'Fisioterapia Respiratória' (cat=PROCEDIMENTO): busca restrita a 2700 de 4994 procedimentos.
+[11:44:20] [SEMANTICO] 'fisioterapia respiratoria': 0.825 (limiar 0.8) -> TRATAMENTO DE OUTRAS DOENCAS DO APARELHO RESPIRATORIO
+[11:44:20] [TOOL] 'Fisioterapia Respiratória' (cat=PROCEDIMENTO) -> nivel_semantico, score=0.825, confianca=baixa, painel=False, 1 resultado(s), 0.11s
+[11:44:20] [SIGTAP] 'Fisioterapia Motora' (cat=PROCEDIMENTO): busca restrita a 2700 de 4994 procedimentos.
+[11:44:20] [SEMANTICO] 'fisioterapia motora': 0.833 (limiar 0.8) -> ATENDIMENTO FISIOTERAPÊUTICO NAS ALTERAÇÕES MOTORAS
+[11:44:20] [TOOL] 'Fisioterapia Motora' (cat=PROCEDIMENTO) -> nivel_semantico, score=0.833, confianca=baixa, painel=False, 1 resultado(s), 0.11s
+[11:44:20] [SIGTAP] 'Fentanil' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:44:20] [SEMANTICO] 'fentanil': 0.667 (limiar 0.8) -> MORFINA  DE LIBERACAO CONTROLADA 60 MG (POR CAPSULA)
+[11:44:20] [TOOL] 'Fentanil' (cat=MEDICAMENTO) -> vazio, 0.06s
+[11:44:20] [SIGTAP] 'Midazolam' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:44:21] [SEMANTICO] 'midazolam': 0.651 (limiar 0.8) -> ABCIXIMABE
+[11:44:21] [TOOL] 'Midazolam' (cat=MEDICAMENTO) -> vazio, 0.05s
+[11:44:21] [NIVEL0] 'Gasometria arterial' -> ['gasometria']
+[11:44:21] [TOOL] 'Gasometria arterial' (cat=EXAME) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.03s
+[11:44:21] [SIGTAP] 'Fisioterapia Respiratória' (cat=PROCEDIMENTO): busca restrita a 2700 de 4994 procedimentos.
+[11:44:21] [SEMANTICO] 'fisioterapia respiratoria': 0.825 (limiar 0.8) -> TRATAMENTO DE OUTRAS DOENCAS DO APARELHO RESPIRATORIO
+[11:44:21] [TOOL] 'Fisioterapia Respiratória' (cat=PROCEDIMENTO) -> nivel_semantico, score=0.825, confianca=baixa, painel=False, 1 resultado(s), 0.10s
+[11:44:21] [SIGTAP] 'Fisioterapia Motora' (cat=PROCEDIMENTO): busca restrita a 2700 de 4994 procedimentos.
+[11:44:21] [SEMANTICO] 'fisioterapia motora': 0.833 (limiar 0.8) -> ATENDIMENTO FISIOTERAPÊUTICO NAS ALTERAÇÕES MOTORAS
+[11:44:21] [TOOL] 'Fisioterapia Motora' (cat=PROCEDIMENTO) -> nivel_semantico, score=0.833, confianca=baixa, painel=False, 1 resultado(s), 0.09s
+[11:44:21] [SIGTAP] 'TROPONINA' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[11:44:21] [TOOL] 'TROPONINA' (cat=EXAME) -> nivel1, score=0.843, confianca=media, painel=False, 1 resultado(s), 0.01s
+[11:44:21] [NIVEL0] 'PCR' -> ['proteina c reativa']
+[11:44:21] [TOOL] 'PCR' (cat=EXAME) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.04s
+[11:44:21] [SIGTAP] 'fentanil' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:44:21] [SEMANTICO] 'fentanil': 0.667 (limiar 0.8) -> MORFINA  DE LIBERACAO CONTROLADA 60 MG (POR CAPSULA)
+[11:44:21] [TOOL] 'fentanil' (cat=MEDICAMENTO) -> vazio, 0.06s
+[11:44:21] [SIGTAP] 'midazolam' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:44:21] [SEMANTICO] 'midazolam': 0.651 (limiar 0.8) -> ABCIXIMABE
+[11:44:21] [TOOL] 'midazolam' (cat=MEDICAMENTO) -> vazio, 0.06s
+[11:44:21] [NIVEL0] 'noradrenalina' marcado como não faturável separadamente (medicamentos_uso_hospitalar).
+[11:44:21] [TOOL] 'noradrenalina' (cat=MEDICAMENTO) -> nao_faturavel, 0.00s
+[11:44:21] [SIGTAP] 'Hemocultura' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[11:44:21] [TOOL] 'Hemocultura' (cat=EXAME) -> nivel1, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.02s
+[11:44:21] [SIGTAP] 'UREIA' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[11:44:21] [TOOL] 'UREIA' (cat=EXAME) -> nivel1, score=0.832, confianca=media, painel=False, 2 resultado(s), 0.02s
+[11:44:21] [SIGTAP] 'CREATININA' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[11:44:21] [TOOL] 'CREATININA' (cat=EXAME) -> nivel1, score=0.824, confianca=media, painel=False, 3 resultado(s), 0.01s
+[11:44:21] [NIVEL0] 'GASOMETRIA ARTERIAL' -> ['gasometria']
+[11:44:21] [TOOL] 'GASOMETRIA ARTERIAL' (cat=EXAME) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.06s
+[11:44:21] [NIVEL0] 'PCR' -> ['proteina c reativa']
+[11:44:22] [TOOL] 'PCR' (cat=EXAME) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.04s
+[11:44:22] [NIVEL0] 'Noradrenalina' marcado como não faturável separadamente (medicamentos_uso_hospitalar).
+[11:44:22] [TOOL] 'Noradrenalina' (cat=MEDICAMENTO) -> nao_faturavel, 0.00s
+[11:44:22] [SIGTAP] 'Fentanil' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:44:22] [SEMANTICO] 'fentanil': 0.667 (limiar 0.8) -> MORFINA  DE LIBERACAO CONTROLADA 60 MG (POR CAPSULA)
+[11:44:22] [TOOL] 'Fentanil' (cat=MEDICAMENTO) -> vazio, 0.09s
+[11:44:22] [SIGTAP] 'Midazolam' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:44:22] [SEMANTICO] 'midazolam': 0.651 (limiar 0.8) -> ABCIXIMABE
+[11:44:22] [TOOL] 'Midazolam' (cat=MEDICAMENTO) -> vazio, 0.08s
+[11:44:22] [NIVEL0] 'sedoanalgesia' -> ['sedacao']
+[11:44:22] [TOOL] 'sedoanalgesia' (cat=PROCEDIMENTO) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.04s
+[11:44:22] [SIGTAP] 'fentanil' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:44:22] [SEMANTICO] 'fentanil': 0.667 (limiar 0.8) -> MORFINA  DE LIBERACAO CONTROLADA 60 MG (POR CAPSULA)
+[11:44:22] [TOOL] 'fentanil' (cat=MEDICAMENTO) -> vazio, 0.06s
+[11:44:22] [SIGTAP] 'midazolam' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:44:22] [SEMANTICO] 'midazolam': 0.651 (limiar 0.8) -> ABCIXIMABE
+[11:44:22] [TOOL] 'midazolam' (cat=MEDICAMENTO) -> vazio, 0.05s
+[11:44:22] [SIGTAP] 'Fisioterapia Respiratória' (cat=PROCEDIMENTO): busca restrita a 2700 de 4994 procedimentos.
+[11:44:22] [SEMANTICO] 'fisioterapia respiratoria': 0.825 (limiar 0.8) -> TRATAMENTO DE OUTRAS DOENCAS DO APARELHO RESPIRATORIO
+[11:44:22] [TOOL] 'Fisioterapia Respiratória' (cat=PROCEDIMENTO) -> nivel_semantico, score=0.825, confianca=baixa, painel=False, 1 resultado(s), 0.12s
+[11:44:22] [SIGTAP] 'Fisioterapia Motora' (cat=PROCEDIMENTO): busca restrita a 2700 de 4994 procedimentos.
+[11:44:22] [SEMANTICO] 'fisioterapia motora': 0.833 (limiar 0.8) -> ATENDIMENTO FISIOTERAPÊUTICO NAS ALTERAÇÕES MOTORAS
+[11:44:22] [TOOL] 'Fisioterapia Motora' (cat=PROCEDIMENTO) -> nivel_semantico, score=0.833, confianca=baixa, painel=False, 1 resultado(s), 0.10s
+[11:44:22] [NIVEL0] 'gasometria venosa' -> ['gasometria']
+[11:44:22] [TOOL] 'gasometria venosa' (cat=EXAME) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.05s
+[11:44:22] [NIVEL0] 'vancomicina' marcado como não faturável separadamente (medicamentos_uso_hospitalar).
+[11:44:22] [TOOL] 'vancomicina' (cat=MEDICAMENTO) -> nao_faturavel, 0.00s
+[11:44:22] [SIGTAP] 'meropenem' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:44:23] [SEMANTICO] 'meropenem': 0.513 (limiar 0.8) -> ABCIXIMABE
+[11:44:23] [TOOL] 'meropenem' (cat=MEDICAMENTO) -> vazio, 0.16s
+[11:44:23] [SIGTAP] 'piperacilina-tazobactam' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:44:23] [SEMANTICO] 'piperacilina tazobactam': 0.661 (limiar 0.8) -> TAFAMIDIS 61 MG (POR CÁPSULA)
+[11:44:23] [TOOL] 'piperacilina-tazobactam' (cat=MEDICAMENTO) -> vazio, 0.07s
+[11:44:23] [SIGTAP] 'hemocultura' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[11:44:23] [TOOL] 'hemocultura' (cat=EXAME) -> nivel1, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.01s
+[11:44:23] [NIVEL0] 'PCR' -> ['proteina c reativa']
+[11:44:23] [TOOL] 'PCR' (cat=EXAME) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.05s
+[11:44:23] [NIVEL0] 'azitromicina' marcado como não faturável separadamente (medicamentos_uso_hospitalar).
+[11:44:23] [TOOL] 'azitromicina' (cat=MEDICAMENTO) -> nao_faturavel, 0.00s
+[11:44:23] [SIGTAP] 'Meropenem' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:44:23] [SEMANTICO] 'meropenem': 0.513 (limiar 0.8) -> ABCIXIMABE
+[11:44:23] [TOOL] 'Meropenem' (cat=MEDICAMENTO) -> vazio, 0.06s
+[11:44:23] [NIVEL0] 'Vancomicina' marcado como não faturável separadamente (medicamentos_uso_hospitalar).
+[11:44:23] [TOOL] 'Vancomicina' (cat=MEDICAMENTO) -> nao_faturavel, 0.00s
+[11:44:23] [SIGTAP] 'fentanil' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:44:23] [SEMANTICO] 'fentanil': 0.667 (limiar 0.8) -> MORFINA  DE LIBERACAO CONTROLADA 60 MG (POR CAPSULA)
+[11:44:23] [TOOL] 'fentanil' (cat=MEDICAMENTO) -> vazio, 0.05s
+[11:44:23] [SIGTAP] 'midazolam' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:44:23] [SEMANTICO] 'midazolam': 0.651 (limiar 0.8) -> ABCIXIMABE
+[11:44:23] [TOOL] 'midazolam' (cat=MEDICAMENTO) -> vazio, 0.04s
+[11:44:23] [NIVEL0] 'noradrenalina' marcado como não faturável separadamente (medicamentos_uso_hospitalar).
+[11:44:23] [TOOL] 'noradrenalina' (cat=MEDICAMENTO) -> nao_faturavel, 0.00s
+[11:44:23] [SIGTAP] 'HEMODIÁLISE' (cat=PROCEDIMENTO): busca restrita a 2700 de 4994 procedimentos.
+[11:44:23] [TOOL] 'HEMODIÁLISE' (cat=PROCEDIMENTO) -> nivel1, score=0.636, confianca=baixa, painel=False, 1 resultado(s), 0.02s
+[11:44:23] [SIGTAP] 'troponina' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[11:44:23] [TOOL] 'troponina' (cat=EXAME) -> nivel1, score=0.843, confianca=media, painel=False, 1 resultado(s), 0.01s
+[11:44:23] [NIVEL0] 'pcr' -> ['proteina c reativa']
+[11:44:24] [TOOL] 'pcr' (cat=EXAME) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.05s
+[11:44:24] [SIGTAP] 'hemocultura' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[11:44:24] [TOOL] 'hemocultura' (cat=EXAME) -> nivel1, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.01s
+[11:44:24] [SIGTAP] 'fentanil' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:44:24] [SEMANTICO] 'fentanil': 0.667 (limiar 0.8) -> MORFINA  DE LIBERACAO CONTROLADA 60 MG (POR CAPSULA)
+[11:44:24] [TOOL] 'fentanil' (cat=MEDICAMENTO) -> vazio, 0.09s
+[11:44:24] [SIGTAP] 'midazolam' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:44:24] [SEMANTICO] 'midazolam': 0.651 (limiar 0.8) -> ABCIXIMABE
+[11:44:24] [TOOL] 'midazolam' (cat=MEDICAMENTO) -> vazio, 0.11s
+[11:44:24] [NIVEL0] 'Noradrenalina' marcado como não faturável separadamente (medicamentos_uso_hospitalar).
+[11:44:24] [TOOL] 'Noradrenalina' (cat=MEDICAMENTO) -> nao_faturavel, 0.00s
+[11:44:24] [NIVEL0] 'sedoanalgesia' -> ['sedacao']
+[11:44:24] [TOOL] 'sedoanalgesia' (cat=PROCEDIMENTO) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.04s
+[11:44:24] [NIVEL0] 'Gasometria arterial' -> ['gasometria']
+[11:44:24] [TOOL] 'Gasometria arterial' (cat=EXAME) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.05s
+[11:44:24] [SIGTAP] 'Fisioterapia Respiratória' (cat=PROCEDIMENTO): busca restrita a 2700 de 4994 procedimentos.
+[11:44:24] [SEMANTICO] 'fisioterapia respiratoria': 0.825 (limiar 0.8) -> TRATAMENTO DE OUTRAS DOENCAS DO APARELHO RESPIRATORIO
+[11:44:24] [TOOL] 'Fisioterapia Respiratória' (cat=PROCEDIMENTO) -> nivel_semantico, score=0.825, confianca=baixa, painel=False, 1 resultado(s), 0.12s
+[11:44:24] [SIGTAP] 'Fisioterapia Motora' (cat=PROCEDIMENTO): busca restrita a 2700 de 4994 procedimentos.
+[11:44:24] [SEMANTICO] 'fisioterapia motora': 0.833 (limiar 0.8) -> ATENDIMENTO FISIOTERAPÊUTICO NAS ALTERAÇÕES MOTORAS
+[11:44:24] [TOOL] 'Fisioterapia Motora' (cat=PROCEDIMENTO) -> nivel_semantico, score=0.833, confianca=baixa, painel=False, 1 resultado(s), 0.10s
+[11:44:24] [SIGTAP] 'hemodiálise' (cat=PROCEDIMENTO): busca restrita a 2700 de 4994 procedimentos.
+[11:44:24] [TOOL] 'hemodiálise' (cat=PROCEDIMENTO) -> nivel1, score=0.636, confianca=baixa, painel=False, 1 resultado(s), 0.03s
+[11:44:25] [SIGTAP] 'fentanil' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:44:25] [SEMANTICO] 'fentanil': 0.667 (limiar 0.8) -> MORFINA  DE LIBERACAO CONTROLADA 60 MG (POR CAPSULA)
+[11:44:25] [TOOL] 'fentanil' (cat=MEDICAMENTO) -> vazio, 0.05s
+[11:44:25] [SIGTAP] 'midazolam' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:44:25] [SEMANTICO] 'midazolam': 0.651 (limiar 0.8) -> ABCIXIMABE
+[11:44:25] [TOOL] 'midazolam' (cat=MEDICAMENTO) -> vazio, 0.04s
+[11:44:25] [NIVEL0] 'Noradrenalina' marcado como não faturável separadamente (medicamentos_uso_hospitalar).
+[11:44:25] [TOOL] 'Noradrenalina' (cat=MEDICAMENTO) -> nao_faturavel, 0.00s
+[11:44:25] [SIGTAP] 'Hemocultura' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[11:44:25] [TOOL] 'Hemocultura' (cat=EXAME) -> nivel1, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.01s
+[11:44:25] [SIGTAP] 'Meropenem' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:44:25] [SEMANTICO] 'meropenem': 0.513 (limiar 0.8) -> ABCIXIMABE
+[11:44:25] [TOOL] 'Meropenem' (cat=MEDICAMENTO) -> vazio, 0.05s
+[11:44:25] [NIVEL0] 'Sonda vesical de demora' -> ['cateterismo vesical de demora']
+[11:44:25] [TOOL] 'Sonda vesical de demora' (cat=MATERIAL) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.04s
+[11:44:25] [SIGTAP] 'Meropenem' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:44:25] [SEMANTICO] 'meropenem': 0.513 (limiar 0.8) -> ABCIXIMABE
+[11:44:25] [TOOL] 'Meropenem' (cat=MEDICAMENTO) -> vazio, 0.05s
+[11:44:25] [SIGTAP] 'midazolam' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:44:25] [SEMANTICO] 'midazolam': 0.651 (limiar 0.8) -> ABCIXIMABE
+[11:44:25] [TOOL] 'midazolam' (cat=MEDICAMENTO) -> vazio, 0.05s
+[11:44:25] [SIGTAP] 'Fentanil' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:44:25] [SEMANTICO] 'fentanil': 0.667 (limiar 0.8) -> MORFINA  DE LIBERACAO CONTROLADA 60 MG (POR CAPSULA)
+[11:44:25] [TOOL] 'Fentanil' (cat=MEDICAMENTO) -> vazio, 0.05s
+[11:44:25] [NIVEL0] 'Noradrenalina' marcado como não faturável separadamente (medicamentos_uso_hospitalar).
+[11:44:25] [TOOL] 'Noradrenalina' (cat=MEDICAMENTO) -> nao_faturavel, 0.00s
+[11:44:25] [SIGTAP] 'hemodialise' (cat=PROCEDIMENTO): busca restrita a 2700 de 4994 procedimentos.
+[11:44:25] [TOOL] 'hemodialise' (cat=PROCEDIMENTO) -> nivel1, score=0.636, confianca=baixa, painel=False, 1 resultado(s), 0.03s
+[11:44:25] [SIGTAP] 'Meropenem' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:44:25] [SEMANTICO] 'meropenem': 0.513 (limiar 0.8) -> ABCIXIMABE
+[11:44:25] [TOOL] 'Meropenem' (cat=MEDICAMENTO) -> vazio, 0.04s
+[11:44:25] [NIVEL0] 'Vancomicina' marcado como não faturável separadamente (medicamentos_uso_hospitalar).
+[11:44:25] [TOOL] 'Vancomicina' (cat=MEDICAMENTO) -> nao_faturavel, 0.00s
+[11:44:25] [NIVEL0] 'sedoanalgesia' -> ['sedacao']
+[11:44:25] [TOOL] 'sedoanalgesia' (cat=PROCEDIMENTO) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.03s
+[11:44:25] [SIGTAP] 'Hemocultura' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[11:44:25] [TOOL] 'Hemocultura' (cat=EXAME) -> nivel1, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.02s
+[11:44:25] [SIGTAP] 'TROPONINA' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[11:44:25] [TOOL] 'TROPONINA' (cat=EXAME) -> nivel1, score=0.843, confianca=media, painel=False, 1 resultado(s), 0.01s
+[11:44:25] [SIGTAP] 'UREIA' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[11:44:25] [TOOL] 'UREIA' (cat=EXAME) -> nivel1, score=0.832, confianca=media, painel=False, 2 resultado(s), 0.01s
+[11:44:26] [NIVEL0] 'Noradrenalina' marcado como não faturável separadamente (medicamentos_uso_hospitalar).
+[11:44:26] [TOOL] 'Noradrenalina' (cat=MEDICAMENTO) -> nao_faturavel, 0.00s
+[11:44:26] [NIVEL0] 'sedoanalgesia' -> ['sedacao']
+[11:44:26] [TOOL] 'sedoanalgesia' (cat=PROCEDIMENTO) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.04s
+[11:44:26] [NIVEL0] 'Vancomicina' marcado como não faturável separadamente (medicamentos_uso_hospitalar).
+[11:44:26] [TOOL] 'Vancomicina' (cat=MEDICAMENTO) -> nao_faturavel, 0.00s
+[11:44:26] [SIGTAP] 'meropenem' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:44:26] [SEMANTICO] 'meropenem': 0.513 (limiar 0.8) -> ABCIXIMABE
+[11:44:26] [TOOL] 'meropenem' (cat=MEDICAMENTO) -> vazio, 0.04s
+[11:44:26] [SIGTAP] 'piperacilina-tazobactam' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:44:26] [SEMANTICO] 'piperacilina tazobactam': 0.661 (limiar 0.8) -> TAFAMIDIS 61 MG (POR CÁPSULA)
+[11:44:26] [TOOL] 'piperacilina-tazobactam' (cat=MEDICAMENTO) -> vazio, 0.05s
+[11:44:26] [SIGTAP] 'hemocultura' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[11:44:26] [TOOL] 'hemocultura' (cat=EXAME) -> nivel1, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.01s
+[11:44:26] [SIGTAP] 'Lactato' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[11:44:26] [TOOL] 'Lactato' (cat=EXAME) -> nivel1, score=0.832, confianca=media, painel=False, 1 resultado(s), 0.01s
+[11:44:26] [NIVEL0] 'PCR' -> ['proteina c reativa']
+[11:44:26] [TOOL] 'PCR' (cat=EXAME) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.03s
+[11:44:26] [SIGTAP] 'creatinina' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[11:44:26] [TOOL] 'creatinina' (cat=EXAME) -> nivel1, score=0.824, confianca=media, painel=False, 3 resultado(s), 0.01s
+[11:44:26] [NIVEL0] 'gasometria venosa' -> ['gasometria']
+[11:44:26] [TOOL] 'gasometria venosa' (cat=EXAME) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.03s
+[11:44:26] [SIGTAP] 'HEMODIÁLISE' (cat=PROCEDIMENTO): busca restrita a 2700 de 4994 procedimentos.
+[11:44:26] [TOOL] 'HEMODIÁLISE' (cat=PROCEDIMENTO) -> nivel1, score=0.636, confianca=baixa, painel=False, 1 resultado(s), 0.04s
+[11:44:26] [NIVEL0] 'heparina' marcado como não faturável separadamente (medicamentos_uso_hospitalar).
+[11:44:26] [TOOL] 'heparina' (cat=MEDICAMENTO) -> nao_faturavel, 0.00s
+[11:44:26] [SIGTAP] 'troponina' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[11:44:26] [TOOL] 'troponina' (cat=EXAME) -> nivel1, score=0.843, confianca=media, painel=False, 1 resultado(s), 0.02s
+[11:44:26] [NIVEL0] 'pcr' -> ['proteina c reativa']
+[11:44:26] [TOOL] 'pcr' (cat=EXAME) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.05s
+[11:44:27] [SIGTAP] 'Meropenem' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:44:27] [SEMANTICO] 'meropenem': 0.513 (limiar 0.8) -> ABCIXIMABE
+[11:44:27] [TOOL] 'Meropenem' (cat=MEDICAMENTO) -> vazio, 0.05s
+[11:44:27] [SIGTAP] 'Ureia' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[11:44:27] [TOOL] 'Ureia' (cat=EXAME) -> nivel1, score=0.832, confianca=media, painel=False, 2 resultado(s), 0.01s
+[11:44:27] [NIVEL0] 'PCR' -> ['proteina c reativa']
+[11:44:27] [TOOL] 'PCR' (cat=EXAME) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.04s
+[11:44:27] [SIGTAP] 'Nebulização' (cat=PROCEDIMENTO): busca restrita a 2700 de 4994 procedimentos.
+[11:44:27] [TOOL] 'Nebulização' (cat=PROCEDIMENTO) -> nivel1, score=0.694, confianca=baixa, painel=False, 1 resultado(s), 0.03s
+[11:44:27] [SIGTAP] 'Troponina' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[11:44:27] [TOOL] 'Troponina' (cat=EXAME) -> nivel1, score=0.843, confianca=media, painel=False, 1 resultado(s), 0.01s
+[11:44:27] [NIVEL0] 'sedoanalgesia' -> ['sedacao']
+[11:44:27] [TOOL] 'sedoanalgesia' (cat=PROCEDIMENTO) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.03s
+[11:44:27] [SIGTAP] 'fentanil' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:44:27] [SEMANTICO] 'fentanil': 0.667 (limiar 0.8) -> MORFINA  DE LIBERACAO CONTROLADA 60 MG (POR CAPSULA)
+[11:44:27] [TOOL] 'fentanil' (cat=MEDICAMENTO) -> vazio, 0.04s
+[11:44:27] [SIGTAP] 'Fisioterapia Respiratória' (cat=PROCEDIMENTO): busca restrita a 2700 de 4994 procedimentos.
+[11:44:27] [SEMANTICO] 'fisioterapia respiratoria': 0.825 (limiar 0.8) -> TRATAMENTO DE OUTRAS DOENCAS DO APARELHO RESPIRATORIO
+[11:44:27] [TOOL] 'Fisioterapia Respiratória' (cat=PROCEDIMENTO) -> nivel_semantico, score=0.825, confianca=baixa, painel=False, 1 resultado(s), 0.10s
+[11:44:27] [SIGTAP] 'Fisioterapia Motora' (cat=PROCEDIMENTO): busca restrita a 2700 de 4994 procedimentos.
+[11:44:27] [SEMANTICO] 'fisioterapia motora': 0.833 (limiar 0.8) -> ATENDIMENTO FISIOTERAPÊUTICO NAS ALTERAÇÕES MOTORAS
+[11:44:27] [TOOL] 'Fisioterapia Motora' (cat=PROCEDIMENTO) -> nivel_semantico, score=0.833, confianca=baixa, painel=False, 1 resultado(s), 0.14s
+[11:44:27] [SIGTAP] 'cateter de duplo lúmen' (cat=MATERIAL): busca restrita a 540 de 4994 procedimentos.
+[11:44:27] [TOOL] 'cateter de duplo lúmen' (cat=MATERIAL) -> nivel1, score=0.738, confianca=media, painel=False, 4 resultado(s), 0.01s
+[11:44:28] [SIGTAP] 'Troponina' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[11:44:28] [TOOL] 'Troponina' (cat=EXAME) -> nivel1, score=0.843, confianca=media, painel=False, 1 resultado(s), 0.01s
+[11:44:28] [SIGTAP] 'Insulina regular' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:44:28] [SEMANTICO] 'insulina regular': 0.796 (limiar 0.8) -> INSULINA ANÁLOGA DE AÇÃO PROLONGADA DE 100 UI/ML
+[11:44:28] [TOOL] 'Insulina regular' (cat=MEDICAMENTO) -> vazio, 0.04s
+[11:44:28] [SIGTAP] 'Hemocultura' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[11:44:28] [TOOL] 'Hemocultura' (cat=EXAME) -> nivel1, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.01s
+[11:44:28] [SIGTAP] 'Meropenem' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:44:28] [SEMANTICO] 'meropenem': 0.513 (limiar 0.8) -> ABCIXIMABE
+[11:44:28] [TOOL] 'Meropenem' (cat=MEDICAMENTO) -> vazio, 0.07s
+[11:44:28] [NIVEL0] 'Vancomicina' marcado como não faturável separadamente (medicamentos_uso_hospitalar).
+[11:44:28] [TOOL] 'Vancomicina' (cat=MEDICAMENTO) -> nao_faturavel, 0.00s
+[11:44:28] [NIVEL0] 'PCR' -> ['proteina c reativa']
+[11:44:28] [TOOL] 'PCR' (cat=EXAME) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.04s
+[11:44:28] [SIGTAP] 'Insulina regular' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:44:28] [SEMANTICO] 'insulina regular': 0.796 (limiar 0.8) -> INSULINA ANÁLOGA DE AÇÃO PROLONGADA DE 100 UI/ML
+[11:44:28] [TOOL] 'Insulina regular' (cat=MEDICAMENTO) -> vazio, 0.07s
+[11:44:28] [NIVEL0] 'PCR' -> ['proteina c reativa']
+[11:44:28] [TOOL] 'PCR' (cat=EXAME) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.06s
+[11:44:28] [SIGTAP] 'fisioterapia motora' (cat=PROCEDIMENTO): busca restrita a 2700 de 4994 procedimentos.
+[11:44:28] [SEMANTICO] 'fisioterapia motora': 0.833 (limiar 0.8) -> ATENDIMENTO FISIOTERAPÊUTICO NAS ALTERAÇÕES MOTORAS
+[11:44:28] [TOOL] 'fisioterapia motora' (cat=PROCEDIMENTO) -> nivel_semantico, score=0.833, confianca=baixa, painel=False, 1 resultado(s), 0.10s
+[11:44:28] [NIVEL0] 'Gasometria arterial' -> ['gasometria']
+[11:44:28] [TOOL] 'Gasometria arterial' (cat=EXAME) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.05s
+[11:44:28] [SIGTAP] 'Fisioterapia Respiratória' (cat=PROCEDIMENTO): busca restrita a 2700 de 4994 procedimentos.
+[11:44:29] [SEMANTICO] 'fisioterapia respiratoria': 0.825 (limiar 0.8) -> TRATAMENTO DE OUTRAS DOENCAS DO APARELHO RESPIRATORIO
+[11:44:29] [TOOL] 'Fisioterapia Respiratória' (cat=PROCEDIMENTO) -> nivel_semantico, score=0.825, confianca=baixa, painel=False, 1 resultado(s), 0.12s
+[11:44:29] [SIGTAP] 'TROPONINA' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[11:44:29] [TOOL] 'TROPONINA' (cat=EXAME) -> nivel1, score=0.843, confianca=media, painel=False, 1 resultado(s), 0.01s
+[11:44:29] [NIVEL0] 'PCR' -> ['proteina c reativa']
+[11:44:29] [TOOL] 'PCR' (cat=EXAME) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.04s
+[11:44:29] [SIGTAP] 'fentanil' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:44:29] [SEMANTICO] 'fentanil': 0.667 (limiar 0.8) -> MORFINA  DE LIBERACAO CONTROLADA 60 MG (POR CAPSULA)
+[11:44:29] [TOOL] 'fentanil' (cat=MEDICAMENTO) -> vazio, 0.06s
+[11:44:29] [SIGTAP] 'midazolam' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:44:29] [SEMANTICO] 'midazolam': 0.651 (limiar 0.8) -> ABCIXIMABE
+[11:44:29] [TOOL] 'midazolam' (cat=MEDICAMENTO) -> vazio, 0.05s
+[11:44:29] [NIVEL0] 'noradrenalina' marcado como não faturável separadamente (medicamentos_uso_hospitalar).
+[11:44:29] [TOOL] 'noradrenalina' (cat=MEDICAMENTO) -> nao_faturavel, 0.00s
+[11:44:29] [NIVEL0] 'sedoanalgesia' -> ['sedacao']
+[11:44:29] [TOOL] 'sedoanalgesia' (cat=PROCEDIMENTO) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.04s
+[11:44:29] [NIVEL0] 'Gasometria arterial' -> ['gasometria']
+[11:44:29] [TOOL] 'Gasometria arterial' (cat=EXAME) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.04s
+[11:44:29] [SIGTAP] 'Fisioterapia Respiratória' (cat=PROCEDIMENTO): busca restrita a 2700 de 4994 procedimentos.
+[11:44:29] [SEMANTICO] 'fisioterapia respiratoria': 0.825 (limiar 0.8) -> TRATAMENTO DE OUTRAS DOENCAS DO APARELHO RESPIRATORIO
+[11:44:29] [TOOL] 'Fisioterapia Respiratória' (cat=PROCEDIMENTO) -> nivel_semantico, score=0.825, confianca=baixa, painel=False, 1 resultado(s), 0.11s
+[11:44:29] [SIGTAP] 'Fisioterapia Motora' (cat=PROCEDIMENTO): busca restrita a 2700 de 4994 procedimentos.
+[11:44:29] [SEMANTICO] 'fisioterapia motora': 0.833 (limiar 0.8) -> ATENDIMENTO FISIOTERAPÊUTICO NAS ALTERAÇÕES MOTORAS
+[11:44:29] [TOOL] 'Fisioterapia Motora' (cat=PROCEDIMENTO) -> nivel_semantico, score=0.833, confianca=baixa, painel=False, 1 resultado(s), 0.10s
+[11:44:29] [SIGTAP] 'TROPONINA' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[11:44:29] [TOOL] 'TROPONINA' (cat=EXAME) -> nivel1, score=0.843, confianca=media, painel=False, 1 resultado(s), 0.01s
+[11:44:29] [NIVEL0] 'PCR' -> ['proteina c reativa']
+[11:44:29] [TOOL] 'PCR' (cat=EXAME) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.05s
+[11:44:29] [NIVEL0] 'sedoanalgesia' -> ['sedacao']
+[11:44:29] [TOOL] 'sedoanalgesia' (cat=PROCEDIMENTO) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.03s
+[11:44:29] [SIGTAP] 'fentanil' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:44:30] [SEMANTICO] 'fentanil': 0.667 (limiar 0.8) -> MORFINA  DE LIBERACAO CONTROLADA 60 MG (POR CAPSULA)
+[11:44:30] [TOOL] 'fentanil' (cat=MEDICAMENTO) -> vazio, 0.06s
+[11:44:30] [SIGTAP] 'midazolam' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:44:30] [SEMANTICO] 'midazolam': 0.651 (limiar 0.8) -> ABCIXIMABE
+[11:44:30] [TOOL] 'midazolam' (cat=MEDICAMENTO) -> vazio, 0.06s
+[11:44:30] [NIVEL0] 'noradrenalina' marcado como não faturável separadamente (medicamentos_uso_hospitalar).
+[11:44:30] [TOOL] 'noradrenalina' (cat=MEDICAMENTO) -> nao_faturavel, 0.00s
+[11:44:30] [NIVEL0] 'noradrenalina' marcado como não faturável separadamente (medicamentos_uso_hospitalar).
+[11:44:30] [TOOL] 'noradrenalina' (cat=MEDICAMENTO) -> nao_faturavel, 0.00s
+[11:44:30] [NIVEL0] 'gasometria arterial' -> ['gasometria']
+[11:44:30] [TOOL] 'gasometria arterial' (cat=EXAME) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.03s
+[11:44:30] [NIVEL0] 'PCR' -> ['proteina c reativa']
+[11:44:30] [TOOL] 'PCR' (cat=EXAME) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.07s
+[11:44:30] [NIVEL0] 'Noradrenalina' marcado como não faturável separadamente (medicamentos_uso_hospitalar).
+[11:44:30] [TOOL] 'Noradrenalina' (cat=MEDICAMENTO) -> nao_faturavel, 0.00s
+[11:44:30] [SIGTAP] 'Lactato' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[11:44:30] [TOOL] 'Lactato' (cat=EXAME) -> nivel1, score=0.832, confianca=media, painel=False, 1 resultado(s), 0.01s
+[11:44:30] [NIVEL0] 'sedoanalgesia' -> ['sedacao']
+[11:44:30] [TOOL] 'sedoanalgesia' (cat=PROCEDIMENTO) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.05s
+[11:44:30] [SIGTAP] 'Troponina' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[11:44:30] [TOOL] 'Troponina' (cat=EXAME) -> nivel1, score=0.843, confianca=media, painel=False, 1 resultado(s), 0.01s
+[11:44:30] [SIGTAP] 'Hemocultura' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[11:44:30] [TOOL] 'Hemocultura' (cat=EXAME) -> nivel1, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.02s
+[11:44:30] [SIGTAP] 'Meropenem' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:44:30] [SEMANTICO] 'meropenem': 0.513 (limiar 0.8) -> ABCIXIMABE
+[11:44:30] [TOOL] 'Meropenem' (cat=MEDICAMENTO) -> vazio, 0.06s
+[11:44:30] [SIGTAP] 'morfina' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:44:30] [TOOL] 'morfina' (cat=MEDICAMENTO) -> nivel1, score=0.683, confianca=baixa, painel=False, 2 resultado(s), 0.01s
+[11:44:31] [SIGTAP] 'Fisioterapia Respiratória' (cat=PROCEDIMENTO): busca restrita a 2700 de 4994 procedimentos.
+[11:44:31] [SEMANTICO] 'fisioterapia respiratoria': 0.825 (limiar 0.8) -> TRATAMENTO DE OUTRAS DOENCAS DO APARELHO RESPIRATORIO
+[11:44:31] [TOOL] 'Fisioterapia Respiratória' (cat=PROCEDIMENTO) -> nivel_semantico, score=0.825, confianca=baixa, painel=False, 1 resultado(s), 0.12s
+[11:44:31] [SIGTAP] 'Fisioterapia Motora' (cat=PROCEDIMENTO): busca restrita a 2700 de 4994 procedimentos.
+[11:44:31] [SEMANTICO] 'fisioterapia motora': 0.833 (limiar 0.8) -> ATENDIMENTO FISIOTERAPÊUTICO NAS ALTERAÇÕES MOTORAS
+[11:44:31] [TOOL] 'Fisioterapia Motora' (cat=PROCEDIMENTO) -> nivel_semantico, score=0.833, confianca=baixa, painel=False, 1 resultado(s), 0.13s
+[11:44:31] [NIVEL0] 'PCR' -> ['proteina c reativa']
+[11:44:31] [TOOL] 'PCR' (cat=EXAME) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.05s
+[11:44:31] [SIGTAP] 'Meropenem' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:44:31] [SEMANTICO] 'meropenem': 0.513 (limiar 0.8) -> ABCIXIMABE
+[11:44:31] [TOOL] 'Meropenem' (cat=MEDICAMENTO) -> vazio, 0.05s
+[11:44:31] [SIGTAP] 'hemodiálise' (cat=PROCEDIMENTO): busca restrita a 2700 de 4994 procedimentos.
+[11:44:31] [TOOL] 'hemodiálise' (cat=PROCEDIMENTO) -> nivel1, score=0.636, confianca=baixa, painel=False, 1 resultado(s), 0.03s
+[11:44:31] [NIVEL0] 'noradrenalina' marcado como não faturável separadamente (medicamentos_uso_hospitalar).
+[11:44:31] [TOOL] 'noradrenalina' (cat=MEDICAMENTO) -> nao_faturavel, 0.00s
+[11:44:31] [SIGTAP] 'TROPONINA' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[11:44:31] [TOOL] 'TROPONINA' (cat=EXAME) -> nivel1, score=0.843, confianca=media, painel=False, 1 resultado(s), 0.01s
+[11:44:32] [NIVEL0] 'PCR' -> ['proteina c reativa']
+[11:44:32] [TOOL] 'PCR' (cat=EXAME) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.06s
+[11:44:32] [SIGTAP] 'fentanil' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:44:32] [SEMANTICO] 'fentanil': 0.667 (limiar 0.8) -> MORFINA  DE LIBERACAO CONTROLADA 60 MG (POR CAPSULA)
+[11:44:32] [TOOL] 'fentanil' (cat=MEDICAMENTO) -> vazio, 0.05s
+[11:44:32] [SIGTAP] 'midazolam' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:44:32] [SEMANTICO] 'midazolam': 0.651 (limiar 0.8) -> ABCIXIMABE
+[11:44:32] [TOOL] 'midazolam' (cat=MEDICAMENTO) -> vazio, 0.06s
+[11:44:32] [NIVEL0] 'noradrenalina' marcado como não faturável separadamente (medicamentos_uso_hospitalar).
+[11:44:32] [TOOL] 'noradrenalina' (cat=MEDICAMENTO) -> nao_faturavel, 0.00s
+[11:44:32] [SIGTAP] 'Hemocultura' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[11:44:32] [TOOL] 'Hemocultura' (cat=EXAME) -> nivel1, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.01s
+[11:44:32] [SIGTAP] 'MEROPENEM' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:44:32] [SEMANTICO] 'meropenem': 0.513 (limiar 0.8) -> ABCIXIMABE
+[11:44:32] [TOOL] 'MEROPENEM' (cat=MEDICAMENTO) -> vazio, 0.06s
+[11:44:32] [SIGTAP] 'hemotransfusão' (cat=PROCEDIMENTO): busca restrita a 2700 de 4994 procedimentos.
+[11:44:32] [SEMANTICO] 'hemotransfusao': 0.839 (limiar 0.8) -> HEMOFILTRAÇÃO
+[11:44:32] [TOOL] 'hemotransfusão' (cat=PROCEDIMENTO) -> nivel_semantico, score=0.839, confianca=baixa, painel=False, 1 resultado(s), 0.10s
+[11:44:32] [SIGTAP] 'hemodialise' (cat=PROCEDIMENTO): busca restrita a 2700 de 4994 procedimentos.
+[11:44:32] [TOOL] 'hemodialise' (cat=PROCEDIMENTO) -> nivel1, score=0.636, confianca=baixa, painel=False, 1 resultado(s), 0.04s
+[11:44:32] [NIVEL0] 'PCR' -> ['proteina c reativa']
+[11:44:32] [TOOL] 'PCR' (cat=EXAME) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.03s
+[11:44:32] [SIGTAP] 'Hemocultura' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[11:44:32] [TOOL] 'Hemocultura' (cat=EXAME) -> nivel1, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.01s
+[11:44:32] [SIGTAP] 'Meropenem' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:44:32] [SEMANTICO] 'meropenem': 0.513 (limiar 0.8) -> ABCIXIMABE
+[11:44:32] [TOOL] 'Meropenem' (cat=MEDICAMENTO) -> vazio, 0.06s
+[11:44:32] [NIVEL0] 'sedoanalgesia' -> ['sedacao']
+[11:44:32] [TOOL] 'sedoanalgesia' (cat=PROCEDIMENTO) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.06s
+[11:44:32] [SIGTAP] 'fentanil' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:44:32] [SEMANTICO] 'fentanil': 0.667 (limiar 0.8) -> MORFINA  DE LIBERACAO CONTROLADA 60 MG (POR CAPSULA)
+[11:44:32] [TOOL] 'fentanil' (cat=MEDICAMENTO) -> vazio, 0.05s
+[11:44:32] [SIGTAP] 'midazolam' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:44:32] [SEMANTICO] 'midazolam': 0.651 (limiar 0.8) -> ABCIXIMABE
+[11:44:32] [TOOL] 'midazolam' (cat=MEDICAMENTO) -> vazio, 0.04s
+[11:44:33] [NIVEL0] 'noradrenalina' marcado como não faturável separadamente (medicamentos_uso_hospitalar).
+[11:44:33] [TOOL] 'noradrenalina' (cat=MEDICAMENTO) -> nao_faturavel, 0.00s
+[11:44:33] [NIVEL0] 'Noradrenalina' marcado como não faturável separadamente (medicamentos_uso_hospitalar).
+[11:44:33] [TOOL] 'Noradrenalina' (cat=MEDICAMENTO) -> nao_faturavel, 0.00s
+[11:44:33] [NIVEL0] 'sedoanalgesia' -> ['sedacao']
+[11:44:33] [TOOL] 'sedoanalgesia' (cat=PROCEDIMENTO) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.03s
+[11:44:33] [SIGTAP] 'fentanil' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:44:33] [SEMANTICO] 'fentanil': 0.667 (limiar 0.8) -> MORFINA  DE LIBERACAO CONTROLADA 60 MG (POR CAPSULA)
+[11:44:33] [TOOL] 'fentanil' (cat=MEDICAMENTO) -> vazio, 0.05s
+[11:44:33] [NIVEL0] 'Gasometria arterial' -> ['gasometria']
+[11:44:33] [TOOL] 'Gasometria arterial' (cat=EXAME) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.04s
+[11:44:33] [SIGTAP] 'Fisioterapia Respiratória' (cat=PROCEDIMENTO): busca restrita a 2700 de 4994 procedimentos.
+[11:44:33] [SEMANTICO] 'fisioterapia respiratoria': 0.825 (limiar 0.8) -> TRATAMENTO DE OUTRAS DOENCAS DO APARELHO RESPIRATORIO
+[11:44:33] [TOOL] 'Fisioterapia Respiratória' (cat=PROCEDIMENTO) -> nivel_semantico, score=0.825, confianca=baixa, painel=False, 1 resultado(s), 0.09s
+[11:44:33] [SIGTAP] 'Fisioterapia Motora' (cat=PROCEDIMENTO): busca restrita a 2700 de 4994 procedimentos.
+[11:44:33] [SEMANTICO] 'fisioterapia motora': 0.833 (limiar 0.8) -> ATENDIMENTO FISIOTERAPÊUTICO NAS ALTERAÇÕES MOTORAS
+[11:44:33] [TOOL] 'Fisioterapia Motora' (cat=PROCEDIMENTO) -> nivel_semantico, score=0.833, confianca=baixa, painel=False, 1 resultado(s), 0.13s
+[11:44:33] [SIGTAP] 'Hemodiálise' (cat=PROCEDIMENTO): busca restrita a 2700 de 4994 procedimentos.
+[11:44:33] [TOOL] 'Hemodiálise' (cat=PROCEDIMENTO) -> nivel1, score=0.636, confianca=baixa, painel=False, 1 resultado(s), 0.03s
+[11:44:33] [SIGTAP] 'cateter de duplo lúmen' (cat=MATERIAL): busca restrita a 540 de 4994 procedimentos.
+[11:44:33] [TOOL] 'cateter de duplo lúmen' (cat=MATERIAL) -> nivel1, score=0.738, confianca=media, painel=False, 4 resultado(s), 0.01s
+[11:44:33] [NIVEL0] 'gasometria arterial' -> ['gasometria']
+[11:44:33] [TOOL] 'gasometria arterial' (cat=EXAME) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.04s
+[11:44:34] [SIGTAP] 'Troponina' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[11:44:34] [TOOL] 'Troponina' (cat=EXAME) -> nivel1, score=0.843, confianca=media, painel=False, 1 resultado(s), 0.01s
+[11:44:34] [NIVEL0] 'PCR' -> ['proteina c reativa']
+[11:44:34] [TOOL] 'PCR' (cat=EXAME) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.04s
+[11:44:34] [NIVEL0] 'Gasometria arterial' -> ['gasometria']
+[11:44:34] [TOOL] 'Gasometria arterial' (cat=EXAME) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.04s
+[11:44:34] [SIGTAP] 'Fisioterapia Respiratória' (cat=PROCEDIMENTO): busca restrita a 2700 de 4994 procedimentos.
+[11:44:34] [SEMANTICO] 'fisioterapia respiratoria': 0.825 (limiar 0.8) -> TRATAMENTO DE OUTRAS DOENCAS DO APARELHO RESPIRATORIO
+[11:44:34] [TOOL] 'Fisioterapia Respiratória' (cat=PROCEDIMENTO) -> nivel_semantico, score=0.825, confianca=baixa, painel=False, 1 resultado(s), 0.09s
+[11:44:34] [SIGTAP] 'Fisioterapia Motora' (cat=PROCEDIMENTO): busca restrita a 2700 de 4994 procedimentos.
+[11:44:34] [SEMANTICO] 'fisioterapia motora': 0.833 (limiar 0.8) -> ATENDIMENTO FISIOTERAPÊUTICO NAS ALTERAÇÕES MOTORAS
+[11:44:34] [TOOL] 'Fisioterapia Motora' (cat=PROCEDIMENTO) -> nivel_semantico, score=0.833, confianca=baixa, painel=False, 1 resultado(s), 0.12s
+[11:44:34] [SIGTAP] 'fentanil' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:44:34] [SEMANTICO] 'fentanil': 0.667 (limiar 0.8) -> MORFINA  DE LIBERACAO CONTROLADA 60 MG (POR CAPSULA)
+[11:44:34] [TOOL] 'fentanil' (cat=MEDICAMENTO) -> vazio, 0.05s
+[11:44:34] [SIGTAP] 'midazolam' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:44:34] [SEMANTICO] 'midazolam': 0.651 (limiar 0.8) -> ABCIXIMABE
+[11:44:34] [TOOL] 'midazolam' (cat=MEDICAMENTO) -> vazio, 0.04s
+[11:44:34] [NIVEL0] 'Noradrenalina' marcado como não faturável separadamente (medicamentos_uso_hospitalar).
+[11:44:34] [TOOL] 'Noradrenalina' (cat=MEDICAMENTO) -> nao_faturavel, 0.00s
+[11:44:34] [NIVEL0] 'sedoanalgesia' -> ['sedacao']
+[11:44:34] [TOOL] 'sedoanalgesia' (cat=PROCEDIMENTO) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.03s
+[11:44:34] [NIVEL0] 'Gasometria arterial' -> ['gasometria']
+[11:44:34] [TOOL] 'Gasometria arterial' (cat=EXAME) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.05s
+[11:44:34] [SIGTAP] 'Fisioterapia Respiratória' (cat=PROCEDIMENTO): busca restrita a 2700 de 4994 procedimentos.
+[11:44:34] [SEMANTICO] 'fisioterapia respiratoria': 0.825 (limiar 0.8) -> TRATAMENTO DE OUTRAS DOENCAS DO APARELHO RESPIRATORIO
+[11:44:34] [TOOL] 'Fisioterapia Respiratória' (cat=PROCEDIMENTO) -> nivel_semantico, score=0.825, confianca=baixa, painel=False, 1 resultado(s), 0.11s
+[11:44:34] [SIGTAP] 'Fisioterapia Motora' (cat=PROCEDIMENTO): busca restrita a 2700 de 4994 procedimentos.
+[11:44:34] [SEMANTICO] 'fisioterapia motora': 0.833 (limiar 0.8) -> ATENDIMENTO FISIOTERAPÊUTICO NAS ALTERAÇÕES MOTORAS
+[11:44:34] [TOOL] 'Fisioterapia Motora' (cat=PROCEDIMENTO) -> nivel_semantico, score=0.833, confianca=baixa, painel=False, 1 resultado(s), 0.09s
+[11:44:34] [NIVEL0] 'PCR' -> ['proteina c reativa']
+[11:44:35] [TOOL] 'PCR' (cat=EXAME) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.03s
+[11:44:35] [SIGTAP] 'midazolam' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:44:35] [SEMANTICO] 'midazolam': 0.651 (limiar 0.8) -> ABCIXIMABE
+[11:44:35] [TOOL] 'midazolam' (cat=MEDICAMENTO) -> vazio, 0.05s
+[11:44:35] [SIGTAP] 'fentanil' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:44:35] [SEMANTICO] 'fentanil': 0.667 (limiar 0.8) -> MORFINA  DE LIBERACAO CONTROLADA 60 MG (POR CAPSULA)
+[11:44:35] [TOOL] 'fentanil' (cat=MEDICAMENTO) -> vazio, 0.04s
+[11:44:35] [SIGTAP] 'lactato' (cat=EXAME): busca restrita a 1105 de 4994 procedimentos.
+[11:44:35] [TOOL] 'lactato' (cat=EXAME) -> nivel1, score=0.832, confianca=media, painel=False, 1 resultado(s), 0.01s
+[11:44:35] [NIVEL0] 'Noradrenalina' marcado como não faturável separadamente (medicamentos_uso_hospitalar).
+[11:44:35] [TOOL] 'Noradrenalina' (cat=MEDICAMENTO) -> nao_faturavel, 0.00s
+[11:44:35] [NIVEL0] 'noradrenalina' marcado como não faturável separadamente (medicamentos_uso_hospitalar).
+[11:44:35] [TOOL] 'noradrenalina' (cat=MEDICAMENTO) -> nao_faturavel, 0.00s
+[11:44:35] [SIGTAP] 'midazolam' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:44:35] [SEMANTICO] 'midazolam': 0.651 (limiar 0.8) -> ABCIXIMABE
+[11:44:35] [TOOL] 'midazolam' (cat=MEDICAMENTO) -> vazio, 0.06s
+[11:44:35] [SIGTAP] 'fentanil' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:44:35] [SEMANTICO] 'fentanil': 0.667 (limiar 0.8) -> MORFINA  DE LIBERACAO CONTROLADA 60 MG (POR CAPSULA)
+[11:44:35] [TOOL] 'fentanil' (cat=MEDICAMENTO) -> vazio, 0.09s
+[11:44:35] [NIVEL0] 'gasometria arterial' -> ['gasometria']
+[11:44:35] [TOOL] 'gasometria arterial' (cat=EXAME) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.06s
+[11:44:35] [SIGTAP] 'ventilação não invasiva' (cat=PROCEDIMENTO): busca restrita a 2700 de 4994 procedimentos.
+[11:44:35] [TOOL] 'ventilação não invasiva' (cat=PROCEDIMENTO) -> nivel1, score=0.611, confianca=baixa, painel=False, 2 resultado(s), 0.02s
+[11:44:35] [SIGTAP] 'Meropenem' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:44:35] [SEMANTICO] 'meropenem': 0.513 (limiar 0.8) -> ABCIXIMABE
+[11:44:35] [TOOL] 'Meropenem' (cat=MEDICAMENTO) -> vazio, 0.06s
+[11:44:36] [NIVEL0] 'sedoanalgesia' -> ['sedacao']
+[11:44:36] [TOOL] 'sedoanalgesia' (cat=PROCEDIMENTO) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.05s
+[11:44:36] [SIGTAP] 'fentanil' (cat=MEDICAMENTO): busca restrita a 404 de 4994 procedimentos.
+[11:44:36] [SEMANTICO] 'fentanil': 0.667 (limiar 0.8) -> MORFINA  DE LIBERACAO CONTROLADA 60 MG (POR CAPSULA)
+[11:44:36] [TOOL] 'fentanil' (cat=MEDICAMENTO) -> vazio, 0.06s
+[11:44:36] [NIVEL0] 'noradrenalina' marcado como não faturável separadamente (medicamentos_uso_hospitalar).
+[11:44:36] [TOOL] 'noradrenalina' (cat=MEDICAMENTO) -> nao_faturavel, 0.00s
+[11:44:36] [NIVEL0] 'PCR' -> ['proteina c reativa']
+[11:44:36] [TOOL] 'PCR' (cat=EXAME) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.04s
+[11:44:36] [SIGTAP] 'hemodiálise' (cat=PROCEDIMENTO): busca restrita a 2700 de 4994 procedimentos.
+[11:44:36] [TOOL] 'hemodiálise' (cat=PROCEDIMENTO) -> nivel1, score=0.636, confianca=baixa, painel=False, 1 resultado(s), 0.03s
+[11:44:36] [NIVEL0] 'heparina' marcado como não faturável separadamente (medicamentos_uso_hospitalar).
+[11:44:36] [TOOL] 'heparina' (cat=MEDICAMENTO) -> nao_faturavel, 0.00s
+[11:44:36] [NIVEL0] 'gasometria venosa' -> ['gasometria']
+[11:44:36] [TOOL] 'gasometria venosa' (cat=EXAME) -> nivel0, score=1.000, confianca=alta, painel=False, 1 resultado(s), 0.04s

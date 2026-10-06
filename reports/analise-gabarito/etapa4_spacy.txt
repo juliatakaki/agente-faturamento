@@ -1,0 +1,71 @@
+
+==========================================================================================
+ETAPA 4 - AVALIAÇÃO DO PIPELINE NO TESTE - rótulo 'spacy'
+==========================================================================================
+Configuração usada:
+  EXTRATOR_ATIVO           regras
+  PROVEDOR_LLM             api
+  MODELO_LOCAL             llama3.2
+  PROVEDOR_API             groq
+  MODELO_API               openai/gpt-oss-120b
+  USAR_LLM_FALLBACK        false
+  USAR_BUSCA_SEMANTICA     true
+  USAR_REGRAS_DOCUMENTO    true
+  USAR_REGRAS_TEXTO        true
+  MAX_TOKENS_LLM           
+  ORQUESTRACAO_POR_LLM     
+
+Evoluções no teste: 142
+Processadas sem erro: 142   com erro de execução: 0   faltando: 0
+Com falha de extração (contam como avaliadas, com o que as regras deram): 0
+
+==========================================================================================
+1. RESULTADO GERAL (micro-média sobre todos os códigos)
+==========================================================================================
+cenário                         TP    FP    FN     prec   rec    F1
+sem regras                      32   276   425    0.10  0.07  0.08
+com regras                     191   380   266    0.33  0.42  0.37
+
+==========================================================================================
+2. DE ONDE VÊM OS ACERTOS E OS ERROS (com regras)
+==========================================================================================
+origem do código              certos  errados    precisão
+busca textual                     32      276        0.10
+regra de documento               108       87        0.55
+regra de texto                    48       14        0.77
+regra de texto confirmada          3        3        0.50
+
+Candidatos de regra sem confirmação (fora do valor): 77 no total, 20 estavam no gabarito e 57 não.
+
+==========================================================================================
+3. POR CÓDIGO (códigos com >= 20 evoluções na planilha)
+==========================================================================================
+código          nome                                 n |   prec   rec sem regras |   prec   rec com regras
+08.02.01.008-3  DIARIA DE UNIDADE DE TERAPIA INTE   65 |   -    0.00            |  0.59  0.65
+03.01.10.014-4  OXIGENOTERAPIA POR DIA              46 |   -    0.00            |   -    0.00
+03.01.01.017-0  CONSULTA/AVALIAÇÃO EM PACIENTE IN   45 |   -    0.00            |  0.58  0.91
+02.01.02.004-1  COLETA DE MATERIAL PARA EXAME LAB   36 |   -    0.00            |   -    0.00
+03.01.01.004-8  CONSULTA DE PROFISSIONAIS DE NIVE   37 |   -    0.00            |  0.47  0.68
+03.09.01.004-7  NUTRIÇÃO ENTERAL EM ADULTO          21 |   -    0.00            |   -    0.00
+04.01.01.001-5  CURATIVO GRAU II C/ OU S/ DEBRIDA   31 |   -    0.00            |  0.75  0.87
+02.11.08.002-0  GASOMETRIA                          23 |  0.28  0.43            |  0.28  0.43
+03.02.04.002-1  ATENDIMENTO FISIOTERAPÊUTICO EM P   22 |   -    0.00            |  0.81  0.95
+03.02.05.002-7  ATENDIMENTO FISIOTERAPÊUTICO NAS    23 |  0.88  0.96            |  0.88  0.96
+03.01.10.007-1  CUIDADOS C/ TRAQUEOSTOMIA            7 |   -    0.00            |   -    0.00
+03.05.01.013-1  HEMODIÁLISE P/ PACIENTES RENAIS A   13 |   -    0.00            |  0.50  0.23
+03.01.10.005-5  CATETERISMO VESICAL DE DEMORA       10 |  0.00  0.00            |  0.00  0.00
+03.09.01.010-1  PASSAGEM DE SONDA NASO ENTERICA (    9 |   -    0.00            |   -    0.00
+02.11.02.003-6  ELETROCARDIOGRAMA                    7 |   -    0.00            |   -    0.00
+02.14.01.001-5  GLICEMIA CAPILAR                    11 |   -    0.00            |   -    0.00
+
+==========================================================================================
+4. POR ANOTADOR (com regras)
+==========================================================================================
+anotador   evoluções    TP    FP    FN     prec   rec    F1
+1                 26    35    66    41    0.35  0.46  0.40
+2                 31    51    89    35    0.36  0.59  0.45
+3                 35    26   123    63    0.17  0.29  0.22
+4                 21    22    44    62    0.33  0.26  0.29
+5                 29    57    58    65    0.50  0.47  0.48
+
+Relatório gravado em C:\Users\user\Documents\Faculdade\TCC\prototipo\reports\analise-gabarito\etapa4_spacy.txt
