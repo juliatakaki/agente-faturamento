@@ -39,6 +39,7 @@ import os
 import random
 import re
 import sys
+import time
 from collections import Counter, defaultdict
 from pathlib import Path
 
@@ -58,6 +59,7 @@ VARS_CONFIG = (
     "EXTRATOR_ATIVO", "PROVEDOR_LLM", "MODELO_LOCAL", "PROVEDOR_API", "MODELO_API",
     "USAR_LLM_FALLBACK", "USAR_BUSCA_SEMANTICA", "USAR_REGRAS_DOCUMENTO",
     "USAR_REGRAS_TEXTO", "MAX_TOKENS_LLM", "ORQUESTRACAO_POR_LLM",
+    "OLLAMA_NUM_CTX", "TIMEOUT_LLM_SEGUNDOS",
 )
 
 SAIDA = []
@@ -203,9 +205,11 @@ async def executar(entrada: list[dict], rotulo: str, limite: int | None) -> None
 
     pipeline = carregar_pipeline()
     await pipeline.iniciar_sessao_mcp()
+    duracoes = []
     try:
         for i, p in enumerate(pendentes, start=1):
             print(f"\n[AVALIACAO {i}/{len(pendentes)}] evolução {p['id']}")
+            t0 = time.monotonic()
             try:
                 rel = await pipeline.processar_prontuario(p)
                 registro = {"id": p["id"], **resumir_relatorio(rel)}
@@ -219,8 +223,14 @@ async def executar(entrada: list[dict], rotulo: str, limite: int | None) -> None
                 registro = {"id": p["id"], "erro": f"{type(e).__name__}: {str(e)[:300]}"}
             except Exception as e:
                 registro = {"id": p["id"], "erro": f"{type(e).__name__}: {str(e)[:300]}"}
+            registro["segundos"] = round(time.monotonic() - t0, 1)
+            duracoes.append(registro["segundos"])
             with open(arq_res, "a", encoding="utf-8") as f:
                 f.write(json.dumps(registro, ensure_ascii=False) + "\n")
+            media = sum(duracoes) / len(duracoes)
+            restante = media * (len(pendentes) - i) / 60
+            print(f"[AVALIACAO] {registro['segundos']:.0f}s nesta evolução; média "
+                  f"{media:.0f}s; estimativa para terminar as desta execução: {restante:.0f} min")
     finally:
         await pipeline.fechar_sessao_mcp()
 
@@ -262,6 +272,10 @@ def avaliar(rotulo: str, gabarito: dict, info: dict) -> None:
     log(f"Evoluções no teste: {len(gabarito)}")
     log(f"Processadas sem erro: {len(validos)}   com erro de execução: {len(erros)}   "
         f"faltando: {len(gabarito) - len(feitos)}")
+    tempos = [r["segundos"] for r in validos.values() if "segundos" in r]
+    if tempos:
+        log(f"Tempo por evolução: média {sum(tempos) / len(tempos):.0f}s, "
+            f"máximo {max(tempos):.0f}s, total {sum(tempos) / 60:.0f} min")
     falhas = sum(1 for r in validos.values() if r.get("falha"))
     log(f"Com falha de extração (contam como avaliadas, com o que as regras deram): {falhas}")
     if erros:
