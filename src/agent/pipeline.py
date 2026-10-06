@@ -310,6 +310,10 @@ _llm_cache = None
 # Limite de tokens da resposta do LLM. Ver _criar_llm_api().
 MAX_TOKENS_LLM = int(os.getenv("MAX_TOKENS_LLM", "8192"))
 
+# Janela de contexto do Ollama (prompt + texto + resposta). 16.384 cobre com
+# folga a maior evolução da planilha do HUB (~19 mil caracteres, ~6 mil tokens).
+OLLAMA_NUM_CTX = int(os.getenv("OLLAMA_NUM_CTX", "16384"))
+
 
 def criar_llm():
     """
@@ -318,6 +322,7 @@ def criar_llm():
     Variáveis lidas:
       PROVEDOR_LLM  -> "local" (padrão) ou "api"
       MODELO_LOCAL  -> nome do modelo no Ollama (padrão: "llama3.2")
+      OLLAMA_NUM_CTX -> janela de contexto do Ollama (padrão: 16384)
       MODELO_API    -> nome do modelo do provedor
       PROVEDOR_API  -> "openai" | "google" | "anthropic" | "groq"
     """
@@ -329,8 +334,13 @@ def criar_llm():
 
     if provedor == "local":
         modelo = os.getenv("MODELO_LOCAL", "llama3.2")
-        print(f"  [LLM] Usando modelo LOCAL via Ollama: {modelo}")
-        _llm_cache = ChatOllama(model=modelo, temperature=0)
+        print(f"  [LLM] Usando modelo LOCAL via Ollama: {modelo} "
+              f"(janela de contexto {OLLAMA_NUM_CTX} tokens)")
+        # num_ctx explícito: sem ele vale o padrão do Ollama, bem menor que o
+        # que o modelo aguenta, e o texto que não cabe é CORTADO SEM ERRO. As
+        # evoluções reais do HUB passam de 5.000 tokens somadas ao prompt do
+        # extrator, e o modelo extrairia de uma evolução pela metade.
+        _llm_cache = ChatOllama(model=modelo, temperature=0, num_ctx=OLLAMA_NUM_CTX)
         return _llm_cache
 
     if provedor == "api":
