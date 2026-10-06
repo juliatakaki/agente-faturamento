@@ -3,3 +3,6 @@ data/data-completo.xlsx
 src/agent/pipeline_antigo.py
 data/avaliacao/
 CLAUDE.md
+__pycache__/
+*.log
+termos_nao_encontrados.txt
