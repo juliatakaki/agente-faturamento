@@ -1,0 +1,40 @@
+
+================================================================================================
+ETAPA 4 - SÓ CÓDIGOS DE TEXTO (os 11 verdes da aba Estratégia)
+================================================================================================
+Códigos de texto no gabarito do teste: 177, em 87 das 142 evoluções.
+Rótulo 'spacy': 142 de 142 evoluções avaliadas
+
+================================================================================================
+1. RESULTADO GERAL NOS CÓDIGOS DE TEXTO (micro-média)
+================================================================================================
+rótulo      cenário          TP   FP   FN     prec   rec    F1
+spacy       sem regras       32   33  145    0.49  0.18  0.26
+spacy       com regras       83   50   94    0.62  0.47  0.54
+
+================================================================================================
+2. POR CÓDIGO, COM REGRAS (precisão / recall)
+================================================================================================
+código          nome                               n             spacy
+03.09.01.004-7  NUTRIÇÃO ENTERAL EM ADULTO        21          - / 0.00
+04.01.01.001-5  CURATIVO GRAU II                  31       0.75 / 0.87
+02.11.08.002-0  GASOMETRIA                        23       0.28 / 0.43
+03.02.04.002-1  FISIOTERAPIA RESPIRATÓRIA         22       0.81 / 0.95
+03.02.05.002-7  FISIOTERAPIA MOTORA               23       0.88 / 0.96
+03.01.10.007-1  CUIDADOS C/ TRAQUEOSTOMIA          7          - / 0.00
+03.05.01.013-1  HEMODIÁLISE                       13       0.50 / 0.23
+03.01.10.005-5  CATETERISMO VESICAL DE DEMORA     10       0.00 / 0.00
+03.09.01.010-1  PASSAGEM DE SONDA NASOENTÉRICA     9          - / 0.00
+02.11.02.003-6  ELETROCARDIOGRAMA                  7          - / 0.00
+02.14.01.001-5  GLICEMIA CAPILAR                  11          - / 0.00
+
+================================================================================================
+3. DE ONDE VÊM OS ACERTOS E ERROS NOS CÓDIGOS DE TEXTO (com regras)
+================================================================================================
+Rótulo 'spacy'
+   origem                      certos  errados    precisão
+   regra de texto                  51       17        0.75
+   busca textual                   32       33        0.49
+   Candidatos sem confirmação (fora do valor): 77, dos quais 20 estavam no gabarito.
+
+Relatório gravado em C:\Users\user\Documents\Faculdade\TCC\prototipo\reports\analise-gabarito\etapa4_texto_spacy.txt
