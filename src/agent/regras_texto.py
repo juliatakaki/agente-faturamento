@@ -31,6 +31,11 @@ Precisão e recall medidos (etapa 3, semente 42):
   02.11.08.002-0      0,39        0,35        0,83     candidato
   03.01.10.007-1      0,38        0,17        0,71     candidato
   03.05.01.013-1      0,30        0,32        0,69     candidato
+  03.09.01.004-7      0,44        0,38        0,43     candidato   (out/2026)
+
+O eletrocardiograma também foi testado (precisão 0,19 no treino e no teste, 13
+de 16 alertas falsos no teste) e ficou de fora, porque só poluiria a lista de
+revisão do faturista. O ECG de admissão fica copiado no histórico das evoluções.
 
 Nos candidatos, os falsos positivos disparam as mesmas pistas dos acertos: a
 palavra está no texto (valor de gaso transcrito, "HD" no histórico, TQT já
@@ -135,6 +140,24 @@ REGRAS = {
             ("programar tqt",    r"\b(programar|programo|indicacao\s+de|aguarda\w*)\s+tqt\b", -2),
         ],
         "confirmacao": ("traqueostomia", "tqt"),
+    },
+    # Acrescentado em out/2026. Pistas escolhidas pela mineração SÓ no grupo de
+    # treino (etapa 3). Limiar e modo definidos depois, pela etapa 3, no treino.
+    "03.09.01.004-7": {
+        "nome": "NUTRICAO ENTERAL EM ADULTO",
+        "rotulo": "NUTRICAO ENTERAL",
+        "modo": MODO_CANDIDATO,
+        "limiar": 2,
+        "pistas": [
+            ("dieta por/via SNE ou GTT", r"\bdieta\s+(enteral\s+)?(por|via|em|pela)\s+(sne|gtt|sng|cne)\b", 3),
+            ("dieta enteral",            r"\bdieta\s+enteral\b", 2),
+            ("TNE/terapia nutricional",  r"\btne\b|\bterapia\s+nutricional\b", 2),
+            ("gtt",                      r"\bgtt\b", 1),
+            ("sne",                      r"\bsne\b", 1),
+            ("dieta zero",               r"\bdieta\s+zero\b", -1),
+            ("sne fechada",              r"\bsne\s+fechada\b", -1),
+        ],
+        "confirmacao": ("nutricao enteral", "dieta enteral", "tne", "terapia nutricional enteral"),
     },
 }
 

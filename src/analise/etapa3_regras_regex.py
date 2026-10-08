@@ -253,7 +253,7 @@ def main():
     p = tp / (tp + fp) if tp + fp else float("nan")
     r = tp / (tp + fn) if tp + fn else float("nan")
     log()
-    log(f"Micro-média no teste (6 códigos): TP {tp}, FP {fp}, FN {fn}, precisão {p:.2f}, recall {r:.2f}, "
+    log(f"Micro-média no teste ({len(resultados)} códigos): TP {tp}, FP {fp}, FN {fn}, precisão {p:.2f}, recall {r:.2f}, "
         f"F1 {2 * p * r / (p + r):.2f}")
 
     secao("4. TESTE POR ANOTADOR (precisão / recall; '-' = sem casos)")
