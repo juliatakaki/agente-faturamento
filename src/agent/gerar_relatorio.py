@@ -14,9 +14,11 @@ separa os termos que exigem atenção humana em listas distintas:
     mas a busca não achou. Pode representar receita não faturada.
   - MARCADO COMO SEM CÓDIGO PRÓPRIO: o dicionário do sistema registra que o
     item não seria faturável separadamente.
-  - CANDIDATOS DE REGRA (out/2026): a regra de texto (src/agent/regras_texto.py)
-    achou indício do procedimento, mas o extrator não confirmou que ele foi
-    realizado nesta evolução. Não entram no valor.
+  - CANDIDATOS DE REGRA (out/2026): indício do procedimento sem confirmação
+    completa. Ou a regra de texto (src/agent/regras_texto.py) achou pistas e o
+    extrator não confirmou, ou o extrator achou e a regra não encontrou pista
+    suficiente no texto (filtro da busca textual). Cada item traz o motivo
+    quando o pipeline o registra. Não entram no valor.
   - PARA REVISÃO (termos genéricos): termo curto demais para escolher um
     código com segurança (ex.: "curativo" sozinho). A busca nem foi feita.
   - CLASSIFICADOS COMO NÃO REALIZADOS: mencionados mas, segundo o sistema,
@@ -110,11 +112,13 @@ TEXTO_MARCADO_SEM_CODIGO = (
 )
 
 TEXTO_CANDIDATOS = (
-    "As regras de texto encontraram indício destes procedimentos, mas o "
-    "extrator não confirmou que foram realizados nesta evolução. Eles NÃO "
-    "entram no valor sugerido. Conferir no texto se o procedimento foi feito "
-    "neste dia ou se é apenas menção (dispositivo já instalado, histórico, "
-    "valor transcrito)."
+    "Há indício destes procedimentos, mas a confirmação ficou incompleta. "
+    "Em alguns, as regras de texto encontraram pistas e o extrator não "
+    "confirmou que foram realizados; em outros, o extrator encontrou o "
+    "procedimento e as regras não acharam pista suficiente no texto. O motivo "
+    "aparece em cada item. Eles NÃO entram no valor sugerido. Conferir no "
+    "texto se o procedimento foi feito neste dia ou se é apenas menção "
+    "(dispositivo já instalado, histórico, valor transcrito)."
 )
 
 TEXTO_AMBIGUOS = (
@@ -258,9 +262,16 @@ def _descrever_nao_realizado(item) -> str:
 
 
 def _descrever_candidato(cand: dict) -> str:
-    """'GASOMETRIA (02.11.08.002-0) - pistas: ph, pao2/po2'"""
-    pistas = ", ".join(cand.get("pistas", []))
-    return f"{cand.get('descricao', '')} ({cand.get('codigo', '')}) - pistas: {pistas}"
+    """
+    'GASOMETRIA (02.11.08.002-0) - pistas: ph, pao2/po2'
+    Com motivo registrado pelo pipeline (filtro da busca textual):
+    'GASOMETRIA (02.11.08.002-0) - pistas: gasometria - motivo: a IA extraiu, ...'
+    Sem motivo, é o caso original: a regra achou pistas e o extrator não confirmou.
+    """
+    pistas = ", ".join(cand.get("pistas", [])) or "nenhuma"
+    texto = f"{cand.get('descricao', '')} ({cand.get('codigo', '')}) - pistas: {pistas}"
+    motivo = cand.get("motivo") or "regra de texto encontrou pistas, extrator não confirmou"
+    return f"{texto} - motivo: {motivo}"
 
 # ── Markdown ───────────────────────────────────────────────────────────────
 
@@ -1049,7 +1060,13 @@ def gerar_pdf(prontuarios: list[dict], caminho_pdf: str) -> None:
         "pistas no texto; na avaliação com evoluções reais do HUB, a precisão "
         "das regras diretas ficou entre 0,69 e 0,88, por isso recebem "
         "confiança Média. A regra 'confirmada' só entra quando o extrator "
-        "também encontrou o procedimento como realizado.",
+        "também encontrou o procedimento como realizado. Nos códigos "
+        "candidatos, um procedimento encontrado pelo extrator só entra se a "
+        "regra de texto também achar pista; sem ela, vai para conferência. "
+        "Cateterismo vesical, passagem de sonda nasoentérica e glicemia "
+        "capilar não são sugeridos: na análise do gabarito do HUB, o "
+        "procedimento quase nunca está descrito na evolução e a marcação "
+        "depende de regra de faturamento.",
         ParagraphStyle("rodape3", parent=estilo_normal, fontSize=7.5,
                        textColor=colors.HexColor("#888888"), spaceBefore=4)
     ))
