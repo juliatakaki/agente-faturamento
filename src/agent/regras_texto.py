@@ -87,6 +87,15 @@ def perto(a: str, b: str, n: int = JANELA_PALAVRAS) -> str:
 _GASO = r"gasometria|gas[ao]|ph|pao2|po2|paco2|pco2"
 _SNE = r"sne|gtt|enteral|dieta"
 
+# Códigos verdes sem pista no texto (etapa 7, out/2026): o procedimento quase
+# nunca está descrito na evolução e a marcação depende do anotador. O pipeline
+# tira esses códigos das sugestões quando as regras de texto estão ligadas.
+CODIGOS_SEM_PISTA_NO_TEXTO = (
+    "03.01.10.005-5",  # cateterismo vesical de demora
+    "03.09.01.010-1",  # passagem de sonda nasoentérica
+    "02.14.01.001-5",  # glicemia capilar
+)
+
 # Cada pista: (nome legível, regex sobre o texto normalizado, peso)
 REGRAS = {
     "04.01.01.001-5": {

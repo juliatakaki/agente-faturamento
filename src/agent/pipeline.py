@@ -161,6 +161,7 @@ class EstadoPipeline(TypedDict):
     termos_nao_realizados: list[dict]  # mencionados mas não executados
     candidatos_regra: list[dict]       # regra de texto disparou mas não foi confirmada (REVISAR)
     substituidos_por_regra: list[dict] # resultados da busca trocados pela regra (para avaliação)
+    filtrados_por_regra: list[dict]    # resultados da busca tirados pelo filtro de regra (para avaliação)
     falha_extracao: str                # motivo, se o extrator falhou; "" se não falhou
     entidades_descartadas: list[str]   # fora das categorias faturáveis
     relatorio: dict                    # relatório final
@@ -1436,6 +1437,87 @@ async def _aplicar_regras_texto(
     return resultados, candidatos, curativo_por_regra
 
 
+# Filtro da busca textual (out/2026). Roda junto com as regras de texto.
+# Medido por src/analise/etapa4_simular_exigente.py sobre a rodada gemma27, nos
+# 8 códigos com pista no texto: precisão 0,50 -> 0,63, recall 0,76 -> 0,71,
+# F1 0,60 -> 0,66.
+#  - Códigos em modo "candidato" (gasometria, hemodiálise, TQT, nutrição
+#    enteral) vindos da busca textual só ficam se a regra de regex também
+#    disparou na evolução. Sem o regex, vão para a lista de revisão.
+#  - Códigos em regras_texto.CODIGOS_SEM_PISTA_NO_TEXTO (cateterismo vesical,
+#    passagem de SNE, glicemia capilar) saem do relatório. A etapa 7 mostrou
+#    que o procedimento quase nunca está descrito no texto e que a marcação
+#    depende do anotador. Ficam guardados só para avaliação.
+_CANDIDATOS_TEXTO = {
+    regras_texto.so_digitos(c): c for c, r in regras_texto.REGRAS.items()
+    if r["modo"] == regras_texto.MODO_CANDIDATO
+}
+_SEM_PISTA_TEXTO = {regras_texto.so_digitos(c) for c in regras_texto.CODIGOS_SEM_PISTA_NO_TEXTO}
+
+MOTIVO_SEM_REGEX = "a IA extraiu, mas a regra de texto não confirmou no texto"
+MOTIVO_SEM_PISTA = "código depende de regra de faturamento, não do texto"
+
+
+def _filtrar_busca_textual(
+    resultados: list[dict], texto_prontuario: str
+) -> tuple[list[dict], list[dict], list[dict]]:
+    """
+    Aplica o filtro aos resultados da busca textual. Resultados de regra
+    (termo entre colchetes) não são tocados. Devolve (restantes,
+    candidatos_para_revisao, filtrados).
+    """
+    texto_norm = regras_texto.normalizar(texto_prontuario)
+    disparados = {
+        regras_texto.so_digitos(d["codigo"])
+        for d in regras_texto.aplicar_regras_texto(texto_prontuario)
+    }
+
+    restantes: list[dict] = []
+    candidatos: list[dict] = []
+    filtrados: list[dict] = []
+    vistos_revisao: set[str] = set()
+
+    for r in resultados:
+        termo = str(r.get("termo_buscado", ""))
+        if termo.startswith("["):
+            restantes.append(r)
+            continue
+        mantidas = []
+        for c in r.get("correspondencias", []):
+            cod = regras_texto.so_digitos(str(c.get("codigo", ""))) if isinstance(c, dict) else ""
+            motivo = ""
+            if cod in _SEM_PISTA_TEXTO:
+                motivo = MOTIVO_SEM_PISTA
+            elif cod in _CANDIDATOS_TEXTO and cod not in disparados:
+                motivo = MOTIVO_SEM_REGEX
+            if not motivo:
+                mantidas.append(c)
+                continue
+            filtrados.append({
+                "termo": termo,
+                "codigo": c.get("codigo", ""),
+                "descricao": c.get("descricao", ""),
+                "nivel": c.get("nivel", ""),
+                "motivo": motivo,
+            })
+            if motivo == MOTIVO_SEM_REGEX and cod not in vistos_revisao:
+                vistos_revisao.add(cod)
+                regra = regras_texto.REGRAS[_CANDIDATOS_TEXTO[cod]]
+                score, pistas = regras_texto.pontuar(texto_norm, regra["pistas"])
+                candidatos.append({
+                    "codigo": _CANDIDATOS_TEXTO[cod],
+                    "descricao": regra["nome"],
+                    "score": score,
+                    "limiar": regra["limiar"],
+                    "pistas": pistas,
+                    "motivo": f"{motivo} (termo extraído: '{termo}')",
+                })
+        if mantidas:
+            restantes.append({**r, "correspondencias": mantidas})
+
+    return restantes, candidatos, filtrados
+
+
 async def no_consulta_sigtap(estado: EstadoPipeline) -> EstadoPipeline:
     """
     Consulta o SIGTAP para cada entidade faturável REALIZADA.
@@ -1513,6 +1595,7 @@ async def no_consulta_sigtap(estado: EstadoPipeline) -> EstadoPipeline:
     # Regras de texto (se ligadas): regex + scoring sobre o texto da evolução.
     candidatos_regra: list[dict] = []
     substituidos_por_regra: list[dict] = []
+    filtrados_por_regra: list[dict] = []
     if USAR_REGRAS_TEXTO:
         resultados_texto, candidatos_regra, curativo_por_regra = await _aplicar_regras_texto(
             ferramenta_busca_codigo,
@@ -1553,6 +1636,15 @@ async def no_consulta_sigtap(estado: EstadoPipeline) -> EstadoPipeline:
                     for c in r.get("correspondencias", []) if isinstance(c, dict)
                 ]
 
+        # Filtro da busca textual: candidatos sem regex e códigos sem pista.
+        resultados, candidatos_filtro, filtrados_por_regra = _filtrar_busca_textual(
+            resultados, estado.get("texto", "")
+        )
+        for f in filtrados_por_regra:
+            print(f"    [Regra de texto - filtro] {f['descricao']} ({f['codigo']}) "
+                  f"tirado do relatório: {f['motivo']} <- {f['termo']}")
+        candidatos_regra = candidatos_regra + candidatos_filtro
+
         resultados = resultados + resultados_texto
 
     baixa_confianca = [
@@ -1579,6 +1671,7 @@ async def no_consulta_sigtap(estado: EstadoPipeline) -> EstadoPipeline:
         "termos_ambiguos": termos_ambiguos,
         "candidatos_regra": candidatos_regra,
         "substituidos_por_regra": substituidos_por_regra,
+        "filtrados_por_regra": filtrados_por_regra,
         "entidades_descartadas": entidades_descartadas,
     }
 
@@ -1684,6 +1777,10 @@ def no_relatorio(estado: EstadoPipeline) -> EstadoPipeline:
         # curativo). Fora do valor; existem para a avaliação comparar o
         # resultado com e sem regras numa única execução.
         "substituidos_por_regra": estado.get("substituidos_por_regra", []),
+        # Resultados da busca textual tirados pelo filtro de regra (candidato
+        # sem regex, ou código sem pista no texto). Fora do valor; os
+        # candidatos também aparecem em candidatos_regra, para revisão.
+        "filtrados_por_regra": estado.get("filtrados_por_regra", []),
         "entidades_descartadas": estado.get("entidades_descartadas", []),
     }
 
@@ -1742,6 +1839,7 @@ async def processar_prontuario(prontuario: dict) -> dict:
         "termos_ambiguos": [],
         "candidatos_regra": [],
         "substituidos_por_regra": [],
+        "filtrados_por_regra": [],
         "falha_extracao": "",
         "entidades_descartadas": [],
         "relatorio": {},
