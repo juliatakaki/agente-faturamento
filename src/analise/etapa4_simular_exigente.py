@@ -169,6 +169,20 @@ def main():
             celulas.append(f"{fmt(pr).strip()} / {fmt(rc).strip()}")
         log(f"{regra['rotulo'][:27]:28s}{n:4d}" + "".join(f"{c:>16s}" for c in celulas))
 
+    secao("3. TODOS OS CÓDIGOS DE TEXTO NO CENÁRIO EXIGENTE (onde estão os erros)")
+    log(f"{'código':34s}{'n':>4s}{'TP':>5s}{'FP':>5s}{'FN':>5s}   {'prec':>6s}{'rec':>6s}{'F1':>6s}")
+    linhas = []
+    for cod, nome in CODIGOS_TEXTO.items():
+        tp = fp = fn = 0
+        for i in resultados:
+            o, p = cod in ouro[i], cod in exigente(i)
+            tp += o and p; fp += (not o) and p; fn += o and not p
+        linhas.append((fp + fn, cod, nome, tp, fp, fn))
+    for _, cod, nome, tp, fp, fn in sorted(linhas, reverse=True):
+        pr, rc, f1 = metricas(tp, fp, fn)
+        log(f"{nome[:33]:34s}{tp + fn:4d}{tp:5d}{fp:5d}{fn:5d}   {fmt(pr)} {fmt(rc)} {fmt(f1)}")
+    log("(ordenado por FP + FN, do código que mais pesa no erro para o que menos pesa)")
+
     PASTA_REL.mkdir(parents=True, exist_ok=True)
     destino = PASTA_REL / f"etapa4_exigente_{args.rotulo}.txt"
     log()
