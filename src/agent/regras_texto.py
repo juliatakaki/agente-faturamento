@@ -192,6 +192,59 @@ REGRAS = {
         ],
         "confirmacao": ("nutricao enteral", "dieta enteral", "tne", "terapia nutricional enteral"),
     },
+    # Acrescentados em out/2026 (em teste). Códigos em que a IA não acertou nenhum
+    # caso na rodada gemma27. Pistas de ato escolhidas pelo conhecimento do
+    # domínio e conferidas pela mineração da etapa 3, só no treino. Limiar e modo
+    # definidos pela etapa 3, no treino.
+    "03.01.10.005-5": {
+        "nome": "CATETERISMO VESICAL DE DEMORA",
+        "rotulo": "CATETERISMO VESICAL",
+        "modo": MODO_CANDIDATO,
+        "limiar": 3,
+        "pistas": [
+            ("passada/trocada SVD",
+             r"\b(passad[ao]|passo|passagem\s+de|instalad[ao]|inserid[ao]|realizad[ao]|realizo|"
+             r"troca\s+de|trocad[ao]|troco)\s+(a\s+|de\s+)?(nova\s+)?(svd|sonda\s+vesical|cateter\s+vesical)", 3),
+            ("svd passada",                 r"\bsvd\s+(passad|instalad|trocad)\w*", 3),
+            ("sondagem/cateterismo vesical", r"\b(sondagem|cateterismo)\s+vesical", 2),
+            ("sonda vesical de demora",     r"\bsonda\s+vesical\s+de\s+demora\b", 1),
+            ("svd",                         r"\bsvd\b", 1),
+            ("retirada svd",
+             r"\b(retirad[ao]|retiro|sacad[ao])\s+(a\s+)?svd\b|\bsvd\s+retirad\w*", -2),
+        ],
+        "confirmacao": ("cateterismo vesical", "sondagem vesical", "sonda vesical", "svd"),
+    },
+    "03.09.01.010-1": {
+        "nome": "PASSAGEM DE SONDA NASOENTERICA",
+        "rotulo": "PASSAGEM DE SNE",
+        "modo": MODO_CANDIDATO,
+        "limiar": 3,
+        "pistas": [
+            ("passada/repassada SNE",
+             r"\b(passad[ao]|repassad[ao]|passo|repasso|passagem\s+de|reposicionad[ao]|"
+             r"troca\s+de|trocad[ao])\s+(a\s+)?(nova\s+)?(sne|sonda\s+naso\s*enterica)", 3),
+            ("sne passada",       r"\bsne\s+(passad|repassad|reposicionad)\w*", 3),
+            ("rx controle sne",
+             r"\b(rx|raio\s+x)\s+(de\s+)?controle\b|\bposicionamento\s+(da\s+)?sne\b", 1),
+            ("perda da sne",
+             r"\b(sacou|saida\s+acidental|perda|perdeu)\s+(a\s+|da\s+)?sne\b|\bsne\s+(sacada|exteriorizada)", 1),
+        ],
+        "confirmacao": ("passagem de sne", "passagem de sonda nasoenterica", "sonda nasoenterica"),
+    },
+    "02.14.01.001-5": {
+        "nome": "GLICEMIA CAPILAR",
+        "rotulo": "GLICEMIA CAPILAR",
+        "modo": MODO_CANDIDATO,
+        "limiar": 2,
+        "pistas": [
+            ("hgt",                r"\bhgt\b", 2),
+            ("glicemia capilar",   r"\bglicemias?\s+capilar(es)?\b", 2),
+            ("dextro",             r"\bdextro\b", 2),
+            ("glicemia com valor", r"\bglicemi\w*\s*:?\s*\d{2,3}\b", 1),
+            ("controle glicemico", r"\bcontrole\s+glicemico\b", 1),
+        ],
+        "confirmacao": ("glicemia capilar", "hgt", "dextro"),
+    },
 }
 
 
