@@ -14,6 +14,8 @@ métricas dos 11 códigos de texto em três cenários:
              (gasometria, hemodiálise, traqueostomia, nutrição enteral) só ficam se a
              regra de regex também disparar no texto da evolução. Ou seja, a busca
              textual sozinha não basta mais para esses códigos.
+  bloqueado  igual ao exigente, sem cateterismo vesical, passagem de SNE e glicemia
+             capilar, que no treino não têm pista no texto (SEM_PISTA_NO_TEXTO).
   só regex   referência: o atual mais todos os candidatos em que o regex disparou,
              com ou sem a IA. Mostra o teto de recall das regras.
 
@@ -53,6 +55,15 @@ CODIGOS_TEXTO = {
     "0309010101": "PASSAGEM DE SONDA NASOENTÉRICA",
     "0211020036": "ELETROCARDIOGRAMA",
     "0214010015": "GLICEMIA CAPILAR",
+}
+
+# Códigos verdes que, no TREINO (etapa 3, out/2026), não têm nenhum termo no texto
+# que separe as evoluções com e sem o código. A marcação segue o hábito do anotador.
+# No cenário "bloqueado", o pipeline deixa de aceitar esses códigos.
+SEM_PISTA_NO_TEXTO = {
+    "0301100055",  # cateterismo vesical de demora
+    "0309010101",  # passagem de sonda nasoentérica
+    "0214010015",  # glicemia capilar
 }
 
 # Candidatos = regras em modo "candidato" em regras_texto.py
@@ -133,10 +144,14 @@ def main():
     def exigente(i):
         return {c for c in atual(i) if c not in CANDIDATOS or c in dispara[i]}
 
+    def bloqueado(i):
+        return exigente(i) - SEM_PISTA_NO_TEXTO
+
     def so_regex(i):
         return atual(i) | (dispara[i] & verdes)
 
-    cenarios = [("atual", atual), ("exigente", exigente), ("só regex", so_regex)]
+    cenarios = [("atual", atual), ("exigente", exigente), ("bloqueado", bloqueado),
+                ("só regex", so_regex)]
 
     secao(f"SIMULAÇÃO - CANDIDATOS EXIGINDO IA E REGEX - rótulo '{args.rotulo}'")
     log(f"Evoluções avaliadas: {len(resultados)} de {len(gabarito)}. "
@@ -169,13 +184,13 @@ def main():
             celulas.append(f"{fmt(pr).strip()} / {fmt(rc).strip()}")
         log(f"{regra['rotulo'][:27]:28s}{n:4d}" + "".join(f"{c:>16s}" for c in celulas))
 
-    secao("3. TODOS OS CÓDIGOS DE TEXTO NO CENÁRIO EXIGENTE (onde estão os erros)")
+    secao("3. TODOS OS CÓDIGOS DE TEXTO NO CENÁRIO BLOQUEADO (onde estão os erros)")
     log(f"{'código':34s}{'n':>4s}{'TP':>5s}{'FP':>5s}{'FN':>5s}   {'prec':>6s}{'rec':>6s}{'F1':>6s}")
     linhas = []
     for cod, nome in CODIGOS_TEXTO.items():
         tp = fp = fn = 0
         for i in resultados:
-            o, p = cod in ouro[i], cod in exigente(i)
+            o, p = cod in ouro[i], cod in bloqueado(i)
             tp += o and p; fp += (not o) and p; fn += o and not p
         linhas.append((fp + fn, cod, nome, tp, fp, fn))
     for _, cod, nome, tp, fp, fn in sorted(linhas, reverse=True):
