@@ -39,8 +39,16 @@ revisão do faturista. O ECG de admissão fica copiado no histórico das evoluç
 
 Nos candidatos, os falsos positivos disparam as mesmas pistas dos acertos: a
 palavra está no texto (valor de gaso transcrito, "HD" no histórico, TQT já
-instalada), mas o procedimento não foi feito naquela evolução. Isso não se
-resolve com peso ou limiar; precisa de quem leia o contexto.
+instalada), mas o procedimento não foi feito naquela evolução.
+
+PISTAS DE PROXIMIDADE (out/2026)
+A etapa 6 (src/analise/etapa6_contexto_erros.py, só no treino) mostrou que o que
+separa acerto de erro nos candidatos é a parte da nota em que o termo aparece.
+Exemplos: "HD" perto de "prescrevo"/"conduta" costuma ser acerto, e perto de
+"choque séptico" (lista de diagnósticos) costuma ser erro. "TQT" perto de "PEEP" ou
+"modo" (descrição da ventilação) costuma ser acerto, e perto de "CDL" (lista de
+dispositivos) costuma ser erro. Essas pistas usam perto(a, b), que dispara quando
+os dois termos estão a até JANELA_PALAVRAS palavras um do outro.
 
 Este módulo não chama LLM nem MCP, para poder ser testado isoladamente.
 """
@@ -52,6 +60,24 @@ PRECISAO_MINIMA_DIRETA = 0.60
 
 MODO_DIRETA = "direta"
 MODO_CANDIDATO = "candidato"
+
+# Distância máxima, em palavras, para as pistas de proximidade
+JANELA_PALAVRAS = 12
+
+
+def perto(a: str, b: str, n: int = JANELA_PALAVRAS) -> str:
+    """Regex que dispara quando o termo a e o termo b estão a até n palavras um do
+    outro, em qualquer ordem. a e b são alternativas de regex, ex. 'hd|hemodialise'."""
+    ra, rb = rf"\b(?:{a})\b", rf"\b(?:{b})\b"
+    meio = rf"(?:\s+\S+){{0,{n}}}?\s+"
+    return rf"{ra}{meio}{rb}|{rb}{meio}{ra}"
+
+
+# Termos principais usados nas pistas de proximidade
+_GASO = r"gasometria|gas[ao]|ph|pao2|po2|paco2|pco2"
+_HD = r"hd|(?:hemo)?dialise|uf|ufe"
+_TQT = r"tqt|traqueostomi\w*"
+_SNE = r"sne|gtt|enteral|dieta"
 
 # Cada pista: (nome legível, regex sobre o texto normalizado, peso)
 REGRAS = {
@@ -108,6 +134,9 @@ REGRAS = {
             ("pao2/po2",                      r"\b(pao2|po2)\b", 1),
             ("paco2/pco2",                    r"\b(paco2|pco2)\b", 1),
             ("hco3/bic/be",                   r"\b(hco3|bic|be)\b", 1),
+            # proximidade (etapa 6)
+            ("gaso perto de fio2/sato2",      perto(_GASO, r"fio2|sato2|sao2"), 1),
+            ("gaso no exame fisico",          perto(_GASO, r"exame fisico|fc|bpm"), -1),
         ],
         # Termos que, extraídos como REALIZADO, confirmam o candidato.
         "confirmacao": ("gasometria", "gaso", "gasa"),
@@ -124,6 +153,9 @@ REGRAS = {
             ("trs",                 r"\btrs\b", 1),
             ("nefrologia",          r"\bnefro(logia)?\b", 1),
             ("cdl",                 r"\bcdl\b", 1),
+            # proximidade (etapa 6)
+            ("hd na conduta",       perto(_HD, r"prescrevo|conduta|controles|etiologia|motivo"), 2),
+            ("hd perto de choque septico", perto(_HD, r"choque septico"), -1),
         ],
         "confirmacao": ("hemodialise", "dialise", "hd", "terapia renal substitutiva"),
     },
@@ -138,6 +170,9 @@ REGRAS = {
             ("cuff",             r"\bcuff\b", 1),
             ("acoplado/via tqt", r"\b(via|em|sob|por|acoplad\w*\s+a)\s+tqt\b", 1),
             ("programar tqt",    r"\b(programar|programo|indicacao\s+de|aguarda\w*)\s+tqt\b", -2),
+            # proximidade (etapa 6)
+            ("tqt na ventilacao", perto(_TQT, r"peep|modo|vm|monitorizacao ventilatoria|cardiorrespiratoria"), 1),
+            ("tqt perto de cdl",  perto(_TQT, r"cdl"), -1),
         ],
         "confirmacao": ("traqueostomia", "tqt"),
     },
@@ -156,6 +191,8 @@ REGRAS = {
             ("sne",                      r"\bsne\b", 1),
             ("dieta zero",               r"\bdieta\s+zero\b", -1),
             ("sne fechada",              r"\bsne\s+fechada\b", -1),
+            # proximidade (etapa 6)
+            ("sne perto de termo de nutricao", perto(_SNE, r"calorica|kcal|nasoenterica|gastrostomia"), 1),
         ],
         "confirmacao": ("nutricao enteral", "dieta enteral", "tne", "terapia nutricional enteral"),
     },
