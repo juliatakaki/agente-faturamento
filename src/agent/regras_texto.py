@@ -28,10 +28,10 @@ Precisão e recall medidos (etapa 3, semente 42):
   03.02.04.002-1      0,80        0,81        0,95     direta
   04.01.01.001-5      0,71        0,75        0,87     direta
   03.02.05.002-7      0,69        0,88        0,96     direta
-  02.11.08.002-0      0,39        0,35        0,83     candidato
+  02.11.08.002-0      0,54        0,42        0,61     candidato   (limiar 6, out/2026)
   03.01.10.007-1      0,38        0,17        0,71     candidato
   03.05.01.013-1      0,30        0,32        0,69     candidato
-  03.09.01.004-7      0,44        0,38        0,43     candidato   (out/2026)
+  03.09.01.004-7      0,37        0,37        0,86     candidato   (limiar 1, out/2026)
 
 O eletrocardiograma também foi testado (precisão 0,19 no treino e no teste, 13
 de 16 alertas falsos no teste) e ficou de fora, porque só poluiria a lista de
@@ -44,11 +44,15 @@ instalada), mas o procedimento não foi feito naquela evolução.
 PISTAS DE PROXIMIDADE (out/2026)
 A etapa 6 (src/analise/etapa6_contexto_erros.py, só no treino) mostrou que o que
 separa acerto de erro nos candidatos é a parte da nota em que o termo aparece.
-Exemplos: "HD" perto de "prescrevo"/"conduta" costuma ser acerto, e perto de
-"choque séptico" (lista de diagnósticos) costuma ser erro. "TQT" perto de "PEEP" ou
-"modo" (descrição da ventilação) costuma ser acerto, e perto de "CDL" (lista de
-dispositivos) costuma ser erro. Essas pistas usam perto(a, b), que dispara quando
-os dois termos estão a até JANELA_PALAVRAS palavras um do outro.
+Ex.: gasometria perto de FiO2/SatO2 costuma ser acerto, e perto de "exame físico",
+"FC" ou "bpm" (sinais vitais) costuma ser erro. Essas pistas usam perto(a, b), que
+dispara quando os dois termos estão a até JANELA_PALAVRAS palavras um do outro.
+Com elas, a etapa 3 derivou novos limiares no treino: gasometria 6 e nutrição
+enteral 1 (basta "SNE"). No teste, gasometria foi de F1 0,49 para 0,50 (precisão
+0,35 para 0,42) e nutrição enteral de F1 0,40 para 0,51 (recall 0,43 para 0,86).
+Também foram testadas pistas de proximidade para hemodiálise ("HD" perto de
+"prescrevo"/"conduta", contra "choque séptico") e TQT ("TQT" perto de "PEEP"/"modo",
+contra "CDL"). Não melhoraram o teste e ficaram de fora.
 
 Este módulo não chama LLM nem MCP, para poder ser testado isoladamente.
 """
@@ -75,8 +79,6 @@ def perto(a: str, b: str, n: int = JANELA_PALAVRAS) -> str:
 
 # Termos principais usados nas pistas de proximidade
 _GASO = r"gasometria|gas[ao]|ph|pao2|po2|paco2|pco2"
-_HD = r"hd|(?:hemo)?dialise|uf|ufe"
-_TQT = r"tqt|traqueostomi\w*"
 _SNE = r"sne|gtt|enteral|dieta"
 
 # Cada pista: (nome legível, regex sobre o texto normalizado, peso)
@@ -125,7 +127,7 @@ REGRAS = {
         "nome": "GASOMETRIA",
         "rotulo": "GASOMETRIA",
         "modo": MODO_CANDIDATO,
-        "limiar": 3,
+        "limiar": 6,
         "pistas": [
             ("realizado/coletado gasometria", r"\b(realiz|colet)\w*\s+(a\s+)?gasometria", 3),
             ("gasometria",                    r"\bgasometria\b", 1),
@@ -153,9 +155,6 @@ REGRAS = {
             ("trs",                 r"\btrs\b", 1),
             ("nefrologia",          r"\bnefro(logia)?\b", 1),
             ("cdl",                 r"\bcdl\b", 1),
-            # proximidade (etapa 6)
-            ("hd na conduta",       perto(_HD, r"prescrevo|conduta|controles|etiologia|motivo"), 2),
-            ("hd perto de choque septico", perto(_HD, r"choque septico"), -1),
         ],
         "confirmacao": ("hemodialise", "dialise", "hd", "terapia renal substitutiva"),
     },
@@ -170,9 +169,6 @@ REGRAS = {
             ("cuff",             r"\bcuff\b", 1),
             ("acoplado/via tqt", r"\b(via|em|sob|por|acoplad\w*\s+a)\s+tqt\b", 1),
             ("programar tqt",    r"\b(programar|programo|indicacao\s+de|aguarda\w*)\s+tqt\b", -2),
-            # proximidade (etapa 6)
-            ("tqt na ventilacao", perto(_TQT, r"peep|modo|vm|monitorizacao ventilatoria|cardiorrespiratoria"), 1),
-            ("tqt perto de cdl",  perto(_TQT, r"cdl"), -1),
         ],
         "confirmacao": ("traqueostomia", "tqt"),
     },
@@ -182,7 +178,7 @@ REGRAS = {
         "nome": "NUTRICAO ENTERAL EM ADULTO",
         "rotulo": "NUTRICAO ENTERAL",
         "modo": MODO_CANDIDATO,
-        "limiar": 2,
+        "limiar": 1,
         "pistas": [
             ("dieta por/via SNE ou GTT", r"\bdieta\s+(enteral\s+)?(por|via|em|pela)\s+(sne|gtt|sng|cne)\b", 3),
             ("dieta enteral",            r"\bdieta\s+enteral\b", 2),
