@@ -198,6 +198,36 @@ def main():
         log(f"{nome[:33]:34s}{tp + fn:4d}{tp:5d}{fp:5d}{fn:5d}   {fmt(pr)} {fmt(rc)} {fmt(f1)}")
     log("(ordenado por FP + FN, do código que mais pesa no erro para o que menos pesa)")
 
+    # --- Avaliação só nos códigos que têm pista no texto ---
+    com_pista = verdes - SEM_PISTA_NO_TEXTO
+    n_com = sum(len(ouro[i] & com_pista) for i in resultados)
+    n_sem = sum(len(ouro[i] & SEM_PISTA_NO_TEXTO) for i in resultados)
+    secao(f"4. SÓ OS {len(com_pista)} CÓDIGOS COM PISTA NO TEXTO (sem os {len(SEM_PISTA_NO_TEXTO)} da etapa 7)")
+    log(f"Casos no gabarito: {n_com} com pista no texto, {n_sem} sem pista (fora desta conta).")
+    log()
+    log(f"{'cenário':12s}{'TP':>5s}{'FP':>5s}{'FN':>5s}   {'prec':>6s}{'rec':>6s}{'F1':>6s}")
+    for nome, f in cenarios:
+        tp = fp = fn = 0
+        for i in resultados:
+            o, p = ouro[i] & com_pista, f(i) & com_pista
+            tp += len(o & p); fp += len(p - o); fn += len(o - p)
+        pr, rc, f1 = metricas(tp, fp, fn)
+        log(f"{nome:12s}{tp:5d}{fp:5d}{fn:5d}   {fmt(pr)} {fmt(rc)} {fmt(f1)}")
+    log()
+    log("Por código, atual x bloqueado (precisão / recall / F1):")
+    log(f"{'código':34s}{'n':>4s}{'atual':>20s}{'bloqueado':>20s}")
+    for cod in sorted(com_pista, key=lambda c: -sum(1 for s in ouro.values() if c in s)):
+        celulas = []
+        for f in (atual, bloqueado):
+            tp = fp = fn = 0
+            for i in resultados:
+                o, p = cod in ouro[i], cod in f(i)
+                tp += o and p; fp += (not o) and p; fn += o and not p
+            pr, rc, f1 = metricas(tp, fp, fn)
+            celulas.append(f"{fmt(pr).strip()} / {fmt(rc).strip()} / {fmt(f1).strip()}")
+        n = sum(1 for s in ouro.values() if cod in s)
+        log(f"{CODIGOS_TEXTO[cod][:33]:34s}{n:4d}" + "".join(f"{c:>20s}" for c in celulas))
+
     PASTA_REL.mkdir(parents=True, exist_ok=True)
     destino = PASTA_REL / f"etapa4_exigente_{args.rotulo}.txt"
     log()
