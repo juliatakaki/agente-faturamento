@@ -1595,9 +1595,15 @@ async def no_consulta_sigtap(estado: EstadoPipeline) -> EstadoPipeline:
     # Regra de data (junto com as regras de texto): item cuja menção no texto
     # tem só datas anteriores à evolução é histórico. Sai da busca e vai para
     # os não realizados, com o motivo.
+    # Só EXAME e PROCEDIMENTO, as categorias medidas na etapa 8. Em medicamento
+    # e material a data costuma ser de início de uso ("amicacina (09/10)"), não
+    # de histórico.
     if USAR_REGRAS_TEXTO:
         atuais = []
         for e in entidades_buscaveis:
+            if str(e.get("categoria", "")).strip().upper() not in ("EXAME", "PROCEDIMENTO"):
+                atuais.append(e)
+                continue
             data_antiga = regras_datas.data_anterior(
                 estado.get("texto", ""), e.get("texto", ""), estado.get("data_evolucao", "")
             )

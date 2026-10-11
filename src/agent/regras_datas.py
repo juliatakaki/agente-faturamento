@@ -18,7 +18,9 @@ COMO FUNCIONA
    JANELA_DEPOIS caracteres depois ou JANELA_ANTES caracteres antes, sem
    atravessar um '#' de seção.
 3. A menção é antiga se essa data for anterior à da evolução.
-4. O item só é considerado histórico se TODAS as menções forem antigas. Menção
+4. O pipeline só aplica a regra a EXAME e PROCEDIMENTO (as categorias medidas).
+   Em medicamento e material a data costuma ser de início de uso.
+5. O item só é considerado histórico se TODAS as menções forem antigas. Menção
    sem data por perto conta como atual. Se o termo não for achado no texto,
    nada é decidido.
 
