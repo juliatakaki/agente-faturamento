@@ -10,13 +10,16 @@ Não usa LLM. Mesma divisão por paciente da etapa 3 (semente 42, 30% teste).
 A configuração da regra é escolhida SÓ no treino e depois medida no teste.
 
 Como a regra funciona
-  1. Data da nota = primeira data dd/mm(/aa) nos primeiros caracteres do texto
-     (o cabeçalho, ex. "EVOLUÇÃO MÉDICA NOTURNA - UTI HUB 14/10/25").
+  1. Data da nota = coluna dthr_evolucao_dt da planilha (no uso real, vem do
+     sistema do hospital junto com o texto). Se estiver vazia, usa a primeira
+     data dd/mm(/aa) do cabeçalho do texto.
   2. Para cada menção do termo (ex. "ECG"), procura a data mais próxima numa
      janela logo depois ("ECG (16/09/25)", "TC de crânio em 07/10") ou logo
      antes ("29/01 VDRL / Anti HIV"), sem atravessar um '#' de seção.
-  3. A menção é ANTIGA se essa data for anterior à da nota, com uma tolerância
-     de dias (notas noturnas citam exames do dia anterior).
+  3. A menção é ANTIGA se essa data for anterior à data de referência. Duas
+     referências são testadas: a data da evolução (com tolerância de 0 ou 1
+     dia, porque notas noturnas citam exames do dia anterior) e a data da
+     anamnese (coluna dthr_anamnese_dt, admissão), mais conservadora.
   4. O código é descartado na evolução só se TODAS as menções forem antigas.
      Menção sem data perto conta como atual.
 
@@ -47,7 +50,8 @@ CABECALHO_CHARS = 300
 # Configurações testadas no treino
 JANELAS_DEPOIS = (0, 20, 40)        # caracteres depois do termo
 JANELAS_ANTES = (0, 40, 80, 120)    # caracteres antes do termo
-TOLERANCIAS = (0, 1)                # dias de tolerância
+TOLERANCIAS = (0, 1)                # dias de tolerância (só para a referência evolução)
+REFERENCIAS = ("evolucao", "anamnese")
 
 # (nome, códigos que contam como acerto, regex do termo no texto leve)
 ITENS = [
@@ -143,8 +147,19 @@ def datas_no_texto(t: str, nota: date):
     return saida
 
 
+def para_data(valor):
+    """Converte o valor da coluna de data/hora da planilha em date, ou None."""
+    if valor is None or (isinstance(valor, float) and valor != valor) or str(valor).strip() == "":
+        return None
+    import warnings
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore")
+        dt = pd.to_datetime(str(valor).strip(), errors="coerce", dayfirst=True)
+    return None if pd.isna(dt) else dt.date()
+
+
 def mencao_antiga(t, ini, fim, datas, nota, depois, antes, tol) -> bool:
-    """A data mais próxima da menção, dentro da janela e sem cruzar '#', é anterior à nota?"""
+    """A data mais próxima da menção, dentro da janela e sem cruzar '#', é anterior à referência?"""
     melhor = None
     for di, df, dt in datas:
         if depois and fim <= di <= fim + depois and "#" not in t[fim:di]:
@@ -160,11 +175,16 @@ def mencao_antiga(t, ini, fim, datas, nota, depois, antes, tol) -> bool:
     return melhor[1] < nota - timedelta(days=tol)
 
 
-def avaliar(df, item_rx, cods, depois, antes, tol):
+def avaliar(df, item_rx, cods, depois, antes, tol, ref="evolucao"):
     """Devolve (tp, fp, fn) de 'menção' e de 'menção + data' para um item."""
     base = [0, 0, 0]
     filt = [0, 0, 0]
-    for t, nota, datas, ouro_set in zip(df["_leve"], df["_nota"], df["_datas"], df["_cod"]):
+    col_ref = "_nota" if ref == "evolucao" else "_anam"
+    if ref == "anamnese":
+        tol = 0
+    for t, nota, datas, ouro_set in zip(df["_leve"], df[col_ref], df["_datas"], df["_cod"]):
+        if nota is not None and nota != nota:
+            nota = None
         ouro = bool(ouro_set & cods)
         mencoes = [(m.start(), m.end()) for m in re.finditer(item_rx, t)]
         pred_base = bool(mencoes)
@@ -199,7 +219,12 @@ def main():
     df.columns = [c.strip() for c in df.columns]
     df["_cod"] = df["codigos_sigtap"].apply(parse_codigos)
     df["_leve"] = df["evolucoes"].fillna("").apply(leve)
-    df["_nota"] = df["_leve"].apply(data_da_nota)
+    df["_nota_cab"] = df["_leve"].apply(data_da_nota)
+    tem_col = "dthr_evolucao_dt" in df.columns
+    tem_anam = "dthr_anamnese_dt" in df.columns
+    df["_nota_col"] = df["dthr_evolucao_dt"].apply(para_data) if tem_col else None
+    df["_nota"] = [c if c is not None else h for c, h in zip(df["_nota_col"], df["_nota_cab"])]
+    df["_anam"] = df["dthr_anamnese_dt"].apply(para_data) if tem_anam else None
     df["_datas"] = [datas_no_texto(t, n) if n else [] for t, n in zip(df["_leve"], df["_nota"])]
 
     pacientes = sorted(df["prontuario_hash"].unique())
@@ -210,36 +235,57 @@ def main():
 
     secao("ETAPA 8 - REGRA DE DATA")
     for nome, sub in (("treino", treino), ("teste", teste)):
-        n_nota = sub["_nota"].notna().sum()
-        log(f"{nome:7s} {len(sub)} evoluções, data da nota encontrada no cabeçalho em "
-            f"{n_nota} ({n_nota / len(sub):.0%})")
+        n = len(sub)
+        n_col = sum(1 for x in sub["_nota_col"] if x is not None)
+        n_cab = sum(1 for x in sub["_nota_cab"] if x is not None)
+        n_nota = sum(1 for x in sub["_nota"] if x is not None)
+        n_anam = sum(1 for x in sub["_anam"] if x is not None)
+        log(f"{nome:7s} {n} evoluções. Data da evolução pela coluna {n_col} ({n_col / n:.0%}), "
+            f"pelo cabeçalho {n_cab} ({n_cab / n:.0%}), usada {n_nota} ({n_nota / n:.0%}). "
+            f"Data da anamnese {n_anam} ({n_anam / n:.0%}).")
+    ambos = [(c, h) for c, h in zip(df["_nota_col"], df["_nota_cab"]) if c and h]
+    if ambos:
+        igual = sum(1 for c, h in ambos if c == h)
+        perto = sum(1 for c, h in ambos if abs((c - h).days) <= 1)
+        log(f"Conferência coluna x cabeçalho ({len(ambos)} com as duas): mesma data {igual} "
+            f"({igual / len(ambos):.0%}), até 1 dia de diferença {perto} ({perto / len(ambos):.0%}).")
 
     # ── 1. escolha da configuração no treino ─────────────────────────────
     secao("1. CONFIGURAÇÃO ESCOLHIDA NO TREINO (micro-média dos itens)")
     resultados = []
-    for depois, antes, tol in product(JANELAS_DEPOIS, JANELAS_ANTES, TOLERANCIAS):
-        if not depois and not antes:
+    for ref, depois, antes, tol in product(REFERENCIAS, JANELAS_DEPOIS, JANELAS_ANTES, TOLERANCIAS):
+        if (not depois and not antes) or (ref == "anamnese" and tol):
             continue
         tot_b, tot_f = [0, 0, 0], [0, 0, 0]
         for _, cods, rx in ITENS:
-            b, f = avaliar(treino, rx, cods, depois, antes, tol)
+            b, f = avaliar(treino, rx, cods, depois, antes, tol, ref)
             tot_b = [x + y for x, y in zip(tot_b, b)]
             tot_f = [x + y for x, y in zip(tot_f, f)]
-        resultados.append((prf(*tot_f)[2], depois, antes, tol, tot_b, tot_f))
+        resultados.append((prf(*tot_f)[2], depois, antes, tol, tot_b, tot_f, ref))
     resultados.sort(key=lambda x: (-x[0], x[1] + x[2], x[3]))
 
-    _, _, _, _, tot_b, _ = resultados[0]
+    tot_b = resultados[0][4]
     p, r, f = prf(*tot_b)
-    log(f"{'configuração':34s}{'TP':>5s}{'FP':>5s}{'FN':>5s}   {'prec':>6s}{'rec':>6s}{'F1':>6s}")
-    log(f"{'só menção (sem regra)':34s}{tot_b[0]:5d}{tot_b[1]:5d}{tot_b[2]:5d}   "
+    log(f"{'configuração':40s}{'TP':>5s}{'FP':>5s}{'FN':>5s}   {'prec':>6s}{'rec':>6s}{'F1':>6s}")
+    log(f"{'só menção (sem regra)':40s}{tot_b[0]:5d}{tot_b[1]:5d}{tot_b[2]:5d}   "
         f"{fmt(p)} {fmt(r)} {fmt(f)}")
-    for f1, depois, antes, tol, _, tf in resultados[:6]:
+    def rotulo(ref, depois, antes, tol):
+        r = "evolução" if ref == "evolucao" else "anamnese"
+        return f"{r}, depois {depois}, antes {antes}" + (f", tol {tol}d" if ref == "evolucao" else "")
+
+    for f1, depois, antes, tol, _, tf, ref in resultados[:6]:
         p, r, f = prf(*tf)
-        rot = f"depois {depois}, antes {antes}, tol {tol}d"
-        log(f"{rot:34s}{tf[0]:5d}{tf[1]:5d}{tf[2]:5d}   {fmt(p)} {fmt(r)} {fmt(f)}")
-    _, D, A, T, _, _ = resultados[0]
+        log(f"{rotulo(ref, depois, antes, tol):40s}{tf[0]:5d}{tf[1]:5d}{tf[2]:5d}   {fmt(p)} {fmt(r)} {fmt(f)}")
+    melhor_anam = next((x for x in resultados if x[6] == "anamnese"), None)
+    if melhor_anam and melhor_anam not in resultados[:6]:
+        f1, depois, antes, tol, _, tf, ref = melhor_anam
+        p, r, f = prf(*tf)
+        log(f"{rotulo(ref, depois, antes, tol):40s}{tf[0]:5d}{tf[1]:5d}{tf[2]:5d}   {fmt(p)} {fmt(r)} {fmt(f)}"
+            f"   (melhor com anamnese)")
+    _, D, A, T, _, _, REF = resultados[0]
     log()
-    log(f"Escolhida: janela depois {D} caracteres, antes {A} caracteres, tolerância {T} dia(s).")
+    log(f"Escolhida: referência {'evolução' if REF == 'evolucao' else 'anamnese'}, janela depois "
+        f"{D} caracteres, antes {A} caracteres, tolerância {T} dia(s).")
 
     # ── 2. por item, treino e teste ──────────────────────────────────────
     secao("2. POR ITEM, COM A CONFIGURAÇÃO ESCOLHIDA (prec / rec)")
@@ -248,7 +294,7 @@ def main():
     tot = {"treino": [[0, 0, 0], [0, 0, 0]], "teste": [[0, 0, 0], [0, 0, 0]]}
     for nome, cods, rx in ITENS:
         for g, sub in (("treino", treino), ("teste", teste)):
-            b, f = avaliar(sub, rx, cods, D, A, T)
+            b, f = avaliar(sub, rx, cods, D, A, T, REF)
             tot[g][0] = [x + y for x, y in zip(tot[g][0], b)]
             tot[g][1] = [x + y for x, y in zip(tot[g][1], f)]
             pb, rb, _ = prf(*b)
