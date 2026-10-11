@@ -132,7 +132,8 @@ TEXTO_AMBIGUOS = (
 TEXTO_NAO_REALIZADOS = (
     "O sistema classificou estes itens como mencionados mas não realizados "
     "nesta evolução (solicitados, programados, cancelados, suspensos ou "
-    "anteriores a ela). Eles não foram buscados e não entram no valor. A "
+    "anteriores a ela). Quando a menção no texto só tem datas anteriores à "
+    "evolução, o motivo aparece no item. Eles não foram buscados e não entram no valor. A "
     "classificação é automática e pode errar - conferir, principalmente "
     "exames e procedimentos de valor alto."
 )
@@ -254,10 +255,13 @@ def _textos_nao_realizados(pront: dict) -> list[str]:
 
 
 def _descrever_nao_realizado(item) -> str:
-    """'ecocardiograma (EXAME)'"""
+    """'ecocardiograma (exame)' ou 'ecg (exame) - data anterior à evolução (16/09/2025)'"""
     if isinstance(item, dict):
         cat = item.get("categoria", "")
-        return f"{item.get('texto', '')} ({cat.lower()})" if cat else item.get("texto", "")
+        texto = f"{item.get('texto', '')} ({cat.lower()})" if cat else item.get("texto", "")
+        if item.get("motivo"):
+            texto += f" - {item['motivo']}"
+        return texto
     return str(item)
 
 

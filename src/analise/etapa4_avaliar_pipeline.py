@@ -16,7 +16,7 @@ O que faz
 1. Refaz a MESMA divisão por paciente da etapa 3 (semente 42, 30% no teste) e
    confere as contagens (45 pacientes, 142 evoluções). Se não bater, para.
 2. Grava em data/avaliacao/ dois arquivos separados:
-     teste_entrada.json   só id e texto (o único que o pipeline lê)
+     teste_entrada.json   id, texto e data_evolucao (o único que o pipeline lê)
      teste_gabarito.json  códigos e anotador (só a comparação abre)
 3. Roda o pipeline (src/agent/pipeline.py), uma evolução por vez, e grava cada
    resultado assim que termina em data/avaliacao/resultados_<rotulo>.jsonl.
@@ -110,7 +110,13 @@ def preparar(caminho_planilha: Path) -> tuple[list[dict], dict, dict]:
                  f"evoluções (esperado {ESPERADO_PACIENTES_TESTE} e {ESPERADO_EVOLUCOES_TESTE}). "
                  f"A planilha mudou? Avaliação interrompida.")
 
-    entrada = [{"id": str(r.source_row_id), "texto": "" if pd.isna(r.evolucoes) else str(r.evolucoes)}
+    # data_evolucao vem da coluna dthr_evolucao_dt (no uso real, do sistema do
+    # hospital). A regra de data do pipeline usa; sem ela, usa o cabeçalho do texto.
+    tem_data = "dthr_evolucao_dt" in teste.columns
+    entrada = [{"id": str(r.source_row_id),
+                "texto": "" if pd.isna(r.evolucoes) else str(r.evolucoes),
+                "data_evolucao": ("" if not tem_data or pd.isna(r.dthr_evolucao_dt)
+                                  else str(r.dthr_evolucao_dt))}
                for r in teste.itertuples()]
     gabarito = {str(r.source_row_id): {"codigos": parse_codigos(r.codigos_sigtap),
                                        "anotador": str(r.annotation_group)}
@@ -161,6 +167,8 @@ def resumir_relatorio(rel: dict) -> dict:
         "falha": rel.get("falha_extracao", ""),
         "n_entidades": len(rel.get("entidades_extraidas", [])),
         "n_nao_realizados": len(rel.get("termos_nao_realizados", [])),
+        "data_anterior": [t.get("texto", "") for t in rel.get("termos_nao_realizados", [])
+                          if isinstance(t, dict) and str(t.get("motivo", "")).startswith("data anterior")],
         "ambiguos": rel.get("termos_ambiguos", []),
     }
 

@@ -48,6 +48,14 @@ _spec_regras = importlib.util.spec_from_file_location(
 regras_texto = importlib.util.module_from_spec(_spec_regras)
 _spec_regras.loader.exec_module(regras_texto)
 
+# Regra de data (src/agent/regras_datas.py), avaliada em
+# src/analise/etapa8_datas.py. Carregada do mesmo jeito.
+_spec_datas = importlib.util.spec_from_file_location(
+    "regras_datas", os.path.join(os.path.dirname(os.path.abspath(__file__)), "regras_datas.py")
+)
+regras_datas = importlib.util.module_from_spec(_spec_datas)
+_spec_datas.loader.exec_module(regras_datas)
+
 # ── Timeouts ─────────────────────────────────────────────────────────────
 # Cada await que depende de algo externo tem timeout explícito. Sem isso,
 # qualquer travamento externo trava o pipeline em silêncio; com ele, o
@@ -152,6 +160,7 @@ _TERMOS_GENERICOS_REVISAR = frozenset({
 class EstadoPipeline(TypedDict):
     prontuario_id: str
     texto: str
+    data_evolucao: str                 # data/hora da evolução vinda do sistema ("" se não vier)
     entidades_brutas: list[dict]       # saída do NER
     entidades_refinadas: list[dict]    # saída do LLM (normalização)
     resultados_sigtap: list[dict]      # saída da consulta MCP
@@ -1312,6 +1321,26 @@ def _remover_curativo_textual(resultados: list[dict]) -> tuple[list[dict], list[
     return restantes, removidos
 
 
+# Mesmo raciocínio do curativo para a hemodiálise: quando a regra de texto
+# atribui a 03.05.01.013-1, outros resultados da busca textual para o mesmo ato
+# (ex. "hemodiálise" -> HEMODIÁLISE CONTÍNUA) saem, para não faturar duas vezes.
+_COD_HEMODIALISE = "03.05.01.013-1"
+_RX_TERMO_HEMODIALISE = re.compile(r"\b(hd|(hemo)?dialise|trs|terapia renal substitutiva)\b")
+
+
+def _remover_por_termo(resultados: list[dict], rx) -> tuple[list[dict], list[dict]]:
+    """Tira os resultados da busca textual cujo termo casa com rx. Resultados
+    de regra (termo entre colchetes) nunca são removidos."""
+    restantes, removidos = [], []
+    for r in resultados:
+        termo = str(r.get("termo_buscado", ""))
+        if not termo.startswith("[") and rx.search(regras_texto.normalizar(termo)):
+            removidos.append(r)
+        else:
+            restantes.append(r)
+    return restantes, removidos
+
+
 def _codigos_ja_encontrados(resultados: list[dict]) -> set[str]:
     """Códigos (só dígitos) presentes nos resultados até aqui."""
     return {
@@ -1563,6 +1592,27 @@ async def no_consulta_sigtap(estado: EstadoPipeline) -> EstadoPipeline:
         if e.get("status", STATUS_REALIZADO) != STATUS_REALIZADO
     ]
 
+    # Regra de data (junto com as regras de texto): item cuja menção no texto
+    # tem só datas anteriores à evolução é histórico. Sai da busca e vai para
+    # os não realizados, com o motivo.
+    if USAR_REGRAS_TEXTO:
+        atuais = []
+        for e in entidades_buscaveis:
+            data_antiga = regras_datas.data_anterior(
+                estado.get("texto", ""), e.get("texto", ""), estado.get("data_evolucao", "")
+            )
+            if data_antiga:
+                nao_realizadas.append({
+                    "texto": e.get("texto", ""),
+                    "categoria": e.get("categoria", ""),
+                    "motivo": f"data anterior à evolução ({data_antiga})",
+                })
+                print(f"    [Regra de data] '{e.get('texto', '')}' tratado como histórico: "
+                      f"data anterior à evolução ({data_antiga})")
+            else:
+                atuais.append(e)
+        entidades_buscaveis = atuais
+
     modo = "LLM orquestrando" if ORQUESTRACAO_POR_LLM else "laço determinístico"
     print(f"  [SIGTAP] Consultando {len(entidades_buscaveis)} entidade(s) "
           f"realizada(s) ({modo}); {len(nao_realizadas)} não realizada(s), "
@@ -1625,7 +1675,25 @@ async def no_consulta_sigtap(estado: EstadoPipeline) -> EstadoPipeline:
                 # Guardados para a avaliação poder reconstruir o resultado
                 # "sem regras" a partir da mesma execução. Não vão para a
                 # tabela nem para o valor do relatório.
-                substituidos_por_regra = [
+                substituidos_por_regra = substituidos_por_regra + [
+                    {
+                        "termo": r.get("termo_buscado", ""),
+                        "codigo": c.get("codigo", ""),
+                        "descricao": c.get("descricao", ""),
+                        "nivel": c.get("nivel", ""),
+                    }
+                    for r in removidos
+                    for c in r.get("correspondencias", []) if isinstance(c, dict)
+                ]
+
+        # Hemodiálise atribuída pela regra: a da busca textual sai.
+        if any(r["correspondencias"][0].get("codigo") == _COD_HEMODIALISE for r in resultados_texto):
+            # (se a busca já tivesse achado a 013-1, a regra não teria repetido o código)
+            resultados, removidos = _remover_por_termo(resultados, _RX_TERMO_HEMODIALISE)
+            if removidos:
+                print(f"    [Regra de texto] hemodiálise da busca textual substituída pela "
+                      f"da regra: {', '.join(r.get('termo_buscado', '') for r in removidos)}")
+                substituidos_por_regra = substituidos_por_regra + [
                     {
                         "termo": r.get("termo_buscado", ""),
                         "codigo": c.get("codigo", ""),
@@ -1830,6 +1898,7 @@ async def processar_prontuario(prontuario: dict) -> dict:
     estado_inicial: EstadoPipeline = {
         "prontuario_id": prontuario["id"],
         "texto": prontuario["texto"],
+        "data_evolucao": str(prontuario.get("data_evolucao", "") or ""),
         "entidades_brutas": [],
         "entidades_refinadas": [],
         "resultados_sigtap": [],
