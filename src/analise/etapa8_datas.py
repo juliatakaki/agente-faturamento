@@ -151,10 +151,17 @@ def para_data(valor):
     """Converte o valor da coluna de data/hora da planilha em date, ou None."""
     if valor is None or (isinstance(valor, float) and valor != valor) or str(valor).strip() == "":
         return None
+    texto = str(valor).strip()
+    # A planilha usa "AAAA-MM-DD hh:mm:ss". Lê esse formato primeiro, porque com
+    # dayfirst=True o pandas inverte dia e mês nas datas ISO com dia até 12.
+    for formato in ("%Y-%m-%d %H:%M:%S", "%Y-%m-%d"):
+        dt = pd.to_datetime(texto, format=formato, errors="coerce")
+        if not pd.isna(dt):
+            return dt.date()
     import warnings
     with warnings.catch_warnings():
         warnings.simplefilter("ignore")
-        dt = pd.to_datetime(str(valor).strip(), errors="coerce", dayfirst=True)
+        dt = pd.to_datetime(texto, errors="coerce", dayfirst=True)
     return None if pd.isna(dt) else dt.date()
 
 
