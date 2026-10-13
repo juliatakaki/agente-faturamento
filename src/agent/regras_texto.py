@@ -32,6 +32,7 @@ Precisão e recall medidos (etapa 3, semente 42):
   03.01.10.007-1      0,38        0,17        0,71     candidato
   03.05.01.013-1      0,30        0,32        0,69     candidato
   03.09.01.004-7      0,37        0,37        0,86     candidato   (limiar 1, out/2026)
+  03.01.10.014-4      0,50        0,51        0,98     candidato   (oxigenoterapia, out/2026)
 
 Cateterismo vesical, passagem de SNE e glicemia capilar também foram testados
 (out/2026) e ficaram de fora. No treino não há termo que separe as evoluções com
@@ -210,12 +211,14 @@ REGRAS = {
     # Acrescentado em out/2026 (em teste). Código de processo, mas com sinal no
     # texto: na etapa 9 (só treino), VM aparece em 74% das notas marcadas e 37%
     # das não marcadas, TOT/TQT em 79% x 39%, FiO2 em 57% x 30%, e "ar
-    # ambiente" em 19% x 36%. Limiar e modo definidos pela etapa 3, no treino.
+    # ambiente" em 19% x 36%. Etapa 3: limiar 1, precisão no treino 0,50
+    # (candidato); no teste, precisão 0,51 e recall 0,98, contra 0,43 e 0,22 da
+    # busca textual sozinha. A precisão varia de 0,32 a 0,70 entre anotadores.
     "03.01.10.014-4": {
         "nome": "OXIGENOTERAPIA POR DIA",
         "rotulo": "OXIGENOTERAPIA",
         "modo": MODO_CANDIDATO,
-        "limiar": 2,
+        "limiar": 1,
         "pistas": [
             ("vm / ventilacao mecanica", r"\bvm\b|\bventilacao\s+mecanica\b", 2),
             ("dispositivo de o2",
