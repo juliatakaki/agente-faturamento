@@ -207,6 +207,27 @@ REGRAS = {
         ],
         "confirmacao": ("nutricao enteral", "dieta enteral", "tne", "terapia nutricional enteral"),
     },
+    # Acrescentado em out/2026 (em teste). Código de processo, mas com sinal no
+    # texto: na etapa 9 (só treino), VM aparece em 74% das notas marcadas e 37%
+    # das não marcadas, TOT/TQT em 79% x 39%, FiO2 em 57% x 30%, e "ar
+    # ambiente" em 19% x 36%. Limiar e modo definidos pela etapa 3, no treino.
+    "03.01.10.014-4": {
+        "nome": "OXIGENOTERAPIA POR DIA",
+        "rotulo": "OXIGENOTERAPIA",
+        "modo": MODO_CANDIDATO,
+        "limiar": 2,
+        "pistas": [
+            ("vm / ventilacao mecanica", r"\bvm\b|\bventilacao\s+mecanica\b", 2),
+            ("dispositivo de o2",
+             r"\bcateter\s+nasal\b|\bcnaf\b|\bmascara\b|\bventuri\b|\bmacronebuliz\w*|\bo2\b|\boxigeni\w*", 2),
+            ("tot / tqt",                r"\btot\b|\btqt\b", 1),
+            ("fio2",                     r"\bfio2\b", 1),
+            ("l/min",                    r"\bl\s+min\b|\blpm\b", 1),
+            ("ar ambiente",              r"\bar\s+ambiente\b", -2),
+        ],
+        "confirmacao": ("oxigenoterapia", "ventilacao mecanica", "cateter nasal", "oxigenio",
+                        "oxigenioterapia", "vm"),
+    },
 }
 
 
