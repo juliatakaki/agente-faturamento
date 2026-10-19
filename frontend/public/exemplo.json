@@ -1,0 +1,124 @@
+[
+ {
+  "prontuario_id": "EXEMPLO-01",
+  "modelo_utilizado": "local/ollama - gemma3:27b",
+  "falha_extracao": "",
+  "texto_prontuario": "EVOLUÇÃO MÉDICA - UTI ADULTO 14/10/25\nExemplo fictício, criado para demonstração. Não corresponde a nenhum paciente.\n\n# Problemas\n1. Choque séptico de foco pulmonar\n2. Lesão renal aguda KDIGO III em TRS\n3. Insuficiência respiratória em VM\n\n# Exames\nTC de crânio em 07/10: sem alterações agudas. ECG (16/09/25): ritmo sinusal.\n\n# Evolução\nPaciente em VM via TQT, modo PSV, FiO2 30%, PEEP 6. Gasometria arterial de hoje: pH 7,36, PaCO2 41, HCO3 23, sem distúrbio ácido-base. Em HD contínua, UF de 1500 ml nas últimas 24h. Dieta enteral via SNE a 40 ml/h, bem tolerada. SVD com diurese escassa.\n\n# Conduta\nMantenho antibioticoterapia. Programar desmame ventilatório. Prescrevo HD com UF alvo de 2000 ml.",
+  "codigos_sigtap": [
+   {
+    "codigo": "08.02.01.008-3",
+    "descricao": "DIARIA DE UNIDADE DE TERAPIA INTENSIVA ADULTO (UTI II)",
+    "origem": "[regra: medico]",
+    "nivel": "regra_documento",
+    "confianca": "alta",
+    "vl_total": 600.0
+   },
+   {
+    "codigo": "03.01.01.017-0",
+    "descricao": "CONSULTA/AVALIAÇÃO EM PACIENTE INTERNADO",
+    "origem": "[regra: medico]",
+    "nivel": "regra_documento",
+    "confianca": "alta",
+    "vl_total": 0.0
+   },
+   {
+    "codigo": "03.05.01.013-1",
+    "descricao": "HEMODIÁLISE P/ PACIENTES RENAIS AGUDOS / CRÔNICOS AGUDIZADOS",
+    "origem": "[regra de texto confirmada por 'hemodiálise': hd, uf, trs]",
+    "nivel": "regra_texto_confirmada",
+    "confianca": "media",
+    "vl_total": 265.41
+   },
+   {
+    "codigo": "03.01.10.014-4",
+    "descricao": "OXIGENOTERAPIA POR DIA",
+    "origem": "[regra de texto confirmada por 'ventilação mecânica': vm, tot / tqt, fio2]",
+    "nivel": "regra_texto_confirmada",
+    "confianca": "media",
+    "vl_total": 0.0
+   },
+   {
+    "codigo": "03.09.01.004-7",
+    "descricao": "NUTRIÇÃO ENTERAL EM ADULTO",
+    "origem": "dieta enteral",
+    "nivel": "nivel1",
+    "confianca": "media",
+    "vl_total": 30.0,
+    "alternativas": [
+     {
+      "codigo": "03.09.01.006-3",
+      "descricao": "NUTRIÇÃO ENTERAL EM PEDIATRIA",
+      "vl_total": 18.0
+     }
+    ]
+   }
+  ],
+  "candidatos_regra": [
+   {
+    "codigo": "02.11.08.002-0",
+    "descricao": "GASOMETRIA",
+    "score": 5,
+    "limiar": 6,
+    "pistas": [
+     "gasometria",
+     "ph",
+     "paco2/pco2",
+     "hco3/bic/be"
+    ],
+    "motivo": "A IA extraiu, mas a regra de texto não confirmou no texto (termo extraído: 'gasometria')"
+   },
+   {
+    "codigo": "03.01.10.007-1",
+    "descricao": "CUIDADOS C/ TRAQUEOSTOMIA",
+    "score": 3,
+    "limiar": 3,
+    "pistas": [
+     "tqt",
+     "acoplado/via tqt"
+    ]
+   }
+  ],
+  "termos_nao_realizados": [
+   {
+    "texto": "tomografia de crânio",
+    "categoria": "EXAME",
+    "motivo": "data anterior à evolução (07/10/2025)"
+   },
+   {
+    "texto": "eletrocardiograma",
+    "categoria": "EXAME",
+    "motivo": "data anterior à evolução (16/09/2025)"
+   },
+   {
+    "texto": "desmame ventilatório",
+    "categoria": "PROCEDIMENTO"
+   }
+  ]
+ },
+ {
+  "prontuario_id": "EXEMPLO-02",
+  "modelo_utilizado": "local/ollama - gemma3:27b",
+  "falha_extracao": "",
+  "texto_prontuario": "EVOLUÇÃO DE ENFERMAGEM - UTI ADULTO 14/10/25\nExemplo fictício, criado para demonstração. Não corresponde a nenhum paciente.\n\nPaciente em leito, sedado, em VM por TQT. Realizado banho no leito.\nCurativos: realizo curativo em lesão sacral com limpeza com SF 0,9%, cobertura com alginato e oclusão com filme transparente. Curativo de CVC com clorexidina alcoólica, sem sinais flogísticos.\nMantém SNE para dieta, sem resíduo gástrico. HGT 142.",
+  "codigos_sigtap": [
+   {
+    "codigo": "03.01.01.004-8",
+    "descricao": "CONSULTA DE PROFISSIONAIS DE NIVEL SUPERIOR NA ATENÇÃO ESPECIALIZADA (EXCETO MÉDICO)",
+    "origem": "[regra: nao_medico]",
+    "nivel": "regra_documento",
+    "confianca": "alta",
+    "vl_total": 6.3
+   },
+   {
+    "codigo": "04.01.01.001-5",
+    "descricao": "CURATIVO GRAU II C/ OU S/ DEBRIDAMENTO",
+    "origem": "[regra de texto: realizo/realizado curativo, bloco curativos, clorexidina]",
+    "nivel": "regra_texto",
+    "confianca": "media",
+    "vl_total": 21.0
+   }
+  ],
+  "candidatos_regra": [],
+  "termos_nao_realizados": []
+ }
+]
