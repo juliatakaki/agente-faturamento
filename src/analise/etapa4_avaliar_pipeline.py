@@ -6,11 +6,17 @@ Uso (a partir da raiz do projeto):
     python src/analise/etapa4_avaliar_pipeline.py data/data-completo.xlsx --rotulo spacy --limite 3
     python src/analise/etapa4_avaliar_pipeline.py data/data-completo.xlsx --rotulo spacy
     python src/analise/etapa4_avaliar_pipeline.py data/data-completo.xlsx --rotulo spacy --so-avaliar
+    python src/analise/etapa4_avaliar_pipeline.py data/data-completo.xlsx --rotulo gemma27_v3 --grupo todos
 
   --rotulo      nome da configuração (ex.: spacy, ollama). Cada rótulo tem seu
                 próprio arquivo de resultados e de relatório.
   --limite N    processa no máximo N evoluções novas nesta execução (teste rápido).
   --so-avaliar  não roda o pipeline; só recalcula as métricas do que já foi processado.
+  --grupo       teste (padrão, 142 evoluções), treino (278) ou todos (420). As
+                evoluções já processadas no rótulo são reaproveitadas, então
+                "todos" depois de uma rodada no teste só processa o treino.
+                ATENÇÃO: as regras foram calibradas no treino, então as métricas
+                no treino (e em "todos") são otimistas. O número do TCC é o do teste.
 
 O que faz
 1. Refaz a MESMA divisão por paciente da etapa 3 (semente 42, 30% no teste) e
@@ -93,7 +99,7 @@ def parse_codigos(valor) -> list[str]:
 
 # ── 1 e 2: divisão e arquivos de entrada/gabarito ──────────────────────────
 
-def preparar(caminho_planilha: Path) -> tuple[list[dict], dict, dict]:
+def preparar(caminho_planilha: Path, grupo: str = "teste") -> tuple[list[dict], dict, dict]:
     df = pd.read_excel(caminho_planilha, dtype=str)
     df.columns = [c.strip() for c in df.columns]
 
@@ -109,6 +115,13 @@ def preparar(caminho_planilha: Path) -> tuple[list[dict], dict, dict]:
         sys.exit(f"Divisão diferente da etapa 3: {len(teste_pac)} pacientes e {len(teste)} "
                  f"evoluções (esperado {ESPERADO_PACIENTES_TESTE} e {ESPERADO_EVOLUCOES_TESTE}). "
                  f"A planilha mudou? Avaliação interrompida.")
+
+    # O nome "teste" segue abaixo por compatibilidade, mas passa a ser o grupo escolhido.
+    if grupo == "treino":
+        teste = df[~df["prontuario_hash"].isin(teste_pac)]
+    elif grupo == "todos":
+        # teste primeiro, para a ordem de processamento reaproveitar o que já existe
+        teste = pd.concat([teste, df[~df["prontuario_hash"].isin(teste_pac)]])
 
     # data_evolucao vem da coluna dthr_evolucao_dt (no uso real, do sistema do
     # hospital). A regra de data do pipeline usa; sem ela, usa o cabeçalho do texto.
@@ -134,9 +147,9 @@ def preparar(caminho_planilha: Path) -> tuple[list[dict], dict, dict]:
             "descricoes": descricoes}
 
     PASTA_DADOS.mkdir(parents=True, exist_ok=True)
-    (PASTA_DADOS / "teste_entrada.json").write_text(
+    (PASTA_DADOS / f"{grupo}_entrada.json").write_text(
         json.dumps(entrada, ensure_ascii=False, indent=1), encoding="utf-8")
-    (PASTA_DADOS / "teste_gabarito.json").write_text(
+    (PASTA_DADOS / f"{grupo}_gabarito.json").write_text(
         json.dumps(gabarito, ensure_ascii=False, indent=1), encoding="utf-8")
     return entrada, gabarito, info
 
@@ -264,20 +277,24 @@ def categoria_origem(nivel: str) -> str:
     return "busca textual"
 
 
-def avaliar(rotulo: str, gabarito: dict, info: dict) -> None:
+def avaliar(rotulo: str, gabarito: dict, info: dict, grupo: str = "teste") -> None:
     arq_res = PASTA_DADOS / f"resultados_{rotulo}.jsonl"
     arq_cfg = PASTA_DADOS / f"config_{rotulo}.json"
-    feitos = ler_resultados(arq_res)
-    validos = {i: r for i, r in feitos.items() if "erro" not in r and i in gabarito}
+    # o arquivo de resultados pode ter evoluções de outros grupos; conta só as deste
+    feitos = {i: r for i, r in ler_resultados(arq_res).items() if i in gabarito}
+    validos = {i: r for i, r in feitos.items() if "erro" not in r}
     erros = [r for r in feitos.values() if "erro" in r]
 
-    secao(f"ETAPA 4 - AVALIAÇÃO DO PIPELINE NO TESTE - rótulo '{rotulo}'")
+    secao(f"ETAPA 4 - AVALIAÇÃO DO PIPELINE NO GRUPO '{grupo.upper()}' - rótulo '{rotulo}'")
+    if grupo != "teste":
+        log("ATENÇÃO: as regras foram calibradas no treino. Neste grupo as métricas são otimistas;")
+        log("o número para o TCC é o do grupo teste.")
     if arq_cfg.exists():
         log("Configuração usada:")
         for k, v in json.loads(arq_cfg.read_text(encoding="utf-8")).items():
             log(f"  {k:24s} {v}")
     log()
-    log(f"Evoluções no teste: {len(gabarito)}")
+    log(f"Evoluções no grupo: {len(gabarito)}")
     log(f"Processadas sem erro: {len(validos)}   com erro de execução: {len(erros)}   "
         f"faltando: {len(gabarito) - len(feitos)}")
     tempos = [r["segundos"] for r in validos.values() if "segundos" in r]
@@ -369,7 +386,7 @@ def avaliar(rotulo: str, gabarito: dict, info: dict) -> None:
         log(f"{g:10s}{len(ids):10d}{tp:6d}{fp:6d}{fn:6d}   {fmt(p)} {fmt(rr)} {fmt(f)}")
 
     PASTA_REL.mkdir(parents=True, exist_ok=True)
-    destino = PASTA_REL / f"etapa4_{rotulo}.txt"
+    destino = PASTA_REL / (f"etapa4_{rotulo}.txt" if grupo == "teste" else f"etapa4_{rotulo}_{grupo}.txt")
     log()
     log(f"Relatório gravado em {destino}")
     destino.write_text("\n".join(SAIDA), encoding="utf-8")
@@ -382,14 +399,15 @@ def main():
                     help="nome da configuração, ex.: spacy, ollama (só letras, números, - e _)")
     ap.add_argument("--limite", type=int, default=None)
     ap.add_argument("--so-avaliar", action="store_true")
+    ap.add_argument("--grupo", choices=["teste", "treino", "todos"], default="teste")
     args = ap.parse_args()
     if not re.fullmatch(r"[A-Za-z0-9_-]+", args.rotulo):
         sys.exit("--rotulo só pode ter letras, números, '-' e '_'.")
 
-    entrada, gabarito, info = preparar(Path(args.planilha))
+    entrada, gabarito, info = preparar(Path(args.planilha), args.grupo)
     if not args.so_avaliar:
         asyncio.run(executar(entrada, args.rotulo, args.limite))
-    avaliar(args.rotulo, gabarito, info)
+    avaliar(args.rotulo, gabarito, info, args.grupo)
 
 
 if __name__ == "__main__":

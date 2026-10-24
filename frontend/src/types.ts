@@ -27,6 +27,7 @@ export interface CodigoSigtap {
 export interface Candidato {
   codigo: string;
   descricao: string;
+  vl_total?: number;
   score?: number;
   limiar?: number;
   pistas?: string[];
@@ -39,8 +40,16 @@ export interface NaoRealizado {
   motivo?: string;
 }
 
+export interface CodigoGabarito {
+  codigo: string;
+  descricao?: string;
+}
+
 export interface Relatorio {
   prontuario_id: string;
+  // Só nos arquivos montados a partir da avaliação: o que o anotador marcou.
+  codigos_gabarito?: CodigoGabarito[];
+  anotador?: string;
   texto_prontuario?: string;
   modelo_utilizado?: string;
   falha_extracao?: string;
@@ -67,6 +76,8 @@ export interface Item {
   motivo?: string;
   alternativas?: Alternativa[];
   trechos: Evidencia[]; // onde está a evidência no texto
+  foraEscopo?: boolean; // exames, medicamentos, materiais etc., fora do que o estudo avalia
+  exame?: boolean; // fora do escopo e do grupo 02 do SIGTAP (procedimentos com finalidade diagnóstica)
 }
 
 export interface Manual {

@@ -6,8 +6,11 @@ interface Props {
   itens: Item[];
   decisoes: Record<string, Decisao>;
   selecionado: string | null;
+  realce: string[];
+  onRealce: (ids: string[] | null) => void;
   onSelecionar: (id: string) => void;
   onSelecaoTexto: (sel: { inicio: number; fim: number; trecho: string } | null) => void;
+  foco?: { inicio: number; vez: number } | null; // trecho que pisca ao clicar no código
 }
 
 interface Segmento {
@@ -37,14 +40,19 @@ function segmentar(texto: string, itens: Item[]): Segmento[] {
   return segs;
 }
 
-export function FolhaEvolucao({ texto, itens, decisoes, selecionado, onSelecionar, onSelecaoTexto }: Props) {
+export function FolhaEvolucao({ texto, itens, decisoes, selecionado, realce, onRealce, onSelecionar, onSelecaoTexto, foco }: Props) {
   const ref = useRef<HTMLDivElement>(null);
   const segmentos = useMemo(() => segmentar(texto, itens), [texto, itens]);
   const porId = useMemo(() => Object.fromEntries(itens.map((i) => [i.id, i])), [itens]);
 
   function classe(ids: string[]): string {
     if (!ids.length) return "";
-    if (selecionado && ids.includes(selecionado)) return "grifo grifo-ativo";
+    const realcado = ids.some((id) => realce.includes(id)) ? " grifo-realce" : "";
+    if (selecionado && ids.includes(selecionado)) return "grifo grifo-ativo" + realcado;
+    return classeBase(ids) + realcado;
+  }
+
+  function classeBase(ids: string[]): string {
     const vivos = ids.filter((id) => decisoes[id] !== "recusado");
     if (!vivos.length) return "grifo grifo-recusado";
     if (vivos.every((id) => porId[id]?.tipo === "revisao" && decisoes[id] !== "aceito")) {
@@ -96,10 +104,12 @@ export function FolhaEvolucao({ texto, itens, decisoes, selecionado, onSeleciona
         const nomes = s.ids.map((id) => porId[id]?.descricao).filter(Boolean).join("; ");
         return (
           <mark
-            key={s.inicio}
+            key={foco?.inicio === s.inicio ? `${s.inicio}-${foco.vez}` : s.inicio}
             data-inicio={s.inicio}
-            className={classe(s.ids)}
+            className={classe(s.ids) + (foco?.inicio === s.inicio ? " grifo-piscar" : "")}
             title={nomes}
+            onMouseEnter={() => onRealce(s.ids)}
+            onMouseLeave={() => onRealce(null)}
             onClick={() => {
               // clicar de novo no mesmo trecho passa para o próximo código dele
               const atual = selecionado ? s.ids.indexOf(selecionado) : -1;

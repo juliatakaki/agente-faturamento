@@ -135,3 +135,88 @@ details[open] summary::before { content: "− "; }
 @media (prefers-reduced-motion: reduce) {
   * { transition: none !important; animation: none !important; }
 }
+
+/* realce ao passar o mouse: trecho <-> código */
+.grifo-realce { outline: 2px solid var(--acento); outline-offset: 1px; }
+.codigo.realcado { background: var(--acento-fundo); }
+.codigo.realcado.ativo { background: #fff3d6; }
+
+.codigo-gabarito { font-size: 0.8rem; margin-top: 2px; }
+.codigo-gabarito.sim { color: var(--aceito); }
+.codigo-gabarito.nao { color: var(--tinta-suave); }
+.gabarito li.faltou .codigo-meta { color: var(--recusado); }
+.gabarito li.achado .codigo-meta { color: var(--aceito); }
+
+/* Telas largas: a página não rola. O texto da evolução e a coluna de códigos
+   rolam cada um por dentro, e o topo fica sempre visível. */
+@media (min-width: 901px) {
+  html, body, #root { height: 100%; overflow: hidden; }
+  .app { height: 100vh; display: flex; flex-direction: column; padding-bottom: 16px; }
+  .topo, .navegacao, .erro { flex: none; }
+  .inicio { overflow: auto; }
+  .mesa { flex: 1; min-height: 0; align-items: stretch; }
+  .coluna-folha { display: flex; flex-direction: column; min-height: 0; }
+  .folha { flex: 1; min-height: 0; max-height: none; }
+  .painel { min-height: 0; max-height: none; height: 100%; }
+}
+
+/* impressão / PDF */
+.impressao { display: none; }
+
+@media print {
+  @page { size: A4; margin: 16mm 14mm; }
+  :root { font-size: 11px; background: #fff; }
+  body { background: #fff; }
+  html, body, #root { height: auto; overflow: visible; }
+  .app > *:not(.impressao) { display: none !important; }
+  .app { padding: 0; max-width: none; height: auto; display: block; }
+  .impressao { display: block; }
+  .imp-capa { margin-bottom: 12px; }
+  .imp-capa h1 { font-size: 1.5rem; }
+  .imp-capa p { margin: 2px 0 0; color: var(--tinta-suave); }
+  .imp-titulo { font-size: 1.2rem; margin: 18px 0 8px; }
+  .imp-sintetico { width: auto; min-width: 50%; }
+  .imp-evolucao { break-inside: avoid; margin-bottom: 14px; }
+  .imp-evolucao h3 { font-size: 1rem; margin: 10px 0 4px; }
+  .imp-fora td { color: var(--tinta-suave); }
+  .imp-tabela { width: 100%; border-collapse: collapse; }
+  .imp-tabela th, .imp-tabela td { border-bottom: 1px solid var(--linha); padding: 4px 6px; text-align: left; vertical-align: top; }
+  .imp-tabela th { font-weight: 600; border-bottom: 1.5px solid var(--tinta); }
+  .imp-tabela .num { text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; }
+  .imp-tabela td.num:first-child { text-align: left; }
+  .imp-tabela tfoot td { font-weight: 600; border-bottom: 0; padding-top: 6px; }
+  .imp-motivo { font-size: 0.85rem; color: #5a3f73; }
+  .imp-nota { margin: 6px 0 0; }
+  .impressao .folha { max-height: none; overflow: visible; box-shadow: none; padding: 10px 12px; font-size: 10.5px; line-height: 1.55; }
+  .grifo { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}
+.nota-fora { margin: 6px 0 8px; font-size: 0.85rem; }
+
+/* comparação com o gabarito */
+.placar { margin: 0 0 0 auto; display: flex; flex-direction: column; align-items: flex-end; font-size: 0.85rem;
+  font-variant-numeric: tabular-nums; }
+.placar-total { color: var(--tinta-suave); }
+@media (max-width: 900px) { .placar { margin: 4px 0 0; align-items: flex-start; } }
+
+/* clicar no código leva ao trecho no texto */
+.codigo-ocorrencia { font-size: 0.8rem; color: var(--acento); margin-top: 2px; }
+@keyframes piscar { 0%, 100% { box-shadow: 0 0 0 0 transparent; } 30% { box-shadow: 0 0 0 4px var(--grifo-ativo); } }
+.grifo-piscar { animation: piscar 0.9s ease-out 2; }
+
+/* busca no SIGTAP na inclusão manual */
+.busca-sigtap { display: flex; flex-direction: column; gap: 4px; }
+.busca-sigtap label { display: flex; flex-direction: column; gap: 3px; font-size: 0.85rem; color: var(--tinta-suave); }
+.busca-lista { list-style: none; margin: 0; padding: 0; border: 1px solid var(--linha); border-radius: 5px;
+  background: var(--folha); max-height: 260px; overflow: auto; }
+.busca-lista li { display: grid; grid-template-columns: auto 1fr auto; gap: 8px; align-items: baseline;
+  padding: 6px 9px; cursor: pointer; border-bottom: 1px solid var(--linha); font-size: 0.88rem; }
+.busca-lista li:last-child { border-bottom: 0; }
+.busca-lista li.ativo { background: var(--acento-fundo); }
+.busca-lista .busca-vazia { display: block; cursor: default; color: var(--tinta-suave); }
+.busca-nome { min-width: 0; }
+.busca-valor { font-variant-numeric: tabular-nums; color: var(--tinta-suave); white-space: nowrap; }
+.escolhido { display: grid; grid-template-columns: 1fr auto; gap: 2px 10px; padding: 8px 10px;
+  border: 1px solid var(--acento); border-radius: 5px; background: var(--folha); }
+.escolhido .codigo-num, .escolhido .codigo-desc, .escolhido .codigo-meta { grid-column: 1; }
+.escolhido .acao { grid-column: 2; grid-row: 1 / span 3; align-self: center; }
+.botao-principal:disabled { opacity: 0.5; cursor: default; }
